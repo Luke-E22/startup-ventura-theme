@@ -1,0 +1,12 @@
+# Netlify configuration for the Startup Ventura static marketing site.
+#
+# Netlify cannot run the WordPress/PHP theme, so it serves a self-contained
+# static build. build-dist.mjs regenerates the pages, bundles the theme's
+# assets, and outputs dist/ with the homepage at /.
+
+[build]
+  command = "node preview/build-dist.mjs"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"

@@ -1,0 +1,1359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Startup Ventura · Impact Calculator</title>
+  <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAAXNSR0IArs4c6QAAATxlWElmTU0AKgAAAAgABwESAAMAAAABAAEAAAEaAAUAAAABAAAAYgEbAAUAAAABAAAAagEoAAMAAAABAAIAAAExAAIAAABuAAAAcgE7AAIAAAAOAAAA4IdpAAQAAAABAAAA7gAAAAAAAABgAAAAAQAAAGAAAAABQ2FudmEgZG9jPURBR3hyZzB4TGhFIHVzZXI9VUFDYkUzRVFkZjAgYnJhbmQ9U3RhcnR1cCBWZW50dXJhIHRlbXBsYXRlPUJsYWNrIGFuZCBDcmVhbSBCZWF1dHkgYW5kIEZhc2hpb24gTG9nbwBMdWtlIEVyaWNrc29uAAAGkAAABwAAAAQwMjEwkQEABwAAAAQBAgMAoAAABwAAAAQwMTAwoAEAAwAAAAEAAQAAoAIABAAAAAEAAABAoAMABAAAAAEAAABAAAAAADVsppIAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAaIaVRYdFhNTDpjb20uYWRvYmUueG1wAAAAAAA8eDp4bXBtZXRhIHhtbG5zOng9ImFkb2JlOm5zOm1ldGEvIiB4OnhtcHRrPSJYTVAgQ29yZSA2LjAuMCI+CiAgIDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+CiAgICAgIDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiCiAgICAgICAgICAgIHhtbG5zOmV4aWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20vZXhpZi8xLjAvIgogICAgICAgICAgICB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iCiAgICAgICAgICAgIHhtbG5zOnRpZmY9Imh0dHA6Ly9ucy5hZG9iZS5jb20vdGlmZi8xLjAvIgogICAgICAgICAgICB4bWxuczpkYz0iaHR0cDovL3B1cmwub3JnL2RjL2VsZW1lbnRzLzEuMS8iPgogICAgICAgICA8ZXhpZjpDb2xvclNwYWNlPjY1NTM1PC9leGlmOkNvbG9yU3BhY2U+CiAgICAgICAgIDxleGlmOlBpeGVsWERpbWVuc2lvbj41MDA8L2V4aWY6UGl4ZWxYRGltZW5zaW9uPgogICAgICAgICA8ZXhpZjpFeGlmVmVyc2lvbj4wMjEwPC9leGlmOkV4aWZWZXJzaW9uPgogICAgICAgICA8ZXhpZjpGbGFzaFBpeFZlcnNpb24+MDEwMDwvZXhpZjpGbGFzaFBpeFZlcnNpb24+CiAgICAgICAgIDxleGlmOlBpeGVsWURpbWVuc2lvbj41MDA8L2V4aWY6UGl4ZWxZRGltZW5zaW9uPgogICAgICAgICA8ZXhpZjpDb21wb25lbnRzQ29uZmlndXJhdGlvbj4KICAgICAgICAgICAgPHJkZjpTZXE+CiAgICAgICAgICAgICAgIDxyZGY6bGk+MTwvcmRmOmxpPgogICAgICAgICAgICAgICA8cmRmOmxpPjI8L3JkZjpsaT4KICAgICAgICAgICAgICAgPHJkZjpsaT4zPC9yZGY6bGk+CiAgICAgICAgICAgICAgIDxyZGY6bGk+MDwvcmRmOmxpPgogICAgICAgICAgICA8L3JkZjpTZXE+CiAgICAgICAgIDwvZXhpZjpDb21wb25lbnRzQ29uZmlndXJhdGlvbj4KICAgICAgICAgPHhtcDpDcmVhdG9yVG9vbD5DYW52YSBkb2M9REFHeHJnMHhMaEUgdXNlcj1VQUNiRTNFUWRmMCBicmFuZD1TdGFydHVwIFZlbnR1cmEgdGVtcGxhdGU9QmxhY2sgYW5kIENyZWFtIEJlYXV0eSBhbmQgRmFzaGlvbiBMb2dvPC94bXA6Q3JlYXRvclRvb2w+CiAgICAgICAgIDx0aWZmOlJlc29sdXRpb25Vbml0PjI8L3RpZmY6UmVzb2x1dGlvblVuaXQ+CiAgICAgICAgIDx0aWZmOk9yaWVudGF0aW9uPjE8L3RpZmY6T3JpZW50YXRpb24+CiAgICAgICAgIDx0aWZmOlhSZXNvbHV0aW9uPjk2PC90aWZmOlhSZXNvbHV0aW9uPgogICAgICAgICA8dGlmZjpZUmVzb2x1dGlvbj45NjwvdGlmZjpZUmVzb2x1dGlvbj4KICAgICAgICAgPGRjOnRpdGxlPgogICAgICAgICAgICA8cmRmOkFsdD4KICAgICAgICAgICAgICAgPHJkZjpsaSB4bWw6bGFuZz0ieC1kZWZhdWx0Ij5CbGFjayBhbmQg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" />
+
+  <!-- ============================================================
+       DEPENDENCIES (all via CDN — no build step, no backend)
+       React 18 + ReactDOM, prop-types, Recharts, Tailwind, Babel.
+       Versions pinned for reproducibility.
+       ============================================================ -->
+  <script src="https://unpkg.com/react@18.2.0/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/prop-types@15.8.1/prop-types.min.js" crossorigin></script>
+  <script src="https://unpkg.com/recharts@2.12.7/umd/Recharts.js" crossorigin></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.24.7/babel.min.js"></script>
+
+  <!-- Brand fonts: Ubuntu (product face) + Space Mono (numerals & eyebrows) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- ============================================================
+       BRAND THEME  ——  Startup Ventura design tokens (from the
+       claude.ai/design handoff: design-kit/.../README.md).
+       Colors below are the single source of truth for the UI; chart
+       series colors live in SV_COLORS in the model script.
+       ============================================================ -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy:    '#203848', // headings, ink, axes/ticks
+            azul:    '#1E6499', // primary — active controls, key chart line
+            azuldk:  '#18527D', // azul hover
+            sky:     '#6BB1D8', // supporting series (management fees)
+            wave:    '#3F83A9', // supporting series (carry)
+            coral:   '#EA5A3D', // THE GIVE ACTION ONLY — nowhere else
+            coraldk: '#D64E33', // give hover
+            skypale: '#EAF3F8', // section/badge tint
+            cement:  '#E4E3E0', // warm neutral (slider track, Jobs card edge)
+            paper:   '#F7FAFC', // page background
+            warm:    '#F6FAFC', // slightly-warm Jobs card
+            hair:    '#D7E2EA', // borders
+            grid:    '#EDF2F6', // chart gridlines
+            muted:   '#5A7180', // muted text
+          },
+          fontFamily: {
+            sans: ['Ubuntu', 'ui-sans-serif', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
+            mono: ['"Space Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: #F7FAFC; }
+    .tnum { font-variant-numeric: tabular-nums; }
+    .eyebrow { letter-spacing: 0.07em; }
+
+    /* --- Sliders: 6px Cement track, Azul fill (set inline), 16px white/Azul thumb --- */
+    input[type=range].sv { -webkit-appearance: none; appearance: none; width: 100%; height: 6px;
+      border-radius: 999px; background: #E4E3E0; outline: none; cursor: pointer; }
+    input[type=range].sv::-webkit-slider-thumb { -webkit-appearance: none; appearance: none;
+      width: 16px; height: 16px; border-radius: 50%; background: #fff; border: 2px solid #1E6499;
+      box-shadow: 0 1px 4px rgba(32,56,72,.22); margin-top: -5px; }
+    input[type=range].sv::-moz-range-thumb { width: 16px; height: 16px; border-radius: 50%;
+      background: #fff; border: 2px solid #1E6499; box-shadow: 0 1px 4px rgba(32,56,72,.22); }
+
+    /* --- Mini sliders (assumptions grid): 4px track, Sky fill, 12px thumb --- */
+    input[type=range].sv-mini { -webkit-appearance: none; appearance: none; width: 100%; height: 4px;
+      border-radius: 999px; background: #E4E3E0; outline: none; cursor: pointer; }
+    input[type=range].sv-mini::-webkit-slider-thumb { -webkit-appearance: none; appearance: none;
+      width: 12px; height: 12px; border-radius: 50%; background: #fff; border: 2px solid #6BB1D8;
+      box-shadow: 0 1px 3px rgba(32,56,72,.2); margin-top: -4px; }
+    input[type=range].sv-mini::-moz-range-thumb { width: 12px; height: 12px; border-radius: 50%;
+      background: #fff; border: 2px solid #6BB1D8; box-shadow: 0 1px 3px rgba(32,56,72,.2); }
+
+    /* Gentle drift for the wave seam — kept out of the data zone (header/footer only) */
+    @keyframes svDrift { 0% { transform: translateX(0); } 100% { transform: translateX(-18px); } }
+    .wave-drift { animation: svDrift 13s ease-in-out infinite alternate; }
+    @media (prefers-reduced-motion: reduce) { .wave-drift { animation: none; } }
+  </style>
+</head>
+<body class="font-sans text-navy antialiased">
+  <div id="root"></div>
+
+  <!-- ================================================================
+       MODEL  ——  PURE FUNCTIONS ONLY.  No React, no DOM, no globals
+       mutated.  A non-developer can read, audit, and tweak every
+       formula here without touching any UI code below.
+
+       Everything is exposed on window.SV  (SV.model, SV.fmt, SV.DEFAULTS,
+       SV.PRESETS, SV.COLORS).  Rates are passed to model functions as
+       FRACTIONS (0.20 = 20%); the UI stores percentages and converts at
+       the boundary (see buildScenario()).
+       ================================================================ -->
+  <script>
+  (function () {
+    "use strict";
+
+    // ---- chart / metric palette — the SV blue ladder (edit to re-skin) ----
+    //   Chart series stay on Azul / Sky / Wave; Navy is axes/ticks/ink only;
+    //   coral is reserved for the Give action and never appears in a chart.
+    const COLORS = {
+      cash:      "#1E6499", // azul  — incubator cash balance
+      revenue:   "#6BB1D8", // sky   — total annual revenue line
+      opex:      "#5A7180", // muted — operating-expense reference (dashed)
+      donor:     "#1E6499", // azul  — revenue source: donor
+      fees:      "#6BB1D8", // sky   — revenue source: management fees
+      carry:     "#3F83A9", // wave  — revenue source: carry (back-loaded)
+      jobs:      "#3F83A9", // wave  — jobs over time
+      jobsAlt:   "#6BB1D8", // sky   — direct jobs when indirect is shown
+      startupRev:"#1E6499", // azul  — startup revenue run-rate
+      grid:      "#EDF2F6", // gridlines
+      axis:      "#5A7180", // ticks / axis text
+      end:       "#C23B3B", // danger — "program ends" marker (alert, not coral)
+    };
+
+    // =====================================================================
+    // STARTUP GROWTH CURVE — successful startups are high-growth: a winner ramps
+    // from 0 to its baseline over `rampYears`, then COMPOUNDS at `g`/yr, capped at
+    // `maxScale`x its baseline so it plateaus (an S-curve, not unbounded growth to
+    // infinity). Returns the size multiple at age `a` years after graduating.
+    //   g = 0  ->  reproduces the old ramp-then-flat behavior (factor maxes at 1).
+    // =====================================================================
+    function growthFactor(a, rampYears, g, maxScale) {
+      const cap = (maxScale > 0) ? maxScale : 1;
+      if (rampYears > 0 && a < rampYears) return a / rampYears;        // initial ramp 0 -> 1
+      const yearsGrowing = a - (rampYears > 0 ? rampYears : 0);        // years compounding past baseline
+      return Math.min(cap, Math.pow(1 + (g || 0), Math.max(0, yearsGrowing)));
+    }
+
+    // =====================================================================
+    // 1) FUND ECONOMICS  — the GP revenue the incubator earns from the fund.
+    //    All inputs are absolute $ or FRACTIONS. Returns absolute $ amounts.
+    // =====================================================================
+    function computeFundEconomics(p) {
+      // Blended gross multiple on invested capital:
+      //   winners return `winnerMultiple`x, the rest return `lossRecovery`x.
+      const grossMOIC = p.fundSuccessRate * p.winnerMultiple
+                      + (1 - p.fundSuccessRate) * p.lossRecovery;
+
+      const grossProceeds = p.fundSize * grossMOIC;          // total $ back to the fund
+      const profit        = Math.max(0, grossProceeds - p.fundSize); // return capital first (1x)
+
+      // Simple, NON-compounding preferred return / hurdle (default 0 -> 0).
+      const preferred = p.fundSize * p.hurdleRate * p.avgExitYear;
+
+      // GP carry: a % of profit above the 1x return AND above any preferred.
+      // This is the back-loaded windfall that lands once, at avgExitYear.
+      const carryToGP = p.carryPct * Math.max(0, profit - preferred);
+
+      // Management fee: steady annual income while the fee period is active.
+      const mgmtFeePerYear = p.mgmtFeePct * p.fundSize;
+
+      return { grossMOIC, grossProceeds, profit, preferred, carryToGP, mgmtFeePerYear };
+    }
+
+    // =====================================================================
+    // 2) SUSTAINABILITY / RUNWAY  — year-by-year cash simulation, t = 1..H.
+    //    Returns the full per-year series plus runway / self-sustaining
+    //    flags. The simulation is the single source of truth for survival.
+    // =====================================================================
+    function simulateRunway(p) {
+      const H = p.maxHorizon;
+      const cash = new Array(H + 1);
+      // Year 0 starting cash: a one-time corpus seeds the account; a recurring
+      // donor starts at $0 and is funded year by year.
+      cash[0] = (p.donorMode === "one-time") ? p.donorCorpus : 0;
+
+      const series = [];
+      let endedYear = null; // first year cash dips below 0 (program insolvent)
+
+      // FUND FAMILY — a GP typically raises a NEW fund every few years, each with
+      // its own fee clock and its own carry event (standard practice). With
+      // fundCadenceYears = 0 we model a single fund; otherwise a new vintage is
+      // launched every `cadence` years. Fund launched at offset o charges fees in
+      // years o+1..o+feePeriod and lands its carry at year o+avgExitYear.
+      const cadence = p.fundCadenceYears || 0;
+      const offsets = [];
+      if (cadence > 0) { for (let o = 0; o < H; o += cadence) offsets.push(o); }
+      else { offsets.push(0); }
+      const numFunds = offsets.length;
+
+      for (let t = 1; t <= H; t++) {
+        let donorRev = 0, feeRev = 0, carryRev = 0;
+        if (p.donorMode === "recurring") donorRev += p.donorAnnual;              // every year
+        for (let i = 0; i < offsets.length; i++) {
+          const o = offsets[i];
+          if (t > o && t <= o + p.feePeriodYears) feeRev   += p.mgmtFeePerYear;  // each fund's fees while its clock runs
+          if (t === o + p.avgExitYear)            carryRev += p.carryToGP;       // each fund's carry windfall
+        }
+
+        const revenue = donorRev + feeRev + carryRev;
+        const net     = revenue - p.opEx;
+        cash[t]       = cash[t - 1] + net;
+
+        series.push({
+          year: t,
+          donor: donorRev, fees: feeRev, carry: carryRev,
+          revenue: revenue, opEx: p.opEx, net: net, cash: cash[t],
+        });
+
+        if (cash[t] < 0 && endedYear === null) endedYear = t; // program ends here
+      }
+
+      const survivesFullHorizon = (endedYear === null);
+      // runway = last year for which cash never went negative starting at year 1.
+      // If it never goes negative, the program reaches the (capped) horizon.
+      const runwayYears = survivesFullHorizon ? H : (endedYear - 1);
+
+      // PERPETUAL recurring revenue — income that is still arriving at the end of
+      // the modeled window. Donor recurring lasts forever; management fees only
+      // count if the fee period spans the whole horizon, because once fees expire
+      // the program is no longer self-sustaining on them. A one-time corpus is
+      // not recurring at all.
+      //   NOTE / DEVIATION FROM SPEC: the spec's literal self-sustaining test is
+      //   "donor recurring + management fees during the fee period >= opEx". That
+      //   over-counts fees that later expire, producing a "Self-sustaining" label
+      //   on a program whose cash visibly declines after the fee period (e.g. the
+      //   default scenario). We instead require PERPETUAL income to cover OpEx so
+      //   the label can never contradict the runway chart. Flagged for review.
+      const recurringDonor = (p.donorMode === "recurring") ? p.donorAnnual : 0;
+      // Perpetual fee income: a fund FAMILY (cadence > 0) keeps raising funds, so
+      // fees recur indefinitely — the time-average annual fee is the per-fund fee
+      // times the number of overlapping fee clocks (feePeriod / cadence). A SINGLE
+      // fund's fees only count as perpetual if they span the whole horizon.
+      const steadyStateFees = (cadence > 0)
+        ? p.mgmtFeePerYear * (p.feePeriodYears / cadence)
+        : (p.feePeriodYears >= p.maxHorizon ? p.mgmtFeePerYear : 0);
+      const perpetualRecurring = recurringDonor + steadyStateFees;
+
+      // Self-sustaining: perpetual recurring income covers OpEx on its own (so cash
+      // never trends down) AND the program survives the full horizon. A program
+      // that only reaches the horizon on accumulated surplus or a one-time carry
+      // windfall is finite-runway, not self-sustaining. Carry is then upside.
+      const isSelfSustaining = (perpetualRecurring >= p.opEx) && survivesFullHorizon;
+
+      // Impact runs over the survival window, capped at the horizon.
+      const survivalYears = Math.min(runwayYears, H);
+
+      return {
+        series, endedYear, runwayYears, survivesFullHorizon,
+        perpetualRecurring, isSelfSustaining, survivalYears, numFunds,
+        startingCash: cash[0],
+      };
+    }
+
+    // =====================================================================
+    // 3) IMPACT PROJECTION  — jobs (a STOCK) and startup revenue (a FLOW
+    //    run-rate) produced by the incubator's graduating cohorts over the
+    //    survival window. Each surviving year graduates a cohort that ramps
+    //    linearly to maturity.
+    //
+    //    ANTI-DOUBLE-COUNT (do not change without flagging): jobs & revenue
+    //    come from the incubator's GRADUATES ONLY. The venture fund is modeled
+    //    purely as the financial engine (section 1) that sustains the program;
+    //    its portfolio jobs are NOT added here, or impact would be double-
+    //    counted. A future "link fund to graduates" toggle would go here.
+    //      LINK_FUND_TO_GRADUATES = false;  // stub, intentionally off
+    // =====================================================================
+    function projectImpact(p) {
+      const Y_END = p.survivalYears;
+      const series = [];
+
+      // Successful startups produced per graduating cohort.
+      const cohortSuccess = p.graduatesPerYear * p.startupSuccessRate;
+
+      let cumulativeRevenue = 0; // running sum of the annual run-rate (secondary metric)
+
+      // For each "as-of" year Y, sum the contribution of every cohort k<=Y,
+      // ramped by how mature that cohort is BY year Y. This gives an honest
+      // time series (jobs/run-rate grow as cohorts mature and accumulate).
+      for (let Y = 1; Y <= Y_END; Y++) {
+        let jobsDirect = 0, annualRevenue = 0;
+        for (let k = 1; k <= Y; k++) {
+          const age    = Y - k;
+          const factor = growthFactor(age, p.rampYears, p.startupGrowthRate, p.startupMaxScale);
+          jobsDirect    += cohortSuccess * p.jobsPerStartup    * factor;
+          annualRevenue += cohortSuccess * p.revenuePerStartup * factor;
+        }
+        const jobsTotal = jobsDirect * p.indirectMultiplier; // indirect/induced jobs
+        cumulativeRevenue += annualRevenue;
+        series.push({ year: Y, jobsDirect, jobsTotal, annualRevenue, cumulativeRevenue });
+      }
+
+      // Headline values = state at the horizon (the final year of the window).
+      const last = series[series.length - 1] || null;
+      const headline = last ? {
+        cumulativeJobsDirect:     last.jobsDirect,        // STOCK: direct headcount
+        cumulativeJobsTotal:      last.jobsTotal,         // STOCK: incl. indirect
+        annualStartupRevenue:     last.annualRevenue,     // FLOW: run-rate at horizon
+        cumulativeStartupRevenue: last.cumulativeRevenue, // SUM of run-rate over window
+      } : {
+        cumulativeJobsDirect: 0, cumulativeJobsTotal: 0,
+        annualStartupRevenue: 0, cumulativeStartupRevenue: 0,
+      };
+
+      return Object.assign({ series }, headline);
+    }
+
+    // =====================================================================
+    // ORCHESTRATOR — runs all three engines for a fully-numeric scenario.
+    // `s` already has rates as FRACTIONS (see buildScenario in the UI layer).
+    // =====================================================================
+    function runModel(s) {
+      const fund = computeFundEconomics({
+        fundSize: s.fundSize, fundSuccessRate: s.fundSuccessRate,
+        winnerMultiple: s.winnerMultiple, lossRecovery: s.lossRecovery,
+        hurdleRate: s.hurdleRate, avgExitYear: s.avgExitYear,
+        carryPct: s.carryPct, mgmtFeePct: s.mgmtFeePct,
+      });
+
+      const run = simulateRunway({
+        donorMode: s.donorMode, donorCorpus: s.donorCorpus, donorAnnual: s.donorAnnual,
+        opEx: s.opEx, mgmtFeePerYear: fund.mgmtFeePerYear, feePeriodYears: s.feePeriodYears,
+        carryToGP: fund.carryToGP, avgExitYear: s.avgExitYear, maxHorizon: s.maxHorizon,
+        fundCadenceYears: s.fundCadenceYears,
+      });
+
+      const impact = projectImpact({
+        survivalYears: run.survivalYears, graduatesPerYear: s.graduatesPerYear,
+        startupSuccessRate: s.startupSuccessRate, jobsPerStartup: s.jobsPerStartup,
+        revenuePerStartup: s.revenuePerStartup, rampYears: s.rampYears,
+        startupGrowthRate: s.startupGrowthRate, startupMaxScale: s.startupMaxScale,
+        indirectMultiplier: s.indirectMultiplier,
+      });
+
+      // GP revenue over the modeled horizon (for the "fund pays its own way"
+      // card). Summed straight from the simulated per-year series so it correctly
+      // aggregates ALL fund vintages' fees + carry (single fund or a family).
+      const totalMgmtFees = run.series.reduce((a, r) => a + r.fees, 0);
+      const totalCarry    = run.series.reduce((a, r) => a + r.carry, 0);
+      const gpRevenue     = totalMgmtFees + totalCarry;
+
+      return { fund, run, impact, gp: { totalMgmtFees, totalCarry, gpRevenue, numFunds: run.numFunds } };
+    }
+
+    // =====================================================================
+    // FORMATTERS — never emit NaN / Infinity / raw floats.
+    // =====================================================================
+    function safe(n, fb) { return Number.isFinite(n) ? n : (fb === undefined ? 0 : fb); }
+    function trim(x, d) { // toFixed then strip trailing zeros
+      let s = x.toFixed(d);
+      if (s.indexOf(".") >= 0) s = s.replace(/\.?0+$/, "");
+      return s;
+    }
+    function usd(n) {
+      n = safe(n);
+      const sign = n < 0 ? "-" : "";
+      const a = Math.abs(n);
+      // Round-aware unit thresholds: promote to the next unit BEFORE the lower
+      // unit would round up to "1000" (so 999,999 -> "$1M" not "$1000K", and
+      // 999,999,999 -> "$1B" not "$1000M").
+      if (a >= 999995000) return sign + "$" + trim(a / 1e9, 2) + "B";
+      if (a >= 999500)    return sign + "$" + trim(a / 1e6, 2) + "M";
+      if (a >= 1000)      return sign + "$" + trim(a / 1e3, 0) + "K";
+      return sign + "$" + Math.round(a).toLocaleString("en-US");
+    }
+    function usdExact(n) { return "$" + Math.round(safe(n)).toLocaleString("en-US"); }
+    // Headline currency rounded to the nearest $1M (e.g. $480.01M -> $480M); for
+    // figures under $1M it falls back to normal formatting so precision is kept.
+    function usdM(n) { n = safe(n); return (Math.abs(n) >= 1e6) ? usd(Math.round(n / 1e6) * 1e6) : usd(n); }
+    function int(n) { return Math.round(safe(n)).toLocaleString("en-US"); }
+    function pct(n) { return trim(safe(n), 1) + "%"; }
+    function years(n) { n = Math.round(safe(n)); return n + (n === 1 ? " yr" : " yrs"); }
+    function mult(n) { return trim(safe(n), 2) + "x"; }
+
+    // =====================================================================
+    // DEFAULTS (Tier-1 + Tier-2). UI percentages are whole numbers here.
+    // =====================================================================
+    const DEFAULTS = {
+      donorMode: "recurring",
+      donorAnnual: 300000, donorCorpus: 500000, opEx: 400000,
+      fundSize: 10000000, fundSuccessRate: 12, graduatesPerYear: 10, startupSuccessRate: 40,
+      // Tier 2 — under the hood. Fund profile calibrated to MEDIAN VC performance
+      // (research-based, ~2024): ~12% winners at ~15.5x gross + 0.3x recovery on the
+      // rest -> ~2.12x gross MOIC -> ~1.7x net TVPI after 2/20, the typical-fund
+      // benchmark. Power-law: a few big winners, not many modest ones.
+      mgmtFeePct: 2.0, carryPct: 20, feePeriodYears: 10, hurdleRate: 0,
+      winnerMultiple: 15.5, lossRecovery: 0.3, avgExitYear: 7, fundCadenceYears: 3,
+      jobsPerStartup: 10, revenuePerStartup: 1500000, rampYears: 3,
+      // High-growth scaling: each surviving winner compounds jobs & revenue at
+      // startupGrowthRate/yr, capped at startupMaxScale x its baseline.
+      startupGrowthRate: 15, startupMaxScale: 5,
+      indirectMultiplier: 1.0, maxHorizon: 25,
+      // "Your gift" (donor view) + "your commitment" (investor view) — used by
+      // the attribution heroes; do not affect the program model itself.
+      giftMode: "recurring", giftAnnual: 25000, giftCorpus: 50000, commitment: 250000,
+    };
+
+    // =====================================================================
+    // PRESETS — Conservative / Base / Ambitious. Each is a full slider
+    // bundle (any key omitted falls back to DEFAULTS). Edit freely.
+    // =====================================================================
+    const PRESETS = {
+      // Lean program, smaller fund, modest exits & job creation.
+      Conservative: Object.assign({}, DEFAULTS, {
+        // Lean but SUSTAINABLE: modest recurring donor + fund fees cover a small
+        // OpEx from year 1; impact stays low via the smaller program inputs below.
+        donorMode: "recurring", donorAnnual: 200000, opEx: 250000,
+        fundSize: 5000000, fundSuccessRate: 9, graduatesPerYear: 6, startupSuccessRate: 25,
+        // Fund: bottom-quartile/weak-but-viable VC (~1.44x gross -> ~1.15x net).
+        winnerMultiple: 13, lossRecovery: 0.3, avgExitYear: 7, fundCadenceYears: 4,
+        jobsPerStartup: 6, revenuePerStartup: 750000, rampYears: 4, indirectMultiplier: 1.0,
+      }),
+      // The spec defaults.
+      Base: Object.assign({}, DEFAULTS),
+      // Well-funded program, larger fund, strong exits & job creation.
+      Ambitious: Object.assign({}, DEFAULTS, {
+        donorMode: "recurring", donorAnnual: 500000, opEx: 450000,
+        fundSize: 25000000, fundSuccessRate: 18, graduatesPerYear: 15, startupSuccessRate: 55,
+        // Fund: strong top-quartile VC (~3.85x gross -> ~2.9x net); top-tier 25% carry.
+        winnerMultiple: 20, lossRecovery: 0.3, avgExitYear: 8, carryPct: 25,
+        jobsPerStartup: 20, revenuePerStartup: 3000000, rampYears: 3, indirectMultiplier: 1.5,
+      }),
+    };
+
+    // =====================================================================
+    // ATTRIBUTION — translate ONE donor gift or investor commitment into
+    // impact, for the donor/investor "your impact" views. Pure functions.
+    //   Approach: derive the program's UNIT ECONOMICS (what it costs to take
+    //   a company through, per successful startup, per job) and apply them to
+    //   the gift. This is the marginal/causal claim ("your dollars fund extra
+    //   program capacity at the current cost") AND the source of the per-unit
+    //   efficiency stat. Honest at the margin; clearly an at-current-efficiency
+    //   linear estimate. `s` has rates as FRACTIONS.
+    // =====================================================================
+    function unitEconomics(s) {
+      const g = s.graduatesPerYear;
+      const costPerGraduate = g > 0 ? s.opEx / g : 0;                  // program $ to take ONE company through a year
+      // Representative growth: the average size multiple over a startup's first
+      // ~10 years (so per-job cost reflects that winners scale, not plateau).
+      let scaleSum = 0;
+      for (let a = 0; a < 10; a++) scaleSum += growthFactor(a, s.rampYears, s.startupGrowthRate, s.startupMaxScale);
+      const avgScale = scaleSum / 10;
+      const jobsPerSuccess  = s.jobsPerStartup * s.indirectMultiplier * avgScale; // jobs per successful startup incl. typical growth
+      const revPerSuccess   = s.revenuePerStartup * avgScale;
+      const costPerSuccess  = s.startupSuccessRate > 0 ? costPerGraduate / s.startupSuccessRate : 0; // $ per SUCCESSFUL startup
+      const costPerJob      = jobsPerSuccess > 0 ? costPerSuccess / jobsPerSuccess : 0;             // $ per job (growth-adjusted)
+      const revPerDollar    = costPerSuccess > 0 ? revPerSuccess / costPerSuccess : 0;             // $ local revenue per $ given
+      const jobsPerDollar   = costPerJob > 0 ? 1 / costPerJob : 0;
+      return { costPerGraduate, costPerSuccess, costPerJob, jobsPerSuccess, avgScale, revPerSuccess, revPerDollar, jobsPerDollar };
+    }
+
+    // What a donor gift funds, accounting for the GROWTH of the winners over the
+    // window. `mode` = "recurring" (a batch funded each year for `windowYears`) or
+    // "one-time" (a single batch that then grows for `windowYears`). Jobs/revenue
+    // are the GROWN totals at the end of the window — consistent with the program
+    // impact engine (same growth curve).
+    function donorImpact(s, amount, mode, windowYears) {
+      const cpg = (s.graduatesPerYear > 0) ? s.opEx / s.graduatesPerYear : 0; // program cost per company-year
+      const perBatchCompanies = cpg > 0 ? amount / cpg : 0;
+      const jobsPerSuccess = s.jobsPerStartup * s.indirectMultiplier;
+      const W = Math.max(0, Math.round(windowYears || 0));
+      let jobs = 0, revenue = 0;
+      if (mode === "recurring") {
+        // a fresh batch of companies is funded each year; sum their grown sizes at year W
+        for (let b = 1; b <= W; b++) {
+          const f = growthFactor(W - b, s.rampYears, s.startupGrowthRate, s.startupMaxScale);
+          jobs    += perBatchCompanies * s.startupSuccessRate * jobsPerSuccess * f;
+          revenue += perBatchCompanies * s.startupSuccessRate * s.revenuePerStartup * f;
+        }
+      } else {
+        const f = growthFactor(W, s.rampYears, s.startupGrowthRate, s.startupMaxScale);
+        jobs    = perBatchCompanies * s.startupSuccessRate * jobsPerSuccess * f;
+        revenue = perBatchCompanies * s.startupSuccessRate * s.revenuePerStartup * f;
+      }
+      const companies    = (mode === "recurring") ? perBatchCompanies * W : perBatchCompanies;
+      const totalDollars = (mode === "recurring") ? amount * W : amount;
+      const costPerJob   = jobs > 0 ? totalDollars / jobs : 0;
+      const revPerDollar = totalDollars > 0 ? revenue / totalDollars : 0;
+      return { companies, perBatchCompanies, jobs, revenue, costPerJob, revPerDollar };
+    }
+
+    // Illustrative LP economics for a fund commitment of $C (NOT financial advice).
+    function investorImpact(s, C) {
+      const fund   = computeFundEconomics(s);
+      const gross  = C * fund.grossMOIC;                 // gross proceeds on your capital
+      const profit = Math.max(0, gross - C);
+      const pref   = C * s.hurdleRate * s.avgExitYear;   // your simple preferred
+      const carry  = s.carryPct * Math.max(0, profit - pref);
+      const fees   = s.mgmtFeePct * C * Math.min(s.feePeriodYears, s.maxHorizon);
+      const net    = gross - carry - fees;               // simple LP net (illustrative)
+      const netMOIC   = C > 0 ? net / C : 0;
+      const gpFromYou = carry + fees;                    // GP revenue your capital throws off to the incubator
+      const u = unitEconomics(s);
+      const jobsSustained = u.costPerJob > 0 ? gpFromYou / u.costPerJob : 0;
+      return { C, gross, profit, carry, fees, net, netMOIC, grossMOIC: fund.grossMOIC, gpFromYou, jobsSustained };
+    }
+
+    window.SV = {
+      model: { computeFundEconomics, simulateRunway, projectImpact, runModel, unitEconomics, donorImpact, investorImpact },
+      fmt: { usd, usdExact, usdM, int, pct, years, mult, safe },
+      COLORS, DEFAULTS, PRESETS,
+    };
+  })();
+  </script>
+
+  <!-- ================================================================
+       UI  ——  React + Recharts, styled to the Startup Ventura design
+       handoff. Reads only from window.SV (the model). No model math
+       lives here beyond unit conversion (% -> fraction).
+       ================================================================ -->
+  <!-- Real Startup Ventura logo (transparent PNG, embedded so the file stays single-file). -->
+  <script>window.SV_LOGO = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAbgAAADcCAYAAAAC2LRLAAAAAXNSR0IArs4c6QAAAQxlWElmTU0AKgAAAAgABwESAAMAAAABAAEAAAEaAAUAAAABAAAAYgEbAAUAAAABAAAAagEoAAMAAAABAAIAAAExAAIAAAA9AAAAcgE7AAIAAAAOAAAAsIdpAAQAAAABAAAAvgAAAAAAAABgAAAAAQAAAGAAAAABQ2FudmEgZG9jPURBSExrV1l5Vlh3IHVzZXI9VUFDYkUzRVFkZjAgYnJhbmQ9U3RhcnR1cCBWZW50dXJhAABMdWtlIEVyaWNrc29uAAAGkAAABwAAAAQwMjEwkQEABwAAAAQBAgMAoAAABwAAAAQwMTAwoAEAAwAAAAEAAQAAoAIABAAAAAEAAAG4oAMABAAAAAEAAADcAAAAAGKqhj4AAAAJcEhZcwAADsQAAA7EAZUrDhsAAAZBaVRYdFhNTDpjb20uYWRvYmUueG1wAAAAAAA8eDp4bXBtZXRhIHhtbG5zOng9ImFkb2JlOm5zOm1ldGEvIiB4OnhtcHRrPSJYTVAgQ29yZSA2LjAuMCI+CiAgIDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+CiAgICAgIDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiCiAgICAgICAgICAgIHhtbG5zOmV4aWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20vZXhpZi8xLjAvIgogICAgICAgICAgICB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iCiAgICAgICAgICAgIHhtbG5zOnRpZmY9Imh0dHA6Ly9ucy5hZG9iZS5jb20vdGlmZi8xLjAvIgogICAgICAgICAgICB4bWxuczpkYz0iaHR0cDovL3B1cmwub3JnL2RjL2VsZW1lbnRzLzEuMS8iPgogICAgICAgICA8ZXhpZjpDb2xvclNwYWNlPjY1NTM1PC9leGlmOkNvbG9yU3BhY2U+CiAgICAgICAgIDxleGlmOlBpeGVsWERpbWVuc2lvbj4yMTYwPC9leGlmOlBpeGVsWERpbWVuc2lvbj4KICAgICAgICAgPGV4aWY6RXhpZlZlcnNpb24+MDIxMDwvZXhpZjpFeGlmVmVyc2lvbj4KICAgICAgICAgPGV4aWY6Rmxhc2hQaXhWZXJzaW9uPjAxMDA8L2V4aWY6Rmxhc2hQaXhWZXJzaW9uPgogICAgICAgICA8ZXhpZjpQaXhlbFlEaW1lbnNpb24+MTA4MDwvZXhpZjpQaXhlbFlEaW1lbnNpb24+CiAgICAgICAgIDxleGlmOkNvbXBvbmVudHNDb25maWd1cmF0aW9uPgogICAgICAgICAgICA8cmRmOlNlcT4KICAgICAgICAgICAgICAgPHJkZjpsaT4xPC9yZGY6bGk+CiAgICAgICAgICAgICAgIDxyZGY6bGk+MjwvcmRmOmxpPgogICAgICAgICAgICAgICA8cmRmOmxpPjM8L3JkZjpsaT4KICAgICAgICAgICAgICAgPHJkZjpsaT4wPC9yZGY6bGk+CiAgICAgICAgICAgIDwvcmRmOlNlcT4KICAgICAgICAgPC9leGlmOkNvbXBvbmVudHNDb25maWd1cmF0aW9uPgogICAgICAgICA8eG1wOkNyZWF0b3JUb29sPkNhbnZhIGRvYz1EQUhMa1dZeVZYdyB1c2VyPVVBQ2JFM0VRZGYwIGJyYW5kPVN0YXJ0dXAgVmVudHVyYTwveG1wOkNyZWF0b3JUb29sPgogICAgICAgICA8dGlmZjpSZXNvbHV0aW9uVW5pdD4yPC90aWZmOlJlc29sdXRpb25Vbml0PgogICAgICAgICA8dGlmZjpPcmllbnRhdGlvbj4xPC90aWZmOk9yaWVudGF0aW9uPgogICAgICAgICA8dGlmZjpYUmVzb2x1dGlvbj45NjwvdGlmZjpYUmVzb2x1dGlvbj4KICAgICAgICAgPHRpZmY6WVJlc29sdXRpb24+OTY8L3RpZmY6WVJlc29sdXRpb24+CiAgICAgICAgIDxkYzp0aXRsZT4KICAgICAgICAgICAgPHJkZjpBbHQ+CiAgICAgICAgICAgICAgIDxyZGY6bGkgeG1sOmxhbmc9IngtZGVmYXVsdCI+VW50aXRsZWQgZGVzaWduIC0gMTwvcmRmOmxpPgogICAgICAgICAgICA8L3JkZjpBbHQ+CiAgICAgICAgIDwvZGM6dGl0bGU+CiAgICAgICAgIDxkYzpjcmVhdG9yPgogICAgICAgICAg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";</script>
+  <script type="text/babel" data-presets="react">
+  const { useState, useMemo, useCallback, useRef, useEffect } = React;
+  const {
+    ResponsiveContainer, ComposedChart, BarChart, Line, Bar, Area,
+    XAxis, YAxis, CartesianGrid, Tooltip, ReferenceLine,
+  } = Recharts;
+  const { fmt, COLORS, DEFAULTS, PRESETS } = window.SV;
+
+  // ============================================================
+  // INVESTOR ACCESS GATE (soft, client-side). The key lives in this file, so it
+  // keeps casual visitors out of the financial projections but is NOT real
+  // security — anyone who views source can find it. For true protection, gate
+  // server-side. Change INVESTOR_KEY to rotate access; set INVESTOR_CONTACT to
+  // the inbox that should receive access requests.
+  // ============================================================
+  const INVESTOR_KEY = "ScaleVentura"; // case-insensitive (compared lowercased)
+  const INVESTOR_CONTACT = "ir@startupventura.com";
+  // Wired for the Startup Ventura site embed: Give opens the Zeffy donation page
+  // in a new tab; investor "connect" opens the site contact page in the top window.
+  const GIVE_URL = "https://www.zeffy.com/en-US/donation-form/donate-to-startup-ventura";
+  const CONNECT_URL = "/contact/";
+
+  function LockIcon({ size = 14, className = "" }) {
+    return (
+      <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="2.2"
+        strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+        <rect x="4.5" y="10.5" width="15" height="10" rx="2" />
+        <path d="M8 10.5V7a4 4 0 0 1 8 0v3.5" />
+      </svg>
+    );
+  }
+
+  // Convert the UI scenario (percentages as whole numbers) into the
+  // fraction-based scenario the pure model expects.
+  function buildScenario(ui) {
+    return Object.assign({}, ui, {
+      fundSuccessRate:    ui.fundSuccessRate / 100,
+      startupSuccessRate: ui.startupSuccessRate / 100,
+      mgmtFeePct:         ui.mgmtFeePct / 100,
+      carryPct:           ui.carryPct / 100,
+      hurdleRate:         ui.hurdleRate / 100,
+      startupGrowthRate:  ui.startupGrowthRate / 100,
+      // winnerMultiple, lossRecovery, indirectMultiplier are already x-multiples
+    });
+  }
+
+  const pctOf = (v, min, max) => Math.max(0, Math.min(100, ((v - min) / (max - min)) * 100));
+
+  // Prevent the mouse wheel from accidentally nudging a focused slider while the
+  // user scrolls the control panel (a native range-input gotcha).
+  function useNoWheel(ref) {
+    useEffect(() => {
+      const el = ref.current;
+      if (!el) return;
+      const onWheel = (e) => { if (document.activeElement === el) { e.preventDefault(); el.blur(); } };
+      el.addEventListener("wheel", onWheel, { passive: false });
+      return () => el.removeEventListener("wheel", onWheel);
+    }, []);
+  }
+
+  // ======================= BRAND ASSETS (inline SVG) =======================
+  // Four-band wave mark (light -> dark Sky->Navy). Reused for the brand mark.
+  function WaveMark({ size = 38 }) {
+    return (
+      <svg viewBox="0 0 34 34" width={size} height={size} fill="none" style={{ flex: "none" }} aria-hidden="true">
+        <path d="M2,10 Q9.5,5 17,10 T32,10" stroke="#6BB1D8" strokeWidth="2.6" strokeLinecap="round" />
+        <path d="M2,16 Q9.5,11 17,16 T32,16" stroke="#3F83A9" strokeWidth="2.6" strokeLinecap="round" />
+        <path d="M2,22 Q9.5,17 17,22 T32,22" stroke="#1E6499" strokeWidth="2.6" strokeLinecap="round" />
+        <path d="M2,28 Q9.5,23 17,28 T32,28" stroke="#203848" strokeWidth="2.6" strokeLinecap="round" />
+      </svg>
+    );
+  }
+
+  // Full-width four-band wave seam. `flip` mirrors it vertically for the footer.
+  function WaveSeam({ flip = false }) {
+    return (
+      <svg viewBox="0 0 1440 60" preserveAspectRatio="none" width="100%" height="100%" fill="none"
+        className="wave-drift" style={{ display: "block", transform: flip ? "scaleY(-1)" : "none" }} aria-hidden="true">
+        <path d="M-80,40 C 220,18 460,52 700,34 C 940,16 1180,50 1520,32 L1520,60 L-80,60 Z" fill="#EAF3F8" />
+        <path d="M-80,44 C 220,26 460,56 700,40 C 940,24 1180,54 1520,38 L1520,60 L-80,60 Z" fill="#6BB1D8" />
+        <path d="M-80,48 C 220,32 460,59 700,46 C 940,32 1180,57 1520,44 L1520,60 L-80,60 Z" fill="#3F83A9" />
+        <path d="M-80,52 C 220,38 460,60 700,52 C 940,38 1180,60 1520,50 L1520,60 L-80,60 Z" fill="#1E6499" />
+      </svg>
+    );
+  }
+
+  // Small 3-person glyph for the Jobs card (the human cue).
+  function PeopleGlyph() {
+    return (
+      <svg width="34" height="16" viewBox="0 0 34 16" fill="none" style={{ flex: "none" }} aria-hidden="true">
+        <circle cx="6" cy="5" r="3" fill="#6BB1D8" /><path d="M1,15 a5,5 0 0 1 10,0 Z" fill="#6BB1D8" />
+        <circle cx="17" cy="4.5" r="3.3" fill="#3F83A9" /><path d="M11,15 a6,6 0 0 1 12,0 Z" fill="#3F83A9" />
+        <circle cx="28" cy="5" r="3" fill="#6BB1D8" /><path d="M23,15 a5,5 0 0 1 10,0 Z" fill="#6BB1D8" />
+      </svg>
+    );
+  }
+
+  // Two-tone wordmark: Startup (navy) + Ventura (azul), no space between.
+  function Wordmark({ className = "" }) {
+    return (
+      <span className={"font-bold tracking-[-0.01em] " + className}>
+        <span className="text-navy">Startup</span><span className="text-azul">Ventura</span>
+      </span>
+    );
+  }
+
+  // ======================= REUSABLE CONTROLS =======================
+  const Eyebrow = ({ children, className = "" }) => (
+    <div className={"font-mono uppercase eyebrow text-muted " + className}>{children}</div>
+  );
+
+  // Segmented control. variant "scenario" = white container/azul-fill active;
+  // variant "toggle" = paper track/white-pill active (donor mode).
+  function Segmented({ options, value, onChange, variant = "scenario" }) {
+    const wrap = variant === "toggle"
+      ? "inline-flex w-full bg-paper border border-hair rounded-[9px] p-[3px] gap-1"
+      : "inline-flex bg-white border border-hair rounded-[11px] p-[3px] gap-1";
+    return (
+      <div className={wrap}>
+        {options.map((o) => {
+          const active = value === o.val;
+          const base = variant === "toggle"
+            ? "flex-1 px-3 py-[7px] rounded-[6px] text-[12.5px] transition text-center "
+            : "px-3.5 py-[7px] rounded-[8px] text-[13px] transition ";
+          const state = active
+            ? (variant === "toggle"
+                ? "bg-white text-azul font-bold shadow-sm"
+                : "bg-azul text-white font-bold shadow-sm")
+            : "text-muted font-medium hover:text-navy";
+          return (
+            <button key={o.val} type="button" onClick={() => onChange(o.val)} className={base + state}>
+              {o.label}
+            </button>
+          );
+        })}
+      </div>
+    );
+  }
+
+  // Group header: mono letter badge + mono uppercase label + hairline rule.
+  function GroupHeader({ badge, children }) {
+    return (
+      <div className="flex items-center gap-2.5 mb-3.5">
+        <span className="font-mono font-bold text-azul text-[12px] leading-none w-[18px] h-[18px] flex items-center justify-center rounded bg-skypale">{badge}</span>
+        <Eyebrow className="text-[11px]">{children}</Eyebrow>
+        <span className="flex-1 h-px bg-hair" />
+      </div>
+    );
+  }
+
+  // Full slider: label (left) + mono Azul value (right) over Cement/Azul track.
+  function Slider({ label, value, min, max, step, onChange, format, unit, hint }) {
+    const ref = useRef(null);
+    useNoWheel(ref);
+    const fill = `linear-gradient(to right, #1E6499 ${pctOf(value, min, max)}%, #E4E3E0 ${pctOf(value, min, max)}%)`;
+    return (
+      <div className="mb-[18px]">
+        <div className="flex justify-between items-baseline mb-2 gap-2">
+          <label className="text-[13px] font-medium text-navy">{label}</label>
+          <span className="font-mono text-[13px] font-bold text-azul tnum whitespace-nowrap">
+            {format(value)}{unit && <span className="text-muted font-normal">{unit}</span>}
+          </span>
+        </div>
+        <input ref={ref} className="sv" type="range" min={min} max={max} step={step} value={value}
+          style={{ background: fill }} onChange={(e) => onChange(parseFloat(e.target.value))} />
+        {hint && <p className="text-[11.5px] text-muted mt-1.5">{hint}</p>}
+      </div>
+    );
+  }
+
+  // Compact mini-parameter (assumptions grid): label + mono value over Sky track.
+  function MiniParam({ label, value, min, max, step, onChange, format }) {
+    const ref = useRef(null);
+    useNoWheel(ref);
+    const fill = `linear-gradient(to right, #6BB1D8 ${pctOf(value, min, max)}%, #E4E3E0 ${pctOf(value, min, max)}%)`;
+    return (
+      <div>
+        <div className="flex justify-between items-baseline mb-1.5 gap-1">
+          <span className="text-[11.5px] text-muted leading-tight">{label}</span>
+          <span className="font-mono text-[11.5px] font-bold text-navy tnum whitespace-nowrap">{format(value)}</span>
+        </div>
+        <input ref={ref} className="sv-mini" type="range" min={min} max={max} step={step} value={value}
+          style={{ background: fill }} onChange={(e) => onChange(parseFloat(e.target.value))} />
+      </div>
+    );
+  }
+
+  // Label-less Azul-fill slider, for the gift / commitment heroes.
+  function BareSlider({ value, min, max, step, onChange }) {
+    const ref = useRef(null);
+    useNoWheel(ref);
+    const fill = `linear-gradient(to right, #1E6499 ${pctOf(value, min, max)}%, #E4E3E0 ${pctOf(value, min, max)}%)`;
+    return (
+      <input ref={ref} className="sv" type="range" min={min} max={max} step={step} value={value}
+        style={{ background: fill }} onChange={(e) => onChange(parseFloat(e.target.value))} />
+    );
+  }
+
+  // Quick-pick amount buttons (gift / commitment tiers).
+  function Tiers({ tiers, value, onChange, format }) {
+    return (
+      <div className="flex flex-wrap gap-2">
+        {tiers.map((t) => (
+          <button key={t} type="button" onClick={() => onChange(t)}
+            className={"px-3 py-1.5 rounded-lg text-[12.5px] font-bold border transition " +
+              (value === t ? "bg-azul text-white border-azul" : "bg-white text-navy border-hair hover:border-azul")}>
+            {format(t)}
+          </button>
+        ))}
+      </div>
+    );
+  }
+
+  // One big "your impact" figure.
+  function StatChip({ label, value, accent }) {
+    return (
+      <div className="bg-white border border-hair rounded-xl px-4 py-3">
+        <div className={"font-mono font-bold text-[22px] tnum leading-none " + (accent || "text-navy")}>{value}</div>
+        <div className="text-[11px] text-muted mt-1.5 leading-snug">{label}</div>
+      </div>
+    );
+  }
+
+  // Generic surface card.
+  const cardCls = "bg-white border border-hair rounded-2xl shadow-[0_4px_16px_rgba(32,56,72,0.06)]";
+
+  // Headline metric card (eyebrow / value / sub). `warm` + `corner` for Jobs card.
+  function MetricCard({ eyebrow, value, sub, note, warm, corner }) {
+    return (
+      <div className={(warm ? "bg-warm border-x border-b border-hair border-t-4 border-t-cement rounded-2xl shadow-[0_4px_16px_rgba(32,56,72,0.06)]" : cardCls) + " p-5 relative flex flex-col"}>
+        {corner && <div className="absolute top-4 right-4">{corner}</div>}
+        <Eyebrow className="text-[10.5px]">{eyebrow}</Eyebrow>
+        <div className="mt-2.5">{value}</div>
+        {sub && <div className="mt-1.5 text-[12.5px] text-muted leading-snug">{sub}</div>}
+        {note && <div className="mt-auto pt-2.5 text-[11px] text-muted/80 leading-snug">{note}</div>}
+      </div>
+    );
+  }
+
+  function Disclosure({ title, open, onToggle, children }) {
+    return (
+      <div className={cardCls + " overflow-hidden"}>
+        <button type="button" onClick={onToggle}
+          className="w-full flex items-center justify-between px-5 py-4 text-left hover:bg-paper/60 transition">
+          <span className="text-[13px] font-bold text-navy">{title}</span>
+          <span className="font-mono text-muted text-lg leading-none select-none">{open ? "–" : "+"}</span>
+        </button>
+        {open && <div className="px-5 pb-5 border-t border-hair">{children}</div>}
+      </div>
+    );
+  }
+
+  function ChartCard({ eyebrow, title, value, legend, caption, height = 190, empty, children }) {
+    return (
+      <div className={cardCls + " p-5"}>
+        <div className="flex items-start justify-between gap-3 mb-2">
+          <div>
+            {eyebrow && <Eyebrow className="text-[10.5px] mb-1">{eyebrow}</Eyebrow>}
+            <h4 className="text-[14px] font-bold text-navy leading-tight">{title}</h4>
+          </div>
+          {value && <div className="font-mono font-bold text-navy text-[18px] tnum">{value}</div>}
+          {legend}
+        </div>
+        <div style={{ height }} className="w-full">
+          {empty
+            ? <div className="h-full flex items-center justify-center text-[12.5px] text-muted text-center px-6">{empty}</div>
+            : <ResponsiveContainer width="100%" height="100%">{children}</ResponsiveContainer>}
+        </div>
+        {caption && <p className="text-[11.5px] text-muted mt-2">{caption}</p>}
+      </div>
+    );
+  }
+
+  // Shared chart styling
+  const tipStyle = { borderRadius: 10, border: "1px solid #D7E2EA", boxShadow: "0 4px 16px rgba(32,56,72,0.10)", fontSize: 12, fontFamily: "Ubuntu" };
+  const tipLabel = { color: "#203848", fontWeight: 700 };
+  const tick = { fontSize: 11, fill: COLORS.axis, fontFamily: "Space Mono" };
+  const axisUSD = (v) => fmt.usd(v);
+  const axisInt = (v) => fmt.int(v);
+  const tipUSD  = (v) => fmt.usdExact(v);
+  const tipInt  = (v) => fmt.int(v);
+  const yearLabel = (l) => "Year " + l;
+
+  const LegendDot = ({ color, dashed, children }) => (
+    <span className="inline-flex items-center gap-1.5 text-[11px] text-muted">
+      <span style={{ width: 14, height: 0, borderTop: (dashed ? "2px dashed " : "3px solid ") + color, display: "inline-block" }} />
+      {children}
+    </span>
+  );
+
+  // The 12 under-the-hood assumptions, rendered as the mini-parameter grid.
+  const ASSUMPTIONS = [
+    { key: "mgmtFeePct",        label: "GP fee",            min: 0,   max: 3,        step: 0.25,   fmt: fmt.pct },
+    { key: "carryPct",          label: "Carry",             min: 0,   max: 30,       step: 1,      fmt: fmt.pct },
+    { key: "feePeriodYears",    label: "Fee period",        min: 0,   max: 12,       step: 1,      fmt: fmt.years },
+    { key: "hurdleRate",        label: "Hurdle",            min: 0,   max: 10,       step: 1,      fmt: fmt.pct },
+    { key: "winnerMultiple",    label: "Winner multiple",   min: 1,   max: 20,       step: 0.5,    fmt: fmt.mult },
+    { key: "lossRecovery",      label: "Loss recovery",     min: 0,   max: 1,        step: 0.1,    fmt: fmt.mult },
+    { key: "avgExitYear",       label: "Exit year",         min: 4,   max: 12,       step: 1,      fmt: fmt.years },
+    { key: "fundCadenceYears",  label: "New fund every",    min: 0,   max: 8,        step: 1,      fmt: (v) => (v <= 0 ? "Single fund" : "every " + v + " yr" + (v === 1 ? "" : "s")) },
+    { key: "jobsPerStartup",    label: "Jobs / startup",    min: 0,   max: 100,      step: 1,      fmt: fmt.int },
+    { key: "revenuePerStartup", label: "Revenue / startup", min: 0,   max: 50000000, step: 100000, fmt: fmt.usd },
+    { key: "rampYears",         label: "Ramp years",        min: 0,   max: 6,        step: 1,      fmt: fmt.years },
+    { key: "startupGrowthRate", label: "Startup growth /yr", min: 0,   max: 40,       step: 5,      fmt: fmt.pct },
+    { key: "startupMaxScale",   label: "Max scale",         min: 1,   max: 10,       step: 1,      fmt: fmt.mult },
+    { key: "indirectMultiplier",label: "Indirect mult.",    min: 1,   max: 2.5,      step: 0.1,    fmt: fmt.mult },
+    { key: "maxHorizon",        label: "Horizon",           min: 10,  max: 40,       step: 5,      fmt: fmt.years },
+  ];
+
+  // ======================= MAIN APP =======================
+  function App() {
+    const [ui, setUi] = useState(Object.assign({}, DEFAULTS));
+    const [showAssumptions, setShowAssumptions] = useState(false);
+    const [showHow, setShowHow] = useState(false);
+    const [activePreset, setActivePreset] = useState("Base");
+    const [audience, setAudience] = useState("donor"); // 'donor' | 'investor'
+    const [investorUnlocked, setInvestorUnlocked] = useState(false);
+    const [gateOpen, setGateOpen] = useState(false);
+    const [keyInput, setKeyInput] = useState("");
+    const [keyError, setKeyError] = useState(false);
+    const [showReqForm, setShowReqForm] = useState(false);
+    const [req, setReq] = useState({ name: "", email: "", firm: "", msg: "" });
+
+    // Investor mode is gated: selecting it opens the access gate unless unlocked.
+    const chooseAudience = (val) => {
+      if (val === "investor" && !investorUnlocked) { setGateOpen(true); setKeyError(false); setShowReqForm(false); }
+      else setAudience(val);
+    };
+    const tryUnlock = () => {
+      if (keyInput.trim().toLowerCase() === INVESTOR_KEY.toLowerCase()) {
+        setInvestorUnlocked(true); setAudience("investor"); setGateOpen(false); setKeyInput(""); setKeyError(false);
+      } else setKeyError(true);
+    };
+    const reqMailto = "mailto:" + INVESTOR_CONTACT
+      + "?subject=" + encodeURIComponent("Investor access request — Startup Ventura Impact Calculator")
+      + "&body=" + encodeURIComponent("Name: " + req.name + "\nEmail: " + req.email + "\nFirm / role: " + req.firm + "\n\n" + (req.msg || "I'd like access to the investor projections."));
+
+    const set = useCallback((key, val) => {
+      setUi((prev) => Object.assign({}, prev, { [key]: val }));
+      setActivePreset(null); // a program/assumption edit no longer matches a preset
+    }, []);
+    // Gift/commitment is the user's OWN input, separate from the program scenario,
+    // so changing it must NOT clear the selected scenario highlight.
+    const setGift = useCallback((key, val) => {
+      setUi((prev) => Object.assign({}, prev, { [key]: val }));
+    }, []);
+
+    const applyPreset = useCallback((name) => {
+      setUi(Object.assign({}, PRESETS[name]));
+      setActivePreset(name);
+    }, []);
+
+    const reset = useCallback(() => {
+      setUi(Object.assign({}, DEFAULTS));
+      setActivePreset("Base");
+      setShowAssumptions(false);
+    }, []);
+
+    // Run the whole model on every change. Cheap (<= ~1600 ops); memoized.
+    const out = useMemo(() => window.SV.model.runModel(buildScenario(ui)), [ui]);
+    const { run, impact, gp, fund } = out;
+    const hasIndirect = ui.indirectMultiplier > 1;
+    // The impact window: jobs/revenue are measured over the survival window
+    // (capped at the horizon). N is the final modeled year of that window.
+    const N = run.survivalYears;
+    const overYrs = N + (N === 1 ? " yr" : " yrs");
+
+    // ---- attribution: "your gift" (donor) and "your commitment" (investor) ----
+    const sFrac = buildScenario(ui);
+    const giftRecurring = ui.giftMode === "recurring";
+    const giftAmount = giftRecurring ? ui.giftAnnual : ui.giftCorpus;
+    const giftLabel = fmt.usd(giftAmount) + (giftRecurring ? "/yr" : "");
+    // Recurring gifts are framed over a 10-year window (capped by survival); the
+    // donor impact engine grows the winners over that window (jobs/rev are totals).
+    // Both donor modes are projected over the SAME 20-year window (capped by the
+    // survival horizon) so one-time and recurring cost-per-job are comparable.
+    const donorWindow = Math.min(20, N);
+    const recurringYears = donorWindow; // alias used in the hero labels below
+    const di = window.SV.model.donorImpact(sFrac, giftAmount, ui.giftMode, donorWindow);
+    const ii = window.SV.model.investorImpact(sFrac, ui.commitment);
+    const fmtCompanies = (c) => (c >= 1 ? fmt.int(c) : window.SV.fmt.safe(c).toFixed(1));
+
+    // ---- program-longevity status (drives the pill badge) ----
+    const longevity = run.isSelfSustaining
+      ? { dot: "bg-azul", text: "text-azul", label: "Self-sustaining", note: ui.maxHorizon + "+ yrs",
+          sub: "Revenue covers the " + fmt.usd(ui.opEx) + " annual OpEx." }
+      : run.survivesFullHorizon
+        ? { dot: "bg-wave", text: "text-wave", label: ui.maxHorizon + "+ yrs", note: null,
+            sub: "Funded through the full modeled horizon." }
+        : { dot: "bg-[#C23B3B]", text: "text-[#C23B3B]", label: fmt.years(run.runwayYears), note: null,
+            sub: run.runwayYears <= 0 ? "Does not survive its first year." : "Cash runs out after year " + run.runwayYears + "." };
+
+    const metricVal = "font-mono font-bold text-navy text-[42px] leading-none tnum";
+    const heroCTA = "bg-coral hover:bg-coraldk text-white text-[14px] font-bold px-6 py-[11px] rounded-[11px] shadow-[0_4px_12px_rgba(234,90,61,0.28)] transition";
+
+    // ---- the conversion hero: "your gift" (donor) / "your commitment" (investor) ----
+    const hero = audience === "donor" ? (
+      <div className={cardCls + " p-6"}>
+        <Eyebrow className="text-[10.5px] mb-3">Your impact</Eyebrow>
+        <div className="flex flex-col lg:flex-row gap-7">
+          {/* gift control */}
+          <div className="lg:w-[300px] lg:flex-none">
+            <div className="mb-3">
+              <Segmented variant="toggle"
+                options={[{ val: "recurring", label: "Recurring" }, { val: "one-time", label: "One-time" }]}
+                value={ui.giftMode} onChange={(v) => setGift("giftMode", v)} />
+            </div>
+            <div className="font-mono font-bold text-navy text-[34px] leading-none tnum">
+              {fmt.usd(giftAmount)}<span className="text-[16px] text-muted font-normal">{giftRecurring ? " / yr" : ""}</span>
+            </div>
+            <div className="mt-3">
+              <BareSlider value={giftAmount} min={0} max={giftRecurring ? 200000 : 1000000} step={giftRecurring ? 1000 : 5000}
+                onChange={(v) => setGift(giftRecurring ? "giftAnnual" : "giftCorpus", v)} />
+            </div>
+            <div className="mt-3">
+              <Tiers tiers={giftRecurring ? [5000, 15000, 50000, 100000] : [10000, 50000, 250000, 1000000]}
+                value={giftAmount} onChange={(v) => setGift(giftRecurring ? "giftAnnual" : "giftCorpus", v)} format={fmt.usd} />
+            </div>
+          </div>
+          {/* impact */}
+          <div className="flex-1 min-w-0">
+            <p className="text-[17px] text-navy leading-relaxed">
+              {giftRecurring
+                ? <span>Over {recurringYears} years, your <b className="text-azul">{fmt.usd(giftAmount)}/yr</b> gift funds about <b>{fmtCompanies(di.companies)}</b> companies — and as the winners scale, creates roughly <b className="text-azul">{fmt.int(di.jobs)} jobs</b> and <b>{fmt.usd(di.revenue)}/yr</b> in local startup revenue by year {recurringYears}.</span>
+                : <span>Your <b className="text-azul">{fmt.usd(giftAmount)}</b> gift funds about <b>{fmtCompanies(di.companies)}</b> companies — and as the winners scale over {donorWindow} years, that grows to roughly <b className="text-azul">{fmt.int(di.jobs)} jobs</b> and <b>{fmt.usd(di.revenue)}/yr</b> in local startup revenue.</span>}
+            </p>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-5">
+              {giftRecurring ? (
+                <React.Fragment>
+                  <StatChip label={"Jobs created · " + recurringYears + " yrs"} value={fmt.int(di.jobs)} accent="text-wave" />
+                  <StatChip label={"Companies · " + recurringYears + " yrs"} value={fmtCompanies(di.companies)} accent="text-azul" />
+                  <StatChip label={"Local revenue / yr by yr " + recurringYears} value={fmt.usd(di.revenue)} />
+                  <StatChip label="Cost per job" value={fmt.usd(di.costPerJob)} />
+                </React.Fragment>
+              ) : (
+                <React.Fragment>
+                  <StatChip label="Companies funded" value={fmtCompanies(di.companies)} accent="text-azul" />
+                  <StatChip label={"Jobs created · " + donorWindow + " yrs"} value={fmt.int(di.jobs)} accent="text-wave" />
+                  <StatChip label="Local revenue / yr" value={fmt.usd(di.revenue)} />
+                  <StatChip label="Cost per job" value={fmt.usd(di.costPerJob)} />
+                </React.Fragment>
+              )}
+            </div>
+            <div className="mt-5 flex flex-wrap items-center gap-4">
+              <a href={GIVE_URL} target="_blank" rel="noopener noreferrer" className={heroCTA}>Give {giftLabel}</a>
+              <span className="text-[12px] text-muted">≈ {fmt.usd(di.costPerJob)} per job · every $1 → {fmt.usd(di.revPerDollar)} local revenue/yr · helps the program reach <b className="text-navy">{run.isSelfSustaining ? "self-sustaining" : fmt.years(run.survivalYears)}</b></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    ) : (
+      <div className={cardCls + " p-6"}>
+        <Eyebrow className="text-[10.5px] mb-3">Your commitment</Eyebrow>
+        <div className="flex flex-col lg:flex-row gap-7">
+          {/* commitment control */}
+          <div className="lg:w-[300px] lg:flex-none">
+            <div className="font-mono font-bold text-navy text-[34px] leading-none tnum">{fmt.usd(ui.commitment)}</div>
+            <div className="mt-3">
+              <BareSlider value={ui.commitment} min={0} max={10000000} step={50000} onChange={(v) => setGift("commitment", v)} />
+            </div>
+            <div className="mt-3">
+              <Tiers tiers={[100000, 250000, 1000000, 5000000]} value={ui.commitment} onChange={(v) => setGift("commitment", v)} format={fmt.usd} />
+            </div>
+          </div>
+          {/* return + impact */}
+          <div className="flex-1 min-w-0">
+            <p className="text-[17px] text-navy leading-relaxed">
+              A <b className="text-azul">{fmt.usd(ii.C)}</b> commitment is projected to return about <b className="text-azul">{fmt.usd(ii.net)}</b> ({fmt.mult(ii.netMOIC)} net) — and the <b>{fmt.usd(ii.gpFromYou)}</b> it generates for the incubator helps fund roughly <b className="text-wave">{fmt.int(ii.jobsSustained)} jobs</b>.
+            </p>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-5">
+              <StatChip label="Gross MOIC" value={fmt.mult(ii.grossMOIC)} accent="text-azul" />
+              <StatChip label="Net to you (after fees + carry)" value={fmt.usd(ii.net)} />
+              <StatChip label="Generated for the incubator" value={fmt.usd(ii.gpFromYou)} />
+              <StatChip label="Jobs your capital sustains" value={fmt.int(ii.jobsSustained)} accent="text-wave" />
+            </div>
+            <div className="mt-5 flex flex-wrap items-center gap-4">
+              <a href={CONNECT_URL} target="_top" className={heroCTA}>Talk to our team</a>
+              <span className="text-[12px] text-muted">Illustrative projection from the assumptions below — not investment advice; returns are not guaranteed.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+
+    return (
+      <div className="max-w-[1440px] mx-auto bg-paper min-h-screen">
+
+        {/* ===================== HEADER ===================== */}
+        <header className="relative px-9 pt-[26px] pb-[56px]"
+          style={{ background: "linear-gradient(180deg,#EAF3F8 0%,#F4F9FC 70%,#FFFFFF 100%)" }}>
+          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
+            {/* Brand + title */}
+            <div className="flex flex-col gap-3 items-start">
+              <img src={window.SV_LOGO} alt="Startup Ventura" className="h-[60px] w-auto" />
+              <div>
+                <h1 className="text-[30px] font-bold text-navy tracking-[-0.02em] leading-[1.05] mt-0.5">Impact Calculator</h1>
+                <p className="text-[15px] text-muted mt-1.5 max-w-[420px] leading-snug">
+                  See what your support builds in Ventura County — program longevity, jobs, and startup revenue.
+                </p>
+              </div>
+            </div>
+            {/* Controls */}
+            <div className="flex items-end gap-4 flex-wrap">
+              <div>
+                <Eyebrow className="text-[10px] mb-1.5">I am a</Eyebrow>
+                <div className="inline-flex bg-white border border-hair rounded-xl p-1 gap-1">
+                  <button type="button" onClick={() => chooseAudience("donor")}
+                    className={"px-6 py-2.5 rounded-lg text-[15px] font-bold transition " + (audience === "donor" ? "bg-azul text-white shadow-sm" : "text-muted hover:text-navy")}>
+                    Donor
+                  </button>
+                  <button type="button" onClick={() => chooseAudience("investor")}
+                    className={"px-6 py-2.5 rounded-lg text-[15px] font-bold transition inline-flex items-center gap-1.5 " + (audience === "investor" ? "bg-azul text-white shadow-sm" : "text-muted hover:text-navy")}>
+                    {!investorUnlocked && <LockIcon />}
+                    Investor
+                  </button>
+                </div>
+              </div>
+              <div>
+                <Eyebrow className="text-[10px] mb-1.5">Scenario</Eyebrow>
+                <Segmented
+                  options={[{ val: "Conservative", label: "Conservative" }, { val: "Base", label: "Expected" }, { val: "Ambitious", label: "Ambitious" }]}
+                  value={activePreset} onChange={applyPreset} variant="scenario" />
+              </div>
+              <button type="button" onClick={reset}
+                className="text-[13px] font-medium text-muted hover:text-navy transition pb-2.5">Reset</button>
+              {/* GIVE / INVEST — the single coral action. Wire href to the give/contact flow. */}
+              <a href={audience === "investor" ? CONNECT_URL : GIVE_URL}
+                target={audience === "investor" ? "_top" : "_blank"} rel="noopener noreferrer"
+                className="bg-coral hover:bg-coraldk text-white text-[14px] font-bold px-6 py-[11px] rounded-[11px] shadow-[0_4px_12px_rgba(234,90,61,0.28)] transition">
+                {audience === "investor" ? "Invest" : "Give"}
+              </a>
+            </div>
+          </div>
+          {/* wave seam along the bottom edge */}
+          <div className="absolute left-0 right-0 bottom-0 h-7 overflow-hidden"><WaveSeam /></div>
+        </header>
+
+        {/* ===================== BODY ===================== */}
+        <div className="px-9 pt-7 pb-10">
+
+          {/* -------- RESULTS (full width) -------- */}
+          <main className="flex flex-col gap-6">
+
+            {/* Conversion hero — your gift / your commitment -> impact */}
+            {hero}
+
+            {/* Full program projection (the model behind the numbers) */}
+            <div className="flex items-center gap-2.5 pt-1">
+              <Eyebrow className="text-[11px]">Full program projection</Eyebrow>
+              <span className="flex-1 h-px bg-hair" />
+            </div>
+
+            {/* Headline metric cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-[18px]">
+              <MetricCard
+                eyebrow="Program longevity"
+                value={
+                  <span className={"inline-flex items-center gap-2 bg-skypale border border-hair rounded-full pl-2.5 pr-3 py-1.5 " + longevity.text}>
+                    <span className={"w-[7px] h-[7px] rounded-full " + longevity.dot} />
+                    <span className="text-[13px] font-bold">{longevity.label}</span>
+                    {longevity.note && <span className="font-mono text-[11px] text-muted">{longevity.note}</span>}
+                  </span>
+                }
+                sub={longevity.sub}
+              />
+              <MetricCard
+                warm corner={<PeopleGlyph />}
+                eyebrow="Jobs created"
+                value={<span className={metricVal}>{fmt.int(hasIndirect ? impact.cumulativeJobsTotal : impact.cumulativeJobsDirect)}</span>}
+                sub={hasIndirect
+                  ? <span><span className="font-mono font-bold text-navy">{fmt.int(impact.cumulativeJobsDirect)}</span> direct · incl. indirect jobs</span>
+                  : "Direct jobs across surviving graduates."}
+                note={N >= 1
+                  ? ("Total headcount in place by year " + N + " (over " + overYrs + ")")
+                  : "Program ends in year 1 — no cohorts graduate."}
+              />
+              <MetricCard
+                eyebrow="Startup revenue · annual run-rate"
+                value={<span className={metricVal}>{fmt.usdM(impact.annualStartupRevenue)}</span>}
+                sub={N >= 1 ? ("Annual run-rate in year " + N) : "Program ends in year 1."}
+                note={N >= 1
+                  ? <span>Cumulative <span className="font-mono font-bold text-navy">{fmt.usdM(impact.cumulativeStartupRevenue)}</span> over {overYrs}</span>
+                  : null}
+              />
+              <MetricCard
+                eyebrow="GP revenue earned"
+                value={<span className={metricVal}>{fmt.usd(gp.gpRevenue)}</span>}
+                sub={<span>{gp.numFunds > 1 ? <span className="font-mono font-bold text-navy">{gp.numFunds} funds</span> : null}{gp.numFunds > 1 ? " · " : ""}<span className="font-mono font-bold text-navy">{fmt.usd(gp.totalMgmtFees)}</span> fees + <span className="font-mono font-bold text-navy">{fmt.usd(gp.totalCarry)}</span> carry</span>}
+              />
+            </div>
+
+            {/* Hero runway chart */}
+            <ChartCard
+              eyebrow="Runway" title="Incubator cash over time" height={300}
+              legend={
+                <div className="flex flex-wrap gap-3 justify-end">
+                  <LegendDot color={COLORS.cash}>Cash balance</LegendDot>
+                  <LegendDot color={COLORS.revenue}>Total revenue</LegendDot>
+                  <LegendDot color={COLORS.opex} dashed>{fmt.usd(ui.opEx)} OpEx</LegendDot>
+                </div>
+              }>
+              <ComposedChart data={run.series} margin={{ top: 8, right: 12, left: 6, bottom: 4 }}>
+                <defs>
+                  <linearGradient id="cashFill" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor={COLORS.cash} stopOpacity={0.18} />
+                    <stop offset="100%" stopColor={COLORS.cash} stopOpacity={0.02} />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" stroke={COLORS.grid} vertical={false} />
+                <XAxis dataKey="year" tick={tick} stroke={COLORS.grid} tickFormatter={(y) => "Yr " + y} />
+                <YAxis tickFormatter={axisUSD} tick={tick} stroke={COLORS.grid} width={52} />
+                <Tooltip contentStyle={tipStyle} labelStyle={tipLabel} formatter={tipUSD} labelFormatter={yearLabel} />
+                <ReferenceLine y={0} stroke="#cbd5e1" />
+                <ReferenceLine y={ui.opEx} stroke={COLORS.opex} strokeDasharray="5 4" />
+                {run.endedYear && (
+                  <ReferenceLine x={run.endedYear} stroke={COLORS.end} strokeWidth={2}
+                    label={{ value: "Ends · Yr " + run.endedYear, position: "top", fontSize: 10, fill: COLORS.end, fontFamily: "Space Mono" }} />
+                )}
+                <Area type="monotone" dataKey="cash" name="Cash balance" stroke={COLORS.cash} strokeWidth={3}
+                  fill="url(#cashFill)" isAnimationActive={false} />
+                <Line type="monotone" dataKey="revenue" name="Total revenue" stroke={COLORS.revenue}
+                  strokeWidth={2.5} dot={false} isAnimationActive={false} />
+              </ComposedChart>
+            </ChartCard>
+
+            {/* 3-up charts */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-[18px]">
+              {/* Revenue composition */}
+              <ChartCard
+                eyebrow="Revenue composition" title="Income by source"
+                caption={run.numFunds > 1
+                  ? ("A new fund every " + ui.fundCadenceYears + " yrs → fees stack and carry recurs (" + run.numFunds + " funds over " + ui.maxHorizon + " yrs).")
+                  : ("Carry back-loads toward Year " + ui.avgExitYear + " exits.")}>
+                <BarChart data={run.series} margin={{ top: 6, right: 6, left: 0, bottom: 4 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke={COLORS.grid} vertical={false} />
+                  <XAxis dataKey="year" tick={tick} stroke={COLORS.grid} tickFormatter={(y) => "Y" + y} interval={4} />
+                  <YAxis tickFormatter={axisUSD} tick={tick} stroke={COLORS.grid} width={44} />
+                  <Tooltip contentStyle={tipStyle} labelStyle={tipLabel} formatter={tipUSD} labelFormatter={yearLabel} />
+                  <Bar dataKey="donor" name="Donor" stackId="a" fill={COLORS.donor} isAnimationActive={false} />
+                  <Bar dataKey="fees" name="Mgmt fees" stackId="a" fill={COLORS.fees} isAnimationActive={false} />
+                  <Bar dataKey="carry" name="Carry" stackId="a" fill={COLORS.carry} isAnimationActive={false} />
+                </BarChart>
+              </ChartCard>
+
+              {/* Jobs over time */}
+              <ChartCard
+                eyebrow="Jobs over time" title="Cumulative headcount"
+                value={fmt.int(hasIndirect ? impact.cumulativeJobsTotal : impact.cumulativeJobsDirect)}
+                empty={run.survivalYears < 1 ? "The program does not survive its first year." : null}>
+                <ComposedChart data={impact.series} margin={{ top: 6, right: 6, left: 0, bottom: 4 }}>
+                  <defs>
+                    <linearGradient id="jobsFill" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor={COLORS.jobs} stopOpacity={0.18} />
+                      <stop offset="100%" stopColor={COLORS.jobs} stopOpacity={0.02} />
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" stroke={COLORS.grid} vertical={false} />
+                  <XAxis dataKey="year" tick={tick} stroke={COLORS.grid} tickFormatter={(y) => "Y" + y} interval={4} />
+                  <YAxis tickFormatter={axisInt} tick={tick} stroke={COLORS.grid} width={38} />
+                  <Tooltip contentStyle={tipStyle} labelStyle={tipLabel} formatter={tipInt} labelFormatter={yearLabel} />
+                  <Area type="monotone" dataKey={hasIndirect ? "jobsTotal" : "jobsDirect"} name="Jobs"
+                    stroke={COLORS.jobs} strokeWidth={2.5} fill="url(#jobsFill)" isAnimationActive={false} />
+                  {hasIndirect && (
+                    <Line type="monotone" dataKey="jobsDirect" name="Direct" stroke={COLORS.jobsAlt}
+                      strokeWidth={1.5} strokeDasharray="4 3" dot={false} isAnimationActive={false} />
+                  )}
+                </ComposedChart>
+              </ChartCard>
+
+              {/* Startup revenue over time */}
+              <ChartCard
+                eyebrow="Startup revenue over time" title="Annual run-rate"
+                value={fmt.usd(impact.annualStartupRevenue)}
+                empty={run.survivalYears < 1 ? "The program does not survive its first year." : null}>
+                <ComposedChart data={impact.series} margin={{ top: 6, right: 6, left: 0, bottom: 4 }}>
+                  <defs>
+                    <linearGradient id="revFill" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor={COLORS.startupRev} stopOpacity={0.18} />
+                      <stop offset="100%" stopColor={COLORS.startupRev} stopOpacity={0.02} />
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" stroke={COLORS.grid} vertical={false} />
+                  <XAxis dataKey="year" tick={tick} stroke={COLORS.grid} tickFormatter={(y) => "Y" + y} interval={4} />
+                  <YAxis tickFormatter={axisUSD} tick={tick} stroke={COLORS.grid} width={44} />
+                  <Tooltip contentStyle={tipStyle} labelStyle={tipLabel} formatter={tipUSD} labelFormatter={yearLabel} />
+                  <Area type="monotone" dataKey="annualRevenue" name="Run-rate" stroke={COLORS.startupRev}
+                    strokeWidth={2.5} fill="url(#revFill)" isAnimationActive={false} />
+                </ComposedChart>
+              </ChartCard>
+            </div>
+
+            {/* How this is calculated */}
+            <Disclosure title="How this is calculated" open={showHow} onToggle={() => setShowHow((o) => !o)}>
+              <div className="pt-4 text-[13px] text-muted space-y-4 leading-[1.6] max-w-[760px]">
+                <p><span className="font-bold text-navy">Fund economics.</span> The fund earns a blended return: winners return your winner multiple, the rest return your loss recovery. Investors get their capital back first (1x), then a preferred return if any; the GP keeps a carry percentage of the profit above that — a one-time windfall at the average exit year. Separately, the GP earns a steady management fee (a % of fund size) every year of the fee period.</p>
+                <p><span className="font-bold text-navy">Runway.</span> We simulate cash year by year. A one-time corpus seeds the account; a recurring donor adds money each year. Every year we add revenue (donor + management fees during the fee period + carry in the exit year) and subtract OpEx. The program ends the first year cash goes negative. When ongoing recurring income covers OpEx on its own — so cash never trends down — we call it self-sustaining, and carry is pure upside. Management fees count toward this only if they last the whole horizon.</p>
+                <p><span className="font-bold text-navy">Impact.</span> Each surviving year graduates a cohort. The successful share (graduates × startup success rate) creates jobs and revenue, ramping linearly to maturity. Jobs is a stock — total headcount across every surviving graduate. Startup revenue headline is an annual run-rate at the horizon; cumulative sums each year's run-rate across the window.</p>
+                <p className="rounded-lg bg-skypale border border-hair p-3 text-[12px] text-navy"><span className="font-bold">No double counting:</span> the venture fund is modeled only as the financial engine that keeps the program alive and produces GP revenue. Jobs and startup revenue come from the incubator's graduates only — fund-portfolio jobs are deliberately not added on top.</p>
+              </div>
+            </Disclosure>
+
+            {/* Funding & assumptions — all model inputs, tucked at the bottom */}
+            <Disclosure title="Funding & assumptions" open={showAssumptions} onToggle={() => setShowAssumptions((o) => !o)}>
+              <div className="pt-4">
+                <div className="flex items-center gap-2.5 mb-3"><Eyebrow className="text-[11px]">Program &amp; impact</Eyebrow><span className="flex-1 h-px bg-hair" /></div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8">
+                  <Slider label="Companies graduated" value={ui.graduatesPerYear} min={0} max={50} step={1}
+                    onChange={(v) => set("graduatesPerYear", v)} format={fmt.int} unit=" / yr" />
+                  <Slider label="Startup success rate" value={ui.startupSuccessRate} min={0} max={100} step={1}
+                    onChange={(v) => set("startupSuccessRate", v)} format={fmt.pct} hint="Share of graduates that survive / scale" />
+                  <Slider label="Fund success rate" value={ui.fundSuccessRate} min={0} max={100} step={1}
+                    onChange={(v) => set("fundSuccessRate", v)} format={fmt.pct} hint="Share of the portfolio that exits as winners" />
+                </div>
+
+                <div className="flex items-center gap-2.5 mb-3 mt-5"><Eyebrow className="text-[11px]">Funding engine</Eyebrow><span className="flex-1 h-px bg-hair" /></div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 items-end">
+                  <div className="mb-[18px]">
+                    <label className="text-[13px] font-medium text-navy block mb-2">Donor funding mode</label>
+                    <Segmented
+                      options={[{ val: "recurring", label: "Recurring" }, { val: "one-time", label: "One-time corpus" }]}
+                      value={ui.donorMode} onChange={(v) => set("donorMode", v)} variant="toggle" />
+                  </div>
+                  {ui.donorMode === "recurring" ? (
+                    <Slider label="Donor dollars" value={ui.donorAnnual} min={0} max={2000000} step={10000}
+                      onChange={(v) => set("donorAnnual", v)} format={fmt.usd} unit=" / yr" />
+                  ) : (
+                    <Slider label="Donor corpus (one-time)" value={ui.donorCorpus} min={0} max={5000000} step={25000}
+                      onChange={(v) => set("donorCorpus", v)} format={fmt.usd} hint="One-time endowment, drawn down" />
+                  )}
+                  <Slider label="Annual OpEx" value={ui.opEx} min={100000} max={2000000} step={25000}
+                    onChange={(v) => set("opEx", v)} format={fmt.usd} hint="Cost to run the program / yr" />
+                  <Slider label="Fund size" value={ui.fundSize} min={0} max={100000000} step={500000}
+                    onChange={(v) => set("fundSize", v)} format={fmt.usd} hint="Capital under management (drives fees + carry)" />
+                </div>
+
+                <div className="flex items-center gap-2.5 mb-3 mt-5"><Eyebrow className="text-[11px]">Fund terms &amp; impact</Eyebrow><span className="flex-1 h-px bg-hair" /></div>
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-8 gap-y-3">
+                  {ASSUMPTIONS.map((a) => (
+                    <MiniParam key={a.key} label={a.label} value={ui[a.key]} min={a.min} max={a.max}
+                      step={a.step} format={a.fmt} onChange={(v) => set(a.key, v)} />
+                  ))}
+                </div>
+              </div>
+            </Disclosure>
+          </main>
+        </div>
+
+        {/* ===================== FOOTER ===================== */}
+        <footer className="relative bg-white border-t border-hair mt-2">
+          <div className="absolute left-0 right-0 top-0 h-6 overflow-hidden"><WaveSeam flip /></div>
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 px-9 py-7 pt-9">
+            <img src={window.SV_LOGO} alt="Startup Ventura" className="h-9 w-auto" />
+            <div className="flex items-center gap-2.5">
+              <Eyebrow className="text-[10px]">In partnership with</Eyebrow>
+              {/* Partner mark — swap "VC Ventures" for the real partner logo when available. */}
+              <span className="font-mono font-bold text-[11px] text-muted border border-dashed border-hair rounded px-2.5 py-1">VC Ventures</span>
+            </div>
+          </div>
+          <div className="px-9 pb-6 text-[11px] text-muted/80 max-w-[760px]">
+            Illustrative model for donor &amp; investor planning. All figures are projections based on the assumptions above, not guarantees.
+          </div>
+        </footer>
+
+        {/* ===================== INVESTOR ACCESS GATE ===================== */}
+        {gateOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4"
+            style={{ background: "rgba(32,56,72,0.45)", backdropFilter: "blur(2px)" }}
+            onClick={() => setGateOpen(false)}>
+            <div className="bg-white rounded-2xl shadow-[0_20px_60px_rgba(32,56,72,0.25)] ring-1 ring-hair max-w-md w-full p-6"
+              onClick={(e) => e.stopPropagation()}>
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex items-center gap-2.5">
+                  <span className="h-9 w-9 rounded-lg bg-skypale text-azul flex items-center justify-center"><LockIcon size={18} /></span>
+                  <div>
+                    <h3 className="text-[17px] font-bold text-navy leading-tight">Investor access</h3>
+                    <p className="text-[12px] text-muted">Financial projections are access-restricted.</p>
+                  </div>
+                </div>
+                <button type="button" onClick={() => setGateOpen(false)} className="text-muted hover:text-navy text-2xl leading-none -mt-1">×</button>
+              </div>
+
+              {!showReqForm ? (
+                <div className="mt-5">
+                  <label className="text-[12px] font-medium text-navy">Access key</label>
+                  <input type="text" value={keyInput} autoFocus
+                    onChange={(e) => { setKeyInput(e.target.value); setKeyError(false); }}
+                    onKeyDown={(e) => { if (e.key === "Enter") tryUnlock(); }}
+                    placeholder="Enter your access key"
+                    className={"mt-1.5 w-full rounded-lg border px-3 py-2.5 text-[14px] outline-none focus:border-azul " + (keyError ? "border-[#C23B3B]" : "border-hair")} />
+                  {keyError && <p className="mt-1.5 text-[12px] text-[#C23B3B]">That key wasn't recognized. Check it, or request access below.</p>}
+                  <button type="button" onClick={tryUnlock}
+                    className="mt-3 w-full bg-azul hover:bg-azuldk text-white font-bold text-[14px] py-2.5 rounded-lg transition">Unlock investor view</button>
+                  <button type="button" onClick={() => setShowReqForm(true)}
+                    className="mt-3 w-full text-[13px] text-muted hover:text-navy transition">Don't have a key? <span className="text-azul font-semibold">Request access</span></button>
+                </div>
+              ) : (
+                <div className="mt-5">
+                  <p className="text-[13px] text-muted mb-3">Tell us a bit about you and we'll be in touch with access.</p>
+                  <div className="space-y-2.5">
+                    <input placeholder="Name" value={req.name} onChange={(e) => setReq(Object.assign({}, req, { name: e.target.value }))} className="w-full rounded-lg border border-hair px-3 py-2 text-[14px] outline-none focus:border-azul" />
+                    <input placeholder="Email" type="email" value={req.email} onChange={(e) => setReq(Object.assign({}, req, { email: e.target.value }))} className="w-full rounded-lg border border-hair px-3 py-2 text-[14px] outline-none focus:border-azul" />
+                    <input placeholder="Firm / role" value={req.firm} onChange={(e) => setReq(Object.assign({}, req, { firm: e.target.value }))} className="w-full rounded-lg border border-hair px-3 py-2 text-[14px] outline-none focus:border-azul" />
+                    <textarea placeholder="Anything you'd like us to know (optional)" rows={3} value={req.msg} onChange={(e) => setReq(Object.assign({}, req, { msg: e.target.value }))} className="w-full rounded-lg border border-hair px-3 py-2 text-[14px] outline-none focus:border-azul resize-none" />
+                  </div>
+                  <a href={reqMailto}
+                    className={"mt-3 block text-center font-bold text-[14px] py-2.5 rounded-lg transition " + ((req.name && req.email) ? "bg-coral hover:bg-coraldk text-white" : "bg-hair text-muted pointer-events-none")}>
+                    Send request
+                  </a>
+                  <p className="mt-2 text-[11px] text-muted text-center">Opens your email to {INVESTOR_CONTACT}.</p>
+                  <button type="button" onClick={() => setShowReqForm(false)} className="mt-2 w-full text-[12px] text-muted hover:text-navy">← Back to access key</button>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+  </script>
+
+  <!-- ================================================================
+       EMBED HELPER — when this file is loaded inside an <iframe>, post our
+       height to the parent so the host page can auto-size the iframe (no inner
+       scrollbar). Harmless when opened standalone. Parent listens for:
+         window.addEventListener("message", e => { if (e.data?.type === "sv-impact-calc-height") iframe.style.height = e.data.height + "px"; });
+       ================================================================ -->
+  <script>
+  (function () {
+    function postHeight() {
+      try {
+        var h = document.documentElement.scrollHeight;
+        if (window.parent && window.parent !== window) {
+          window.parent.postMessage({ type: "sv-impact-calc-height", height: h }, "*");
+        }
+      } catch (e) {}
+    }
+    if (window.ResizeObserver) { try { new ResizeObserver(postHeight).observe(document.body); } catch (e) {} }
+    window.addEventListener("load", postHeight);
+    window.addEventListener("resize", postHeight);
+    setTimeout(postHeight, 400);
+    setTimeout(postHeight, 1500);
+  })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+/*
+Theme Name: Startup Ventura
+Theme URI: https://startupventura.com
+Author: Startup Ventura
+Author URI: https://startupventura.com
+Description: Custom, hand-coded theme for Startup Ventura, a 501(c)(3) nonprofit startup accelerator in Ventura County, California. Coastal-blue trust system with a single coral "Give" action and a wave-stroke signature carried from a session intro into a living hero. No page builders, no jQuery. All stylesheet rules live in assets/css/main.css.
+Version: 1.0.0
+Requires at least: 6.4
+Tested up to: 6.7
+Requires PHP: 8.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: startup-ventura
+Tags: nonprofit, accelerator, custom-colors, block-styles, full-site-editing-ready
+*/
+
+/*
+This file exists for the WordPress theme header only.
+The compiled stylesheet is enqueued from assets/css/main.css (see inc/enqueue.php).
+Do not add rules here.
+*/

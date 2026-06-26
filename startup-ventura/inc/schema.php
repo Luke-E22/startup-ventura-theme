@@ -1,0 +1,203 @@
+<?php
+/**
+ * SEO meta tags (description, canonical, Open Graph, Twitter) and JSON-LD.
+ *
+ * A page template may override the description or share image BEFORE calling
+ * get_header() by setting:
+ *   $GLOBALS['sv_meta']['description'] = '...';
+ *   $GLOBALS['sv_meta']['image']       = 'https://.../custom.jpg';
+ *
+ * @package StartupVentura
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+/** Resolve the meta description for the current view. */
+function sv_meta_description() {
+	if ( ! empty( $GLOBALS['sv_meta']['description'] ) ) {
+		return $GLOBALS['sv_meta']['description'];
+	}
+
+	// Hand-written per-page descriptions: intent plus local plus audience keywords.
+	if ( is_front_page() ) {
+		return 'Startup Ventura is a 501(c)(3) nonprofit startup accelerator in Ventura County. Donate to fund the inaugural Spring 2027 founder cohort, apply, or partner with us.';
+	}
+	if ( is_page() ) {
+		$sv_q     = get_queried_object();
+		$sv_pages = array(
+			'give'                => 'Donate to fund Ventura County\'s first startup accelerator cohort, launching Spring 2027. Startup Ventura is a 501(c)(3), so your gift is tax-deductible.',
+			'impact'              => 'See Startup Ventura\'s traction and where your gift goes, from jobs to founder revenue, and model your own impact with the Ventura County cohort calculator.',
+			'partner'             => 'Partner with Startup Ventura. Cities, the county, foundations, and corporate sponsors backing high-growth founders across Ventura County.',
+			'partner-foundations' => 'Foundation and corporate giving for Startup Ventura, a 501(c)(3) accelerator in Ventura County. Sponsorship levels, grants, and partner recognition.',
+			'foundations'         => 'Foundation and corporate giving for Startup Ventura, a 501(c)(3) accelerator in Ventura County. Sponsorship levels, grants, and partner recognition.',
+			'partner-government'  => 'A public-private economic development partner for Ventura County cities and the county. Keep founders, jobs, and the tax base local.',
+			'cities-county'       => 'A public-private economic development partner for Ventura County cities and the county. Keep founders, jobs, and the tax base local.',
+			'why-ventura-county'  => 'Why Ventura County loses its best founders, and how Startup Ventura keeps high-growth companies and the jobs they create at home.',
+			'accelerator'         => 'A 7-week accelerator for Ventura County founders. Mentorship, capital connections, workshops, and a Demo Day. Join the Spring 2027 notify list.',
+			'program'             => 'The Startup Ventura program: a 7-week accelerator plus a workshop series for Ventura County founders, ending in a Demo Day.',
+			'workshops'           => 'Startup Ventura\'s founder workshop series, the on-ramp to the accelerator for early-stage founders in Ventura County.',
+			'about'               => 'Startup Ventura is a 501(c)(3) nonprofit keeping Ventura County the best place to build, led by operators behind Curri, SevenRooms, and the Ventura Chamber.',
+			'contact'             => 'Contact Startup Ventura for general questions, press, major gifts, sponsorship, mentoring, and investor inquiries. Based in Ventura County, California.',
+			'press'               => 'Press and media kit for Startup Ventura, the Ventura County nonprofit startup accelerator. Logos, boilerplate, EIN, board bios, and a press contact.',
+			'privacy'             => 'How Startup Ventura collects, uses, and protects the information you share through donations and forms on this site.',
+			'terms'               => 'The terms that govern your use of the Startup Ventura website.',
+		);
+		if ( $sv_q && isset( $sv_pages[ $sv_q->post_name ] ) ) {
+			return $sv_pages[ $sv_q->post_name ];
+		}
+	}
+
+	$desc = '';
+	if ( is_singular() ) {
+		$post = get_queried_object();
+		if ( $post && has_excerpt( $post ) ) {
+			$desc = get_the_excerpt( $post );
+		} elseif ( $post ) {
+			$desc = wp_strip_all_tags( $post->post_content );
+		}
+	} elseif ( is_category() || is_tag() || is_tax() ) {
+		$desc = term_description();
+	}
+	if ( ! $desc ) {
+		$desc = get_bloginfo( 'description' );
+	}
+	if ( ! $desc ) {
+		$desc = 'Startup Ventura backs local founders with the mentorship, capital connections, and community to build high-growth companies right here in Ventura County.';
+	}
+	$desc = wp_strip_all_tags( $desc );
+	return trim( mb_substr( $desc, 0, 200 ) );
+}
+
+/** Resolve the share image. */
+function sv_meta_image() {
+	if ( ! empty( $GLOBALS['sv_meta']['image'] ) ) {
+		return $GLOBALS['sv_meta']['image'];
+	}
+	if ( is_singular() && has_post_thumbnail() ) {
+		$src = wp_get_attachment_image_url( get_post_thumbnail_id(), 'full' );
+		if ( $src ) {
+			return $src;
+		}
+	}
+	foreach ( array( 'og/og-default.jpg', 'og/og-default.png', 'hero.jpg' ) as $cand ) {
+		if ( file_exists( SV_DIR . '/assets/img/' . $cand ) ) {
+			return SV_URI . '/assets/img/' . $cand;
+		}
+	}
+	return '';
+}
+
+add_action( 'wp_head', 'sv_seo_meta', 5 );
+function sv_seo_meta() {
+	$desc  = sv_meta_description();
+	$image = sv_meta_image();
+	$url   = is_singular() ? get_permalink() : home_url( add_query_arg( array(), $GLOBALS['wp']->request ?? '' ) );
+	if ( is_front_page() ) {
+		$url = home_url( '/' );
+	}
+	$title = wp_get_document_title();
+
+	echo "\n<!-- SEO -->\n";
+	printf( '<meta name="description" content="%s">' . "\n", esc_attr( $desc ) );
+	printf( '<link rel="canonical" href="%s">' . "\n", esc_url( $url ) );
+
+	// Open Graph.
+	printf( '<meta property="og:type" content="%s">' . "\n", is_singular( 'post' ) ? 'article' : 'website' );
+	printf( '<meta property="og:site_name" content="%s">' . "\n", esc_attr( get_bloginfo( 'name' ) ) );
+	printf( '<meta property="og:title" content="%s">' . "\n", esc_attr( $title ) );
+	printf( '<meta property="og:description" content="%s">' . "\n", esc_attr( $desc ) );
+	printf( '<meta property="og:url" content="%s">' . "\n", esc_url( $url ) );
+	printf( '<meta property="og:locale" content="%s">' . "\n", esc_attr( get_locale() ) );
+	if ( $image ) {
+		printf( '<meta property="og:image" content="%s">' . "\n", esc_url( $image ) );
+		echo '<meta property="og:image:width" content="1200">' . "\n";
+		echo '<meta property="og:image:height" content="630">' . "\n";
+	}
+
+	// Twitter / X.
+	echo '<meta name="twitter:card" content="summary_large_image">' . "\n";
+	printf( '<meta name="twitter:title" content="%s">' . "\n", esc_attr( $title ) );
+	printf( '<meta name="twitter:description" content="%s">' . "\n", esc_attr( $desc ) );
+	if ( $image ) {
+		printf( '<meta name="twitter:image" content="%s">' . "\n", esc_url( $image ) );
+	}
+}
+
+/** Front-page title: brand plus category plus location, the highest-value title tag. */
+add_filter( 'document_title_parts', 'sv_document_title_parts' );
+function sv_document_title_parts( $parts ) {
+	if ( is_front_page() ) {
+		$parts['title']   = get_bloginfo( 'name' );
+		$parts['tagline'] = 'Nonprofit Startup Accelerator in Ventura County';
+	}
+	return $parts;
+}
+
+/** Emit a JSON-LD block with the CSP nonce attached. */
+function sv_jsonld( $data ) {
+	$json  = wp_json_encode( $data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );
+	$nonce = function_exists( 'sv_csp_nonce' ) ? sv_csp_nonce() : '';
+	$attr  = $nonce ? ' nonce="' . esc_attr( $nonce ) . '"' : '';
+	echo '<script type="application/ld+json"' . $attr . '>' . $json . '</script>' . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput -- wp_json_encode output.
+}
+
+add_action( 'wp_head', 'sv_schema_org', 20 );
+function sv_schema_org() {
+	// NonprofitOrganization — sitewide (Section 15).
+	$org = array(
+		'@context'    => 'https://schema.org',
+		'@type'       => 'NGO',
+		'name'        => get_bloginfo( 'name' ),
+		'url'         => home_url( '/' ),
+		'description' => 'A 501(c)(3) nonprofit startup accelerator in Ventura County, California.',
+		'taxID'       => SV_EIN,
+		'sameAs'      => array( SV_LINKEDIN, SV_INSTAGRAM ),
+		'address'     => array(
+			'@type'           => 'PostalAddress',
+			'addressLocality' => 'Ventura',
+			'addressRegion'   => 'CA',
+			'addressCountry'  => 'US',
+		),
+		'contactPoint' => array(
+			'@type'       => 'ContactPoint',
+			'contactType' => 'general',
+			'email'       => SV_EMAIL_INFO,
+		),
+	);
+	$logo = SV_URI . '/assets/img/logo.png';
+	if ( file_exists( SV_DIR . '/assets/img/logo.png' ) ) {
+		$org['logo'] = $logo;
+	}
+	sv_jsonld( $org );
+
+	// Article — on single posts (Section 15).
+	if ( is_singular( 'post' ) ) {
+		$post    = get_queried_object();
+		$article = array(
+			'@context'      => 'https://schema.org',
+			'@type'         => 'Article',
+			'headline'      => get_the_title( $post ),
+			'datePublished' => get_the_date( 'c', $post ),
+			'dateModified'  => get_the_modified_date( 'c', $post ),
+			'author'        => array(
+				'@type' => 'Organization',
+				'name'  => get_bloginfo( 'name' ),
+			),
+			'publisher'     => array(
+				'@type' => 'Organization',
+				'name'  => get_bloginfo( 'name' ),
+				'logo'  => array( '@type' => 'ImageObject', 'url' => $logo ),
+			),
+			'mainEntityOfPage' => get_permalink( $post ),
+		);
+		if ( has_post_thumbnail( $post ) ) {
+			$img = wp_get_attachment_image_url( get_post_thumbnail_id( $post ), 'full' );
+			if ( $img ) {
+				$article['image'] = $img;
+			}
+		}
+		sv_jsonld( $article );
+	}
+}

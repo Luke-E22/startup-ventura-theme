@@ -1,0 +1,2010 @@
+{
+  "base": "http://localhost:8198/preview/site/",
+  "generatedAt": "static",
+  "pages": {
+    "index": {
+      "breakpoints": {
+        "375": {
+          "scrollWidth": 375,
+          "innerWidth": 375,
+          "hasOverflow": false,
+          "overflowEls": [],
+          "dominantLeft": 0,
+          "misaligned": [],
+          "dupHeadings": [],
+          "dupIds": [],
+          "counts": {
+            "header": 1,
+            "footer": 1,
+            "hero": 1,
+            "ctaBand": 1,
+            "giveButtons": 5
+          },
+          "cls": 0.011,
+          "clsNodes": [
+            "div.wave",
+            "button.replay",
+            "section.section"
+          ],
+          "stuckReveals": [],
+          "revealTotal": 0,
+          "sectionOverlaps": [],
+          "anchors": [
+            {
+              "href": "#main",
+              "top": -6446,
+              "headerH": 64,
+              "hiddenUnderHeader": true
+            }
+          ]
+        },
+        "768": {
+          "scrollWidth": 768,
+          "innerWidth": 768,
+          "hasOverflow": false,
+          "overflowEls": [],
+          "dominantLeft": 0,
+          "misaligned": [],
+          "dupHeadings": [],
+          "dupIds": [],
+          "counts": {
+            "header": 1,
+            "footer": 1,
+            "hero": 1,
+            "ctaBand": 1,
+            "giveButtons": 5
+          },
+          "cls": 0,
+          "clsNodes": [
+            "button.replay"
+          ],
+          "stuckReveals": [],
+          "revealTotal": 0,
+          "sectionOverlaps": [],
+          "anchors": [
+            {
+              "href": "#main",
+              "top": -4598,
+              "headerH": 64,
+              "hiddenUnderHeader": true
+            }
+          ]
+        },
+        "1024": {
+          "scrollWidth": 1024,
+          "innerWidth": 1024,
+          "hasOverflow": false,
+          "overflowEls": [],
+          "dominantLeft": 0,
+          "misaligned": [],
+          "dupHeadings": [],
+          "dupIds": [],
+          "counts": {
+            "header": 1,
+            "footer": 1,
+            "hero": 1,
+            "ctaBand": 1,
+            "giveButtons": 5
+          },
+          "cls": 0.001,
+          "clsNodes": [
+            "button.replay",
+            "::after",
+            "nav.primary-nav"
+          ],
+          "stuckReveals": [],
+          "revealTotal": 0,
+          "sectionOverlaps": [],
+          "anchors": [
+            {
+              "href": "#main",
+              "top": -4957,
+              "headerH": 74,
+              "hiddenUnderHeader": true
+            }
+          ]
+        },
+        "1440": {
+          "scrollWidth": 1440,
+          "innerWidth": 1440,
+          "hasOverflow": false,
+          "overflowEls": [],
+          "dominantLeft": 160,
+          "misaligned": [],
+          "dupHeadings": [],
+          "dupIds": [],
+          "counts": {
+            "header": 1,
+            "footer": 1,
+            "hero": 1,
+            "ctaBand": 1,
+            "giveButtons": 5
+          },
+          "cls": 0,
+          "clsNodes": [
+            "button.replay",
+            "::after",
+            "nav.primary-nav"
+          ],
+          "stuckReveals": [],
+          "revealTotal": 0,
+          "sectionOverlaps": [],
+          "anchors": [
+            {
+              "href": "#main",
+              "top": -4520,
+              "headerH": 74,
+              "hiddenUnderHeader": true
+            }
+          ]
+        }
+      },
+      "variants": {
+        "reducedMotion": {
+          "stuckReveals": [],
+          "cls": 0,
+          "hasOverflow": false
+        },
+        "noRevealJS": {
+          "stuckReveals": 0,
+          "stuckSample": [],
+          "revealTotal": 0,
+          "hasOverflow": false
+        }
+      }
+    },
+    "program": {
+      "breakpoints": {
+        "375": {
+          "scrollWidth": 375,
+          "innerWidth": 375,
+          "hasOverflow": false,
+          "overflowEls": [],
+          "dominantLeft": 0,
+          "misaligned": [],
+          "dupHeadings": [],
+          "dupIds": [],
+          "counts": {
+            "header": 1,
+            "footer": 1,
+            "hero": 0,
+            "ctaBand": 1,
+            "giveButtons": 3
+          },
+          "cls": 0,
+          "clsNodes": [],
+          "stuckReveals": [],
+          "revealTotal": 0,
+          "sectionOverlaps": [],
+          "anchors": [
+            {
+              "href": "#main",
+              "top": -1387,
+              "headerH": 64,
+              "hiddenUnderHeader": true
+            }
+          ]
+        },
+        "768": {
+          "scrollWidth": 768,
+          "innerWidth": 768,
+          "hasOverflow": false,
+          "overflowEls": [],
+          "dominantLeft": 0,
+          "misaligned": [],
+          "dupHeadings": [],
+          "dupIds": [],
+          "counts": {
+            "header": 1,
+            "footer": 1,
+            "hero": 0,
+            "ctaBand": 1,
+            "giveButtons": 3
+          },
+          "cls": 0,
+          "clsNodes": [],
+          "stuckReveals": [],
+          "revealTotal": 0,
+          "sectionOverlaps": [],
+          "anchors": [
+            {
+              "href": "#main",
+              "top": -147,
+              "headerH": 64,
+              "hiddenUnderHeader": true
+            }
+          ]
+        },
+        "1024": {
+          "scrollWidth": 1024,
+          "innerWidth": 1024,
+          "hasOverflow": false,
+          "overflowEls": [],
+          "dominantLeft": 0,
+          "misaligned": [],
+          "dupHeadings": [],
+          "dupIds": [],
+          "counts": {
+            "header": 1,
+            "footer": 1,
+            "hero": 0,
+            "ctaBand": 1,
+            "giveButtons": 3
+          },
+          "cls": 0,
+          "clsNodes": [
+            "::after"
+          ],
+          "stuckReveals": [],
+          "revealTotal": 0,
+          "sectionOverlaps": [],
+          "anchors": [
+            {
+              "href": "#main",
+              "top": -157,
+              "headerH": 74,
+              "hiddenUnderHeader": true
+            }
+          ]
+        },
+        "1440": {
+          "scrollWidth": 1440,
+          "innerWidth": 1440,
+          "hasOverflow": false,
+          "overflowEls": [],
+          "dominantLeft": 160,
+          "misaligned": [],
+          "dupHeadings": [],
+          "dupIds": [],
+          "counts": {
+            "header": 1,
+            "footer": 1,
+            "hero": 0,
+            "ctaBand": 1,
+            "giveButtons": 3
+          },
+          "cls": 0,
+          "clsNodes": [
+            "::after"
+          ],
+          "stuckReveals": [],
+          "revealTotal": 0,
+          "sectionOverlaps": [],
+          "anchors": [
+            {
+              "href": "#main",
+              "top": -260,
+              "headerH": 74,
+              "hiddenUnderHeader": true
+            }
+          ]
+        }
+      },
+      "variants": {
+        "reducedMotion": {
+          "stuckReveals": [],
+          "cls": 0,
+          "hasOverflow": false
+        },
+        "noRevealJS": {
+          "stuckReveals": 0,
+          "stuckSample": [],
+          "revealTotal": 0,
+          "hasOverflow": false
+        }
+      }
+    },
+    "accelerator": {
+      "breakpoints": {
+        "375": {
+          "scrollWidth": 375,
+          "innerWidth": 375,
+          "hasOverflow": false,
+          "overflowEls": [],
+          "dominantLeft": 0,
+          "misaligned": [],
+          "dupHeadings": [],
+          "dupIds": [],
+          "counts": {
+            "header": 1,
+            "footer": 1,
+            "hero": 0,
+            "ctaBand": 1,
+            "giveButtons": 3
+          },
+          "cls": 0,
+          "clsNodes": [],
+          "stuckReveals": [],
+          "revealTotal": 0,
+          "sectionOverlaps": [],
+          "anchors": [
+            {
+              "href": "#main",
+              "top": -2958,
+              "headerH": 64,
+              "hiddenUnderHeader": true
+            }
+          ]
+        },
+        "768": {
+          "scrollWidth": 768,
+          "innerWidth": 768,
+          "hasOverflow": false,
+          "overflowEls": [],
+          "dominantLeft": 0,
+          "misaligned": [],
+          "dupHeadings": [],
+          "dupIds": [],
+          "counts": {
+            "header": 1,
+            "footer": 1,
+            "hero": 0,
+            "ctaBand": 1,
+            "giveButtons": 3
+          },
+          "cls": 0,
+          "clsNodes": [],
+          "stuckReveals": [],
+          "revealTotal": 0,
+          "sectionOverlaps": [],
+          "anchors": [
+            {
+              "href": "#main",
+              "top": -2211,
+              "headerH": 64,
+              "hiddenUnderHeader": true
+            }
+          ]
+        },
+        "1024": {
+          "scrollWidth": 1024,
+          "innerWidth": 1024,
+          "hasOverflow": false,
+          "overflowEls": [],
+          "dominantLeft": 0,
+          "misaligned": [],
+          "dupHeadings": [],
+          "dupIds": [],
+          "counts": {
+            "header": 1,
+            "footer": 1,
+            "hero": 0,
+            "ctaBand": 1,
+            "giveButtons": 3
+          },
+          "cls": 0,
+          "clsNodes": [
+            "::after"
+          ],
+          "stuckReveals": [],
+          "revealTotal": 0,
+          "sectionOverlaps": [],
+          "anchors": [
+            {
+              "href": "#main",
+              "top": -2382,
+              "headerH": 74,
+              "hiddenUnderHeader": true
+            }
+          ]
+        },
+        "1440": {
+          "scrollWidth": 1440,
+          "innerWidth": 1440,
+          "hasOverflow": false,
+          "overflowEls": [],
+          "dominantLeft": 160,
+          "misaligned": [],
+          "dupHeadings": [],
+          "dupIds": [],
+          "counts": {
+            "header": 1,
+            "footer": 1,
+            "hero": 0,
+            "ctaBand": 1,
+            "giveButtons": 3
+          },
+          "cls": 0,
+          "clsNodes": [
+            "::after"
+          ],
+          "stuckReveals": [],
+          "revealTotal": 0,
+          "sectionOverlaps": [],
+          "anchors": [
+            {
+              "href": "#main",
+              "top": -2759,
+              "headerH": 74,
+              "hiddenUnderHeader": true
+            }
+          ]
+        }
+      },
+      "variants": {
+        "reducedMotion": {
+          "stuckReveals": [],
+          "cls": 0,
+          "hasOverflow": false
+        },
+        "noRevealJS": {
+          "stuckReveals": 0,
+          "stuckSample": [],
+          "revealTotal": 0,
+          "hasOverflow": false
+        }
+      }
+    },
+    "workshops": {
+      "breakpoints": {
+        "375": {
+          "scrollWidth": 375,
+          "innerWidth": 375,
+          "hasOverflow": false,
+          "overflowEls": [],
+          "dominantLeft": 0,
+          "misaligned": [],
+          "dupHeadings": [],
+          "dupIds": [],
+          "counts": {
+            "header": 1,
+            "footer": 1,
+            "hero": 0,
+            "ctaBand": 1,
+            "giveButtons": 3
+          },
+          "cls": 0,
+          "clsNodes": [],
+          "stuckReveals": [],
+          "revealTotal": 0,
+          "sectionOverlaps": [],
+          "anchors": [
+            {
+              "href": "#main",
+              "top": -138,
+              "headerH": 64,
+              "hiddenUnderHeader": true
+            }
+          ]
+        },
+        "768": {
+          "scrollWidth": 768,
+          "innerWidth": 768,
+          "hasOverflow": false,
+          "overflowEls": [],
+          "dominantLeft": 0,
+          "misaligned": [],
+          "dupHeadings": [],
+          "dupIds": [],
+          "counts": {
+            "header": 1,
+            "footer": 1,
+            "hero": 0,
+            "ctaBand": 1,
+            "giveButtons": 3
+          },
+          "cls": 0,
+          "clsNodes": [],
+          "stuckReveals": [],
+          "revealTotal": 0,
+          "sectionOverlaps": [],
+          "anchors": [
+            {
+              "href": "#main",
+              "top": -69,
+              "headerH": 64,
+              "hiddenUnderHeader": true
+            }
+          ]
+        },
+        "1024": {
+          "scrollWidth": 1024,
+          "innerWidth": 1024,
+          "hasOverflow": false,
+          "overflowEls": [],
+          "dominantLeft": 0,
+          "misaligned": [],
+          "dupHeadings": [],
+          "dupIds": [],
+          "counts": {
+            "header": 1,
+            "footer": 1,
+            "hero": 0,
+            "ctaBand": 1,
+            "giveButtons": 3
+          },
+          "cls": 0,
+          "clsNodes": [
+            "::after"
+          ],
+          "stuckReveals": [],
+          "revealTotal": 0,
+          "sectionOverlaps": [],
+          "anchors": [
+            {
+              "href": "#main",
+              "top": -69,
+              "headerH": 74,
+              "hiddenUnderHeader": true
+            }
+          ]
+        },
+        "1440": {
+          "scrollWidth": 1440,
+          "innerWidth": 1440,
+          "hasOverflow": false,
+          "overflowEls": [],
+          "dominantLeft": 160,
+          "misaligned": [],
+          "dupHeadings": [],
+          "dupIds": [],
+          "counts": {
+            "header": 1,
+            "footer": 1,
+            "hero": 0,
+            "ctaBand": 1,
+            "giveButtons": 3
+          },
+          "cls": 0,
+          "clsNodes": [
+            "::after"
+          ],
+          "stuckReveals": [],
+          "revealTotal": 0,
+          "sectionOverlaps": [],
+          "anchors": [
+            {
+              "href": "#main",
+              "top": -1130,
+              "headerH": 74,
+              "hiddenUnderHeader": true
+            }
+          ]
+        }
+      },
+      "variants": {
+        "reducedMotion": {
+          "stuckReveals": [],
+          "cls": 0,
+          "hasOverflow": false
+        },
+        "noRevealJS": {
+          "stuckReveals": 0,
+          "stuckSample": [],
+          "revealTotal": 0,
+          "hasOverflow": false
+        }
+      }
+    },
+    "why-ventura-county": {
+      "breakpoints": {
+        "375": {
+          "scrollWidth": 375,
+          "innerWidth": 375,
+          "hasOverflow": false,
+          "overflowEls": [],
+          "dominantLeft": 0,
+          "misaligned": [],
+          "dupHeadings": [],
+          "dupIds": [],
+          "counts": {
+            "header": 1,
+            "footer": 1,
+            "hero": 0,
+            "ctaBand": 1,
+            "giveButtons": 3
+          },
+          "cls": 0,
+          "clsNodes": [],
+          "stuckReveals": [],
+          "revealTotal": 0,
+          "sectionOverlaps": [],
+          "anchors": [
+            {
+              "href": "#main",
+              "top": -2315,
+              "headerH": 64,
+              "hiddenUnderHeader": true
+            }
+          ]
+        },
+        "768": {
+          "scrollWidth": 768,
+          "innerWidth": 768,
+          "hasOverflow": false,
+          "overflowEls": [],
+          "dominantLeft": 0,
+          "misaligned": [],
+          "dupHeadings": [],
+          "dupIds": [],
+          "counts": {
+            "header": 1,
+            "footer": 1,
+            "hero": 0,
+            "ctaBand": 1,
+            "giveButtons": 3
+          },
+          "cls": 0.001,
+          "clsNodes": [],
+          "stuckReveals": [],
+          "revealTotal": 0,
+          "sectionOverlaps": [],
+          "anchors": [
+            {
+              "href": "#main",
+              "top": -1724,
+              "headerH": 64,
+              "hiddenUnderHeader": true
+            }
+          ]
+        },
+        "1024": {
+          "scrollWidth": 1024,
+          "innerWidth": 1024,
+          "hasOverflow": false,
+          "overflowEls": [],
+          "dominantLeft": 0,
+          "misaligned": [],
+          "dupHeadings": [],
+          "dupIds": [],
+          "counts": {
+            "header": 1,
+            "footer": 1,
+            "hero": 0,
+            "ctaBand": 1,
+            "giveButtons": 3
+          },
+          "cls": 0,
+          "clsNodes": [
+            "::after"
+          ],
+          "stuckReveals": [],
+          "revealTotal": 0,
+          "sectionOverlaps": [],
+          "anchors": [
+            {
+              "href": "#main",
+              "top": -1863,
+              "headerH": 74,
+              "hiddenUnderHeader": true
+            }
+          ]
+        },
+        "1440": {
+          "scrollWidth": 1440,
+          "innerWidth": 1440,
+          "hasOverflow": false,
+          "overflowEls": [],
+          "dominantLeft": 160,
+          "misaligned": [],
+          "dupHeadings": [],
+          "dupIds": [],
+          "counts": {
+            "header": 1,
+            "footer": 1,
+            "hero": 0,
+            "ctaBand": 1,
+            "giveButtons": 3
+          },
+          "cls": 0,
+          "clsNodes": [
+            "::after"
+          ],
+          "stuckReveals": [],
+          "revealTotal": 0,
+          "sectionOverlaps": [],
+          "anchors": [
+            {
+              "href": "#main",
+              "top": -2249,
+              "headerH": 74,
+              "hiddenUnderHeader": true
+            }
+          ]
+        }
+      },
+      "variants": {
+        "reducedMotion": {
+          "stuckReveals": [],
+          "cls": 0,
+          "hasOverflow": false
+        },
+        "noRevealJS": {
+          "stuckReveals": 0,
+          "stuckSample": [],
+          "revealTotal": 0,
+          "hasOverflow": false
+        }
+      }
+    },
+    "impact": {
+      "breakpoints": {
+        "375": {
+          "scrollWidth": 375,
+          "innerWidth": 375,
+          "hasOverflow": false,
+          "overflowEls": [],
+          "dominantLeft": 0,
+          "misaligned": [],
+          "dupHeadings": [],
+          "dupIds": [],
+          "counts": {
+            "header": 1,
+            "footer": 1,
+            "hero": 0,
+            "ctaBand": 1,
+            "giveButtons": 3
+          },
+          "cls": 0,
+          "clsNodes": [],
+          "stuckReveals": [],
+          "revealTotal": 0,
+          "sectionOverlaps": [],
+          "anchors": [
+            {
+              "href": "#main",
+              "top": -1959,
+              "headerH": 64,
+              "hiddenUnderHeader": true
+            }
+          ]
+        },
+        "768": {
+          "scrollWidth": 768,
+          "innerWidth": 768,
+          "hasOverflow": false,
+          "overflowEls": [],
+          "dominantLeft": 0,
+          "misaligned": [],
+          "dupHeadings": [],
+          "dupIds": [],
+          "counts": {
+            "header": 1,
+            "footer": 1,
+            "hero": 0,
+            "ctaBand": 1,
+            "giveButtons": 3
+          },
+          "cls": 0,
+          "clsNodes": [],
+          "stuckReveals": [],
+          "revealTotal": 0,
+          "sectionOverlaps": [],
+          "anchors": [
+            {
+              "href": "#main",
+              "top": -1529,
+              "headerH": 64,
+              "hiddenUnderHeader": true
+            }
+          ]
+        },
+        "1024": {
+          "scrollWidth": 1024,
+          "innerWidth": 1024,
+          "hasOverflow": false,
+          "overflowEls": [],
+          "dominantLeft": 0,
+          "misaligned": [],
+          "dupHeadings": [],
+          "dupIds": [],
+          "counts": {
+            "header": 1,
+            "footer": 1,
+            "hero": 0,
+            "ctaBand": 1,
+            "giveButtons": 3
+          },
+          "cls": 0,
+          "clsNodes": [
+            "::after"
+          ],
+          "stuckReveals": [],
+          "revealTotal": 0,
+          "sectionOverlaps": [],
+          "anchors": [
+            {
+              "href": "#main",
+              "top": -1570,
+              "headerH": 74,
+              "hiddenUnderHeader": true
+            }
+          ]
+        },
+        "1440": {
+          "scrollWidth": 1440,
+          "innerWidth": 1440,
+          "hasOverflow": false,
+          "overflowEls": [],
+          "dominantLeft": 160,
+          "misaligned": [],
+          "dupHeadings": [],
+          "dupIds": [],
+          "counts": {
+            "header": 1,
+            "footer": 1,
+            "hero": 0,
+            "ctaBand": 1,
+            "giveButtons": 3
+          },
+          "cls": 0,
+          "clsNodes": [
+            "::after"
+          ],
+          "stuckReveals": [],
+          "revealTotal": 0,
+          "sectionOverlaps": [],
+          "anchors": [
+            {
+              "href": "#main",
+              "top": -1807,
+              "headerH": 74,
+              "hiddenUnderHeader": true
+            }
+          ]
+        }
+      },
+      "variants": {
+        "reducedMotion": {
+          "stuckReveals": [],
+          "cls": 0,
+          "hasOverflow": false
+        },
+        "noRevealJS": {
+          "stuckReveals": 0,
+          "stuckSample": [],
+          "revealTotal": 0,
+          "hasOverflow": false
+        }
+      }
+    },
+    "give": {
+      "breakpoints": {
+        "375": {
+          "scrollWidth": 375,
+          "innerWidth": 375,
+          "hasOverflow": false,
+          "overflowEls": [],
+          "dominantLeft": 0,
+          "misaligned": [],
+          "dupHeadings": [],
+          "dupIds": [],
+          "counts": {
+            "header": 1,
+            "footer": 1,
+            "hero": 0,
+            "ctaBand": 1,
+            "giveButtons": 8
+          },
+          "cls": 0,
+          "clsNodes": [],
+          "stuckReveals": [],
+          "revealTotal": 0,
+          "sectionOverlaps": [],
+          "anchors": [
+            {
+              "href": "#main",
+              "top": -3115,
+              "headerH": 64,
+              "hiddenUnderHeader": true
+            }
+          ]
+        },
+        "768": {
+          "scrollWidth": 768,
+          "innerWidth": 768,
+          "hasOverflow": false,
+          "overflowEls": [],
+          "dominantLeft": 0,
+          "misaligned": [],
+          "dupHeadings": [],
+          "dupIds": [],
+          "counts": {
+            "header": 1,
+            "footer": 1,
+            "hero": 0,
+            "ctaBand": 1,
+            "giveButtons": 8
+          },
+          "cls": 0,
+          "clsNodes": [],
+          "stuckReveals": [],
+          "revealTotal": 0,
+          "sectionOverlaps": [],
+          "anchors": [
+            {
+              "href": "#main",
+              "top": -2103,
+              "headerH": 64,
+              "hiddenUnderHeader": true
+            }
+          ]
+        },
+        "1024": {
+          "scrollWidth": 1024,
+          "innerWidth": 1024,
+          "hasOverflow": false,
+          "overflowEls": [],
+          "dominantLeft": 0,
+          "misaligned": [],
+          "dupHeadings": [],
+          "dupIds": [],
+          "counts": {
+            "header": 1,
+            "footer": 1,
+            "hero": 0,
+            "ctaBand": 1,
+            "giveButtons": 8
+          },
+          "cls": 0,
+          "clsNodes": [
+            "::after"
+          ],
+          "stuckReveals": [],
+          "revealTotal": 0,
+          "sectionOverlaps": [],
+          "anchors": [
+            {
+              "href": "#main",
+              "top": -2063,
+              "headerH": 74,
+              "hiddenUnderHeader": true
+            }
+          ]
+        },
+        "1440": {
+          "scrollWidth": 1440,
+          "innerWidth": 1440,
+          "hasOverflow": false,
+          "overflowEls": [],
+          "dominantLeft": 160,
+          "misaligned": [],
+          "dupHeadings": [],
+          "dupIds": [],
+          "counts": {
+            "header": 1,
+            "footer": 1,
+            "hero": 0,
+            "ctaBand": 1,
+            "giveButtons": 8
+          },
+          "cls": 0,
+          "clsNodes": [
+            "::after"
+          ],
+          "stuckReveals": [],
+          "revealTotal": 0,
+          "sectionOverlaps": [],
+          "anchors": [
+            {
+              "href": "#main",
+              "top": -2307,
+              "headerH": 74,
+              "hiddenUnderHeader": true
+            }
+          ]
+        }
+      },
+      "variants": {
+        "reducedMotion": {
+          "stuckReveals": [],
+          "cls": 0,
+          "hasOverflow": false
+        },
+        "noRevealJS": {
+          "stuckReveals": 0,
+          "stuckSample": [],
+          "revealTotal": 0,
+          "hasOverflow": false
+        }
+      }
+    },
+    "partner": {
+      "breakpoints": {
+        "375": {
+          "scrollWidth": 375,
+          "innerWidth": 375,
+          "hasOverflow": false,
+          "overflowEls": [],
+          "dominantLeft": 0,
+          "misaligned": [],
+          "dupHeadings": [
+            {
+              "text": "Partner with us to keep talent here.",
+              "count": 2
+            }
+          ],
+          "dupIds": [],
+          "counts": {
+            "header": 1,
+            "footer": 1,
+            "hero": 0,
+            "ctaBand": 1,
+            "giveButtons": 3
+          },
+          "cls": 0,
+          "clsNodes": [],
+          "stuckReveals": [],
+          "revealTotal": 0,
+          "sectionOverlaps": [],
+          "anchors": [
+            {
+              "href": "#main",
+              "top": -304,
+              "headerH": 64,
+              "hiddenUnderHeader": true
+            }
+          ]
+        },
+        "768": {
+          "scrollWidth": 768,
+          "innerWidth": 768,
+          "hasOverflow": false,
+          "overflowEls": [],
+          "dominantLeft": 0,
+          "misaligned": [],
+          "dupHeadings": [
+            {
+              "text": "Partner with us to keep talent here.",
+              "count": 2
+            }
+          ],
+          "dupIds": [],
+          "counts": {
+            "header": 1,
+            "footer": 1,
+            "hero": 0,
+            "ctaBand": 1,
+            "giveButtons": 3
+          },
+          "cls": 0,
+          "clsNodes": [],
+          "stuckReveals": [],
+          "revealTotal": 0,
+          "sectionOverlaps": [],
+          "anchors": [
+            {
+              "href": "#main",
+              "top": -132,
+              "headerH": 64,
+              "hiddenUnderHeader": true
+            }
+          ]
+        },
+        "1024": {
+          "scrollWidth": 1024,
+          "innerWidth": 1024,
+          "hasOverflow": false,
+          "overflowEls": [],
+          "dominantLeft": 0,
+          "misaligned": [],
+          "dupHeadings": [
+            {
+              "text": "Partner with us to keep talent here.",
+              "count": 2
+            }
+          ],
+          "dupIds": [],
+          "counts": {
+            "header": 1,
+            "footer": 1,
+            "hero": 0,
+            "ctaBand": 1,
+            "giveButtons": 3
+          },
+          "cls": 0,
+          "clsNodes": [
+            "::after"
+          ],
+          "stuckReveals": [],
+          "revealTotal": 0,
+          "sectionOverlaps": [],
+          "anchors": [
+            {
+              "href": "#main",
+              "top": -137,
+              "headerH": 74,
+              "hiddenUnderHeader": true
+            }
+          ]
+        },
+        "1440": {
+          "scrollWidth": 1440,
+          "innerWidth": 1440,
+          "hasOverflow": false,
+          "overflowEls": [],
+          "dominantLeft": 160,
+          "misaligned": [],
+          "dupHeadings": [
+            {
+              "text": "Partner with us to keep talent here.",
+              "count": 2
+            }
+          ],
+          "dupIds": [],
+          "counts": {
+            "header": 1,
+            "footer": 1,
+            "hero": 0,
+            "ctaBand": 1,
+            "giveButtons": 3
+          },
+          "cls": 0,
+          "clsNodes": [
+            "::after"
+          ],
+          "stuckReveals": [],
+          "revealTotal": 0,
+          "sectionOverlaps": [],
+          "anchors": [
+            {
+              "href": "#main",
+              "top": -209,
+              "headerH": 74,
+              "hiddenUnderHeader": true
+            }
+          ]
+        }
+      },
+      "variants": {
+        "reducedMotion": {
+          "stuckReveals": [],
+          "cls": 0,
+          "hasOverflow": false
+        },
+        "noRevealJS": {
+          "stuckReveals": 0,
+          "stuckSample": [],
+          "revealTotal": 0,
+          "hasOverflow": false
+        }
+      }
+    },
+    "partner-cities-county": {
+      "breakpoints": {
+        "375": {
+          "scrollWidth": 375,
+          "innerWidth": 375,
+          "hasOverflow": false,
+          "overflowEls": [],
+          "dominantLeft": 0,
+          "misaligned": [],
+          "dupHeadings": [],
+          "dupIds": [],
+          "counts": {
+            "header": 1,
+            "footer": 1,
+            "hero": 0,
+            "ctaBand": 1,
+            "giveButtons": 3
+          },
+          "cls": 0.001,
+          "clsNodes": [],
+          "stuckReveals": [],
+          "revealTotal": 0,
+          "sectionOverlaps": [],
+          "anchors": [
+            {
+              "href": "#main",
+              "top": -2044,
+              "headerH": 64,
+              "hiddenUnderHeader": true
+            }
+          ]
+        },
+        "768": {
+          "scrollWidth": 768,
+          "innerWidth": 768,
+          "hasOverflow": false,
+          "overflowEls": [],
+          "dominantLeft": 0,
+          "misaligned": [],
+          "dupHeadings": [],
+          "dupIds": [],
+          "counts": {
+            "header": 1,
+            "footer": 1,
+            "hero": 0,
+            "ctaBand": 1,
+            "giveButtons": 3
+          },
+          "cls": 0,
+          "clsNodes": [],
+          "stuckReveals": [],
+          "revealTotal": 0,
+          "sectionOverlaps": [],
+          "anchors": [
+            {
+              "href": "#main",
+              "top": -1684,
+              "headerH": 64,
+              "hiddenUnderHeader": true
+            }
+          ]
+        },
+        "1024": {
+          "scrollWidth": 1024,
+          "innerWidth": 1024,
+          "hasOverflow": false,
+          "overflowEls": [],
+          "dominantLeft": 0,
+          "misaligned": [],
+          "dupHeadings": [],
+          "dupIds": [],
+          "counts": {
+            "header": 1,
+            "footer": 1,
+            "hero": 0,
+            "ctaBand": 1,
+            "giveButtons": 3
+          },
+          "cls": 0.001,
+          "clsNodes": [
+            "::after"
+          ],
+          "stuckReveals": [],
+          "revealTotal": 0,
+          "sectionOverlaps": [],
+          "anchors": [
+            {
+              "href": "#main",
+              "top": -1726,
+              "headerH": 74,
+              "hiddenUnderHeader": true
+            }
+          ]
+        },
+        "1440": {
+          "scrollWidth": 1440,
+          "innerWidth": 1440,
+          "hasOverflow": false,
+          "overflowEls": [],
+          "dominantLeft": 160,
+          "misaligned": [],
+          "dupHeadings": [],
+          "dupIds": [],
+          "counts": {
+            "header": 1,
+            "footer": 1,
+            "hero": 0,
+            "ctaBand": 1,
+            "giveButtons": 3
+          },
+          "cls": 0,
+          "clsNodes": [
+            "::after"
+          ],
+          "stuckReveals": [],
+          "revealTotal": 0,
+          "sectionOverlaps": [],
+          "anchors": [
+            {
+              "href": "#main",
+              "top": -1998,
+              "headerH": 74,
+              "hiddenUnderHeader": true
+            }
+          ]
+        }
+      },
+      "variants": {
+        "reducedMotion": {
+          "stuckReveals": [],
+          "cls": 0,
+          "hasOverflow": false
+        },
+        "noRevealJS": {
+          "stuckReveals": 0,
+          "stuckSample": [],
+          "revealTotal": 0,
+          "hasOverflow": false
+        }
+      }
+    },
+    "partner-foundations": {
+      "breakpoints": {
+        "375": {
+          "scrollWidth": 375,
+          "innerWidth": 375,
+          "hasOverflow": false,
+          "overflowEls": [],
+          "dominantLeft": 0,
+          "misaligned": [],
+          "dupHeadings": [],
+          "dupIds": [],
+          "counts": {
+            "header": 1,
+            "footer": 1,
+            "hero": 0,
+            "ctaBand": 1,
+            "giveButtons": 7
+          },
+          "cls": 0,
+          "clsNodes": [],
+          "stuckReveals": [],
+          "revealTotal": 0,
+          "sectionOverlaps": [],
+          "anchors": [
+            {
+              "href": "#main",
+              "top": -3914,
+              "headerH": 64,
+              "hiddenUnderHeader": true
+            }
+          ]
+        },
+        "768": {
+          "scrollWidth": 768,
+          "innerWidth": 768,
+          "hasOverflow": false,
+          "overflowEls": [],
+          "dominantLeft": 0,
+          "misaligned": [],
+          "dupHeadings": [],
+          "dupIds": [],
+          "counts": {
+            "header": 1,
+            "footer": 1,
+            "hero": 0,
+            "ctaBand": 1,
+            "giveButtons": 7
+          },
+          "cls": 0,
+          "clsNodes": [],
+          "stuckReveals": [],
+          "revealTotal": 0,
+          "sectionOverlaps": [],
+          "anchors": [
+            {
+              "href": "#main",
+              "top": -2801,
+              "headerH": 64,
+              "hiddenUnderHeader": true
+            }
+          ]
+        },
+        "1024": {
+          "scrollWidth": 1024,
+          "innerWidth": 1024,
+          "hasOverflow": false,
+          "overflowEls": [],
+          "dominantLeft": 0,
+          "misaligned": [],
+          "dupHeadings": [],
+          "dupIds": [],
+          "counts": {
+            "header": 1,
+            "footer": 1,
+            "hero": 0,
+            "ctaBand": 1,
+            "giveButtons": 7
+          },
+          "cls": 0,
+          "clsNodes": [
+            "::after"
+          ],
+          "stuckReveals": [],
+          "revealTotal": 0,
+          "sectionOverlaps": [],
+          "anchors": [
+            {
+              "href": "#main",
+              "top": -2892,
+              "headerH": 74,
+              "hiddenUnderHeader": true
+            }
+          ]
+        },
+        "1440": {
+          "scrollWidth": 1440,
+          "innerWidth": 1440,
+          "hasOverflow": false,
+          "overflowEls": [],
+          "dominantLeft": 160,
+          "misaligned": [],
+          "dupHeadings": [],
+          "dupIds": [],
+          "counts": {
+            "header": 1,
+            "footer": 1,
+            "hero": 0,
+            "ctaBand": 1,
+            "giveButtons": 7
+          },
+          "cls": 0,
+          "clsNodes": [
+            "::after"
+          ],
+          "stuckReveals": [],
+          "revealTotal": 0,
+          "sectionOverlaps": [],
+          "anchors": [
+            {
+              "href": "#main",
+              "top": -3107,
+              "headerH": 74,
+              "hiddenUnderHeader": true
+            }
+          ]
+        }
+      },
+      "variants": {
+        "reducedMotion": {
+          "stuckReveals": [],
+          "cls": 0,
+          "hasOverflow": false
+        },
+        "noRevealJS": {
+          "stuckReveals": 0,
+          "stuckSample": [],
+          "revealTotal": 0,
+          "hasOverflow": false
+        }
+      }
+    },
+    "about": {
+      "breakpoints": {
+        "375": {
+          "scrollWidth": 375,
+          "innerWidth": 375,
+          "hasOverflow": false,
+          "overflowEls": [],
+          "dominantLeft": 0,
+          "misaligned": [],
+          "dupHeadings": [],
+          "dupIds": [],
+          "counts": {
+            "header": 1,
+            "footer": 1,
+            "hero": 0,
+            "ctaBand": 1,
+            "giveButtons": 3
+          },
+          "cls": 0,
+          "clsNodes": [],
+          "stuckReveals": [],
+          "revealTotal": 0,
+          "sectionOverlaps": [],
+          "anchors": [
+            {
+              "href": "#main",
+              "top": -5204,
+              "headerH": 64,
+              "hiddenUnderHeader": true
+            }
+          ]
+        },
+        "768": {
+          "scrollWidth": 768,
+          "innerWidth": 768,
+          "hasOverflow": false,
+          "overflowEls": [],
+          "dominantLeft": 0,
+          "misaligned": [],
+          "dupHeadings": [],
+          "dupIds": [],
+          "counts": {
+            "header": 1,
+            "footer": 1,
+            "hero": 0,
+            "ctaBand": 1,
+            "giveButtons": 3
+          },
+          "cls": 0,
+          "clsNodes": [],
+          "stuckReveals": [],
+          "revealTotal": 0,
+          "sectionOverlaps": [],
+          "anchors": [
+            {
+              "href": "#main",
+              "top": -3366,
+              "headerH": 64,
+              "hiddenUnderHeader": true
+            }
+          ]
+        },
+        "1024": {
+          "scrollWidth": 1024,
+          "innerWidth": 1024,
+          "hasOverflow": false,
+          "overflowEls": [],
+          "dominantLeft": 0,
+          "misaligned": [],
+          "dupHeadings": [],
+          "dupIds": [],
+          "counts": {
+            "header": 1,
+            "footer": 1,
+            "hero": 0,
+            "ctaBand": 1,
+            "giveButtons": 3
+          },
+          "cls": 0,
+          "clsNodes": [
+            "::after"
+          ],
+          "stuckReveals": [],
+          "revealTotal": 0,
+          "sectionOverlaps": [],
+          "anchors": [
+            {
+              "href": "#main",
+              "top": -3470,
+              "headerH": 74,
+              "hiddenUnderHeader": true
+            }
+          ]
+        },
+        "1440": {
+          "scrollWidth": 1440,
+          "innerWidth": 1440,
+          "hasOverflow": false,
+          "overflowEls": [],
+          "dominantLeft": 160,
+          "misaligned": [],
+          "dupHeadings": [],
+          "dupIds": [],
+          "counts": {
+            "header": 1,
+            "footer": 1,
+            "hero": 0,
+            "ctaBand": 1,
+            "giveButtons": 3
+          },
+          "cls": 0,
+          "clsNodes": [
+            "::after"
+          ],
+          "stuckReveals": [],
+          "revealTotal": 0,
+          "sectionOverlaps": [],
+          "anchors": [
+            {
+              "href": "#main",
+              "top": -2985,
+              "headerH": 74,
+              "hiddenUnderHeader": true
+            }
+          ]
+        }
+      },
+      "variants": {
+        "reducedMotion": {
+          "stuckReveals": [],
+          "cls": 0,
+          "hasOverflow": false
+        },
+        "noRevealJS": {
+          "stuckReveals": 0,
+          "stuckSample": [],
+          "revealTotal": 0,
+          "hasOverflow": false
+        }
+      }
+    },
+    "news": {
+      "breakpoints": {
+        "375": {
+          "scrollWidth": 375,
+          "innerWidth": 375,
+          "hasOverflow": false,
+          "overflowEls": [],
+          "dominantLeft": 0,
+          "misaligned": [],
+          "dupHeadings": [],
+          "dupIds": [],
+          "counts": {
+            "header": 1,
+            "footer": 1,
+            "hero": 0,
+            "ctaBand": 1,
+            "giveButtons": 3
+          },
+          "cls": 0,
+          "clsNodes": [],
+          "stuckReveals": [],
+          "revealTotal": 0,
+          "sectionOverlaps": [],
+          "anchors": [
+            {
+              "href": "#main",
+              "top": -3133,
+              "headerH": 64,
+              "hiddenUnderHeader": true
+            }
+          ]
+        },
+        "768": {
+          "scrollWidth": 768,
+          "innerWidth": 768,
+          "hasOverflow": false,
+          "overflowEls": [],
+          "dominantLeft": 0,
+          "misaligned": [],
+          "dupHeadings": [],
+          "dupIds": [],
+          "counts": {
+            "header": 1,
+            "footer": 1,
+            "hero": 0,
+            "ctaBand": 1,
+            "giveButtons": 3
+          },
+          "cls": 0,
+          "clsNodes": [],
+          "stuckReveals": [],
+          "revealTotal": 0,
+          "sectionOverlaps": [],
+          "anchors": [
+            {
+              "href": "#main",
+              "top": -2032,
+              "headerH": 64,
+              "hiddenUnderHeader": true
+            }
+          ]
+        },
+        "1024": {
+          "scrollWidth": 1024,
+          "innerWidth": 1024,
+          "hasOverflow": false,
+          "overflowEls": [],
+          "dominantLeft": 0,
+          "misaligned": [],
+          "dupHeadings": [],
+          "dupIds": [],
+          "counts": {
+            "header": 1,
+            "footer": 1,
+            "hero": 0,
+            "ctaBand": 1,
+            "giveButtons": 3
+          },
+          "cls": 0,
+          "clsNodes": [
+            "::after"
+          ],
+          "stuckReveals": [],
+          "revealTotal": 0,
+          "sectionOverlaps": [],
+          "anchors": [
+            {
+              "href": "#main",
+              "top": -2081,
+              "headerH": 74,
+              "hiddenUnderHeader": true
+            }
+          ]
+        },
+        "1440": {
+          "scrollWidth": 1440,
+          "innerWidth": 1440,
+          "hasOverflow": false,
+          "overflowEls": [],
+          "dominantLeft": 160,
+          "misaligned": [],
+          "dupHeadings": [],
+          "dupIds": [],
+          "counts": {
+            "header": 1,
+            "footer": 1,
+            "hero": 0,
+            "ctaBand": 1,
+            "giveButtons": 3
+          },
+          "cls": 0,
+          "clsNodes": [
+            "::after"
+          ],
+          "stuckReveals": [],
+          "revealTotal": 0,
+          "sectionOverlaps": [],
+          "anchors": [
+            {
+              "href": "#main",
+              "top": -1666,
+              "headerH": 74,
+              "hiddenUnderHeader": true
+            }
+          ]
+        }
+      },
+      "variants": {
+        "reducedMotion": {
+          "stuckReveals": [],
+          "cls": 0,
+          "hasOverflow": false
+        },
+        "noRevealJS": {
+          "stuckReveals": 0,
+          "stuckSample": [],
+          "revealTotal": 0,
+          "hasOverflow": false
+        }
+      }
+    },
+    "news-annual-benefit": {
+      "breakpoints": {
+        "375": {
+          "scrollWidth": 375,
+          "innerWidth": 375,
+          "hasOverflow": false,
+          "overflowEls": [],
+          "dominantLeft": 0,
+          "misaligned": [],
+          "dupHeadings": [],
+          "dupIds": [],
+          "counts": {
+            "header": 1,
+            "footer": 1,
+            "hero": 0,
+            "ctaBand": 1,
+            "giveButtons": 3
+          },
+          "cls": 0,
+          "clsNodes": [],
+          "stuckReveals": [],
+          "revealTotal": 0,
+          "sectionOverlaps": [],
+          "anchors": [
+            {
+              "href": "#main",
+              "top": -2204,
+              "headerH": 64,
+              "hiddenUnderHeader": true
+            }
+          ]
+        },
+        "768": {
+          "scrollWidth": 768,
+          "innerWidth": 768,
+          "hasOverflow": false,
+          "overflowEls": [],
+          "dominantLeft": 0,
+          "misaligned": [],
+          "dupHeadings": [],
+          "dupIds": [],
+          "counts": {
+            "header": 1,
+            "footer": 1,
+            "hero": 0,
+            "ctaBand": 1,
+            "giveButtons": 3
+          },
+          "cls": 0,
+          "clsNodes": [],
+          "stuckReveals": [],
+          "revealTotal": 0,
+          "sectionOverlaps": [],
+          "anchors": [
+            {
+              "href": "#main",
+              "top": -1871,
+              "headerH": 64,
+              "hiddenUnderHeader": true
+            }
+          ]
+        },
+        "1024": {
+          "scrollWidth": 1024,
+          "innerWidth": 1024,
+          "hasOverflow": false,
+          "overflowEls": [],
+          "dominantLeft": 0,
+          "misaligned": [],
+          "dupHeadings": [],
+          "dupIds": [],
+          "counts": {
+            "header": 1,
+            "footer": 1,
+            "hero": 0,
+            "ctaBand": 1,
+            "giveButtons": 3
+          },
+          "cls": 0,
+          "clsNodes": [
+            "::after"
+          ],
+          "stuckReveals": [],
+          "revealTotal": 0,
+          "sectionOverlaps": [],
+          "anchors": [
+            {
+              "href": "#main",
+              "top": -1995,
+              "headerH": 74,
+              "hiddenUnderHeader": true
+            }
+          ]
+        },
+        "1440": {
+          "scrollWidth": 1440,
+          "innerWidth": 1440,
+          "hasOverflow": false,
+          "overflowEls": [],
+          "dominantLeft": 160,
+          "misaligned": [],
+          "dupHeadings": [],
+          "dupIds": [],
+          "counts": {
+            "header": 1,
+            "footer": 1,
+            "hero": 0,
+            "ctaBand": 1,
+            "giveButtons": 3
+          },
+          "cls": 0,
+          "clsNodes": [
+            "::after"
+          ],
+          "stuckReveals": [],
+          "revealTotal": 0,
+          "sectionOverlaps": [],
+          "anchors": [
+            {
+              "href": "#main",
+              "top": -2194,
+              "headerH": 74,
+              "hiddenUnderHeader": true
+            }
+          ]
+        }
+      },
+      "variants": {
+        "reducedMotion": {
+          "stuckReveals": [],
+          "cls": 0,
+          "hasOverflow": false
+        },
+        "noRevealJS": {
+          "stuckReveals": 0,
+          "stuckSample": [],
+          "revealTotal": 0,
+          "hasOverflow": false
+        }
+      }
+    },
+    "contact": {
+      "breakpoints": {
+        "375": {
+          "scrollWidth": 375,
+          "innerWidth": 375,
+          "hasOverflow": false,
+          "overflowEls": [],
+          "dominantLeft": 0,
+          "misaligned": [],
+          "dupHeadings": [],
+          "dupIds": [],
+          "counts": {
+            "header": 1,
+            "footer": 1,
+            "hero": 0,
+            "ctaBand": 1,
+            "giveButtons": 3
+          },
+          "cls": 0,
+          "clsNodes": [],
+          "stuckReveals": [],
+          "revealTotal": 0,
+          "sectionOverlaps": [],
+          "anchors": [
+            {
+              "href": "#main",
+              "top": -2602,
+              "headerH": 64,
+              "hiddenUnderHeader": true
+            }
+          ]
+        },
+        "768": {
+          "scrollWidth": 768,
+          "innerWidth": 768,
+          "hasOverflow": false,
+          "overflowEls": [],
+          "dominantLeft": 0,
+          "misaligned": [],
+          "dupHeadings": [],
+          "dupIds": [],
+          "counts": {
+            "header": 1,
+            "footer": 1,
+            "hero": 0,
+            "ctaBand": 1,
+            "giveButtons": 3
+          },
+          "cls": 0,
+          "clsNodes": [],
+          "stuckReveals": [],
+          "revealTotal": 0,
+          "sectionOverlaps": [],
+          "anchors": [
+            {
+              "href": "#main",
+              "top": -2054,
+              "headerH": 64,
+              "hiddenUnderHeader": true
+            }
+          ]
+        },
+        "1024": {
+          "scrollWidth": 1024,
+          "innerWidth": 1024,
+          "hasOverflow": false,
+          "overflowEls": [],
+          "dominantLeft": 0,
+          "misaligned": [],
+          "dupHeadings": [],
+          "dupIds": [],
+          "counts": {
+            "header": 1,
+            "footer": 1,
+            "hero": 0,
+            "ctaBand": 1,
+            "giveButtons": 3
+          },
+          "cls": 0,
+          "clsNodes": [
+            "::after"
+          ],
+          "stuckReveals": [],
+          "revealTotal": 0,
+          "sectionOverlaps": [],
+          "anchors": [
+            {
+              "href": "#main",
+              "top": -1568,
+              "headerH": 74,
+              "hiddenUnderHeader": true
+            }
+          ]
+        },
+        "1440": {
+          "scrollWidth": 1440,
+          "innerWidth": 1440,
+          "hasOverflow": false,
+          "overflowEls": [],
+          "dominantLeft": 160,
+          "misaligned": [],
+          "dupHeadings": [],
+          "dupIds": [],
+          "counts": {
+            "header": 1,
+            "footer": 1,
+            "hero": 0,
+            "ctaBand": 1,
+            "giveButtons": 3
+          },
+          "cls": 0,
+          "clsNodes": [
+            "::after"
+          ],
+          "stuckReveals": [],
+          "revealTotal": 0,
+          "sectionOverlaps": [],
+          "anchors": [
+            {
+              "href": "#main",
+              "top": -1811,
+              "headerH": 74,
+              "hiddenUnderHeader": true
+            }
+          ]
+        }
+      },
+      "variants": {
+        "reducedMotion": {
+          "stuckReveals": [],
+          "cls": 0,
+          "hasOverflow": false
+        },
+        "noRevealJS": {
+          "stuckReveals": 0,
+          "stuckSample": [],
+          "revealTotal": 0,
+          "hasOverflow": false
+        }
+      }
+    }
+  }
+}

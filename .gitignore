@@ -1,0 +1,22 @@
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.idea/
+.vscode/
+
+# Node (only if the optional Tailwind CLI is ever used; not required to deploy)
+node_modules/
+package-lock.json
+
+# Build artifacts / local notes
+*.log
+/dist/
+
+# Verification artifacts (regenerated; not part of the deployable site)
+/transition-screenshots/
+/qa-screenshots/
+
+# Local tooling
+/.claude/
