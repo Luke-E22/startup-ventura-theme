@@ -26,6 +26,7 @@ $sv_sponsor = antispambot( SV_EMAIL_SPONSOR );
 				<img src="<?php echo sv_img( 'logo-white.png' ); ?>" width="280" height="91" alt="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>">
 				<p><?php esc_html_e( 'A 501(c)(3) nonprofit startup accelerator backing local founders in Ventura County.', 'startup-ventura' ); ?></p>
 				<?php sv_candid_seal( 'footer-seal' ); ?>
+				<?php get_template_part( 'template-parts/chamber-badge' ); ?>
 				<div class="footer-social">
 					<a href="<?php echo esc_url( SV_LINKEDIN ); ?>" aria-label="LinkedIn" rel="noopener" target="_blank">
 						<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5A2.5 2.5 0 1 1 0 3.5a2.5 2.5 0 0 1 4.98 0zM.3 8h4.4v13H.3V8zm7.5 0h4.2v1.8h.06c.58-1.05 2-2.16 4.12-2.16 4.4 0 5.22 2.9 5.22 6.67V21h-4.4v-5.92c0-1.41-.03-3.23-1.97-3.23-1.97 0-2.27 1.54-2.27 3.13V21h-4.4V8z"/></svg>
