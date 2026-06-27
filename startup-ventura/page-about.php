@@ -46,6 +46,10 @@ get_header();
 				sv_board_card( array( 'member' => $member, 'open' => true ) );
 			} ?>
 		</div>
+		<?php $sv_ed = get_page_by_path( 'luke-erickson-executive-director', OBJECT, 'post' ); ?>
+		<?php if ( $sv_ed && 'publish' === $sv_ed->post_status ) : ?>
+			<p class="center reveal" style="margin-top:32px"><a class="card__link" href="<?php echo esc_url( get_permalink( $sv_ed ) ); ?>">Read the announcement: Luke Erickson, Executive Director &rarr;</a></p>
+		<?php endif; ?>
 	</div>
 </section>
 

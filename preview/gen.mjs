@@ -81,9 +81,37 @@ const introOverlay = `<div class="intro" id="sv-intro"><div class="intro-center"
 const introNoFlash = `<script>try{if(sessionStorage.getItem('sv_intro_seen')||(window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches)){document.documentElement.classList.add('sv-skip-intro');}}catch(e){}</script>`;
 const introReplay = `<button class="replay" id="sv-intro-replay" type="button">Replay intro &#8635;</button>`;
 
-const page = (file, { title, overHero = false, body, crumbsTrail, intro = false }) => {
-  const html = `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>${title} — Startup Ventura (preview)</title>
-<link rel="preload" href="${A}/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
+// Production origin for absolute SEO URLs (canonical, Open Graph, JSON-LD).
+const SITE = 'https://startupventura.com';
+const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+// Per-page SEO head tags: description, canonical, Open Graph, Twitter, JSON-LD.
+const seoHead = ({ title, desc, canonical, ogType = 'website', ogImage, jsonld }) => {
+  let h = '';
+  if (desc) h += `<meta name="description" content="${esc(desc)}">\n`;
+  if (canonical) h += `<link rel="canonical" href="${esc(canonical)}">\n`;
+  h += `<meta property="og:type" content="${ogType}">\n`;
+  h += `<meta property="og:site_name" content="Startup Ventura">\n`;
+  h += `<meta property="og:title" content="${esc(title)}">\n`;
+  if (desc) h += `<meta property="og:description" content="${esc(desc)}">\n`;
+  if (canonical) h += `<meta property="og:url" content="${esc(canonical)}">\n`;
+  if (ogImage) h += `<meta property="og:image" content="${esc(ogImage)}">\n`;
+  h += `<meta name="twitter:card" content="summary_large_image">\n`;
+  h += `<meta name="twitter:title" content="${esc(title)}">\n`;
+  if (desc) h += `<meta name="twitter:description" content="${esc(desc)}">\n`;
+  if (ogImage) h += `<meta name="twitter:image" content="${esc(ogImage)}">\n`;
+  if (jsonld) {
+    for (const obj of [].concat(jsonld)) {
+      h += `<script type="application/ld+json">${JSON.stringify(obj)}</script>\n`;
+    }
+  }
+  return h;
+};
+
+const page = (file, { title, overHero = false, body, crumbsTrail, intro = false, desc, canonical, ogType = 'website', ogImage, jsonld }) => {
+  const fullTitle = `${title} — Startup Ventura`;
+  const seo = seoHead({ title: fullTitle, desc, canonical, ogType, ogImage, jsonld });
+  const html = `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>${fullTitle}</title>
+${seo}<link rel="preload" href="${A}/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="${A}/fonts/hanken-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="${A}/css/main.css?v=11"></head>
 <body class="${overHero ? 'home' : ''}">
@@ -242,7 +270,7 @@ page('about.html', {
   title: 'About', crumbsTrail: [['Home', 'index.html'], ['About', '']],
   body: pageHead('About', 'Built to keep Ventura County the best place to live.', 'A local nonprofit backing local founders.') +
     `<section class="section section--pale grain"><div class="wrap">${head('Mission & Model', 'Why we exist, and how we do the work.')}<div class="measure"><p class="lede">To keep Ventura County the best place in the world to live by fueling entrepreneurship, building high-growth companies, and transforming our region into a recognized hub of innovation.</p><p>We run a nonprofit accelerator paired with a pre-accelerator workshop series. Every dollar stays local.</p></div></div></section>
-    <section class="section"><div class="wrap">${head('Board & Team', 'A board that has built and scaled here.')}${boardGrid(true)}</div></section>` +
+    <section class="section"><div class="wrap">${head('Board & Team', 'A board that has built and scaled here.')}${boardGrid(true)}<p class="center" style="margin-top:32px"><a class="card__link" href="luke-erickson-executive-director.html">Read the announcement: Luke Erickson, Executive Director &rarr;</a></p></div></section>` +
     ctaBand('Help us keep Ventura County the best place to live.', 'partner'),
 });
 
@@ -265,6 +293,14 @@ page('contact.html', {
 
 // NEWS — archive + one clickable article page per post (newest first)
 const newsPosts = [
+  {
+    // Custom single page generated separately (full SEO head + Person schema).
+    file: 'luke-erickson-executive-director.html', crumb: 'Executive Director', custom: true,
+    title: 'Luke Erickson Steps Into the Role of Executive Director at Startup Ventura',
+    date: 'July 1, 2026', img: `${A}/img/team/luke-erickson.jpg`,
+    alt: 'Luke Erickson, Founder and Executive Director of Startup Ventura.',
+    excerpt: 'Luke Erickson, founder of Startup Ventura, steps into the role of Executive Director, leading the Ventura County accelerator he built to keep local talent home.',
+  },
   {
     file: 'news-candid-platinum-seal.html', crumb: 'Platinum Seal',
     title: 'Startup Ventura Earns Candid\'s Platinum Seal of Transparency',
@@ -352,7 +388,7 @@ page('news.html', {
     ctaBand('Help fund the inaugural cohort.', 'none'),
 });
 
-newsPosts.forEach(p => page(p.file, {
+newsPosts.filter(p => !p.custom).forEach(p => page(p.file, {
   title: p.title, crumbsTrail: [['Home', 'index.html'], ['News', 'news.html'], [p.crumb, '']],
   body: `<section class="section"><div class="wrap"><article class="single-post">
     <header class="entry-header"><p class="entry-meta">News &middot; ${p.date}</p><h1 class="display">${p.title}</h1></header>
@@ -361,6 +397,56 @@ newsPosts.forEach(p => page(p.file, {
   </article></div></section>` +
     ctaBand('Help fund the inaugural cohort.', 'none'),
 }));
+
+// Luke Erickson, Executive Director — custom single page with full on-page SEO
+// (title + H1 lead with the name, excerpt meta description, OG/Twitter, Person
+// JSON-LD tied to the Org). Built to rank for searches of "Luke Erickson".
+const lukeUrl = `${SITE}/luke-erickson-executive-director`;
+const lukeExcerpt = 'Luke Erickson, founder of Startup Ventura, steps into the role of Executive Director, leading the Ventura County accelerator he built to keep local talent home.';
+const lukePersonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Luke Erickson',
+  jobTitle: 'Founder and Executive Director',
+  worksFor: {
+    '@type': 'NonprofitOrganization',
+    name: 'Startup Ventura',
+    taxID: '39-2204612',
+    url: `${SITE}/`,
+  },
+  description: 'Founder and Executive Director of Startup Ventura, a 501(c)(3) startup accelerator in Ventura County, California.',
+  image: `${SITE}/assets/img/team/luke-erickson.jpg`,
+  url: lukeUrl,
+  sameAs: [
+    'https://www.linkedin.com/in/luke-erickson/',
+    'https://www.instagram.com/luke_erickson/',
+  ],
+};
+const lukeParas = [
+  `Luke Erickson has stepped into the role of Executive Director of <a href="index.html">Startup Ventura</a>, the nonprofit startup accelerator he founded to transform Ventura County into a hub for innovation. He assumes day-to-day <a href="about.html">leadership of the organization</a> effective July 1, 2026, having served as its founder and chairman since its inception.`,
+  `The move formalizes what has been true from the beginning. Startup Ventura is Luke Erickson's vision, built on a conviction that the region he calls home has everything it needs to compete with the country's great startup ecosystems, and that no one was yet doing the work to make it happen. So he decided to do it himself.`,
+  `That conviction came from a problem he watched play out for years. Ventura County raises ambitious, talented people, educates them at strong local universities, and then loses them to San Francisco, Los Angeles, and beyond, because there is nowhere here to build. The shortage runs both directions. Even high-growth companies already rooted here, like Curri, the logistics startup headquartered in downtown Ventura, have to work hard to find the local talent they need to grow. He saw a region exporting its own future while the employers who stayed competed over too small a pool. Rather than accept it, he founded Startup Ventura to give local founders the mentorship, capital connections, and community to build high-growth companies without leaving, and to deepen the talent pool that every local company depends on. The idea is simple and ambitious at once: keep the talent, build the companies, and let the jobs and investment follow.`,
+  `Under his leadership, the organization has moved quickly from idea to institution. Startup Ventura earned its 501(c)(3) status, secured a founding investment from the City of Ventura, and was awarded Candid's Platinum Seal of Transparency, the highest level, held by fewer than one percent of U.S. nonprofits. Its first annual benefit drew 75 supporters and raised funds toward an inaugural cohort of founders launching in Spring 2027. What began as one person's argument about his hometown has become a coalition of city government, universities, investors, and business leaders.`,
+  `Luke Erickson brings a background in technology and business development to the civic sector, having built and exited his own company before turning his focus to building institutions. He pairs an ambitious long-term vision with the patience to assemble the partnerships that make it real, the kind of leadership that gets a city, a college district, and a room full of investors pulling in the same direction.`,
+  `His commitment to Ventura County reaches well beyond Startup Ventura. He serves on the board of directors of the New West Symphony, mentors students at CSU Channel Islands, and works closely with local civic and economic development organizations to strengthen the region's future. A former collegiate lacrosse player, he brings the same competitiveness and discipline to building institutions that he once brought to the field.`,
+  `"After I exited my first business, I made a conscious decision that I was going to have an outsized impact on this city and county, and turn it into a place that ambitious, innovative people want to call home," Erickson said. "That is the whole reason Startup Ventura exists. We are just getting started."`,
+  `As Executive Director, he will lead Startup Ventura into its first full program year, with the inaugural cohort set to begin in Spring 2027. For Luke Erickson, it is less a new title than a deeper commitment to a mission he has carried from the start: making Ventura County the best place in the world to build something that lasts.`,
+];
+page('luke-erickson-executive-director.html', {
+  title: 'Luke Erickson Steps Into the Role of Executive Director at Startup Ventura',
+  crumbsTrail: [['Home', 'index.html'], ['News', 'news.html'], ['Executive Director', '']],
+  desc: lukeExcerpt,
+  canonical: lukeUrl,
+  ogType: 'article',
+  ogImage: `${SITE}/assets/img/team/luke-erickson.jpg`,
+  jsonld: lukePersonLd,
+  body: `<section class="section"><div class="wrap"><article class="single-post">
+    <header class="entry-header"><p class="entry-meta">News &middot; July 1, 2026</p><h1 class="display">Luke Erickson Steps Into the Role of Executive Director at Startup Ventura</h1></header>
+    <div class="entry-hero"><img src="${A}/img/team/luke-erickson.jpg" alt="Luke Erickson, Founder and Executive Director of Startup Ventura." width="1000" height="1000"></div>
+    <div class="entry-content">${lukeParas.map(t => `<p>${t}</p>`).join('')}</div>
+  </article></div></section>` +
+    ctaBand('Help fund the inaugural cohort.', 'none'),
+});
 
 page('privacy.html', {
   title: 'Privacy Policy', crumbsTrail: [['Home', 'index.html'], ['Privacy', '']],

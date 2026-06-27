@@ -111,9 +111,20 @@ function sv_seo_meta() {
 	printf( '<meta property="og:url" content="%s">' . "\n", esc_url( $url ) );
 	printf( '<meta property="og:locale" content="%s">' . "\n", esc_attr( get_locale() ) );
 	if ( $image ) {
+		// Default to the 1200x630 OG card; use the real dimensions for a post's
+		// featured image (e.g. the square headshot) so social crops are correct.
+		$img_w = 1200;
+		$img_h = 630;
+		if ( is_singular() && has_post_thumbnail() && empty( $GLOBALS['sv_meta']['image'] ) ) {
+			$thumb_meta = wp_get_attachment_metadata( get_post_thumbnail_id() );
+			if ( ! empty( $thumb_meta['width'] ) && ! empty( $thumb_meta['height'] ) ) {
+				$img_w = (int) $thumb_meta['width'];
+				$img_h = (int) $thumb_meta['height'];
+			}
+		}
 		printf( '<meta property="og:image" content="%s">' . "\n", esc_url( $image ) );
-		echo '<meta property="og:image:width" content="1200">' . "\n";
-		echo '<meta property="og:image:height" content="630">' . "\n";
+		printf( '<meta property="og:image:width" content="%d">' . "\n", $img_w );
+		printf( '<meta property="og:image:height" content="%d">' . "\n", $img_h );
 	}
 
 	// Twitter / X.
@@ -199,5 +210,33 @@ function sv_schema_org() {
 			}
 		}
 		sv_jsonld( $article );
+
+		// Person — on the Executive Director announcement, tied to the Org above.
+		// Built to rank for searches of "Luke Erickson"; keep sameAs in sync with
+		// any public profiles he adds.
+		if ( 'luke-erickson-executive-director' === $post->post_name ) {
+			$person = array(
+				'@context'    => 'https://schema.org',
+				'@type'       => 'Person',
+				'name'        => 'Luke Erickson',
+				'jobTitle'    => 'Founder and Executive Director',
+				'worksFor'    => array(
+					'@type' => 'NonprofitOrganization',
+					'name'  => get_bloginfo( 'name' ),
+					'taxID' => SV_EIN,
+					'url'   => home_url( '/' ),
+				),
+				'description' => 'Founder and Executive Director of Startup Ventura, a 501(c)(3) startup accelerator in Ventura County, California.',
+				'url'         => get_permalink( $post ),
+				'sameAs'      => array(
+					'https://www.linkedin.com/in/luke-erickson/',
+					'https://www.instagram.com/luke_erickson/',
+				),
+			);
+			if ( ! empty( $article['image'] ) ) {
+				$person['image'] = $article['image'];
+			}
+			sv_jsonld( $person );
+		}
 	}
 }

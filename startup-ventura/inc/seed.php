@@ -21,14 +21,14 @@ add_action( 'after_switch_theme', 'sv_seed_news_posts' );
  * Seed all News posts once.
  */
 function sv_seed_news_posts() {
-	if ( get_option( 'sv_seeded_news_v2' ) ) {
+	if ( get_option( 'sv_seeded_news_v3' ) ) {
 		return;
 	}
 	$cat_id = sv_seed_news_category();
 	foreach ( sv_seed_posts() as $post ) {
 		sv_seed_insert_post( $post, $cat_id );
 	}
-	update_option( 'sv_seeded_news_v2', 1 );
+	update_option( 'sv_seeded_news_v3', 1 );
 }
 
 add_action( 'after_switch_theme', 'sv_seed_pages' );
@@ -111,7 +111,8 @@ function sv_seed_insert_post( $p, $cat_id ) {
 		wp_set_post_tags( $post_id, $p['tags'] );
 	}
 	if ( ! empty( $p['image'] ) ) {
-		sv_seed_attach_image( $p['image'], $post_id, $p['title'] );
+		$img_alt = ! empty( $p['image_alt'] ) ? $p['image_alt'] : $p['title'];
+		sv_seed_attach_image( $p['image'], $post_id, $p['title'], $img_alt );
 	}
 }
 
@@ -120,9 +121,10 @@ function sv_seed_insert_post( $p, $cat_id ) {
  *
  * @param string $rel     Path relative to assets/img/.
  * @param int    $post_id Post to attach to.
- * @param string $title   Used for alt text.
+ * @param string $title   Attachment title.
+ * @param string $alt     Optional alt text; falls back to $title when empty.
  */
-function sv_seed_attach_image( $rel, $post_id, $title ) {
+function sv_seed_attach_image( $rel, $post_id, $title, $alt = '' ) {
 	$src = SV_DIR . '/assets/img/' . ltrim( $rel, '/' );
 	if ( ! file_exists( $src ) ) {
 		return;
@@ -150,7 +152,7 @@ function sv_seed_attach_image( $rel, $post_id, $title ) {
 		return;
 	}
 	wp_update_attachment_metadata( $attach_id, wp_generate_attachment_metadata( $attach_id, $upload['file'] ) );
-	update_post_meta( $attach_id, '_wp_attachment_image_alt', sanitize_text_field( $title ) );
+	update_post_meta( $attach_id, '_wp_attachment_image_alt', sanitize_text_field( $alt ? $alt : $title ) );
 	set_post_thumbnail( $post_id, $attach_id );
 }
 
@@ -179,6 +181,28 @@ function sv_seed_gallery_blocks() {
  */
 function sv_seed_posts() {
 	return array(
+
+		// Luke Erickson named Executive Director (latest).
+		array(
+			'title'      => 'Luke Erickson Steps Into the Role of Executive Director at Startup Ventura',
+			'slug'       => 'luke-erickson-executive-director',
+			'date'       => '2026-07-01',
+			'status'     => 'publish',
+			'excerpt'    => 'Luke Erickson, founder of Startup Ventura, steps into the role of Executive Director, leading the Ventura County accelerator he built to keep local talent home.',
+			'image'      => 'team/luke-erickson.jpg',
+			'image_alt'  => 'Luke Erickson, Founder and Executive Director of Startup Ventura.',
+			'tags'       => array( 'announcements', 'leadership', 'founder', 'Luke Erickson' ),
+			'paragraphs' => array(
+				'Luke Erickson has stepped into the role of Executive Director of <a href="' . esc_url( home_url( '/' ) ) . '">Startup Ventura</a>, the nonprofit startup accelerator he founded to transform Ventura County into a hub for innovation. He assumes day-to-day <a href="' . esc_url( home_url( '/about/' ) ) . '">leadership of the organization</a> effective July 1, 2026, having served as its founder and chairman since its inception.',
+				'The move formalizes what has been true from the beginning. Startup Ventura is Luke Erickson\'s vision, built on a conviction that the region he calls home has everything it needs to compete with the country\'s great startup ecosystems, and that no one was yet doing the work to make it happen. So he decided to do it himself.',
+				'That conviction came from a problem he watched play out for years. Ventura County raises ambitious, talented people, educates them at strong local universities, and then loses them to San Francisco, Los Angeles, and beyond, because there is nowhere here to build. The shortage runs both directions. Even high-growth companies already rooted here, like Curri, the logistics startup headquartered in downtown Ventura, have to work hard to find the local talent they need to grow. He saw a region exporting its own future while the employers who stayed competed over too small a pool. Rather than accept it, he founded Startup Ventura to give local founders the mentorship, capital connections, and community to build high-growth companies without leaving, and to deepen the talent pool that every local company depends on. The idea is simple and ambitious at once: keep the talent, build the companies, and let the jobs and investment follow.',
+				'Under his leadership, the organization has moved quickly from idea to institution. Startup Ventura earned its 501(c)(3) status, secured a founding investment from the City of Ventura, and was awarded Candid\'s Platinum Seal of Transparency, the highest level, held by fewer than one percent of U.S. nonprofits. Its first annual benefit drew 75 supporters and raised funds toward an inaugural cohort of founders launching in Spring 2027. What began as one person\'s argument about his hometown has become a coalition of city government, universities, investors, and business leaders.',
+				'Luke Erickson brings a background in technology and business development to the civic sector, having built and exited his own company before turning his focus to building institutions. He pairs an ambitious long-term vision with the patience to assemble the partnerships that make it real, the kind of leadership that gets a city, a college district, and a room full of investors pulling in the same direction.',
+				'His commitment to Ventura County reaches well beyond Startup Ventura. He serves on the board of directors of the New West Symphony, mentors students at CSU Channel Islands, and works closely with local civic and economic development organizations to strengthen the region\'s future. A former collegiate lacrosse player, he brings the same competitiveness and discipline to building institutions that he once brought to the field.',
+				'"After I exited my first business, I made a conscious decision that I was going to have an outsized impact on this city and county, and turn it into a place that ambitious, innovative people want to call home," Erickson said. "That is the whole reason Startup Ventura exists. We are just getting started."',
+				'As Executive Director, he will lead Startup Ventura into its first full program year, with the inaugural cohort set to begin in Spring 2027. For Luke Erickson, it is less a new title than a deeper commitment to a mission he has carried from the start: making Ventura County the best place in the world to build something that lasts.',
+			),
+		),
 
 		// 0 — Candid Platinum Seal of Transparency (latest).
 		array(
