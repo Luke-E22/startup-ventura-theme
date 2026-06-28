@@ -39,13 +39,14 @@ add_action( 'after_switch_theme', 'sv_seed_pages' );
  * lives in the templates; these pages are created empty and idempotently by slug.
  */
 function sv_seed_pages() {
-	if ( get_option( 'sv_seeded_pages' ) ) {
+	if ( get_option( 'sv_seeded_pages_v2' ) ) {
 		return;
 	}
 	$pages = array(
 		array( 'title' => 'Privacy Policy', 'slug' => 'privacy' ),
 		array( 'title' => 'Terms of Use', 'slug' => 'terms' ),
 		array( 'title' => 'Press & Media Kit', 'slug' => 'press' ),
+		array( 'title' => 'Luke Erickson', 'slug' => 'lukeerickson' ),
 	);
 	foreach ( $pages as $pg ) {
 		if ( get_page_by_path( $pg['slug'] ) ) {
@@ -59,7 +60,7 @@ function sv_seed_pages() {
 			'post_content' => '',
 		) );
 	}
-	update_option( 'sv_seeded_pages', 1 );
+	update_option( 'sv_seeded_pages_v2', 1 );
 }
 
 /** Get or create the "News" category. */

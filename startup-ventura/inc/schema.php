@@ -39,6 +39,7 @@ function sv_meta_description() {
 			'program'             => 'The Startup Ventura program: a 7-week accelerator plus a workshop series for Ventura County founders, ending in a Demo Day.',
 			'workshops'           => 'Startup Ventura\'s founder workshop series, the on-ramp to the accelerator for early-stage founders in Ventura County.',
 			'about'               => 'Startup Ventura is a 501(c)(3) nonprofit keeping Ventura County the best place to build, led by operators behind Curri, SevenRooms, and the Ventura Chamber.',
+			'lukeerickson'        => 'Luke Erickson is the founder and Executive Director of Startup Ventura, the 501(c)(3) startup accelerator backing founders in Ventura County, California.',
 			'contact'             => 'Contact Startup Ventura for general questions, press, major gifts, sponsorship, mentoring, and investor inquiries. Based in Ventura County, California.',
 			'press'               => 'Press and media kit for Startup Ventura, the Ventura County nonprofit startup accelerator. Logos, boilerplate, EIN, board bios, and a press contact.',
 			'privacy'             => 'How Startup Ventura collects, uses, and protects the information you share through donations and forms on this site.',
@@ -211,33 +212,50 @@ function sv_schema_org() {
 		}
 		sv_jsonld( $article );
 
-		// Person — on the Executive Director announcement, tied to the Org above.
-		// Built to rank for searches of "Luke Erickson"; keep sameAs in sync with
-		// any public profiles he adds.
+		// Person — the announcement references the canonical Luke Erickson entity
+		// (shared @id with the /lukeerickson profile page so they don't compete).
 		if ( 'luke-erickson-executive-director' === $post->post_name ) {
-			$person = array(
-				'@context'    => 'https://schema.org',
-				'@type'       => 'Person',
-				'name'        => 'Luke Erickson',
-				'jobTitle'    => 'Founder and Executive Director',
-				'worksFor'    => array(
-					'@type' => 'NonprofitOrganization',
-					'name'  => get_bloginfo( 'name' ),
-					'taxID' => SV_EIN,
-					'url'   => home_url( '/' ),
-				),
-				'description' => 'Founder and Executive Director of Startup Ventura, a 501(c)(3) startup accelerator in Ventura County, California.',
-				'url'         => get_permalink( $post ),
-				'sameAs'      => array(
-					'https://www.linkedin.com/in/luke-erickson/',
-					'https://www.instagram.com/luke_erickson/',
-					'https://lukeerickson.com',
-				),
-			);
-			if ( ! empty( $article['image'] ) ) {
-				$person['image'] = $article['image'];
-			}
-			sv_jsonld( $person );
+			sv_jsonld( sv_luke_person( ! empty( $article['image'] ) ? $article['image'] : '' ) );
 		}
 	}
+
+	// Person — canonical Luke Erickson entity on the Leadership profile page.
+	if ( is_page( 'lukeerickson' ) ) {
+		sv_jsonld( sv_luke_person() );
+	}
+}
+
+/**
+ * The canonical "Luke Erickson" Person node, built to rank for searches of his
+ * name. Shared by the /lukeerickson profile page (the person's canonical URL) and
+ * the announcement post via a common @id, so search engines treat them as one
+ * entity. Keep sameAs in sync with any public profiles he adds.
+ *
+ * @param string $image Optional image URL; defaults to the headshot.
+ */
+function sv_luke_person( $image = '' ) {
+	if ( ! $image ) {
+		$image = SV_URI . '/assets/img/team/luke-erickson.jpg';
+	}
+	return array(
+		'@context'    => 'https://schema.org',
+		'@type'       => 'Person',
+		'@id'         => home_url( '/lukeerickson/#luke' ),
+		'name'        => 'Luke Erickson',
+		'jobTitle'    => 'Founder and Executive Director',
+		'worksFor'    => array(
+			'@type' => 'NonprofitOrganization',
+			'name'  => get_bloginfo( 'name' ),
+			'taxID' => SV_EIN,
+			'url'   => home_url( '/' ),
+		),
+		'description' => 'Founder and Executive Director of Startup Ventura, a 501(c)(3) startup accelerator in Ventura County, California.',
+		'image'       => $image,
+		'url'         => home_url( '/lukeerickson/' ),
+		'sameAs'      => array(
+			'https://www.linkedin.com/in/luke-erickson/',
+			'https://www.instagram.com/luke_erickson/',
+			'https://lukeerickson.com',
+		),
+	);
 }

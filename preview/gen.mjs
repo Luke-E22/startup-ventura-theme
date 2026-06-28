@@ -46,7 +46,7 @@ const NAV = [
   { label: 'Program', href: 'program.html', children: [['7-Week Accelerator', 'accelerator.html'], ['Workshop Series', 'workshops.html']] },
   { label: 'Impact', href: 'impact.html' },
   { label: 'Partner', href: 'partner.html', children: [['For Cities &amp; County', 'partner-cities-county.html'], ['For Foundations', 'partner-foundations.html']] },
-  { label: 'About', href: 'about.html', children: [['Leadership', 'about.html'], ['Why Ventura County', 'why-ventura-county.html']] },
+  { label: 'About', href: 'about.html', children: [['Leadership', 'lukeerickson.html'], ['Why Ventura County', 'why-ventura-county.html']] },
   { label: 'Contact', href: 'contact.html' },
   { label: 'News', href: 'news.html' },
 ];
@@ -415,9 +415,13 @@ newsPosts.filter(p => !p.custom).forEach(p => page(p.file, {
 // JSON-LD tied to the Org). Built to rank for searches of "Luke Erickson".
 const lukeUrl = `${SITE}/luke-erickson-executive-director`;
 const lukeExcerpt = 'Luke Erickson, founder of Startup Ventura, steps into the role of Executive Director, leading the Ventura County accelerator he built to keep local talent home.';
-const lukePersonLd = {
+// Canonical "Luke Erickson" Person entity. Its @id is shared by the profile page
+// (/lukeerickson, the person's canonical url) and the announcement post, so search
+// engines treat them as one entity instead of two competing Luke pages.
+const LUKE_PERSON = {
   '@context': 'https://schema.org',
   '@type': 'Person',
+  '@id': `${SITE}/lukeerickson#luke`,
   name: 'Luke Erickson',
   jobTitle: 'Founder and Executive Director',
   worksFor: {
@@ -428,7 +432,7 @@ const lukePersonLd = {
   },
   description: 'Founder and Executive Director of Startup Ventura, a 501(c)(3) startup accelerator in Ventura County, California.',
   image: `${SITE}/assets/img/team/luke-erickson.jpg`,
-  url: lukeUrl,
+  url: `${SITE}/lukeerickson`,
   sameAs: [
     'https://www.linkedin.com/in/luke-erickson/',
     'https://www.instagram.com/luke_erickson/',
@@ -452,13 +456,47 @@ page('luke-erickson-executive-director.html', {
   canonical: lukeUrl,
   ogType: 'article',
   ogImage: `${SITE}/assets/img/team/luke-erickson.jpg`,
-  jsonld: lukePersonLd,
+  jsonld: LUKE_PERSON,
   body: `<section class="section"><div class="wrap"><article class="single-post">
     <header class="entry-header"><p class="entry-meta">News &middot; July 1, 2026</p><h1 class="display">Luke Erickson Steps Into the Role of Executive Director at Startup Ventura</h1></header>
     <div class="entry-hero"><img src="${A}/img/team/luke-erickson.jpg" alt="Luke Erickson, Founder and Executive Director of Startup Ventura." width="1000" height="1000"></div>
     <div class="entry-content">${lukeParas.map(t => `<p>${t}</p>`).join('')}</div>
   </article></div></section>` +
     ctaBand('Help fund the inaugural cohort.', 'none'),
+});
+
+// Luke Erickson — evergreen Leadership profile page (the canonical "Luke Erickson"
+// page; the Leadership nav points here). Shares the LUKE_PERSON @id with the
+// announcement post so the two don't compete, and cross-links to it.
+const lukeProfileParas = [
+  `Luke Erickson is the founder and Executive Director of <a href="index.html">Startup Ventura</a>, the 501(c)(3) nonprofit startup accelerator backing founders across Ventura County, California. He started the organization in 2025 to keep the region's ambitious, talented people building here rather than leaving for San Francisco or Los Angeles.`,
+  `Luke brings a background in technology and business development to the civic sector, having built and exited his own company before turning his focus to building institutions. He launched Startup Ventura to bring nationally recognized accelerator programming to Ventura County, giving local founders the mentorship, capital connections, and community to build high-growth companies at home.`,
+  `Under his leadership, Startup Ventura earned its 501(c)(3) status, secured a founding investment from the City of Ventura, and was awarded Candid's Platinum Seal of Transparency, held by fewer than one percent of U.S. nonprofits. The inaugural cohort of founders launches in Spring 2027.`,
+  `His commitment to Ventura County reaches beyond Startup Ventura. He serves on the board of directors of the New West Symphony, mentors students at CSU Channel Islands, and works closely with local civic and economic development organizations. A former collegiate lacrosse player, he brings the same competitiveness and discipline to building institutions that he once brought to the field.`,
+];
+page('lukeerickson.html', {
+  title: 'Luke Erickson — Founder & Executive Director',
+  crumbsTrail: [['Home', 'index.html'], ['About', 'about.html'], ['Luke Erickson', '']],
+  desc: 'Luke Erickson is the founder and Executive Director of Startup Ventura, the 501(c)(3) startup accelerator backing founders in Ventura County, California.',
+  canonical: `${SITE}/lukeerickson`,
+  ogType: 'profile',
+  ogImage: `${SITE}/assets/img/team/luke-erickson.jpg`,
+  jsonld: LUKE_PERSON,
+  body: `<section class="section"><div class="wrap">
+    <div class="profile">
+      <div class="profile__media"><img src="${A}/img/team/luke-erickson.jpg" alt="Luke Erickson, Founder and Executive Director of Startup Ventura." width="1000" height="1000"></div>
+      <div class="profile__intro">
+        <p class="eyebrow">Leadership</p>${waveRule}
+        <h1 class="display">Luke Erickson</h1>
+        <p class="profile__role">Founder &amp; Executive Director, Startup Ventura</p>
+        <p class="profile__links"><a href="https://www.linkedin.com/in/luke-erickson/" target="_blank" rel="noopener">LinkedIn &nearr;</a><a href="https://www.instagram.com/luke_erickson/" target="_blank" rel="noopener">Instagram &nearr;</a><a href="https://lukeerickson.com" target="_blank" rel="noopener">lukeerickson.com &nearr;</a></p>
+      </div>
+    </div>
+  </div></section>
+  <section class="section section--pale"><div class="wrap wrap--narrow">
+    <div class="entry-content">${lukeProfileParas.map(t => `<p>${t}</p>`).join('')}<p style="margin-top:8px"><a class="card__link" href="luke-erickson-executive-director.html">Read the announcement: Luke Erickson named Executive Director &rarr;</a></p></div>
+  </div></section>` +
+    ctaBand('Help keep Ventura County\'s founders building here.', 'partner'),
 });
 
 page('privacy.html', {

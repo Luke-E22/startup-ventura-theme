@@ -434,7 +434,7 @@ function sv_fallback_menu() {
 			array( 'For Foundations & Corporate Giving', '/partner/foundations/' ),
 		) ),
 		array( 'About', '/about/', array(
-			array( 'Leadership', '/about/' ),
+			array( 'Leadership', '/lukeerickson/' ),
 			array( 'Why Ventura County', '/why-ventura-county/' ),
 		) ),
 		array( 'Contact', '/contact/' ),
