@@ -46,7 +46,7 @@ const NAV = [
   { label: 'Program', href: 'program.html', children: [['7-Week Accelerator', 'accelerator.html'], ['Workshop Series', 'workshops.html']] },
   { label: 'Impact', href: 'impact.html' },
   { label: 'Partner', href: 'partner.html', children: [['For Cities &amp; County', 'partner-cities-county.html'], ['For Foundations', 'partner-foundations.html']] },
-  { label: 'About', href: 'about.html', children: [['Leadership', 'lukeerickson.html'], ['Why Ventura County', 'why-ventura-county.html']] },
+  { label: 'About', href: 'about.html', children: [['Board of Directors', 'about.html'], ['Leadership', 'lukeerickson.html'], ['Why Ventura County', 'why-ventura-county.html']] },
   { label: 'Contact', href: 'contact.html' },
   { label: 'News', href: 'news.html' },
 ];
