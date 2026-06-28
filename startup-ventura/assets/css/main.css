@@ -359,7 +359,7 @@ p{max-width:72ch}
 /* =========================================================================
    BOARD CARDS
    ========================================================================= */
-.board-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;align-items:start}
+.board-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:20px;align-items:start}
 .board-card{background:#fff;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow-sm);transition:transform .2s var(--ease),box-shadow .2s}
 .board-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md)}
 .board-card__media{aspect-ratio:5/6;overflow:hidden;background:var(--sky-pale)}
