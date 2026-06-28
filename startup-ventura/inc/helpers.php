@@ -317,7 +317,8 @@ function sv_board() {
 			'name'     => 'Sean Herwaldt',
 			'role'     => 'Board Member, Director at Curri · SpaceX alum',
 			'photo'    => 'team/sean-herwaldt.jpg',
-			'pos'      => 'center 18%',
+			'pos'      => 'center 27%', // head-and-torso shot; zoom in so his face matches the others.
+			'zoom'     => 1.6,
 			'bio'      => 'Sean Herwaldt is a Director at Curri, the Series B last-mile logistics company, where he leads delivery operations. He started his career at SpaceX, which shaped how he works: first principles, no assumptions, move fast, and never confuse activity with progress. He then joined the longevity company NOVOS to build its operations from scratch, spending four years standing up a supply chain with no playbook, launching products from concept to shelf, rebuilding a customer-experience team with AI that made the team better rather than redundant, and writing his own tools when spreadsheets were no longer enough. Sean is drawn to the craft of taking an idea to something real, then making it repeatable and ready to scale, and he cares as much about the people doing the work as the work itself.',
 		),
 	);
