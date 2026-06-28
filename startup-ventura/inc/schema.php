@@ -231,6 +231,7 @@ function sv_schema_org() {
 				'sameAs'      => array(
 					'https://www.linkedin.com/in/luke-erickson/',
 					'https://www.instagram.com/luke_erickson/',
+					'https://lukeerickson.com',
 				),
 			);
 			if ( ! empty( $article['image'] ) ) {

@@ -284,6 +284,8 @@ function sv_board() {
 			'photo'    => 'team/luke-erickson.jpg',
 			'pos'      => 'center 22%', // square studio headshot; framed like the other board photos.
 			'linkedin' => 'https://www.linkedin.com/in/luke-erickson/',
+			'instagram'=> 'https://www.instagram.com/luke_erickson/',
+			'website'  => 'https://lukeerickson.com',
 			'bio'      => 'Luke Erickson is the founder of Startup Ventura and serves as Executive Director of the organization. With a background in business development and entrepreneurship, Luke launched Startup Ventura in 2025 to bring nationally recognized accelerator programming to Ventura County. Driven by a passion for empowering founders and strengthening the local economy, he leads the organization\'s programming, partnerships, and community impact initiatives. Luke\'s vision is to position Ventura as a hub of innovation and entrepreneurial growth.',
 		),
 		array(

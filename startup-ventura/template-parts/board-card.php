@@ -38,14 +38,25 @@ if ( ! empty( $m['zoom'] ) ) {
 				<p class="board-card__bio"><?php echo esc_html( $m['bio'] ); ?></p>
 			</details>
 		<?php endif; ?>
-		<?php if ( ! empty( $m['linkedin'] ) ) : ?>
+		<?php
+		// Social / web links (LinkedIn, Instagram, personal site). The website is
+		// shown as its bare domain; others by network name.
+		$sv_links = array();
+		if ( ! empty( $m['linkedin'] ) ) {
+			$sv_links[] = array( 'LinkedIn', $m['linkedin'] );
+		}
+		if ( ! empty( $m['instagram'] ) ) {
+			$sv_links[] = array( 'Instagram', $m['instagram'] );
+		}
+		if ( ! empty( $m['website'] ) ) {
+			$sv_links[] = array( preg_replace( '#^https?://(www\.)?#', '', untrailingslashit( $m['website'] ) ), $m['website'] );
+		}
+		if ( $sv_links ) :
+			?>
 			<p class="board-card__links">
-				<a href="<?php echo esc_url( $m['linkedin'] ); ?>" target="_blank" rel="noopener">
-					<?php
-					/* translators: %s: person's name. */
-					printf( esc_html__( 'LinkedIn', 'startup-ventura' ) . ' &nearr;<span class="sr-only"> — %s, opens in a new tab</span>', esc_html( $m['name'] ) );
-					?>
-				</a>
+				<?php foreach ( $sv_links as $sv_link ) : ?>
+					<a href="<?php echo esc_url( $sv_link[1] ); ?>" target="_blank" rel="noopener"><?php echo esc_html( $sv_link[0] ); ?> &nearr;<span class="sr-only"> — <?php echo esc_html( $m['name'] ); ?>, opens in a new tab</span></a>
+				<?php endforeach; ?>
 			</p>
 		<?php endif; ?>
 	</div>
