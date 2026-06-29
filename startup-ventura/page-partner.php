@@ -18,7 +18,7 @@ get_header();
 		<header class="page-head">
 			<p class="eyebrow">Partner</p>
 			<?php echo sv_wave_rule(); // phpcs:ignore WordPress.Security.EscapeOutput ?>
-			<h1 class="display">Partner with us to keep talent here.</h1>
+			<h1 class="display">Partner with us to grow talent here.</h1>
 			<p class="lede">Cities, county offices, foundations, and companies all have a stake in keeping Ventura County&rsquo;s founders building here. Pick the path that fits how you want to invest in the region.</p>
 		</header>
 

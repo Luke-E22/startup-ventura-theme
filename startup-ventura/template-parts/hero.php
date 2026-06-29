@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 $eyebrow = isset( $args['eyebrow'] ) ? $args['eyebrow'] : 'Ventura County · A 501(c)(3) Startup Accelerator';
-$h1      = isset( $args['h1'] ) ? $args['h1'] : 'Great founders grow up here. Let&rsquo;s give them a <span class="coral">reason to stay.</span>';
+$h1      = isset( $args['h1'] ) ? $args['h1'] : 'Great founders grow up <span class="coral">here.</span>';
 $sub     = isset( $args['sub'] ) ? $args['sub'] : 'Startup Ventura backs local founders with the mentorship, capital connections, and community to build high-growth companies right here in Ventura County.';
 $note    = isset( $args['note'] ) ? $args['note'] : 'Funds the inaugural Spring 2027 cohort.';
 $img     = isset( $args['image'] ) ? $args['image'] : sv_img( 'hero.jpg' );
