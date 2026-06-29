@@ -27,14 +27,12 @@ const give = (loc, cls = '', note = '') =>
 const apply = (label = 'Get notified', cls = 'btn--outline') => `<a class="btn ${cls}" href="contact.html#notify" data-cta="apply">Get notified</a>`;
 const partnerBtn = (label = 'Partner with us', cls = 'btn--outline') => `<a class="btn ${cls}" href="partner.html" data-cta="partner">${label}</a>`;
 const candidSeal = (cls = '') => `<a class="candid-seal ${cls}" aria-label="Startup Ventura on Candid: 2026 Platinum Seal of Transparency" href="https://app.candid.org/profile/16385291/startup-ventura-39-2204612/?pkId=266ecad1-f625-40ab-acfb-c736d5b97833" target="_blank" rel="noopener"><img src="${A}/img/candid-platinum-seal-badge.png" alt="Candid 2026 Platinum Seal of Transparency" width="150" height="150" loading="lazy"></a>`;
-// Ventura Chamber of Commerce membership badge: the live ChamberMaster (MNI) widget
-// renders the official "Proud Member of the Ventura Chamber of Commerce" badge (with
-// the Chamber logo) into the empty container below.
-const chamberBadge = () => `<div class="chamber-badge">
-  <div id="mni-membership-639181057588993752"></div>
-</div>
-<script src="https://ventura.chambermaster.com/Content/Script/Member.js" defer></script>
-<script>(function(){function go(){try{if(window.MNI&&MNI.Widgets&&MNI.Widgets.Member){new MNI.Widgets.Member("mni-membership-639181057588993752",{member:38811,styleTemplate:"#@id .mn-widget-member-name{font-weight:700}#@id .mn-widget-member-logo{max-width:100%}"}).create();return true;}}catch(e){}return false;}if(!go()){var n=0,t=setInterval(function(){if(go()||++n>40){clearInterval(t);}},150);}})();</script>`;
+// Ventura Chamber of Commerce membership badge: static "Proud member of" lockup
+// (self-hosted Chamber logo) linking to Startup Ventura's verified Chamber listing.
+const chamberBadge = () => `<a class="chamber-badge" href="https://ventura.chambermaster.com/list/member/startup-ventura-38811" target="_blank" rel="noopener">
+  <span class="chamber-badge__label">Proud member of the</span>
+  <img class="chamber-badge__logo" src="${A}/img/partners/ventura-chamber.png" width="177" height="200" alt="Ventura Chamber of Commerce" loading="lazy" decoding="async">
+</a>`;
 
 const head = (e, h, lede = '') => `<header class="section-head section-head--left"><p class="eyebrow">${e}</p>${waveRule}<h2 class="section-head__title display">${h}</h2>${lede ? `<p class="section-head__intro lede">${lede}</p>` : ''}</header>`;
 
@@ -129,14 +127,14 @@ const page = (file, { title, overHero = false, body, crumbsTrail, intro = false,
   const html = `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>${fullTitle}</title>
 ${seo}<link rel="preload" href="${A}/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="${A}/fonts/hanken-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="${A}/css/main.css?v=13"></head>
+<link rel="stylesheet" href="${A}/css/main.css?v=14"></head>
 <body class="${overHero ? 'home' : ''}">
 ${intro ? introNoFlash + '\n' + introOverlay + '\n' : ''}${header(overHero)}
 ${crumbsTrail ? crumbs(crumbsTrail) : ''}
 ${body}
 ${footer()}
 ${intro ? introReplay + '\n' : ''}<script src="https://zeffy-scripts.s3.ca-central-1.amazonaws.com/embed-form-script.min.js" defer></script>
-<script src="${A}/js/main.js?v=13"></script>
+<script src="${A}/js/main.js?v=14"></script>
 </body></html>`;
   fs.writeFileSync(path.join(OUT, file), html);
 };

@@ -540,19 +540,11 @@ p{max-width:72ch}
 .footer-social a{display:inline-flex;width:42px;height:42px;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.2);border-radius:10px;color:#fff}
 .footer-social a:hover{background:rgba(255,255,255,.1)}
 /* Ventura Chamber of Commerce membership badge — footer trust cluster.
-   Live ChamberMaster (MNI) widget with an on-brand fallback; coastal blues only. */
-.chamber-badge{margin-top:22px}
-.chamber-badge__fallback{display:inline-flex;align-items:center;gap:12px;max-width:280px;padding:11px 15px;border:1px solid rgba(255,255,255,.2);border-radius:12px;color:#eaf2f8;text-decoration:none;transition:background .2s,border-color .2s,transform .2s}
-.chamber-badge__fallback:hover{background:rgba(255,255,255,.08);border-color:rgba(120,180,216,.6);color:#fff;transform:translateY(-1px)}
-.chamber-badge__icon{flex:none;width:28px;height:28px;color:var(--sky)}
-.chamber-badge__text{display:flex;flex-direction:column;line-height:1.18}
-.chamber-badge__eyebrow{font-family:var(--font-mono);font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--sky)}
-.chamber-badge__name{font-family:var(--font-display);font-weight:700;font-size:14.5px;color:#fff;margin-top:3px}
-/* Live MNI widget output, if the external script loads, restyled for the dark footer. */
-.chamber-badge .mn-widget-member{max-width:280px;padding:11px 15px;border:1px solid rgba(255,255,255,.2);border-radius:12px}
-.chamber-badge .mn-widget-member-logo{max-width:150px;max-height:60px;width:auto;height:auto;margin:0 0 8px;display:block;background:#fff;border-radius:6px;padding:5px}
-.chamber-badge .mn-widget-member-name,.chamber-badge .mn-widget-member a{color:#fff;font-family:var(--font-display);font-weight:700;font-size:14.5px}
-.chamber-badge .mn-widget-member-name a{text-decoration:none}
+   Static "Proud member of" lockup; the Chamber logo sits directly on the navy. */
+.chamber-badge{display:flex;flex-direction:column;align-items:flex-start;gap:10px;margin-top:22px;text-decoration:none}
+.chamber-badge__label{font-family:var(--font-mono);font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--sky)}
+.chamber-badge__logo{width:116px;height:auto;display:block;border-radius:4px;transition:transform .2s,opacity .2s}
+.chamber-badge:hover .chamber-badge__logo{transform:translateY(-1px);opacity:.9}
 .footer-legal{border-top:1px solid rgba(255,255,255,.1);padding-block:22px 30px;font-size:13px;color:#8aa3b3;display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:space-between}
 
 /* =========================================================================
