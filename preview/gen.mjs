@@ -94,6 +94,10 @@ const SITE = 'https://startupventura.com';
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 // Per-page SEO head tags: description, canonical, Open Graph, Twitter, JSON-LD.
 const seoHead = ({ title, desc, canonical, ogType = 'website', ogImage, jsonld }) => {
+  // Default social share image: the branded 1200x630 card (assets/img/og/og-default.jpg).
+  // Pages that pass ogImage (e.g. the Luke pages -> headshot) override it.
+  const img = ogImage || `${SITE}/assets/img/og/og-default.jpg`;
+  const isDefaultCard = !ogImage;
   let h = '';
   if (desc) h += `<meta name="description" content="${esc(desc)}">\n`;
   if (canonical) h += `<link rel="canonical" href="${esc(canonical)}">\n`;
@@ -102,11 +106,15 @@ const seoHead = ({ title, desc, canonical, ogType = 'website', ogImage, jsonld }
   h += `<meta property="og:title" content="${esc(title)}">\n`;
   if (desc) h += `<meta property="og:description" content="${esc(desc)}">\n`;
   if (canonical) h += `<meta property="og:url" content="${esc(canonical)}">\n`;
-  if (ogImage) h += `<meta property="og:image" content="${esc(ogImage)}">\n`;
+  h += `<meta property="og:image" content="${esc(img)}">\n`;
+  if (isDefaultCard) {
+    h += `<meta property="og:image:width" content="1200">\n`;
+    h += `<meta property="og:image:height" content="630">\n`;
+  }
   h += `<meta name="twitter:card" content="summary_large_image">\n`;
   h += `<meta name="twitter:title" content="${esc(title)}">\n`;
   if (desc) h += `<meta name="twitter:description" content="${esc(desc)}">\n`;
-  if (ogImage) h += `<meta name="twitter:image" content="${esc(ogImage)}">\n`;
+  h += `<meta name="twitter:image" content="${esc(img)}">\n`;
   if (jsonld) {
     for (const obj of [].concat(jsonld)) {
       h += `<script type="application/ld+json">${JSON.stringify(obj)}</script>\n`;
