@@ -31,7 +31,7 @@ const candidSeal = (cls = '') => `<a class="candid-seal ${cls}" aria-label="Star
 // (self-hosted Chamber logo) linking to Startup Ventura's verified Chamber listing.
 const chamberBadge = () => `<a class="chamber-badge" href="https://ventura.chambermaster.com/list/member/startup-ventura-38811" target="_blank" rel="noopener">
   <span class="chamber-badge__label">Proud member of the</span>
-  <img class="chamber-badge__logo" src="${A}/img/partners/ventura-chamber.png" width="177" height="200" alt="Ventura Chamber of Commerce" loading="lazy" decoding="async">
+  <img class="chamber-badge__logo" src="${A}/img/partners/ventura-chamber.png" width="800" height="266" alt="Ventura Chamber of Commerce" loading="lazy" decoding="async">
 </a>`;
 
 const head = (e, h, lede = '') => `<header class="section-head section-head--left"><p class="eyebrow">${e}</p>${waveRule}<h2 class="section-head__title display">${h}</h2>${lede ? `<p class="section-head__intro lede">${lede}</p>` : ''}</header>`;
@@ -127,14 +127,14 @@ const page = (file, { title, overHero = false, body, crumbsTrail, intro = false,
   const html = `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>${fullTitle}</title>
 ${seo}<link rel="preload" href="${A}/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="${A}/fonts/hanken-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="${A}/css/main.css?v=14"></head>
+<link rel="stylesheet" href="${A}/css/main.css?v=15"></head>
 <body class="${overHero ? 'home' : ''}">
 ${intro ? introNoFlash + '\n' + introOverlay + '\n' : ''}${header(overHero)}
 ${crumbsTrail ? crumbs(crumbsTrail) : ''}
 ${body}
 ${footer()}
 ${intro ? introReplay + '\n' : ''}<script src="https://zeffy-scripts.s3.ca-central-1.amazonaws.com/embed-form-script.min.js" defer></script>
-<script src="${A}/js/main.js?v=14"></script>
+<script src="${A}/js/main.js?v=15"></script>
 </body></html>`;
   fs.writeFileSync(path.join(OUT, file), html);
 };
