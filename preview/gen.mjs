@@ -127,24 +127,24 @@ const page = (file, { title, overHero = false, body, crumbsTrail, intro = false,
   const html = `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>${fullTitle}</title>
 ${seo}<link rel="preload" href="${A}/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="${A}/fonts/hanken-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="${A}/css/main.css?v=16"></head>
+<link rel="stylesheet" href="${A}/css/main.css?v=17"></head>
 <body class="${overHero ? 'home' : ''}">
 ${intro ? introNoFlash + '\n' + introOverlay + '\n' : ''}${header(overHero)}
 ${crumbsTrail ? crumbs(crumbsTrail) : ''}
 ${body}
 ${footer()}
 ${intro ? introReplay + '\n' : ''}<script src="https://zeffy-scripts.s3.ca-central-1.amazonaws.com/embed-form-script.min.js" defer></script>
-<script src="${A}/js/main.js?v=16"></script>
+<script src="${A}/js/main.js?v=17"></script>
 </body></html>`;
   fs.writeFileSync(path.join(OUT, file), html);
 };
 
 // shared content
 const tiers = [
-  ['Catalyst', '$5,000', false, ['Name on the website donor wall', 'Recognition at the annual benefit', 'Listing in the annual impact report']],
-  ['Principal', '$10,000', false, ['Everything in Catalyst, plus:', 'Name and logo on the donor wall', 'Invitation to Demo Day']],
-  ['Visionary', '$25,000', false, ['Everything in Principal, plus:', 'Logo on Demo Day signage', 'Reserved seating and recognition at the annual benefit', 'Quarterly program updates', 'Invitation to the founder and mentor mixer']],
-  ['Legacy', '$50,000', true, ['Everything in Visionary, plus:', 'Presenting recognition for the inaugural Spring 2027 cohort', 'Premier logo placement on the homepage and donor wall', 'A recognition moment and reserved table at the annual benefit', 'A private dinner with the founder cohort and board', 'First look at Demo Day and warm introductions to founders']],
+  ['Catalyst', '$1,000', false, ['Name on the website donor wall', 'Recognition at the annual benefit', 'Listing in the annual impact report']],
+  ['Principal', '$5,000', false, ['Everything in Catalyst, plus:', 'Name and logo on the donor wall', 'Invitation to Demo Day']],
+  ['Visionary', '$10,000', false, ['Everything in Principal, plus:', 'Logo on Demo Day signage', 'Reserved seating and recognition at the annual benefit', 'Quarterly program updates', 'Invitation to the founder and mentor mixer']],
+  ['Legacy', '$25,000', true, ['Everything in Visionary, plus:', 'Presenting recognition for the inaugural Spring 2027 cohort', 'Premier logo placement on the homepage and donor wall', 'A recognition moment and reserved table at the annual benefit', 'A private dinner with the founder cohort and board', 'First look at Demo Day and warm introductions to founders']],
 ];
 const tierGrid = () => `<div class="tier-grid">${tiers.map(([n, a, legacy, bs]) => `<article class="tier${legacy ? ' tier--legacy' : ''}">${legacy ? '<span class="tier__ribbon">Presents the inaugural cohort</span>' : ''}<h3 class="tier__name">${n}</h3><p class="tier__price">${a}</p><ul class="tier__list">${bs.map(b => `<li class="${b.startsWith('Everything') ? 'tier__incl' : ''}">${b}</li>`).join('')}</ul><div class="tier__cta">${give('tier-' + n.toLowerCase(), 'btn--full' + (legacy ? ' btn--lg' : ''), '')}</div></article>`).join('')}</div>`;
 
@@ -166,7 +166,6 @@ const boardGrid = (openBios = false) => `<div class="board-grid">${board.map(b =
 const statStrip = () => `<ul class="stat-strip"><li class="stat-strip__item"><div class="stat-strip__num">54%</div><div class="stat-strip__label">above the U.S. cost of living</div></li><li class="stat-strip__item"><div class="stat-strip__num">1 in 7</div><div class="stat-strip__label">households can afford a median home (down from 1 in 2 a decade ago)</div></li><li class="stat-strip__item"><div class="stat-strip__num">5</div><div class="stat-strip__label">local jobs created by every tech job</div></li></ul>`;
 const statBand = () => `<section class="section stat-band">${waveFull}<div class="wrap" style="position:relative;z-index:2"><div class="stat-band__grid"><div class="stat"><div class="stat__num" data-count="75">75</div><div class="stat__label">Attended the first annual benefit</div></div><div class="stat"><div class="stat__num" data-count="17" data-prefix="$" data-suffix="K">$17<span class="unit">K</span></div><div class="stat__label">Raised in one night</div></div><div class="stat"><div class="stat__num" data-count="5">5</div><div class="stat__label">Keynote speakers</div></div></div></div></section>`;
 const eventGallery = () => `<div class="event-gallery">${[1, 2, 3, 4, 5, 6].map(n => `<img src="${A}/img/event/benefit-0${n}.jpg" width="900" height="900" loading="lazy" decoding="async" alt="Startup Ventura Annual Benefit, photo ${n}">`).join('')}</div>`;
-const giftGrid = () => `<div class="gift-grid"><div class="gift"><div class="gift__amount">$10,000</div><p class="gift__text">Funds one founder&rsquo;s place in the cohort.</p></div><div class="gift"><div class="gift__amount">$5,000</div><p class="gift__text">Underwrites a hands-on founder workshop.</p></div><div class="gift"><div class="gift__amount">$50,000</div><p class="gift__text">Presents the entire inaugural Spring 2027 cohort.</p></div></div>`;
 const form = (type, submit, org = false, msg = true, opts = {}) => {
   const phone = !!opts.phone, interest = opts.interest || null, two = !!opts.twoCol;
   const full = two ? ' field--full' : '';
@@ -262,6 +261,8 @@ const donors = {
   Visionary: [],
   Principal: [],
   Catalyst: [],
+  // Every donor, any amount — the "thank you" name wall (dot-separated).
+  all: [],
   partners: ['City of Ventura &middot; Economic Development', 'Ventura Chamber of Commerce', 'Ventura County Credit Union', 'Santa Cruz Market'],
 };
 page('donor-wall.html', {
@@ -273,7 +274,8 @@ page('donor-wall.html', {
       const names = donors[n] || [];
       return `<div class="donor-tier${legacy ? ' donor-tier--legacy' : ''}"><h3 class="donor-tier__name">${n}</h3><p class="donor-tier__amount">${a}</p>${names.length ? `<ul class="donor-tier__names">${names.map((x) => `<li>${x}</li>`).join('')}</ul>` : `<p class="donor-tier__invite"><a href="give.html">Be the first name on this tier &rarr;</a></p>`}</div>`;
     }).join('')}</div></div></section>
-    <section class="section"><div class="wrap">${head('Founding Supporters', 'The partners who got this started.', 'Public and community partners whose early support launched Startup Ventura.')}<ul class="donor-partners">${donors.partners.map((p) => `<li>${p}</li>`).join('')}</ul></div></section>` +
+    <section class="section"><div class="wrap">${head('Founding Supporters', 'The partners who got this started.', 'Public and community partners whose early support launched Startup Ventura.')}<ul class="donor-partners">${donors.partners.map((p) => `<li>${p}</li>`).join('')}</ul></div></section>
+    <section class="section section--pale section--tight"><div class="wrap">${head('Thank You', 'To every donor who backs Ventura County&rsquo;s founders.')}${donors.all.length ? `<ul class="donor-all">${donors.all.map((n) => `<li>${n}</li>`).join(' ')}</ul>` : `<p class="donor-all__empty">Every donor&rsquo;s name is listed here, at every level. <a href="give.html">Yours belongs on this wall &rarr;</a></p>`}</div></section>` +
     ctaBand('Put your name behind Ventura County&rsquo;s founders.', 'none'),
 });
 

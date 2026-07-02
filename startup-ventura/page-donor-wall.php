@@ -74,6 +74,23 @@ $sv_partners = isset( $sv_donors['partners'] ) ? $sv_donors['partners'] : array(
 	</section>
 <?php endif; ?>
 
+<?php // ===== Thank you: every donor, any amount, dot-separated name wall ===== ?>
+<section class="section section--pale section--tight">
+	<div class="wrap">
+		<?php sv_section_header( 'Thank You', 'To every donor who backs Ventura County\'s founders.' ); ?>
+		<?php $sv_all = isset( $sv_donors['all'] ) ? $sv_donors['all'] : array(); ?>
+		<?php if ( $sv_all ) : ?>
+			<ul class="donor-all reveal">
+				<?php foreach ( $sv_all as $sv_name ) : ?>
+					<li><?php echo esc_html( $sv_name ); ?></li>
+				<?php endforeach; ?>
+			</ul>
+		<?php else : ?>
+			<p class="donor-all__empty reveal">Every donor&rsquo;s name is listed here, at every level. <a href="<?php echo esc_url( home_url( '/give/' ) ); ?>">Yours belongs on this wall &rarr;</a></p>
+		<?php endif; ?>
+	</div>
+</section>
+
 <?php sv_cta_band( array(
 	'eyebrow'   => 'Join the wall',
 	'heading'   => 'Put your name behind Ventura County\'s founders.',

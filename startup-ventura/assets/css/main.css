@@ -355,6 +355,13 @@ p{max-width:72ch}
 .donor-tier__invite a:hover{color:var(--coral-deep);border-color:currentColor}
 .donor-partners{list-style:none;display:flex;flex-wrap:wrap;gap:12px 14px}
 .donor-partners li{background:var(--sky-pale);border:1px solid var(--line);border-radius:999px;padding:9px 18px;font-weight:600;font-size:14.5px;color:var(--navy)}
+/* "Thank you" wall: every donor's name in flowing text, dot-separated. */
+.donor-all{list-style:none;max-width:70ch;font-size:15.5px;line-height:2;color:var(--ink)}
+.donor-all li{display:inline-block;white-space:nowrap}
+.donor-all li::after{content:"\00B7";margin:0 12px;color:var(--steel);font-weight:700}
+.donor-all li:last-child::after{content:none}
+.donor-all__empty{color:var(--muted);font-size:15.5px}
+.donor-all__empty a{font-weight:600}
 .tier--legacy{border:2px solid var(--coral);background:linear-gradient(180deg,#fff 0%,#FFF6F3 100%);box-shadow:var(--shadow-lg);transform:translateY(-6px)}
 .tier--legacy:hover{transform:translateY(-10px)}
 .tier--legacy .tier__price{color:var(--coral-deep)}

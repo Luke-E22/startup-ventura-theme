@@ -224,8 +224,8 @@ function sv_tiers() {
 	return array(
 		array(
 			'name'     => 'Catalyst',
-			'amount'   => '$5,000',
-			'price'    => 5000,
+			'amount'   => '$1,000',
+			'price'    => 1000,
 			'legacy'   => false,
 			'benefits' => array(
 				'Name on the website donor wall',
@@ -235,8 +235,8 @@ function sv_tiers() {
 		),
 		array(
 			'name'     => 'Principal',
-			'amount'   => '$10,000',
-			'price'    => 10000,
+			'amount'   => '$5,000',
+			'price'    => 5000,
 			'legacy'   => false,
 			'benefits' => array(
 				'Everything in Catalyst, plus:',
@@ -246,8 +246,8 @@ function sv_tiers() {
 		),
 		array(
 			'name'     => 'Visionary',
-			'amount'   => '$25,000',
-			'price'    => 25000,
+			'amount'   => '$10,000',
+			'price'    => 10000,
 			'legacy'   => false,
 			'benefits' => array(
 				'Everything in Principal, plus:',
@@ -259,8 +259,8 @@ function sv_tiers() {
 		),
 		array(
 			'name'     => 'Legacy',
-			'amount'   => '$50,000',
-			'price'    => 50000,
+			'amount'   => '$25,000',
+			'price'    => 25000,
 			'legacy'   => true,
 			'ribbon'   => 'Presents the inaugural cohort',
 			'benefits' => array(
@@ -288,6 +288,8 @@ function sv_donors() {
 		'Visionary' => array(),
 		'Principal' => array(),
 		'Catalyst'  => array(),
+		// Every donor, any amount — the "thank you" name wall (dot-separated).
+		'all'       => array(),
 		'partners'  => array(
 			'City of Ventura · Economic Development',
 			'Ventura Chamber of Commerce',
