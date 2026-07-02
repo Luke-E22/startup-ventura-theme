@@ -257,12 +257,15 @@ page('give.html', {
 // only, intentionally not in the top nav). To add a donor: one quoted name in the
 // matching tier array below (mirror inc/helpers.php sv_donors()).
 const donors = {
+  // Tier placement = lifetime giving vs the current tier amounts
+  // (sourced from the CRM's received donations, 2026-07-02).
   Legacy: [],
   Visionary: [],
-  Principal: [],
-  Catalyst: [],
-  // Every donor, any amount — the "thank you" name wall (dot-separated).
-  all: [],
+  Principal: ['Brian Gonzalez', 'Brent-Stig Kraus'],
+  Catalyst: ['Doug Halter'],
+  // Every donor, any amount — the "thank you" name wall (dot-separated),
+  // alphabetized by last name.
+  all: ['June Dubreuil', 'Victoria Erickson', 'Lynda Girtsman', 'Daniel Gober', 'Brian Gonzalez', 'Doug Halter', 'Sean Herwaldt', 'Sevastian Juarez', 'Anne King', 'Brent-Stig Kraus', 'Michael Panesis', 'Curtis Rogers', 'Genevieve Sasseville', 'Jessica Toren', 'Jeremy Wells'],
   partners: ['City of Ventura &middot; Economic Development', 'Ventura Chamber of Commerce', 'Ventura County Credit Union', 'Santa Cruz Market'],
 };
 page('donor-wall.html', {

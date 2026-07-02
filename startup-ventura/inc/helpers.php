@@ -284,12 +284,36 @@ function sv_tiers() {
  */
 function sv_donors() {
 	return array(
+		// Tier placement = lifetime giving vs the current tier amounts
+		// (sourced from the CRM's received donations, 2026-07-02).
 		'Legacy'    => array(),
 		'Visionary' => array(),
-		'Principal' => array(),
-		'Catalyst'  => array(),
-		// Every donor, any amount — the "thank you" name wall (dot-separated).
-		'all'       => array(),
+		'Principal' => array(
+			'Brian Gonzalez',
+			'Brent-Stig Kraus',
+		),
+		'Catalyst'  => array(
+			'Doug Halter',
+		),
+		// Every donor, any amount — the "thank you" name wall (dot-separated),
+		// alphabetized by last name.
+		'all'       => array(
+			'June Dubreuil',
+			'Victoria Erickson',
+			'Lynda Girtsman',
+			'Daniel Gober',
+			'Brian Gonzalez',
+			'Doug Halter',
+			'Sean Herwaldt',
+			'Sevastian Juarez',
+			'Anne King',
+			'Brent-Stig Kraus',
+			'Michael Panesis',
+			'Curtis Rogers',
+			'Genevieve Sasseville',
+			'Jessica Toren',
+			'Jeremy Wells',
+		),
 		'partners'  => array(
 			'City of Ventura · Economic Development',
 			'Ventura Chamber of Commerce',
