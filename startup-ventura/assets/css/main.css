@@ -342,6 +342,19 @@ p{max-width:72ch}
 .tier__list li.tier__incl::before{display:none}
 .tier__cta{margin-top:22px}
 .tier__cta .btn{width:100%}
+
+/* Donor wall (/donor-wall) — names come from sv_donors(); tiers mirror the Give page. */
+.donor-wall{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;align-items:start}
+.donor-tier{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:24px 22px;box-shadow:var(--shadow-sm)}
+.donor-tier--legacy{border-color:var(--steel);box-shadow:var(--shadow-md)}
+.donor-tier__name{font-family:var(--font-display);font-weight:800;font-size:1.15rem}
+.donor-tier__amount{font-family:var(--font-mono);font-weight:700;font-size:1.05rem;color:var(--blue);margin:4px 0 14px}
+.donor-tier__names{list-style:none;display:flex;flex-direction:column;gap:8px;font-size:15px;color:var(--ink)}
+.donor-tier__invite{font-size:14px}
+.donor-tier__invite a{color:var(--muted);text-decoration:none;border-bottom:1px dashed var(--line)}
+.donor-tier__invite a:hover{color:var(--coral-deep);border-color:currentColor}
+.donor-partners{list-style:none;display:flex;flex-wrap:wrap;gap:12px 14px}
+.donor-partners li{background:var(--sky-pale);border:1px solid var(--line);border-radius:999px;padding:9px 18px;font-weight:600;font-size:14.5px;color:var(--navy)}
 .tier--legacy{border:2px solid var(--coral);background:linear-gradient(180deg,#fff 0%,#FFF6F3 100%);box-shadow:var(--shadow-lg);transform:translateY(-6px)}
 .tier--legacy:hover{transform:translateY(-10px)}
 .tier--legacy .tier__price{color:var(--coral-deep)}
@@ -570,7 +583,7 @@ p{max-width:72ch}
    RESPONSIVE
    ========================================================================= */
 @media (max-width:1024px){
-  .card-grid--4,.board-grid,.tier-grid,.post-grid,.gift-grid{grid-template-columns:repeat(2,1fr)}
+  .card-grid--4,.board-grid,.tier-grid,.post-grid,.gift-grid,.donor-wall{grid-template-columns:repeat(2,1fr)}
   .tier--legacy{transform:none}
   .tier--legacy:hover{transform:translateY(-4px)}
 }
@@ -588,7 +601,7 @@ p{max-width:72ch}
 }
 @media (max-width:620px){
   .card-grid--2,.card-grid--3,.card-grid--4,.board-grid,.tier-grid,.post-grid,.gift-grid,
-  .testimonials,.partner-list,.stat-strip,.form--grid{grid-template-columns:1fr}
+  .donor-wall,.testimonials,.partner-list,.stat-strip,.form--grid{grid-template-columns:1fr}
   .footer-grid{grid-template-columns:1fr}
   .stat-band__grid{grid-template-columns:1fr 1fr}
   .step,.stakes__beat{grid-template-columns:1fr}

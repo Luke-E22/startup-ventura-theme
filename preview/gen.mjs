@@ -75,7 +75,7 @@ const footer = () => `</main>
   <div class="wave-footer" aria-hidden="true"><svg viewBox="0 0 1440 70" preserveAspectRatio="none" width="100%" height="70"><path d="M0,40 C300,5 560,70 840,42 C1080,18 1260,60 1440,38 L1440,0 L0,0 Z" fill="currentColor"></path></svg></div>
   <div class="wrap"><div class="footer-grid">
     <div class="footer-brand"><img src="${A}/img/logo-white.png" width="280" height="91" alt="Startup Ventura"><p>A 501(c)(3) nonprofit startup accelerator backing local founders in Ventura County.</p>${candidSeal('footer-seal')}${chamberBadge()}</div>
-    <div class="footer-col"><h4>Explore</h4><ul><li><a href="program.html">The Program</a></li><li><a href="why-ventura-county.html">Why Ventura County</a></li><li><a href="impact.html">Impact</a></li><li><a href="give.html">Give</a></li><li><a href="partner.html">Partner</a></li><li><a href="about.html">About</a></li><li><a href="news.html">News</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    <div class="footer-col"><h4>Explore</h4><ul><li><a href="program.html">The Program</a></li><li><a href="why-ventura-county.html">Why Ventura County</a></li><li><a href="impact.html">Impact</a></li><li><a href="give.html">Give</a></li><li><a href="partner.html">Partner</a></li><li><a href="about.html">About</a></li><li><a href="news.html">News</a></li><li><a href="contact.html">Contact</a></li><li><a href="donor-wall.html">Donor Wall</a></li></ul></div>
     <div class="footer-col"><h4>Get in touch</h4><ul><li><a href="mailto:info@startupventura.com">info@startupventura.com</a></li><li><a href="mailto:sponsor@startupventura.com">sponsor@startupventura.com</a></li><li><a href="press.html">Press &amp; media kit</a></li></ul></div>
   </div><div class="footer-legal"><span>Startup Ventura is a 501(c)(3) nonprofit. EIN 39-2204612. Gifts are tax-deductible to the extent allowed by law.</span><span>&copy; 2026 Startup Ventura</span><span class="footer-legal__links"><a href="privacy.html">Privacy</a> &middot; <a href="terms.html">Terms</a></span></div></div>
 </footer>`;
@@ -127,14 +127,14 @@ const page = (file, { title, overHero = false, body, crumbsTrail, intro = false,
   const html = `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>${fullTitle}</title>
 ${seo}<link rel="preload" href="${A}/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="${A}/fonts/hanken-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="${A}/css/main.css?v=15"></head>
+<link rel="stylesheet" href="${A}/css/main.css?v=16"></head>
 <body class="${overHero ? 'home' : ''}">
 ${intro ? introNoFlash + '\n' + introOverlay + '\n' : ''}${header(overHero)}
 ${crumbsTrail ? crumbs(crumbsTrail) : ''}
 ${body}
 ${footer()}
 ${intro ? introReplay + '\n' : ''}<script src="https://zeffy-scripts.s3.ca-central-1.amazonaws.com/embed-form-script.min.js" defer></script>
-<script src="${A}/js/main.js?v=15"></script>
+<script src="${A}/js/main.js?v=16"></script>
 </body></html>`;
   fs.writeFileSync(path.join(OUT, file), html);
 };
@@ -252,6 +252,29 @@ page('give.html', {
   <section class="section"><div class="wrap">${head("Founder's Circle", 'Lead the inaugural cohort.', 'Recognition tiers for the founders and partners who launch Spring 2027. Each tier includes everything below it.')}${tierGrid()}<p class="center muted" style="margin-top:32px">To discuss a Founder&rsquo;s Circle or corporate gift, email <a href="mailto:sponsor@startupventura.com">sponsor@startupventura.com</a>.</p></div></section>
   <section class="section section--tight"><div class="wrap">${candidSeal('give-seal')}<p class="muted measure">Gifts are tax-deductible to the extent allowed by law. EIN 39-2204612.</p></div></section>` +
     ctaBand('Back the founders who will build the Spring 2027 cohort.', 'none'),
+});
+
+// DONOR WALL — data-driven recognition page (linked from the footer Explore list
+// only, intentionally not in the top nav). To add a donor: one quoted name in the
+// matching tier array below (mirror inc/helpers.php sv_donors()).
+const donors = {
+  Legacy: [],
+  Visionary: [],
+  Principal: [],
+  Catalyst: [],
+  partners: ['City of Ventura &middot; Economic Development', 'Ventura Chamber of Commerce', 'Ventura County Credit Union', 'Santa Cruz Market'],
+};
+page('donor-wall.html', {
+  title: 'Donor Wall', crumbsTrail: [['Home', 'index.html'], ['Donor Wall', '']],
+  desc: "The donors and community partners funding Startup Ventura's inaugural Spring 2027 cohort. Founder's Circle recognition and founding supporters.",
+  canonical: `${SITE}/donor-wall`,
+  body: pageHead('Donor Wall', 'The people funding what founders build here.', 'Startup Ventura is powered by donors and partners who back Ventura County founders. This wall recognizes the Founder&rsquo;s Circle and the community partners behind the inaugural Spring 2027 cohort.') +
+    `<section class="section section--pale"><div class="wrap">${head("Founder's Circle", 'The donors launching the first cohort.', 'Each tier includes everything below it. Recognition follows the tier at the time of the gift.')}<div class="donor-wall">${tiers.map(([n, a, legacy]) => {
+      const names = donors[n] || [];
+      return `<div class="donor-tier${legacy ? ' donor-tier--legacy' : ''}"><h3 class="donor-tier__name">${n}</h3><p class="donor-tier__amount">${a}</p>${names.length ? `<ul class="donor-tier__names">${names.map((x) => `<li>${x}</li>`).join('')}</ul>` : `<p class="donor-tier__invite"><a href="give.html">Be the first name on this tier &rarr;</a></p>`}</div>`;
+    }).join('')}</div></div></section>
+    <section class="section"><div class="wrap">${head('Founding Supporters', 'The partners who got this started.', 'Public and community partners whose early support launched Startup Ventura.')}<ul class="donor-partners">${donors.partners.map((p) => `<li>${p}</li>`).join('')}</ul></div></section>` +
+    ctaBand('Put your name behind Ventura County&rsquo;s founders.', 'none'),
 });
 
 // PARTNER

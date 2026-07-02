@@ -275,6 +275,28 @@ function sv_tiers() {
 	);
 }
 
+/**
+ * Donor wall (rendered at /donor-wall/). DATA-DRIVEN: to add a donor, add one
+ * quoted name to the matching tier array below (order within a tier is display
+ * order). Tier keys mirror sv_tiers(). 'partners' holds founding supporters and
+ * community partners documented publicly (News posts), separate from the
+ * Founder's Circle giving tiers.
+ */
+function sv_donors() {
+	return array(
+		'Legacy'    => array(),
+		'Visionary' => array(),
+		'Principal' => array(),
+		'Catalyst'  => array(),
+		'partners'  => array(
+			'City of Ventura · Economic Development',
+			'Ventura Chamber of Commerce',
+			'Ventura County Credit Union',
+			'Santa Cruz Market',
+		),
+	);
+}
+
 /** Board of Directors (Section 11, verbatim bios). */
 function sv_board() {
 	return array(

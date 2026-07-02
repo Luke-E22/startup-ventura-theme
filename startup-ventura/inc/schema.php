@@ -40,6 +40,7 @@ function sv_meta_description() {
 			'workshops'           => 'Startup Ventura\'s founder workshop series, the on-ramp to the accelerator for early-stage founders in Ventura County.',
 			'about'               => 'Startup Ventura is a 501(c)(3) nonprofit keeping Ventura County the best place to build, led by operators behind Curri, SevenRooms, and the Ventura Chamber.',
 			'lukeerickson'        => 'Luke Erickson is the founder and Executive Director of Startup Ventura, the 501(c)(3) startup accelerator backing founders in Ventura County, California.',
+			'donor-wall'          => 'The donors and community partners funding Startup Ventura\'s inaugural Spring 2027 cohort. Founder\'s Circle recognition and founding supporters.',
 			'contact'             => 'Contact Startup Ventura for general questions, press, major gifts, sponsorship, mentoring, and investor inquiries. Based in Ventura County, California.',
 			'press'               => 'Press and media kit for Startup Ventura, the Ventura County nonprofit startup accelerator. Logos, boilerplate, EIN, board bios, and a press contact.',
 			'privacy'             => 'How Startup Ventura collects, uses, and protects the information you share through donations and forms on this site.',

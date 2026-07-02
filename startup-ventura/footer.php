@@ -51,6 +51,7 @@ $sv_sponsor = antispambot( SV_EMAIL_SPONSOR );
 						<li><a href="<?php echo esc_url( home_url( '/about/' ) ); ?>"><?php esc_html_e( 'About', 'startup-ventura' ); ?></a></li>
 						<li><a href="<?php echo esc_url( home_url( '/news/' ) ); ?>"><?php esc_html_e( 'News', 'startup-ventura' ); ?></a></li>
 						<li><a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>"><?php esc_html_e( 'Contact', 'startup-ventura' ); ?></a></li>
+						<li><a href="<?php echo esc_url( home_url( '/donor-wall/' ) ); ?>"><?php esc_html_e( 'Donor Wall', 'startup-ventura' ); ?></a></li>
 					</ul>
 				<?php endif; ?>
 			</div>
