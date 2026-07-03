@@ -135,6 +135,7 @@ ${body}
 ${footer()}
 ${intro ? introReplay + '\n' : ''}<script src="https://zeffy-scripts.s3.ca-central-1.amazonaws.com/embed-form-script.min.js" defer></script>
 <script src="${A}/js/main.js?v=18"></script>
+${body.includes('data-netlify') ? NF_SCRIPT : ''}
 </body></html>`;
   fs.writeFileSync(path.join(OUT, file), html);
 };
@@ -166,18 +167,36 @@ const boardGrid = (openBios = false) => `<div class="board-grid${openBios ? ' bo
 const statStrip = () => `<ul class="stat-strip"><li class="stat-strip__item"><div class="stat-strip__num">54%</div><div class="stat-strip__label">above the U.S. cost of living</div></li><li class="stat-strip__item"><div class="stat-strip__num">1 in 7</div><div class="stat-strip__label">households can afford a median home (down from 1 in 2 a decade ago)</div></li><li class="stat-strip__item"><div class="stat-strip__num">5</div><div class="stat-strip__label">local jobs created by every tech job</div></li></ul>`;
 const statBand = () => `<section class="section stat-band">${waveFull}<div class="wrap" style="position:relative;z-index:2"><div class="stat-band__grid"><div class="stat"><div class="stat__num" data-count="75">75</div><div class="stat__label">Attended the first annual benefit</div></div><div class="stat"><div class="stat__num" data-count="17" data-prefix="$" data-suffix="K">$17<span class="unit">K</span></div><div class="stat__label">Raised in one night</div></div><div class="stat"><div class="stat__num" data-count="5">5</div><div class="stat__label">Keynote speakers</div></div></div></div></section>`;
 const eventGallery = () => `<div class="event-gallery">${[1, 2, 3, 4, 5, 6].map(n => `<img src="${A}/img/event/benefit-0${n}.jpg" width="900" height="900" loading="lazy" decoding="async" alt="Startup Ventura Annual Benefit, photo ${n}">`).join('')}</div>`;
+// LIVE Netlify Forms. Netlify detects each form at deploy time from this static
+// HTML (name + data-netlify + hidden form-name input) and captures submissions
+// (dashboard + email notifications). The delegated handler injected by page()
+// submits via fetch so the branded inline success shows instead of Netlify's
+// generic success page. The same form name on two pages (notify) shares one
+// submissions bucket on purpose.
+const FORM_SUCCESS = {
+  contact: 'Thanks, your message is in. We read every message and will get back to you soon.',
+  notify: 'You are on the list. We will email you the moment applications open.',
+  newsletter: 'You are subscribed. Watch your inbox for events and announcements.',
+  'partner-government': 'Request received. We will follow up to schedule a working session.',
+  'partner-foundations': 'Thanks, we will be in touch about sponsorship.',
+};
 const form = (type, submit, org = false, msg = true, opts = {}) => {
   const phone = !!opts.phone, interest = opts.interest || null, two = !!opts.twoCol;
   const full = two ? ' field--full' : '';
-  return `<form class="form${two ? ' form--grid' : ''}" onsubmit="event.preventDefault();this.querySelector('.form__status').className='form__status is-ok';this.querySelector('.form__status').textContent='Thanks. This is a preview, so nothing was sent. On the live site this routes to the right inbox.';">
-${(type !== 'notify' && type !== 'newsletter') ? '<div class="field"><label>Name <span class="req">*</span></label><input type="text" required></div>' : ''}
-${org ? `<div class="field${full}"><label>Organization <span class="req">*</span></label><input type="text" required></div>` : ''}
-<div class="field"><label>Email <span class="req">*</span></label><input type="email" required></div>
-${phone ? '<div class="field"><label>Phone</label><input type="tel"></div>' : ''}
-${interest ? `<div class="field"><label>Area of interest</label><select>${interest.map(o => `<option>${o}</option>`).join('')}</select></div>` : ''}
-${msg ? `<div class="field${full}"><label>Message <span class="req">*</span></label><textarea rows="6" required></textarea></div>` : ''}
+  const id = (f) => `${type}-${f}`;
+  return `<form class="form${two ? ' form--grid' : ''}" name="${type}" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" data-success="${FORM_SUCCESS[type] || 'Thanks, we got it.'}">
+<input type="hidden" name="form-name" value="${type}">
+<p class="nf-hp" hidden aria-hidden="true"><label>Do not fill this out if you are human: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+${(type !== 'notify' && type !== 'newsletter') ? `<div class="field"><label for="${id('name')}">Name <span class="req">*</span></label><input id="${id('name')}" name="name" type="text" autocomplete="name" required></div>` : ''}
+${org ? `<div class="field${full}"><label for="${id('org')}">Organization <span class="req">*</span></label><input id="${id('org')}" name="organization" type="text" autocomplete="organization" required></div>` : ''}
+<div class="field"><label for="${id('email')}">Email <span class="req">*</span></label><input id="${id('email')}" name="email" type="email" autocomplete="email" required></div>
+${phone ? `<div class="field"><label for="${id('phone')}">Phone</label><input id="${id('phone')}" name="phone" type="tel" autocomplete="tel"></div>` : ''}
+${interest ? `<div class="field"><label for="${id('interest')}">Area of interest</label><select id="${id('interest')}" name="interest">${interest.map(o => `<option>${o}</option>`).join('')}</select></div>` : ''}
+${msg ? `<div class="field${full}"><label for="${id('message')}">Message <span class="req">*</span></label><textarea id="${id('message')}" name="message" rows="6" required></textarea></div>` : ''}
 <div class="form__submit${full}"><button class="btn btn--blue" type="submit">${submit}</button></div><p class="form__status${full}" role="status" aria-live="polite"></p></form>`;
 };
+// Delegated submit handler for every Netlify form on a page (injected by page()).
+const NF_SCRIPT = `<script>document.addEventListener('submit',function(e){var f=e.target;if(!f||!f.hasAttribute||!f.hasAttribute('data-netlify'))return;e.preventDefault();var s=f.querySelector('.form__status');var b=f.querySelector('button[type=submit]');if(b)b.disabled=true;fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(new FormData(f)).toString()}).then(function(r){if(!r.ok)throw new Error(r.status);if(s){s.className=s.className.replace(' is-err','')+' is-ok';s.textContent=f.getAttribute('data-success')||'Thanks, we got it.';}f.reset();}).catch(function(){if(s){s.className=s.className.replace(' is-ok','')+' is-err';s.textContent='Something went wrong. Please email info@startupventura.com and we will take care of it.';}}).finally(function(){if(b)b.disabled=false;});});</script>`;
 
 const pageHead = (e, h, lede) => `<section class="section"><div class="wrap"><header class="page-head"><p class="eyebrow">${e}</p>${waveRule}<h1 class="display">${h}</h1><p class="lede">${lede}</p></header></div></section>`;
 const card = (href, eyebrow, title, text, link) => `<a class="card card--link" href="${href}"><div class="card__body">${eyebrow ? `<p class="eyebrow">${eyebrow}</p>` : ''}<h3 class="card__title">${title}</h3><p class="card__text">${text}</p><span class="card__link">${link}</span></div></a>`;

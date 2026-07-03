@@ -30,10 +30,12 @@
 <main id="main" class="site-main">
 <nav class="breadcrumbs wrap" aria-label="Breadcrumb"><ol><li><a href="index.html">Home</a></li><li><span aria-current="page">News</span></li></ol></nav>
 <section class="section"><div class="wrap"><header class="page-head"><p class="eyebrow">News &amp; Updates</p><svg class="wave-rule" width="64" height="10" viewBox="0 0 64 10" fill="none" aria-hidden="true"><path d="M1 5C9 1 15 9 23 5C31 1 37 9 45 5C53 1 59 9 63 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><h1 class="display">News &amp; Updates</h1></header>
-  <div class="news-signup"><div class="news-signup__copy"><h2 class="news-signup__title">Stay up to date with events and announcements</h2><p class="muted">Get Startup Ventura news, events, and cohort updates in your inbox.</p></div><div class="news-signup__form"><form class="form" onsubmit="event.preventDefault();this.querySelector('.form__status').className='form__status is-ok';this.querySelector('.form__status').textContent='Thanks. This is a preview, so nothing was sent. On the live site this routes to the right inbox.';">
+  <div class="news-signup"><div class="news-signup__copy"><h2 class="news-signup__title">Stay up to date with events and announcements</h2><p class="muted">Get Startup Ventura news, events, and cohort updates in your inbox.</p></div><div class="news-signup__form"><form class="form" name="newsletter" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" data-success="You are subscribed. Watch your inbox for events and announcements.">
+<input type="hidden" name="form-name" value="newsletter">
+<p class="nf-hp" hidden aria-hidden="true"><label>Do not fill this out if you are human: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
 
 
-<div class="field"><label>Email <span class="req">*</span></label><input type="email" required></div>
+<div class="field"><label for="newsletter-email">Email <span class="req">*</span></label><input id="newsletter-email" name="email" type="email" autocomplete="email" required></div>
 
 
 
@@ -62,4 +64,5 @@
 </footer>
 <script src="https://zeffy-scripts.s3.ca-central-1.amazonaws.com/embed-form-script.min.js" defer></script>
 <script src="../../startup-ventura/assets/js/main.js?v=18"></script>
+<script>document.addEventListener('submit',function(e){var f=e.target;if(!f||!f.hasAttribute||!f.hasAttribute('data-netlify'))return;e.preventDefault();var s=f.querySelector('.form__status');var b=f.querySelector('button[type=submit]');if(b)b.disabled=true;fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(new FormData(f)).toString()}).then(function(r){if(!r.ok)throw new Error(r.status);if(s){s.className=s.className.replace(' is-err','')+' is-ok';s.textContent=f.getAttribute('data-success')||'Thanks, we got it.';}f.reset();}).catch(function(){if(s){s.className=s.className.replace(' is-ok','')+' is-err';s.textContent='Something went wrong. Please email info@startupventura.com and we will take care of it.';}}).finally(function(){if(b)b.disabled=false;});});</script>
 </body></html>
