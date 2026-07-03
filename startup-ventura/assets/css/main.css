@@ -319,7 +319,7 @@ p{max-width:72ch}
 .stat__label{margin-top:12px;font-size:14px;color:#bcd0dd;letter-spacing:.02em}
 
 /* compact stat strip (3 numbers) */
-.stat-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.stat-strip{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
 .stat-strip__item{text-align:center;padding:18px;border-radius:var(--r);background:rgba(48,96,156,.06);border:1px solid var(--line)}
 .section--navy .stat-strip__item{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14)}
 .stat-strip__num{font-family:var(--font-mono);font-weight:700;font-size:clamp(28px,4vw,44px);line-height:1;color:var(--coral-deep);letter-spacing:-.01em}
@@ -380,6 +380,14 @@ p{max-width:72ch}
    BOARD CARDS
    ========================================================================= */
 .board-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:20px;align-items:start}
+/* Wide variant (About page, bios open): 2-up horizontal cards so bios read at a
+   comfortable measure instead of five narrow columns. Photo keeps the exact
+   5:6 crop the compact cards use, so face framing (pos/zoom) is unchanged. */
+.board-grid--wide{grid-template-columns:repeat(2,1fr);gap:28px}
+.board-grid--wide .board-card{display:grid;grid-template-columns:200px 1fr}
+.board-grid--wide .board-card__media{width:200px;aspect-ratio:5/6;border-radius:0 0 var(--r) 0}
+.board-grid--wide .board-card__body{padding:22px 26px}
+.board-grid--wide .board-card__bio{font-size:15px;line-height:1.65}
 .board-card{background:#fff;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow-sm);transition:transform .2s var(--ease),box-shadow .2s}
 .board-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md)}
 .board-card__media{aspect-ratio:5/6;overflow:hidden;background:var(--sky-pale)}
@@ -591,6 +599,7 @@ p{max-width:72ch}
    ========================================================================= */
 @media (max-width:1024px){
   .card-grid--4,.board-grid,.tier-grid,.post-grid,.gift-grid,.donor-wall{grid-template-columns:repeat(2,1fr)}
+  .board-grid--wide{grid-template-columns:1fr}
   .tier--legacy{transform:none}
   .tier--legacy:hover{transform:translateY(-4px)}
 }
@@ -609,6 +618,8 @@ p{max-width:72ch}
 @media (max-width:620px){
   .card-grid--2,.card-grid--3,.card-grid--4,.board-grid,.tier-grid,.post-grid,.gift-grid,
   .donor-wall,.testimonials,.partner-list,.stat-strip,.form--grid{grid-template-columns:1fr}
+  .board-grid--wide .board-card{grid-template-columns:1fr}
+  .board-grid--wide .board-card__media{width:100%;border-radius:0}
   .footer-grid{grid-template-columns:1fr}
   .stat-band__grid{grid-template-columns:1fr 1fr}
   .step,.stakes__beat{grid-template-columns:1fr}

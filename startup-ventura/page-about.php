@@ -41,7 +41,7 @@ get_header();
 		<?php sv_section_header( 'Board & Team', 'A board that has built and scaled here.', array(
 			'intro' => 'Operators and community leaders backing Ventura County founders.',
 		) ); ?>
-		<div class="board-grid">
+		<div class="board-grid board-grid--wide">
 			<?php foreach ( sv_board() as $member ) {
 				sv_board_card( array( 'member' => $member, 'open' => true ) );
 			} ?>
