@@ -127,14 +127,14 @@ const page = (file, { title, overHero = false, body, crumbsTrail, intro = false,
   const html = `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>${fullTitle}</title>
 ${seo}<link rel="preload" href="${A}/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="${A}/fonts/hanken-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="${A}/css/main.css?v=18"></head>
+<link rel="stylesheet" href="${A}/css/main.css?v=19"></head>
 <body class="${overHero ? 'home' : ''}">
 ${intro ? introNoFlash + '\n' + introOverlay + '\n' : ''}${header(overHero)}
 ${crumbsTrail ? crumbs(crumbsTrail) : ''}
 ${body}
 ${footer()}
 ${intro ? introReplay + '\n' : ''}<script src="https://zeffy-scripts.s3.ca-central-1.amazonaws.com/embed-form-script.min.js" defer></script>
-<script src="${A}/js/main.js?v=18"></script>
+<script src="${A}/js/main.js?v=19"></script>
 ${body.includes('data-netlify') ? NF_SCRIPT : ''}
 </body></html>`;
   fs.writeFileSync(path.join(OUT, file), html);

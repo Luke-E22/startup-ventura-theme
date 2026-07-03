@@ -401,6 +401,24 @@ p{max-width:72ch}
 .board-card__details summary::-webkit-details-marker{display:none}
 .board-card__details summary::after{content:"\2192";transition:transform .2s}
 .board-card__details[open] summary::after{transform:rotate(90deg)}
+/* Bio popup (native <dialog>) — compact board cards open bios here instead of
+   expanding inline. Built and populated by main.js; <details> is the no-JS fallback. */
+.bio-modal{margin:auto;border:0;border-radius:var(--r);padding:0;max-width:min(560px,92vw);width:min(560px,92vw);max-height:min(80vh,720px);box-shadow:var(--shadow-md);background:#fff;color:var(--ink)} /* margin:auto restores dialog centering killed by the global reset */
+.bio-modal::backdrop{background:rgba(27,45,55,.62)}
+.bio-modal__inner{position:relative;padding:26px 28px;overflow:auto;max-height:inherit}
+.bio-modal__close{position:absolute;top:10px;right:10px;width:44px;height:44px;border:0;background:none;font-size:28px;line-height:1;color:var(--muted);cursor:pointer;border-radius:10px}
+.bio-modal__close:hover{color:var(--ink);background:var(--sky-pale)}
+.bio-modal__close:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.bio-modal__head{display:flex;gap:16px;align-items:center;margin-bottom:14px;padding-right:44px}
+.bio-modal__media{width:76px;height:91px;border-radius:12px;overflow:hidden;flex:none;background:var(--sky-pale)}
+.bio-modal__media img{width:100%;height:100%;object-fit:cover;display:block}
+.bio-modal__name{font-family:var(--font-display);font-weight:800;font-size:1.3rem}
+.bio-modal__bio{font-size:15.5px;line-height:1.7;color:var(--ink)}
+.bio-modal .board-card__links{margin-top:16px}
+@media (prefers-reduced-motion:no-preference){
+  .bio-modal[open]{animation:bioIn .22s var(--ease, ease)}
+  @keyframes bioIn{from{opacity:0;transform:translateY(10px)}}
+}
 .board-card__links{margin-top:12px;display:flex;flex-wrap:wrap;gap:8px 16px}
 .board-card__links a{font-size:13px;font-weight:600}
 /* Leadership profile page (/lukeerickson). */

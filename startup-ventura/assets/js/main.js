@@ -268,7 +268,68 @@
 	})();
 
 	/* ---------------------------------------------------------------------
-	 * 10. Forms — AJAX submit to admin-ajax, aria-live status, disable on send.
+	 * 10. Board bios — compact cards open a native <dialog> popup instead of
+	 * expanding inline (which turns a narrow card into a long bar). The wide
+	 * About layout keeps its open inline bios. No-JS fallback: <details>
+	 * expands inline as before.
+	 * ------------------------------------------------------------------- */
+	(function bioModal() {
+		if (typeof HTMLDialogElement === 'undefined') { return; }
+		var cards = $$('.board-grid:not(.board-grid--wide) .board-card');
+		if (!cards.length) { return; }
+		var dialog = null;
+
+		function build() {
+			dialog = document.createElement('dialog');
+			dialog.className = 'bio-modal';
+			dialog.setAttribute('aria-labelledby', 'bio-modal-name');
+			dialog.innerHTML =
+				'<div class="bio-modal__inner">' +
+				'<button class="bio-modal__close" type="button" aria-label="Close bio">&times;</button>' +
+				'<div class="bio-modal__head"><div class="bio-modal__media"></div>' +
+				'<div><h3 class="bio-modal__name" id="bio-modal-name"></h3><p class="board-card__role"></p></div></div>' +
+				'<p class="bio-modal__bio"></p><p class="board-card__links"></p></div>';
+			document.body.appendChild(dialog);
+			$('.bio-modal__close', dialog).addEventListener('click', function () { dialog.close(); });
+			dialog.addEventListener('click', function (e) {
+				if (e.target === dialog) { dialog.close(); } // backdrop
+			});
+			dialog.addEventListener('close', function () {
+				document.body.style.overflow = '';
+				if (dialog.svInvoker) { dialog.svInvoker.focus(); dialog.svInvoker = null; }
+			});
+		}
+
+		function open(card, invoker) {
+			if (!dialog) { build(); }
+			var photo = $('.board-card__photo', card);
+			var media = $('.bio-modal__media', dialog);
+			media.innerHTML = '';
+			if (photo) { media.appendChild(photo.cloneNode(false)); }
+			media.style.display = photo ? '' : 'none';
+			$('.bio-modal__name', dialog).textContent = ($('.board-card__name', card) || {}).textContent || '';
+			$('.board-card__role', dialog).textContent = ($('.board-card__role', card) || {}).textContent || '';
+			$('.bio-modal__bio', dialog).textContent = ($('.board-card__bio', card) || {}).textContent || '';
+			var links = $('.board-card__links', card);
+			$('.board-card__links', dialog).innerHTML = links ? links.innerHTML : '';
+			dialog.svInvoker = invoker;
+			dialog.showModal();
+			document.body.style.overflow = 'hidden';
+		}
+
+		cards.forEach(function (card) {
+			var details = $('.board-card__details', card);
+			var summary = details && details.querySelector('summary');
+			if (!summary) { return; }
+			summary.addEventListener('click', function (e) {
+				e.preventDefault(); // keep <details> closed; the dialog replaces it
+				open(card, summary);
+			});
+		});
+	})();
+
+	/* ---------------------------------------------------------------------
+	 * 11. Forms — AJAX submit to admin-ajax, aria-live status, disable on send.
 	 * ------------------------------------------------------------------- */
 	(function forms() {
 		if (typeof window.SV_FORMS === 'undefined') { return; }
