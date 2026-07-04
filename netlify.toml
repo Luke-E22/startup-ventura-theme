@@ -10,3 +10,9 @@
 
 [build.environment]
   NODE_VERSION = "22"
+
+# Pretty route for the unlisted 83 Palm concept page (flat file convention).
+[[redirects]]
+  from = "/explore/83-palm"
+  to = "/explore-83-palm.html"
+  status = 200

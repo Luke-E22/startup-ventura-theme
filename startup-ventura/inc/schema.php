@@ -148,6 +148,19 @@ function sv_document_title_parts( $parts ) {
 	return $parts;
 }
 
+/** Keep the unlisted 83 Palm concept page out of the native WP sitemap (it is noindexed). */
+add_filter( 'wp_sitemaps_posts_query_args', 'sv_sitemap_exclude_unlisted', 10, 2 );
+function sv_sitemap_exclude_unlisted( $args, $post_type ) {
+	if ( 'page' !== $post_type ) {
+		return $args;
+	}
+	$sv_pg = get_page_by_path( 'explore-83-palm' );
+	if ( $sv_pg ) {
+		$args['post__not_in'] = array_merge( isset( $args['post__not_in'] ) ? (array) $args['post__not_in'] : array(), array( $sv_pg->ID ) );
+	}
+	return $args;
+}
+
 /** Emit a JSON-LD block with the CSP nonce attached. */
 function sv_jsonld( $data ) {
 	$json  = wp_json_encode( $data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );

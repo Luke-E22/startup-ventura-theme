@@ -39,7 +39,7 @@ add_action( 'after_switch_theme', 'sv_seed_pages' );
  * lives in the templates; these pages are created empty and idempotently by slug.
  */
 function sv_seed_pages() {
-	if ( get_option( 'sv_seeded_pages_v3' ) ) {
+	if ( get_option( 'sv_seeded_pages_v4' ) ) {
 		return;
 	}
 	$pages = array(
@@ -48,6 +48,7 @@ function sv_seed_pages() {
 		array( 'title' => 'Press & Media Kit', 'slug' => 'press' ),
 		array( 'title' => 'Luke Erickson', 'slug' => 'lukeerickson' ),
 		array( 'title' => 'Donor Wall', 'slug' => 'donor-wall' ),
+		array( 'title' => '83 Palm Street · Coworking Concept', 'slug' => 'explore-83-palm' ),
 	);
 	foreach ( $pages as $pg ) {
 		if ( get_page_by_path( $pg['slug'] ) ) {
@@ -61,7 +62,7 @@ function sv_seed_pages() {
 			'post_content' => '',
 		) );
 	}
-	update_option( 'sv_seeded_pages_v3', 1 );
+	update_option( 'sv_seeded_pages_v4', 1 );
 }
 
 /** Get or create the "News" category. */
