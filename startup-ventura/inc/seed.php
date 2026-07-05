@@ -21,14 +21,14 @@ add_action( 'after_switch_theme', 'sv_seed_news_posts' );
  * Seed all News posts once.
  */
 function sv_seed_news_posts() {
-	if ( get_option( 'sv_seeded_news_v3' ) ) {
+	if ( get_option( 'sv_seeded_news_v4' ) ) {
 		return;
 	}
 	$cat_id = sv_seed_news_category();
 	foreach ( sv_seed_posts() as $post ) {
 		sv_seed_insert_post( $post, $cat_id );
 	}
-	update_option( 'sv_seeded_news_v3', 1 );
+	update_option( 'sv_seeded_news_v4', 1 );
 }
 
 add_action( 'after_switch_theme', 'sv_seed_pages' );
@@ -184,6 +184,25 @@ function sv_seed_gallery_blocks() {
  */
 function sv_seed_posts() {
 	return array(
+
+		// Sean Herwaldt joins the board (latest).
+		array(
+			'title'      => 'Welcoming Sean Herwaldt to the Startup Ventura Board',
+			'slug'       => 'sean-herwaldt-joins-board',
+			'date'       => '2026-07-08',
+			'status'     => 'publish',
+			'excerpt'    => 'Sean Herwaldt, a SpaceX supply chain veteran who now leads supply chain at Novos in Ventura, has joined the Startup Ventura Board of Directors.',
+			'image'      => 'team/sean-herwaldt.jpg',
+			'image_alt'  => 'Sean Herwaldt',
+			'tags'       => array( 'announcements', 'board', 'team' ),
+			'paragraphs' => array(
+				'Startup Ventura is honored to welcome Sean Herwaldt to our Board of Directors.',
+				'Sean spent six years at SpaceX, rising to global supply chain manager at one of the most demanding engineering companies in the world, now publicly traded after the largest IPO in history this past June. Keeping a rocket company supplied means solving hard problems under constant pressure and building the planning systems and supplier relationships that let ambitious teams actually ship. That is exactly the kind of operating experience early founders need in their corner.',
+				'His path reflects the kind of hands-on background our board is built on. Before SpaceX, Sean worked in supply chain and operations for major manufacturers including Owens Corning and Progress Rail, learning how real things get built and moved at scale. Today he leads supply chain at Novos, right here in Ventura. He knows what it takes to build something and see it through, from the ground floor up.',
+				'What Sean brings to Startup Ventura is more than a resume. He feels strongly about building a strong entrepreneurial ecosystem in Ventura, so founders with big ideas can build them at home instead of leaving to do it somewhere else. That belief is the entire reason we exist.',
+				'We could not be more excited to have him help guide what comes next. Welcome, Sean.',
+			),
+		),
 
 		// Luke Erickson named Executive Director (latest).
 		array(

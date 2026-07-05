@@ -371,6 +371,19 @@ page('contact.html', {
 // NEWS — archive + one clickable article page per post (newest first)
 const newsPosts = [
   {
+    file: 'news-sean-herwaldt-board.html', crumb: 'New Board Member',
+    title: 'Welcoming Sean Herwaldt to the Startup Ventura Board',
+    date: 'July 8, 2026', img: `${A}/img/team/sean-herwaldt.jpg`, alt: 'Sean Herwaldt',
+    excerpt: 'Sean Herwaldt, a SpaceX supply chain veteran who now leads supply chain at Novos in Ventura, has joined the Startup Ventura Board of Directors.',
+    paras: [
+      'Startup Ventura is honored to welcome Sean Herwaldt to our Board of Directors.',
+      'Sean spent six years at SpaceX, rising to global supply chain manager at one of the most demanding engineering companies in the world, now publicly traded after the largest IPO in history this past June. Keeping a rocket company supplied means solving hard problems under constant pressure and building the planning systems and supplier relationships that let ambitious teams actually ship. That is exactly the kind of operating experience early founders need in their corner.',
+      'His path reflects the kind of hands-on background our board is built on. Before SpaceX, Sean worked in supply chain and operations for major manufacturers including Owens Corning and Progress Rail, learning how real things get built and moved at scale. Today he leads supply chain at Novos, right here in Ventura. He knows what it takes to build something and see it through, from the ground floor up.',
+      'What Sean brings to Startup Ventura is more than a resume. He feels strongly about building a strong entrepreneurial ecosystem in Ventura, so founders with big ideas can build them at home instead of leaving to do it somewhere else. That belief is the entire reason we exist.',
+      'We could not be more excited to have him help guide what comes next. Welcome, Sean.',
+    ],
+  },
+  {
     // Custom single page generated separately (full SEO head + Person schema).
     file: 'luke-erickson-executive-director.html', crumb: 'Executive Director', custom: true,
     title: 'Luke Erickson Steps Into the Role of Executive Director at Startup Ventura',
