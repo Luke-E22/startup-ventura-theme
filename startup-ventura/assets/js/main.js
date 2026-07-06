@@ -329,7 +329,79 @@
 	})();
 
 	/* ---------------------------------------------------------------------
-	 * 11. Forms — AJAX submit to admin-ajax, aria-live status, disable on send.
+	 * 11. Testimonials carousel — prev/next + dots over the scroll-snap row.
+	 * No autoplay (motion + a11y); without JS the row is natively swipeable.
+	 * ------------------------------------------------------------------- */
+	(function testimonialCarousel() {
+		$$('.testimonials').forEach(function (track) {
+			var slides = $$('.testimonial', track);
+			if (slides.length < 2) { return; }
+			track.setAttribute('role', 'region');
+			track.setAttribute('aria-roledescription', 'carousel');
+			track.setAttribute('aria-label', 'Testimonials');
+			track.setAttribute('tabindex', '0');
+
+			var nav = document.createElement('div');
+			nav.className = 'carousel-nav';
+			var prev = document.createElement('button');
+			prev.type = 'button'; prev.className = 'carousel-nav__btn';
+			prev.setAttribute('aria-label', 'Previous testimonial');
+			prev.innerHTML = '&larr;';
+			var dots = document.createElement('div');
+			dots.className = 'carousel-nav__dots';
+			var next = document.createElement('button');
+			next.type = 'button'; next.className = 'carousel-nav__btn';
+			next.setAttribute('aria-label', 'Next testimonial');
+			next.innerHTML = '&rarr;';
+			nav.appendChild(prev); nav.appendChild(dots); nav.appendChild(next);
+			track.insertAdjacentElement('afterend', nav);
+
+			slides.forEach(function (s, i) {
+				var d = document.createElement('button');
+				d.type = 'button'; d.className = 'carousel-nav__dot';
+				d.setAttribute('aria-label', 'Go to testimonial ' + (i + 1) + ' of ' + slides.length);
+				d.addEventListener('click', function () { go(i); });
+				dots.appendChild(d);
+			});
+			var dotEls = $$('.carousel-nav__dot', dots);
+
+			function index() {
+				// At the clamped ends the nearest-center math can stall one short,
+				// so pin the first/last slide explicitly.
+				if (track.scrollLeft <= 2) { return 0; }
+				if (track.scrollLeft >= track.scrollWidth - track.clientWidth - 2) { return slides.length - 1; }
+				var mid = track.scrollLeft + track.clientWidth / 2;
+				var best = 0, bestDist = Infinity;
+				slides.forEach(function (s, i) {
+					var c = s.offsetLeft + s.offsetWidth / 2;
+					var d = Math.abs(c - mid);
+					if (d < bestDist) { bestDist = d; best = i; }
+				});
+				return best;
+			}
+			function paint() {
+				var i = index();
+				dotEls.forEach(function (d, j) { d.classList.toggle('is-active', j === i); });
+			}
+			function go(i) {
+				i = Math.max(0, Math.min(slides.length - 1, i));
+				var s = slides[i];
+				track.scrollTo({ left: s.offsetLeft - (track.clientWidth - s.offsetWidth) / 2, behavior: reduce ? 'auto' : 'smooth' });
+			}
+			prev.addEventListener('click', function () { go(index() - 1); });
+			next.addEventListener('click', function () { go(index() + 1); });
+			track.addEventListener('keydown', function (e) {
+				if (e.key === 'ArrowLeft') { e.preventDefault(); go(index() - 1); }
+				if (e.key === 'ArrowRight') { e.preventDefault(); go(index() + 1); }
+			});
+			var t = null;
+			track.addEventListener('scroll', function () { clearTimeout(t); t = setTimeout(paint, 80); }, { passive: true });
+			paint();
+		});
+	})();
+
+	/* ---------------------------------------------------------------------
+	 * 12. Forms — AJAX submit to admin-ajax, aria-live status, disable on send.
 	 * ------------------------------------------------------------------- */
 	(function forms() {
 		if (typeof window.SV_FORMS === 'undefined') { return; }

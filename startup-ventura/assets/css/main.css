@@ -446,7 +446,19 @@ p{max-width:72ch}
 /* =========================================================================
    TESTIMONIALS
    ========================================================================= */
-.testimonials{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+/* Testimonials: horizontal scroll-snap carousel (one card + a peek of the next).
+   main.js adds prev/next + dots; without JS it is a natively swipeable row. */
+.testimonials{display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;padding:4px 4px 12px;scrollbar-width:none}
+.testimonials::-webkit-scrollbar{display:none}
+.testimonials .testimonial{flex:0 0 min(660px,92%);scroll-snap-align:center}
+@media (prefers-reduced-motion:reduce){.testimonials{scroll-behavior:auto}}
+.carousel-nav{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:18px}
+.carousel-nav__btn{width:44px;height:44px;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--navy);font-size:19px;line-height:1;cursor:pointer;transition:background .2s,color .2s,border-color .2s}
+.carousel-nav__btn:hover{background:var(--navy);color:#fff;border-color:var(--navy)}
+.carousel-nav__btn:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.carousel-nav__dots{display:flex;gap:8px}
+.carousel-nav__dot{width:9px;height:9px;border-radius:999px;border:0;padding:0;background:var(--line);cursor:pointer;transition:background .2s,transform .2s}
+.carousel-nav__dot.is-active{background:var(--blue);transform:scale(1.25)}
 .testimonial{position:relative;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:32px 30px 28px;box-shadow:var(--shadow-sm)}
 .testimonial__mark{position:absolute;top:6px;left:22px;font-family:var(--font-display);font-weight:900;font-size:84px;line-height:1;color:var(--coral);opacity:.18;pointer-events:none}
 .testimonial__quote{position:relative;font-family:var(--font-display);font-weight:800;letter-spacing:-.01em;font-size:clamp(17px,1.7vw,20px);line-height:1.4;color:var(--ink)}
