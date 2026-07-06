@@ -179,7 +179,7 @@ function sv_schema_org() {
 		'url'         => home_url( '/' ),
 		'description' => 'A 501(c)(3) nonprofit startup accelerator in Ventura County, California.',
 		'taxID'       => SV_EIN,
-		'sameAs'      => array( SV_LINKEDIN, SV_INSTAGRAM ),
+		'sameAs'      => array( SV_LINKEDIN, SV_INSTAGRAM, SV_FACEBOOK ),
 		'address'     => array(
 			'@type'           => 'PostalAddress',
 			'addressLocality' => 'Ventura',

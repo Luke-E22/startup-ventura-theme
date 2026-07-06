@@ -23,6 +23,7 @@ define( 'SV_EMAIL_INFO',    'info@startupventura.com' );
 define( 'SV_EMAIL_SPONSOR', 'sponsor@startupventura.com' );
 define( 'SV_LINKEDIN',  'https://www.linkedin.com/company/startup-ventura' );
 define( 'SV_INSTAGRAM', 'https://www.instagram.com/startup_ventura/' );
+define( 'SV_FACEBOOK',  'https://www.facebook.com/startupventura/' );
 define( 'SV_GTM_ID',    '' );            // Add later; when blank, all GTM output is suppressed.
 define( 'SV_EIN',       '39-2204612' );
 

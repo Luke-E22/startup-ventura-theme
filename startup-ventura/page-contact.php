@@ -59,6 +59,7 @@ $sv_sponsor = antispambot( SV_EMAIL_SPONSOR );
 					<span class="contact-aside__social">
 						<a href="<?php echo esc_url( SV_LINKEDIN ); ?>" target="_blank" rel="noopener">LinkedIn</a>
 						<a href="<?php echo esc_url( SV_INSTAGRAM ); ?>" target="_blank" rel="noopener">Instagram</a>
+						<a href="<?php echo esc_url( SV_FACEBOOK ); ?>" target="_blank" rel="noopener">Facebook</a>
 					</span>
 				</div>
 
