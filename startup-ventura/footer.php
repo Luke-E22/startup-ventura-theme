@@ -79,6 +79,7 @@ $sv_sponsor = antispambot( SV_EMAIL_SPONSOR );
 			); ?></span>
 			<span>&copy; <?php echo esc_html( wp_date( 'Y' ) ); ?> <?php echo esc_html( get_bloginfo( 'name' ) ); ?></span>
 			<span class="footer-legal__links"><a href="<?php echo esc_url( home_url( '/privacy/' ) ); ?>"><?php esc_html_e( 'Privacy', 'startup-ventura' ); ?></a> &middot; <a href="<?php echo esc_url( home_url( '/terms/' ) ); ?>"><?php esc_html_e( 'Terms', 'startup-ventura' ); ?></a></span>
+			<span class="footer-legal__credit"><?php esc_html_e( 'Website by', 'startup-ventura' ); ?> <a href="https://lukeerickson.com" target="_blank" rel="noopener">Luke Erickson</a></span>
 		</div>
 	</div>
 </footer>
