@@ -190,8 +190,13 @@ p{max-width:72ch}
 .site-header.is-scrolled .site-brand .brand-logo--white{display:none}
 
 /* hamburger + mobile menu */
-.menu-toggle{display:none;flex-direction:column;align-items:center;justify-content:center;width:46px;height:46px;border:0;border-radius:10px;background:rgba(48,96,156,.08);cursor:pointer;color:inherit}
-.site-header--over-hero .menu-toggle{background:rgba(255,255,255,.16);color:#fff}
+.menu-toggle{display:none;flex-direction:column;align-items:center;justify-content:center;width:46px;height:46px;border:0;border-radius:10px;background:rgba(48,96,156,.10);cursor:pointer;color:var(--navy)}
+/* Over the hero: white bars on a dark pill so they show over the light sky at the
+   top of the image too (a faint white pill was invisible there). */
+.site-header--over-hero .menu-toggle{background:rgba(31,58,82,.42);color:#fff}
+/* When the header turns solid on scroll, reset the bars to navy (they were
+   stuck white from the over-hero rule = white-on-white). */
+.site-header.is-scrolled .menu-toggle{background:rgba(48,96,156,.10);color:var(--navy)}
 .menu-toggle .bar{display:block;width:22px;height:2px;background:currentColor;border-radius:2px;transition:transform .2s,opacity .2s}
 .menu-toggle .bar + .bar{margin-top:5px}
 .mobile-menu{position:fixed;inset:0;z-index:1040;background:var(--navy-deep);color:#fff;display:none;flex-direction:column;padding:calc(var(--header-h) + 16px) var(--gutter) 32px;overflow-y:auto}
