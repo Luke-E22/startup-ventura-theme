@@ -55,6 +55,7 @@ $sv_sponsor = antispambot( SV_EMAIL_SPONSOR );
 						<li><a href="<?php echo esc_url( home_url( '/news/' ) ); ?>"><?php esc_html_e( 'News', 'startup-ventura' ); ?></a></li>
 						<li><a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>"><?php esc_html_e( 'Contact', 'startup-ventura' ); ?></a></li>
 						<li><a href="<?php echo esc_url( home_url( '/donor-wall/' ) ); ?>"><?php esc_html_e( 'Donor Wall', 'startup-ventura' ); ?></a></li>
+						<li class="footer-hiring"><a href="<?php echo esc_url( home_url( '/careers/' ) ); ?>"><?php esc_html_e( 'Join our team', 'startup-ventura' ); ?> <span class="sep">|</span> <?php esc_html_e( 'Careers', 'startup-ventura' ); ?></a></li>
 						<li class="footer-note-link"><a href="<?php echo esc_url( home_url( '/explore-83-palm/' ) ); ?>">83 Palm St &middot; concept study</a></li>
 					</ul>
 				<?php endif; ?>

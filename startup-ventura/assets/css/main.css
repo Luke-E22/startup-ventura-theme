@@ -328,14 +328,33 @@ p{max-width:72ch}
 .tier__cta .btn{width:100%}
 
 /* Donor wall (/donor-wall) — names come from sv_donors(); tiers mirror the Give page. */
-/* Careers: open-role listings + application form. */
+/* Careers: expandable open-role listings + application form. */
 .roles{display:flex;flex-direction:column;gap:16px;margin-top:8px}
-.role{display:flex;align-items:center;justify-content:space-between;gap:24px;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:24px 26px;box-shadow:var(--shadow-sm)}
+.role{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow-sm);overflow:hidden}
+.role__summary{list-style:none;cursor:pointer;display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding:24px 26px}
+.role__summary::-webkit-details-marker{display:none}
+.role__summary:hover .role__toggle{color:var(--navy)}
 .role__title{font-family:var(--font-display);font-weight:800;font-size:1.2rem;color:var(--ink)}
-.role__meta{font-family:var(--font-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);margin:4px 0 10px}
-.role__desc{font-size:15px;color:var(--muted);max-width:60ch;line-height:1.5}
-.role__apply{flex:0 0 auto}
-@media (max-width:640px){.role{flex-direction:column;align-items:flex-start;gap:16px}.role__apply{width:100%}}
+.role__meta{font-family:var(--font-mono);font-size:12.5px;letter-spacing:.02em;color:var(--blue);margin:5px 0 10px}
+.role__desc{font-size:15px;color:var(--muted);max-width:64ch;line-height:1.5}
+.role__toggle{flex:0 0 auto;font-family:var(--font-mono);font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--blue);display:inline-flex;align-items:center;gap:6px;white-space:nowrap;padding-top:4px}
+.role__toggle::after{content:"\2304";font-size:16px;line-height:1;transition:transform .2s}
+.role__d[open] .role__toggle::after{transform:rotate(180deg)}
+.role__d[open] .role__toggle{visibility:hidden} /* hide "Details" prompt once open */
+.role__full{padding:0 26px 6px;border-top:1px solid var(--line);margin-top:-2px}
+.role__full h4{font-family:var(--font-display);font-weight:800;font-size:1.02rem;color:var(--ink);margin:22px 0 8px}
+.role__full p{font-size:15px;line-height:1.6;color:var(--muted);margin-bottom:10px}
+.role__full p.role__subhead{font-weight:700;color:var(--ink);margin:14px 0 6px}
+.role__full ul{margin:0 0 14px;padding-left:1.15em}
+.role__full li{font-size:15px;line-height:1.55;color:var(--muted);margin-bottom:6px}
+.role__actions{padding:0 26px 24px}
+@media (max-width:640px){.role__summary{flex-direction:column;gap:12px}.role__toggle{padding-top:0}.role__actions .btn{width:100%}}
+
+/* Footer "Join our team" hiring highlight in the Explore list. */
+.footer-hiring{margin-top:8px}
+.footer-hiring a{display:inline-block;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.22);border-radius:999px;padding:5px 14px;color:#fff;font-weight:700;font-size:13.5px;letter-spacing:.01em}
+.footer-hiring a:hover{background:rgba(255,255,255,.17);color:#fff}
+.footer-hiring .sep{opacity:.5;font-weight:400;margin:0 2px}
 
 /* Recognition ladder: tiers stacked vertically, highest gift first, with the
    donor names scaling up by tier so a $25K name reads far bigger than a $1K one. */
