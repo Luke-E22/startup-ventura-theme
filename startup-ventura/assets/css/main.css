@@ -597,6 +597,7 @@ picture{display:contents}
 /* Thank-you (post-donation) page: full-viewport confetti + a celebratory layout. */
 #sv-confetti{position:fixed;inset:0;width:100vw;height:100vh;pointer-events:none;z-index:60}
 .thankyou{padding-block:clamp(48px,10vh,120px);background:linear-gradient(180deg,var(--sky-pale) 0%,#fff 70%)}
+.thankyou .wave-rule{margin-inline:auto} /* svg is display:block, so center it explicitly */
 .thankyou .display{margin-top:6px}
 .thankyou__again{margin-top:30px;display:inline-block;background:none;border:1px solid var(--line);border-radius:999px;padding:9px 18px;font-family:var(--font-mono);font-size:12.5px;letter-spacing:.06em;color:var(--muted);cursor:pointer;transition:color .2s,border-color .2s}
 .thankyou__again:hover{color:var(--navy);border-color:var(--navy)}
