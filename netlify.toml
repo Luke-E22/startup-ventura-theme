@@ -16,3 +16,19 @@
   from = "/explore/83-palm"
   to = "/explore-83-palm.html"
   status = 200
+
+# Pretty routes for pages whose canonical omits .html.
+[[redirects]]
+  from = "/donor-wall"
+  to = "/donor-wall.html"
+  status = 200
+
+[[redirects]]
+  from = "/lukeerickson"
+  to = "/lukeerickson.html"
+  status = 200
+
+[[redirects]]
+  from = "/luke-erickson-executive-director"
+  to = "/luke-erickson-executive-director.html"
+  status = 200

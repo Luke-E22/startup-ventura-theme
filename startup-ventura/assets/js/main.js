@@ -229,6 +229,14 @@
 		window.dataLayer = window.dataLayer || [];
 		$$('[data-cta]').forEach(function (el) {
 			el.addEventListener('click', function () {
+				// gtag (plain GA4) when present; otherwise the dataLayer (GTM).
+				if (window.gtag) {
+					window.gtag('event', 'cta_click', {
+						cta_type: el.dataset.cta,
+						cta_location: el.dataset.ctaLocation || ''
+					});
+					return;
+				}
 				window.dataLayer.push({
 					event: 'cta_click',
 					cta_type: el.dataset.cta,

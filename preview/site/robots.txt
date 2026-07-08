@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /explore-83-palm.html
+Disallow: /explore/83-palm
+
+Sitemap: https://startupventura.com/sitemap.xml

@@ -94,6 +94,21 @@ const introReplay = `<button class="replay" id="sv-intro-replay" type="button">R
 
 // Production origin for absolute SEO URLs (canonical, Open Graph, JSON-LD).
 const SITE = 'https://startupventura.com';
+
+// Google Analytics: paste the ID and rebuild. Supports a GA4 Measurement ID
+// ("G-XXXXXXXXXX", loads gtag.js) or a Tag Manager container ("GTM-XXXXXXX").
+// Empty string = no analytics emitted.
+const ANALYTICS_ID = '';
+const analyticsHead = () => {
+  if (!ANALYTICS_ID) return '';
+  if (ANALYTICS_ID.startsWith('GTM-')) {
+    return `<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${ANALYTICS_ID}');</script>\n`;
+  }
+  return `<script async src="https://www.googletagmanager.com/gtag/js?id=${ANALYTICS_ID}"></script>\n<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${ANALYTICS_ID}');</script>\n`;
+};
+
+// Collected as pages are generated; used to emit sitemap.xml at the end.
+const PAGE_MANIFEST = [];
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 // Per-page SEO head tags: description, canonical, Open Graph, Twitter, JSON-LD.
 const seoHead = ({ title, desc, canonical, ogType = 'website', ogImage, jsonld, robots }) => {
@@ -129,11 +144,15 @@ const seoHead = ({ title, desc, canonical, ogType = 'website', ogImage, jsonld, 
 
 const page = (file, { title, overHero = false, body, crumbsTrail, intro = false, desc, canonical, ogType = 'website', ogImage, jsonld, robots }) => {
   const fullTitle = `${title} — Startup Ventura`;
-  const seo = seoHead({ title: fullTitle, desc, canonical, ogType, ogImage, jsonld, robots });
+  // Every page gets a canonical: the home root, an explicit pretty route, or its real .html URL.
+  const canon = canonical || (file === 'index.html' ? `${SITE}/` : `${SITE}/${file}`);
+  PAGE_MANIFEST.push({ file, canonical: canon, robots: robots || '' });
+  const seo = seoHead({ title: fullTitle, desc, canonical: canon, ogType, ogImage, jsonld, robots });
   const html = `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>${fullTitle}</title>
 ${seo}<link rel="preload" href="${A}/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="${A}/fonts/hanken-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="${A}/css/main.css?v=21"></head>
+<link rel="stylesheet" href="${A}/css/main.css?v=21">
+${analyticsHead()}</head>
 <body class="${overHero ? 'home' : ''}">
 ${intro ? introNoFlash + '\n' + introOverlay + '\n' : ''}${header(overHero)}
 ${crumbsTrail ? crumbs(crumbsTrail) : ''}
@@ -218,7 +237,7 @@ ${msg ? `<div class="field${full}"><label for="${id('message')}">Message <span c
 <div class="form__submit${full}"><button class="btn btn--blue" type="submit">${submit}</button></div><p class="form__status${full}" role="status" aria-live="polite"></p></form>`;
 };
 // Delegated submit handler for every Netlify form on a page (injected by page()).
-const NF_SCRIPT = `<script>document.addEventListener('submit',function(e){var f=e.target;if(!f||!f.hasAttribute||!f.hasAttribute('data-netlify'))return;e.preventDefault();var s=f.querySelector('.form__status');var b=f.querySelector('button[type=submit]');if(b)b.disabled=true;fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(new FormData(f)).toString()}).then(function(r){if(!r.ok)throw new Error(r.status);if(s){s.className=s.className.replace(' is-err','')+' is-ok';s.textContent=f.getAttribute('data-success')||'Thanks, we got it.';}f.reset();}).catch(function(){if(s){s.className=s.className.replace(' is-ok','')+' is-err';s.textContent='Something went wrong. Please email info@startupventura.com and we will take care of it.';}}).finally(function(){if(b)b.disabled=false;});});</script>`;
+const NF_SCRIPT = `<script>document.addEventListener('submit',function(e){var f=e.target;if(!f||!f.hasAttribute||!f.hasAttribute('data-netlify'))return;e.preventDefault();var s=f.querySelector('.form__status');var b=f.querySelector('button[type=submit]');if(b)b.disabled=true;fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(new FormData(f)).toString()}).then(function(r){if(!r.ok)throw new Error(r.status);if(s){s.className=s.className.replace(' is-err','')+' is-ok';s.textContent=f.getAttribute('data-success')||'Thanks, we got it.';}f.reset();try{if(window.gtag){gtag('event','form_submit',{form_name:f.getAttribute('name')});}else if(window.dataLayer){dataLayer.push({event:'form_submit',form_name:f.getAttribute('name')});}}catch(err){}}).catch(function(){if(s){s.className=s.className.replace(' is-ok','')+' is-err';s.textContent='Something went wrong. Please email info@startupventura.com and we will take care of it.';}}).finally(function(){if(b)b.disabled=false;});});</script>`;
 
 const pageHead = (e, h, lede) => `<section class="section"><div class="wrap"><header class="page-head"><p class="eyebrow">${e}</p>${waveRule}<h1 class="display">${h}</h1><p class="lede">${lede}</p></header></div></section>`;
 const card = (href, eyebrow, title, text, link) => `<a class="card card--link" href="${href}"><div class="card__body">${eyebrow ? `<p class="eyebrow">${eyebrow}</p>` : ''}<h3 class="card__title">${title}</h3><p class="card__text">${text}</p><span class="card__link">${link}</span></div></a>`;
@@ -618,4 +637,25 @@ page('press.html', {
     `<section class="section"><div class="wrap wrap--narrow"><div class="entry-content"><h2>About Startup Ventura</h2><p>Startup Ventura is a 501(c)(3) nonprofit startup accelerator in Ventura County, California. We back local founders with the mentorship, capital connections, and community to build high-growth companies, and to keep that talent and those jobs in Ventura County. Our inaugural Spring 2027 cohort is now being funded.</p><h2>Quick facts</h2><ul><li>501(c)(3) nonprofit startup accelerator</li><li>EIN 39-2204612</li><li>Ventura County, California</li><li>A 7-week accelerator, a founder workshop series, and a Demo Day</li><li>Inaugural cohort: Spring 2027</li></ul><h2>Logos</h2><p><a href="${A}/img/logo.png" download>Download logo (color)</a><br><a href="${A}/img/logo-white.png" download>Download logo (white)</a></p><h2>Leadership</h2><p>Led by operators behind Curri, SevenRooms, and the Ventura Chamber of Commerce. Read more on our <a href="about.html">About page</a>.</p><h2>Press contact</h2><p>Email <a href="mailto:info@startupventura.com">info@startupventura.com</a>, or use our <a href="contact.html">contact form</a> and choose "Press."</p></div></div></section>`,
 });
 
-console.log('Generated', fs.readdirSync(OUT).length, 'pages into preview/site/:', fs.readdirSync(OUT).sort().join(', '));
+// 404 — Netlify serves /404.html automatically for missing routes.
+page('404.html', {
+  title: 'Page not found',
+  robots: 'noindex',
+  body: `<section class="section"><div class="wrap wrap--narrow" style="text-align:center;padding-block:8vh">
+    <p class="eyebrow">404</p>${waveRule}
+    <h1 class="display">This page drifted out with the tide.</h1>
+    <p class="lede" style="margin-inline:auto">The page you are looking for does not exist or has moved. Head back to shore.</p>
+    <div class="center" style="margin-top:28px"><a class="btn btn--blue" href="index.html">Back to the homepage</a>&nbsp;&nbsp;<a class="btn btn--outline" href="contact.html">Contact us</a></div>
+  </div></section>`,
+});
+
+// sitemap.xml + robots.txt (indexing). Noindex pages and the standalone
+// calculator app are excluded from the sitemap.
+const sitemapUrls = PAGE_MANIFEST
+  .filter((p) => !p.robots.includes('noindex') && p.file !== 'impact-calculator.html')
+  .map((p) => `  <url><loc>${p.canonical}</loc></url>`)
+  .join('\n');
+fs.writeFileSync(path.join(OUT, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemapUrls}\n</urlset>\n`);
+fs.writeFileSync(path.join(OUT, 'robots.txt'), `User-agent: *\nAllow: /\nDisallow: /explore-83-palm.html\nDisallow: /explore/83-palm\n\nSitemap: ${SITE}/sitemap.xml\n`);
+
+console.log('Generated', fs.readdirSync(OUT).length, 'files into preview/site/ (incl. sitemap.xml + robots.txt)');
