@@ -195,7 +195,7 @@ ${overHero ? `<link rel="preload" as="image" type="image/webp" imagesrcset="${A}
 <link rel="icon" href="${A}/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="${A}/img/favicon.png" sizes="any" type="image/png">
 <link rel="apple-touch-icon" href="${A}/img/favicon-180.png">
-<link rel="stylesheet" href="${A}/css/main.css?v=23">
+<link rel="stylesheet" href="${A}/css/main.css?v=24">
 ${analyticsHead()}</head>
 <body class="${overHero ? 'home' : ''}">
 ${header(overHero)}
@@ -203,7 +203,7 @@ ${crumbsTrail ? crumbs(crumbsTrail) : ''}
 ${body}
 ${footer()}
 ${noZeffy ? '' : '<script src="https://zeffy-scripts.s3.ca-central-1.amazonaws.com/embed-form-script.min.js" defer></script>'}
-<script src="${A}/js/main.js?v=23"></script>
+<script src="${A}/js/main.js?v=24"></script>
 ${body.includes('data-netlify') ? NF_SCRIPT : ''}
 </body></html>`;
   fs.writeFileSync(path.join(OUT, file), html);
@@ -379,9 +379,10 @@ page('donor-wall.html', {
   desc: "The donors and community partners funding Startup Ventura's inaugural Spring 2027 cohort. Founder's Circle recognition and founding supporters.",
   canonical: `${SITE}/donor-wall`,
   body: pageHead('Donor Wall', 'The people funding what founders build here.', 'Startup Ventura is powered by donors and partners who back Ventura County founders. This wall recognizes the Founder&rsquo;s Circle and the community partners behind the inaugural Spring 2027 cohort.') +
-    `<section class="section section--pale"><div class="wrap">${head("Founder's Circle", 'The donors launching the first cohort.', 'Each tier includes everything below it. Recognition follows the tier at the time of the gift.')}<div class="donor-wall">${tiers.map(([n, a, legacy]) => {
+    `<section class="section section--pale"><div class="wrap">${head("Founder's Circle", 'The donors launching the first cohort.', 'Recognition scales with the gift, highest tier first. Each tier includes everything below it.')}<div class="donor-ladder">${[...tiers].reverse().map(([n, a], i, arr) => {
       const names = donors[n] || [];
-      return `<div class="donor-tier${legacy ? ' donor-tier--legacy' : ''}"><h3 class="donor-tier__name">${n}</h3><p class="donor-tier__amount">${a}</p>${names.length ? `<ul class="donor-tier__names">${names.map((x) => `<li>${x}</li>`).join('')}</ul>` : `<p class="donor-tier__invite"><a href="give.html">Be the first name on this tier &rarr;</a></p>`}</div>`;
+      const lvl = arr.length - i; // 4 = Legacy (top, grandest) … 1 = Catalyst
+      return `<div class="donor-rank donor-rank--l${lvl}"><p class="donor-rank__tier"><span class="donor-rank__label">${n}</span> <span class="donor-rank__amount">${a}+</span></p>${names.length ? `<ul class="donor-rank__donors">${names.map((x) => `<li>${x}</li>`).join('')}</ul>` : `<p class="donor-rank__invite"><a href="give.html">Be the first at this level &rarr;</a></p>`}</div>`;
     }).join('')}</div></div></section>
     <section class="section"><div class="wrap">${head('Founding Supporters', 'The partners who got this started.', 'Public and community partners whose early support launched Startup Ventura.')}<ul class="donor-partners">${donors.partners.map((p) => `<li>${p}</li>`).join('')}</ul></div></section>
     <section class="section section--pale section--tight"><div class="wrap">${head('Thank You', 'To every donor who backs Ventura County&rsquo;s founders.')}${donors.all.length ? `<ul class="donor-all">${donors.all.map((n) => `<li>${n}</li>`).join(' ')}</ul>` : `<p class="donor-all__empty">Every donor&rsquo;s name is listed here, at every level. <a href="give.html">Yours belongs on this wall &rarr;</a></p>`}</div></section>` +

@@ -30,27 +30,30 @@ $sv_partners = isset( $sv_donors['partners'] ) ? $sv_donors['partners'] : array(
 	</div>
 </section>
 
-<?php // ===== Founder's Circle wall, one column per tier ===== ?>
+<?php // ===== Founder's Circle: vertical recognition ladder, highest gift first ===== ?>
 <section class="section section--pale">
 	<div class="wrap">
 		<?php sv_section_header( "Founder's Circle", 'The donors launching the first cohort.', array(
-			'intro' => 'Each tier includes everything below it. Recognition follows the tier at the time of the gift.',
+			'intro' => 'Recognition scales with the gift, highest tier first. Each tier includes everything below it.',
 		) ); ?>
-		<div class="donor-wall">
-			<?php foreach ( sv_tiers() as $sv_tier ) :
+		<div class="donor-ladder">
+			<?php
+			$sv_ranks = array_reverse( sv_tiers() ); // Legacy (grandest) first … Catalyst last
+			$sv_total = count( $sv_ranks );
+			foreach ( $sv_ranks as $sv_i => $sv_tier ) :
 				$sv_names = isset( $sv_donors[ $sv_tier['name'] ] ) ? $sv_donors[ $sv_tier['name'] ] : array();
+				$sv_lvl   = $sv_total - $sv_i; // 4 = Legacy (top) … 1 = Catalyst
 				?>
-				<div class="donor-tier<?php echo ! empty( $sv_tier['legacy'] ) ? ' donor-tier--legacy' : ''; ?> reveal">
-					<h3 class="donor-tier__name"><?php echo esc_html( $sv_tier['name'] ); ?></h3>
-					<p class="donor-tier__amount"><?php echo esc_html( $sv_tier['amount'] ); ?></p>
+				<div class="donor-rank donor-rank--l<?php echo (int) $sv_lvl; ?> reveal">
+					<p class="donor-rank__tier"><span class="donor-rank__label"><?php echo esc_html( $sv_tier['name'] ); ?></span> <span class="donor-rank__amount"><?php echo esc_html( $sv_tier['amount'] ); ?>+</span></p>
 					<?php if ( $sv_names ) : ?>
-						<ul class="donor-tier__names">
+						<ul class="donor-rank__donors">
 							<?php foreach ( $sv_names as $sv_name ) : ?>
 								<li><?php echo esc_html( $sv_name ); ?></li>
 							<?php endforeach; ?>
 						</ul>
 					<?php else : ?>
-						<p class="donor-tier__invite"><a href="<?php echo esc_url( home_url( '/give/' ) ); ?>">Be the first name on this tier &rarr;</a></p>
+						<p class="donor-rank__invite"><a href="<?php echo esc_url( home_url( '/give/' ) ); ?>">Be the first at this level &rarr;</a></p>
 					<?php endif; ?>
 				</div>
 			<?php endforeach; ?>
