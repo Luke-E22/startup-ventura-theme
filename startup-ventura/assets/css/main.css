@@ -591,6 +591,8 @@ picture{display:contents}
 .footer-note-link a{font-size:12.5px;color:#7d95a6}
 .footer-note-link a:hover{color:#cfe0ea}
 .footer-legal{border-top:1px solid rgba(255,255,255,.1);padding-block:22px 30px;font-size:13px;color:#8aa3b3;display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:space-between}
+.footer-legal a{color:#a9c2d4;text-decoration:underline}
+.footer-legal a:hover{color:#fff}
 
 /* =========================================================================
    404
