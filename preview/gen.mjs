@@ -181,14 +181,6 @@ const seoHead = ({ title, desc, canonical, ogType = 'website', ogImage, jsonld, 
   return h;
 };
 
-// Lazy-load the Zeffy embed (which itself pulls in Stripe, hCaptcha, reCAPTCHA,
-// Google Pay, HubSpot, Amplitude) only on the first real user interaction, so
-// none of that third-party weight is on the initial page load. A Give click
-// that lands before the script is ready loads it, then re-clicks so the modal
-// still opens. Pre-warming on first pointer/scroll means a real visitor almost
-// always has it ready before they reach the Give button.
-const zeffyLoader = `<script>(function(){var SRC="https://zeffy-scripts.s3.ca-central-1.amazonaws.com/embed-form-script.min.js",loaded=false,loading=false,cb=null,EV=["pointerdown","keydown","touchstart","scroll","mousemove"];function load(fn){if(loaded){fn&&fn();return}if(fn)cb=fn;if(loading)return;loading=true;var s=document.createElement("script");s.src=SRC;s.async=true;s.onload=function(){loaded=true;if(cb){var f=cb;cb=null;setTimeout(f,0)}};document.head.appendChild(s)}function warm(){EV.forEach(function(e){window.removeEventListener(e,warm)});load()}EV.forEach(function(e){window.addEventListener(e,warm,{passive:true})});document.addEventListener("click",function(ev){var b=ev.target.closest&&ev.target.closest("[zeffy-form-link]");if(!b||loaded)return;ev.preventDefault();ev.stopPropagation();load(function(){b.click()})},true)})();</script>`;
-
 const page = (file, { title, overHero = false, body, crumbsTrail, desc, canonical, ogType = 'website', ogImage, jsonld, robots }) => {
   const fullTitle = `${title} — Startup Ventura`;
   // Every page gets a canonical: the home root, an explicit pretty route, or its real .html URL.
@@ -210,7 +202,7 @@ ${header(overHero)}
 ${crumbsTrail ? crumbs(crumbsTrail) : ''}
 ${body}
 ${footer()}
-${zeffyLoader}
+<script src="https://zeffy-scripts.s3.ca-central-1.amazonaws.com/embed-form-script.min.js" defer></script>
 <script src="${A}/js/main.js?v=22"></script>
 ${body.includes('data-netlify') ? NF_SCRIPT : ''}
 </body></html>`;
