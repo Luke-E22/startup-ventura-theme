@@ -49,6 +49,11 @@
   status = 200
 
 [[redirects]]
+  from = "/careers"
+  to = "/careers.html"
+  status = 200
+
+[[redirects]]
   from = "/donor-wall"
   to = "/donor-wall.html"
   status = 200

@@ -328,6 +328,15 @@ p{max-width:72ch}
 .tier__cta .btn{width:100%}
 
 /* Donor wall (/donor-wall) — names come from sv_donors(); tiers mirror the Give page. */
+/* Careers: open-role listings + application form. */
+.roles{display:flex;flex-direction:column;gap:16px;margin-top:8px}
+.role{display:flex;align-items:center;justify-content:space-between;gap:24px;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:24px 26px;box-shadow:var(--shadow-sm)}
+.role__title{font-family:var(--font-display);font-weight:800;font-size:1.2rem;color:var(--ink)}
+.role__meta{font-family:var(--font-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);margin:4px 0 10px}
+.role__desc{font-size:15px;color:var(--muted);max-width:60ch;line-height:1.5}
+.role__apply{flex:0 0 auto}
+@media (max-width:640px){.role{flex-direction:column;align-items:flex-start;gap:16px}.role__apply{width:100%}}
+
 /* Recognition ladder: tiers stacked vertically, highest gift first, with the
    donor names scaling up by tier so a $25K name reads far bigger than a $1K one. */
 .donor-ladder{max-width:840px;margin-inline:auto;display:flex;flex-direction:column}

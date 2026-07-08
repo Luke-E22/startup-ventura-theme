@@ -103,7 +103,7 @@ const footer = () => `</main>
       <a href="https://www.facebook.com/startupventura/" aria-label="Facebook" rel="noopener" target="_blank"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.9h2.54V9.85c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.44 2.9h-2.34V22c4.78-.76 8.44-4.92 8.44-9.94Z"/></svg></a>
       <a href="https://www.instagram.com/startup_ventura/" aria-label="Instagram" rel="noopener" target="_blank"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.2c3.2 0 3.6 0 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s0 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58 0-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.21 15.58 2.2 15.2 2.2 12s0-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.21 8.8 2.2 12 2.2zm0 1.98c-3.15 0-3.5.01-4.74.07-1.14.05-1.76.24-2.17.4-.55.22-.94.47-1.35.88-.41.41-.66.8-.88 1.35-.16.41-.35 1.03-.4 2.17-.06 1.24-.07 1.59-.07 4.74s.01 3.5.07 4.74c.05 1.14.24 1.76.4 2.17.22.55.47.94.88 1.35.41.41.8.66 1.35.88.41.16 1.03.35 2.17.4 1.24.06 1.59.07 4.74.07s3.5-.01 4.74-.07c1.14-.05 1.76-.24 2.17-.4.55-.22.94-.47 1.35-.88.41-.41.66-.8.88-1.35.16-.41.35-1.03.4-2.17.06-1.24.07-1.59.07-4.74s-.01-3.5-.07-4.74c-.05-1.14-.24-1.76-.4-2.17a3.6 3.6 0 0 0-.88-1.35 3.6 3.6 0 0 0-1.35-.88c-.41-.16-1.03-.35-2.17-.4-1.24-.06-1.59-.07-4.74-.07zm0 3.37a4.45 4.45 0 1 1 0 8.9 4.45 4.45 0 0 1 0-8.9zm0 7.34a2.89 2.89 0 1 0 0-5.78 2.89 2.89 0 0 0 0 5.78zm5.66-7.57a1.04 1.04 0 1 1-2.08 0 1.04 1.04 0 0 1 2.08 0z"/></svg></a>
     </div></div>
-    <div class="footer-col"><p class="footer-col__title">Explore</p><ul><li><a href="program.html">The Program</a></li><li><a href="why-ventura-county.html">Why Ventura County</a></li><li><a href="impact.html">Impact</a></li><li><a href="give.html">Give</a></li><li><a href="partner.html">Partner</a></li><li><a href="about.html">About</a></li><li><a href="news.html">News</a></li><li><a href="contact.html">Contact</a></li><li><a href="donor-wall.html">Donor Wall</a></li><li class="footer-note-link"><a href="explore-83-palm.html">83 Palm St &middot; concept study</a></li></ul></div>
+    <div class="footer-col"><p class="footer-col__title">Explore</p><ul><li><a href="program.html">The Program</a></li><li><a href="why-ventura-county.html">Why Ventura County</a></li><li><a href="impact.html">Impact</a></li><li><a href="give.html">Give</a></li><li><a href="partner.html">Partner</a></li><li><a href="about.html">About</a></li><li><a href="news.html">News</a></li><li><a href="contact.html">Contact</a></li><li><a href="careers.html">Careers</a></li><li><a href="donor-wall.html">Donor Wall</a></li><li class="footer-note-link"><a href="explore-83-palm.html">83 Palm St &middot; concept study</a></li></ul></div>
     <div class="footer-col"><p class="footer-col__title">Get in touch</p><ul><li><a href="mailto:info@startupventura.com">info@startupventura.com</a></li><li><a href="mailto:sponsor@startupventura.com">sponsor@startupventura.com</a></li><li><a href="press.html">Press &amp; media kit</a></li></ul></div>
   </div><div class="footer-legal"><span>Startup Ventura is a 501(c)(3) nonprofit. EIN 39-2204612. Gifts are tax-deductible to the extent allowed by law.</span><span>&copy; 2026 Startup Ventura</span><span class="footer-legal__links"><a href="privacy.html">Privacy</a> &middot; <a href="terms.html">Terms</a></span></div></div>
 </footer>`;
@@ -195,7 +195,7 @@ ${overHero ? `<link rel="preload" as="image" type="image/webp" imagesrcset="${A}
 <link rel="icon" href="${A}/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="${A}/img/favicon.png" sizes="any" type="image/png">
 <link rel="apple-touch-icon" href="${A}/img/favicon-180.png">
-<link rel="stylesheet" href="${A}/css/main.css?v=27">
+<link rel="stylesheet" href="${A}/css/main.css?v=28">
 ${analyticsHead()}</head>
 <body class="${overHero ? 'home' : ''}">
 ${header(overHero)}
@@ -203,7 +203,7 @@ ${crumbsTrail ? crumbs(crumbsTrail) : ''}
 ${body}
 ${footer()}
 ${noZeffy ? '' : '<script src="https://zeffy-scripts.s3.ca-central-1.amazonaws.com/embed-form-script.min.js" defer></script>'}
-<script src="${A}/js/main.js?v=27"></script>
+<script src="${A}/js/main.js?v=28"></script>
 ${body.includes('data-netlify') ? NF_SCRIPT : ''}
 </body></html>`;
   fs.writeFileSync(path.join(OUT, file), html);
@@ -264,9 +264,13 @@ const FORM_SUCCESS = {
   newsletter: 'You are subscribed. Watch your inbox for events and announcements.',
   'partner-government': 'Request received. We will follow up to schedule a working session.',
   'partner-foundations': 'Thanks, we will be in touch about sponsorship.',
+  careers: 'Thanks for applying. We review every application and will reach out if there is a fit.',
 };
 const form = (type, submit, org = false, msg = true, opts = {}) => {
   const phone = !!opts.phone, interest = opts.interest || null, two = !!opts.twoCol;
+  const interestLabel = opts.interestLabel || 'Area of interest';
+  const linkLabel = opts.linkLabel || null; // optional URL field (e.g. LinkedIn/resume)
+  const msgLabel = opts.msgLabel || 'Message';
   const full = two ? ' field--full' : '';
   const id = (f) => `${type}-${f}`;
   return `<form class="form${two ? ' form--grid' : ''}" name="${type}" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" data-success="${FORM_SUCCESS[type] || 'Thanks, we got it.'}">
@@ -276,8 +280,9 @@ ${(type !== 'notify' && type !== 'newsletter') ? `<div class="field"><label for=
 ${org ? `<div class="field${full}"><label for="${id('org')}">Organization <span class="req">*</span></label><input id="${id('org')}" name="organization" type="text" autocomplete="organization" required></div>` : ''}
 <div class="field"><label for="${id('email')}">Email <span class="req">*</span></label><input id="${id('email')}" name="email" type="email" autocomplete="email" required></div>
 ${phone ? `<div class="field"><label for="${id('phone')}">Phone</label><input id="${id('phone')}" name="phone" type="tel" autocomplete="tel"></div>` : ''}
-${interest ? `<div class="field"><label for="${id('interest')}">Area of interest</label><select id="${id('interest')}" name="interest">${interest.map(o => `<option>${o}</option>`).join('')}</select></div>` : ''}
-${msg ? `<div class="field${full}"><label for="${id('message')}">Message <span class="req">*</span></label><textarea id="${id('message')}" name="message" rows="6" required></textarea></div>` : ''}
+${interest ? `<div class="field"><label for="${id('interest')}">${interestLabel}</label><select id="${id('interest')}" name="interest">${interest.map(o => `<option>${o}</option>`).join('')}</select></div>` : ''}
+${linkLabel ? `<div class="field"><label for="${id('link')}">${linkLabel}</label><input id="${id('link')}" name="link" type="url" placeholder="https://" autocomplete="url"></div>` : ''}
+${msg ? `<div class="field${full}"><label for="${id('message')}">${msgLabel} <span class="req">*</span></label><textarea id="${id('message')}" name="message" rows="6" required></textarea></div>` : ''}
 <div class="form__submit${full}"><button class="btn btn--blue" type="submit">${submit}</button></div><p class="form__status${full}" role="status" aria-live="polite"></p></form>`;
 };
 // Delegated submit handler for every Netlify form on a page (injected by page()).
@@ -682,6 +687,25 @@ page('press.html', {
   title: 'Press & Media Kit', crumbsTrail: [['Home', 'index.html'], ['Press', '']],
   body: pageHead('Press', 'Press &amp; media kit', 'Everything you need to cover Startup Ventura. For interviews or more information, contact us any time.') +
     `<section class="section"><div class="wrap wrap--narrow"><div class="entry-content"><h2>About Startup Ventura</h2><p>Startup Ventura is a 501(c)(3) nonprofit startup accelerator in Ventura County, California. We back local founders with the mentorship, capital connections, and community to build high-growth companies, and to keep that talent and those jobs in Ventura County. Our inaugural Spring 2027 cohort is now being funded.</p><h2>Quick facts</h2><ul><li>501(c)(3) nonprofit startup accelerator</li><li>EIN 39-2204612</li><li>Ventura County, California</li><li>A 7-week accelerator, a founder workshop series, and a Demo Day</li><li>Inaugural cohort: Spring 2027</li></ul><h2>Logos</h2><p><a href="${A}/img/logo.png" download>Download logo (color)</a><br><a href="${A}/img/logo-white.png" download>Download logo (white)</a></p><h2>Leadership</h2><p>Led by operators behind Curri, SevenRooms, and the Ventura Chamber of Commerce. Read more on our <a href="about.html">About page</a>.</p><h2>Press contact</h2><p>Email <a href="mailto:info@startupventura.com">info@startupventura.com</a>, or use our <a href="contact.html">contact form</a> and choose "Press."</p></div></div></section>`,
+});
+
+// CAREERS — open roles (paid staff) with an application form, plus a
+// mentorship / volunteer section linking to Contact.
+const roles = [
+  ['Community Operations Coordinator', 'Keep the program and community running day to day, from cohort logistics and events to member communications and the systems that hold it all together.'],
+  ['Grant Writer', 'Research, write, and manage grant proposals and reports that fund the accelerator, and build relationships with foundations and public funders.'],
+  ['Development Director', 'Own fundraising strategy and execution, from major gifts and donor relationships to the partnerships that sustain and grow Startup Ventura.'],
+];
+page('careers.html', {
+  title: 'Careers',
+  desc: 'Join the team building Ventura County’s startup accelerator. Open roles plus ways to mentor founders and volunteer your skills.',
+  canonical: `${SITE}/careers`,
+  body: pageHead('Careers', 'Help build what founders build here.', 'Startup Ventura is a small team with outsized ambition for Ventura County. If you want your work to keep talent, jobs, and companies in the region, we would love to meet you.') +
+    `<section class="section section--pale"><div class="wrap wrap--narrow">${head('Open roles', 'We are hiring.', 'Paid staff roles based in Ventura County. Do not see your exact fit? Apply below and tell us how you would help.')}<div class="roles">${roles.map(([t, d]) => `<article class="role"><div class="role__main"><h3 class="role__title">${t}</h3><p class="role__meta">Paid &middot; Ventura County</p><p class="role__desc">${d}</p></div><a class="btn btn--outline role__apply" href="#apply" data-role="${t}">Apply &darr;</a></article>`).join('')}</div></div></section>
+    <section class="section" id="apply"><div class="wrap wrap--narrow">${head('Apply', 'Tell us about you.')}${form('careers', 'Submit application', false, true, { interest: ['Community Operations Coordinator', 'Grant Writer', 'Development Director', 'General interest'], interestLabel: 'Role you are applying for', linkLabel: 'LinkedIn or resume link', msgLabel: 'Why you, and how you would help', twoCol: true })}</div></section>
+    <section class="section section--pale"><div class="wrap wrap--narrow" style="text-align:center">${head('Mentor & volunteer', 'Lend your skills to a founder.', 'Not looking for a job, but want to help? Our founders grow fastest with operators, experts, and mentors in their corner. Whether you can give an hour or an ongoing commitment, we would love to hear what you bring.')}<div class="center"><a class="btn btn--blue" href="contact.html">Get in touch to mentor or volunteer</a></div></div></section>` +
+    `<script>document.querySelectorAll('.role__apply').forEach(function(a){a.addEventListener('click',function(){var s=document.getElementById('careers-interest');if(s){var r=a.getAttribute('data-role');for(var i=0;i<s.options.length;i++){if(s.options[i].value===r){s.selectedIndex=i;break;}}}});});</script>` +
+    ctaBand('Build the thing that builds Ventura County&rsquo;s founders.', 'none'),
 });
 
 // THANK YOU — post-donation page. Zeffy's custom redirect (set via Zeffy
