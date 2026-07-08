@@ -257,7 +257,9 @@ p{max-width:72ch}
 /* =========================================================================
    HOME sections
    ========================================================================= */
-.mission-strip{background:var(--navy);color:#fff;text-align:center}
+/* Tighter than a default section: the waves already fill the space above, so
+   pull "Our mission" up under them and shrink the dark band. */
+.mission-strip{background:var(--navy);color:#fff;text-align:center;padding-block:clamp(16px,2.6vw,36px) clamp(44px,6vw,80px)}
 .mission-strip .mission{font-family:var(--font-display);font-weight:800;letter-spacing:-.015em;line-height:1.2;font-size:clamp(22px,3vw,36px);max-width:58rem;margin-inline:auto}
 .mission-strip .mission .coral{color:var(--coral-light)}
 .mission-strip .wave-rule{margin-inline:auto}
