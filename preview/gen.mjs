@@ -195,7 +195,7 @@ ${overHero ? `<link rel="preload" as="image" type="image/webp" imagesrcset="${A}
 <link rel="icon" href="${A}/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="${A}/img/favicon.png" sizes="any" type="image/png">
 <link rel="apple-touch-icon" href="${A}/img/favicon-180.png">
-<link rel="stylesheet" href="${A}/css/main.css?v=28">
+<link rel="stylesheet" href="${A}/css/main.css?v=29">
 ${analyticsHead()}</head>
 <body class="${overHero ? 'home' : ''}">
 ${header(overHero)}
@@ -203,7 +203,7 @@ ${crumbsTrail ? crumbs(crumbsTrail) : ''}
 ${body}
 ${footer()}
 ${noZeffy ? '' : '<script src="https://zeffy-scripts.s3.ca-central-1.amazonaws.com/embed-form-script.min.js" defer></script>'}
-<script src="${A}/js/main.js?v=28"></script>
+<script src="${A}/js/main.js?v=29"></script>
 ${body.includes('data-netlify') ? NF_SCRIPT : ''}
 </body></html>`;
   fs.writeFileSync(path.join(OUT, file), html);
@@ -692,17 +692,18 @@ page('press.html', {
 // CAREERS — open roles (paid staff) with an application form, plus a
 // mentorship / volunteer section linking to Contact.
 const roles = [
-  ['Community Operations Coordinator', 'Keep the program and community running day to day, from cohort logistics and events to member communications and the systems that hold it all together.'],
-  ['Grant Writer', 'Research, write, and manage grant proposals and reports that fund the accelerator, and build relationships with foundations and public funders.'],
-  ['Development Director', 'Own fundraising strategy and execution, from major gifts and donor relationships to the partnerships that sustain and grow Startup Ventura.'],
+  ['Community Operations Coordinator', 'Keep the program and community running day to day, from cohort logistics and events to member communications and the systems that hold it all together.', 'Paid &middot; Ventura County'],
+  ['Grant Writer', 'Research, write, and manage grant proposals and reports that fund the accelerator, and build relationships with foundations and public funders.', 'Paid &middot; Ventura County'],
+  ['Development Director', 'Own fundraising strategy and execution, from major gifts and donor relationships to the partnerships that sustain and grow Startup Ventura.', 'Paid &middot; Ventura County'],
+  ['Student Internship', 'Learn how a startup accelerator runs from the inside. Interns support events, founder research, marketing, and operations, and leave with real experience and a network in Ventura County.', 'Student internship &middot; Ventura County'],
 ];
 page('careers.html', {
   title: 'Careers',
   desc: 'Join the team building Ventura County’s startup accelerator. Open roles plus ways to mentor founders and volunteer your skills.',
   canonical: `${SITE}/careers`,
   body: pageHead('Careers', 'Help build what founders build here.', 'Startup Ventura is a small team with outsized ambition for Ventura County. If you want your work to keep talent, jobs, and companies in the region, we would love to meet you.') +
-    `<section class="section section--pale"><div class="wrap wrap--narrow">${head('Open roles', 'We are hiring.', 'Paid staff roles based in Ventura County. Do not see your exact fit? Apply below and tell us how you would help.')}<div class="roles">${roles.map(([t, d]) => `<article class="role"><div class="role__main"><h3 class="role__title">${t}</h3><p class="role__meta">Paid &middot; Ventura County</p><p class="role__desc">${d}</p></div><a class="btn btn--outline role__apply" href="#apply" data-role="${t}">Apply &darr;</a></article>`).join('')}</div></div></section>
-    <section class="section" id="apply"><div class="wrap wrap--narrow">${head('Apply', 'Tell us about you.')}${form('careers', 'Submit application', false, true, { interest: ['Community Operations Coordinator', 'Grant Writer', 'Development Director', 'General interest'], interestLabel: 'Role you are applying for', linkLabel: 'LinkedIn or resume link', msgLabel: 'Why you, and how you would help', twoCol: true })}</div></section>
+    `<section class="section section--pale"><div class="wrap wrap--narrow">${head('Open roles', 'We are hiring.', 'Paid staff roles based in Ventura County. Do not see your exact fit? Apply below and tell us how you would help.')}<div class="roles">${roles.map(([t, d, meta]) => `<article class="role"><div class="role__main"><h3 class="role__title">${t}</h3><p class="role__meta">${meta}</p><p class="role__desc">${d}</p></div><a class="btn btn--outline role__apply" href="#apply" data-role="${t}">Apply &darr;</a></article>`).join('')}</div></div></section>
+    <section class="section" id="apply"><div class="wrap wrap--narrow">${head('Apply', 'Tell us about you.')}${form('careers', 'Submit application', false, true, { interest: ['Community Operations Coordinator', 'Grant Writer', 'Development Director', 'Student Internship', 'General interest'], interestLabel: 'Role you are applying for', linkLabel: 'LinkedIn or resume link', msgLabel: 'Why you, and how you would help', twoCol: true })}</div></section>
     <section class="section section--pale"><div class="wrap wrap--narrow" style="text-align:center">${head('Mentor & volunteer', 'Lend your skills to a founder.', 'Not looking for a job, but want to help? Our founders grow fastest with operators, experts, and mentors in their corner. Whether you can give an hour or an ongoing commitment, we would love to hear what you bring.')}<div class="center"><a class="btn btn--blue" href="contact.html">Get in touch to mentor or volunteer</a></div></div></section>` +
     `<script>document.querySelectorAll('.role__apply').forEach(function(a){a.addEventListener('click',function(){var s=document.getElementById('careers-interest');if(s){var r=a.getAttribute('data-role');for(var i=0;i<s.options.length;i++){if(s.options[i].value===r){s.selectedIndex=i;break;}}}});});</script>` +
     ctaBand('Build the thing that builds Ventura County&rsquo;s founders.', 'none'),
