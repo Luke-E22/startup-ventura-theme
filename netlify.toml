@@ -44,6 +44,11 @@
 
 # Pretty routes for pages whose canonical omits .html.
 [[redirects]]
+  from = "/thank-you"
+  to = "/thank-you.html"
+  status = 200
+
+[[redirects]]
   from = "/donor-wall"
   to = "/donor-wall.html"
   status = 200

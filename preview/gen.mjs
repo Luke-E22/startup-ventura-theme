@@ -181,7 +181,7 @@ const seoHead = ({ title, desc, canonical, ogType = 'website', ogImage, jsonld, 
   return h;
 };
 
-const page = (file, { title, overHero = false, body, crumbsTrail, desc, canonical, ogType = 'website', ogImage, jsonld, robots }) => {
+const page = (file, { title, overHero = false, body, crumbsTrail, desc, canonical, ogType = 'website', ogImage, jsonld, robots, noZeffy = false }) => {
   const fullTitle = `${title} — Startup Ventura`;
   // Every page gets a canonical: the home root, an explicit pretty route, or its real .html URL.
   const canon = canonical || (file === 'index.html' ? `${SITE}/` : `${SITE}/${file}`);
@@ -195,15 +195,15 @@ ${overHero ? `<link rel="preload" as="image" type="image/webp" imagesrcset="${A}
 <link rel="icon" href="${A}/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="${A}/img/favicon.png" sizes="any" type="image/png">
 <link rel="apple-touch-icon" href="${A}/img/favicon-180.png">
-<link rel="stylesheet" href="${A}/css/main.css?v=22">
+<link rel="stylesheet" href="${A}/css/main.css?v=23">
 ${analyticsHead()}</head>
 <body class="${overHero ? 'home' : ''}">
 ${header(overHero)}
 ${crumbsTrail ? crumbs(crumbsTrail) : ''}
 ${body}
 ${footer()}
-<script src="https://zeffy-scripts.s3.ca-central-1.amazonaws.com/embed-form-script.min.js" defer></script>
-<script src="${A}/js/main.js?v=22"></script>
+${noZeffy ? '' : '<script src="https://zeffy-scripts.s3.ca-central-1.amazonaws.com/embed-form-script.min.js" defer></script>'}
+<script src="${A}/js/main.js?v=23"></script>
 ${body.includes('data-netlify') ? NF_SCRIPT : ''}
 </body></html>`;
   fs.writeFileSync(path.join(OUT, file), html);
@@ -681,6 +681,90 @@ page('press.html', {
   title: 'Press & Media Kit', crumbsTrail: [['Home', 'index.html'], ['Press', '']],
   body: pageHead('Press', 'Press &amp; media kit', 'Everything you need to cover Startup Ventura. For interviews or more information, contact us any time.') +
     `<section class="section"><div class="wrap wrap--narrow"><div class="entry-content"><h2>About Startup Ventura</h2><p>Startup Ventura is a 501(c)(3) nonprofit startup accelerator in Ventura County, California. We back local founders with the mentorship, capital connections, and community to build high-growth companies, and to keep that talent and those jobs in Ventura County. Our inaugural Spring 2027 cohort is now being funded.</p><h2>Quick facts</h2><ul><li>501(c)(3) nonprofit startup accelerator</li><li>EIN 39-2204612</li><li>Ventura County, California</li><li>A 7-week accelerator, a founder workshop series, and a Demo Day</li><li>Inaugural cohort: Spring 2027</li></ul><h2>Logos</h2><p><a href="${A}/img/logo.png" download>Download logo (color)</a><br><a href="${A}/img/logo-white.png" download>Download logo (white)</a></p><h2>Leadership</h2><p>Led by operators behind Curri, SevenRooms, and the Ventura Chamber of Commerce. Read more on our <a href="about.html">About page</a>.</p><h2>Press contact</h2><p>Email <a href="mailto:info@startupventura.com">info@startupventura.com</a>, or use our <a href="contact.html">contact form</a> and choose "Press."</p></div></div></section>`,
+});
+
+// THANK YOU — post-donation page. Zeffy's custom redirect (set via Zeffy
+// support) points here after a completed gift, so this is where the donation
+// conversion fires. noindex (not a page anyone should find via search).
+const confettiScript = `<script>
+(function(){
+  var canvas=document.getElementById('sv-confetti'); if(!canvas) return;
+  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var ctx=canvas.getContext('2d'), DPR=Math.min(window.devicePixelRatio||1,2), W,H;
+  function size(){W=canvas.width=innerWidth*DPR;H=canvas.height=innerHeight*DPR;canvas.style.width=innerWidth+'px';canvas.style.height=innerHeight+'px';}
+  size(); addEventListener('resize',size);
+  // Startup Ventura wave blues + coral.
+  var COLORS=['#A9CCE8','#6FA8DC','#4E86C0','#2E5E9C','#1F3A52','#EA5A3D','#FF8A6E'];
+  var parts=[], raf=null, running=false, G=0.14*DPR;
+  function rnd(a,b){return a+Math.random()*(b-a);}
+  function spawn(n,x,y,a0,a1,pmin,pmax){
+    for(var i=0;i<n;i++){
+      var ang=rnd(a0,a1), sp=rnd(pmin,pmax);
+      parts.push({x:x,y:y,vx:Math.cos(ang)*sp,vy:Math.sin(ang)*sp,
+        w:rnd(6,13)*DPR,h:rnd(9,18)*DPR,rot:rnd(0,6.28),vr:rnd(-.3,.3),
+        color:COLORS[(Math.random()*COLORS.length)|0],life:0,ttl:rnd(180,340),
+        sway:rnd(.4,1.8),swayr:rnd(0,6.28),circle:Math.random()<.28});
+    }
+  }
+  function party(){
+    // two bottom-corner cannons firing inward-up + a wide top rain = lots of confetti
+    spawn(150, W*0.04, H*0.98, -1.35, -0.75, 13*DPR, 20*DPR);
+    spawn(150, W*0.96, H*0.98, -2.39, -1.79, 13*DPR, 20*DPR);
+    spawn(160, W*0.5, -20*DPR, 1.15, 1.99, 4*DPR, 9*DPR);
+    if(!running){running=true; raf=requestAnimationFrame(tick);}
+  }
+  function tick(){
+    ctx.clearRect(0,0,W,H);
+    for(var i=parts.length-1;i>=0;i--){
+      var p=parts[i]; p.life++; p.vy+=G;
+      p.x+=p.vx+Math.sin(p.life*0.05+p.swayr)*p.sway*DPR; p.y+=p.vy; p.rot+=p.vr;
+      var a=p.life>p.ttl-50?Math.max(0,(p.ttl-p.life)/50):1;
+      ctx.save(); ctx.globalAlpha=a; ctx.translate(p.x,p.y); ctx.rotate(p.rot); ctx.fillStyle=p.color;
+      if(p.circle){ctx.beginPath();ctx.arc(0,0,p.w/2,0,6.29);ctx.fill();}
+      else ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);
+      ctx.restore();
+      if(p.y>H+60||p.life>p.ttl) parts.splice(i,1);
+    }
+    if(parts.length) raf=requestAnimationFrame(tick); else running=false;
+  }
+  if(reduce) return; // no motion for those who opt out
+  party();
+  setTimeout(party,650); // second wave — really a lot of confetti
+  var again=document.getElementById('sv-confetti-again');
+  if(again) again.addEventListener('click',function(){party();setTimeout(party,500);});
+})();
+</script>`;
+
+// Donation conversion. Fires when a donor reaches this page after completing on
+// Zeffy. Fill in the Google Ads conversion send_to once the Ads conversion
+// action exists; the GA4 'donate' event works as soon as analytics is live.
+const conversionScript = `<script>
+(function(){try{
+  if(window.gtag){
+    gtag('event','donate',{transaction_source:'zeffy'});
+    /* Google Ads: replace AW-XXXXXXXXXX/LABEL with your conversion action, then uncomment:
+    gtag('event','conversion',{send_to:'AW-XXXXXXXXXX/LABEL'}); */
+  } else if(window.dataLayer){ window.dataLayer.push({event:'donate',transaction_source:'zeffy'}); }
+}catch(e){}})();
+</script>`;
+
+page('thank-you.html', {
+  title: 'Thank You',
+  robots: 'noindex',
+  noZeffy: true, // post-donation page: skip the heavy embed so the confetti runs smoothly
+  desc: 'Thank you for supporting Startup Ventura and the founders building in Ventura County.',
+  body: `<canvas id="sv-confetti" aria-hidden="true"></canvas>
+  <section class="section thankyou"><div class="wrap wrap--narrow" style="text-align:center;position:relative;z-index:2">
+    <p class="eyebrow">Thank You</p>${waveRule}
+    <h1 class="display">You just helped a founder build here.</h1>
+    <p class="lede" style="margin-inline:auto">Your gift goes straight to the inaugural Spring 2027 cohort &mdash; the mentorship, capital connections, and community that keep Ventura County&rsquo;s best founders building at home. We could not do this without you.</p>
+    <div class="center" style="margin-top:30px"><a class="btn btn--blue" href="index.html">Back to home</a>&nbsp;&nbsp;<a class="btn btn--outline" href="donor-wall.html">See the donor wall</a></div>
+    <p class="muted" style="margin-top:34px;font-size:14px;max-width:60ch;margin-inline:auto">A receipt is on its way to your inbox from Zeffy. Startup Ventura is a 501(c)(3) nonprofit (EIN 39-2204612); your donation is tax-deductible to the extent allowed by law.</p>
+    <button id="sv-confetti-again" class="thankyou__again" type="button">Celebrate again &#127881;</button>
+  </div></section>
+  ${confettiScript}${conversionScript}
+  <script>/* Zeffy embed is omitted here, so make any Give button open the hosted form. */
+  document.querySelectorAll('[zeffy-form-link]').forEach(function(btn){btn.addEventListener('click',function(){window.open('https://www.zeffy.com/donation-form/donate-to-startup-ventura','_blank','noopener');});});</script>`,
 });
 
 // 404 — Netlify serves /404.html automatically for missing routes.
