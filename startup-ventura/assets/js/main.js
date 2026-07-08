@@ -21,41 +21,7 @@
 	});
 
 	/* ---------------------------------------------------------------------
-	 * 1. Intro overlay — play once per session, honor reduced motion.
-	 * ------------------------------------------------------------------- */
-	(function intro() {
-		var el = $('#sv-intro');
-		if (!el) { return; }
-		var skip = $('#sv-intro-skip');
-		var replay = $('#sv-intro-replay');
-		var timers = [];
-		function clear() { timers.forEach(clearTimeout); timers = []; }
-		function endIntro() {
-			el.classList.add('intro--resolve');
-			timers.push(setTimeout(function () { el.classList.add('intro--hidden'); }, 850));
-		}
-		function play() {
-			clear();
-			el.classList.remove('intro--hidden', 'intro--resolve', 'intro--play');
-			void el.offsetWidth; // reflow
-			el.classList.add('intro--play');
-			timers.push(setTimeout(endIntro, 2600));
-		}
-		var seen = false;
-		try { seen = !!sessionStorage.getItem('sv_intro_seen'); } catch (e) {}
-
-		if (reduce || seen) {
-			el.classList.add('intro--hidden');
-		} else {
-			try { sessionStorage.setItem('sv_intro_seen', '1'); } catch (e) {}
-			play();
-		}
-		if (skip) { skip.addEventListener('click', function () { clear(); endIntro(); }); }
-		if (replay) { replay.addEventListener('click', play); }
-	})();
-
-	/* ---------------------------------------------------------------------
-	 * 2. Sticky header scroll state.
+	 * 1. Sticky header scroll state.
 	 * ------------------------------------------------------------------- */
 	(function header() {
 		var hdr = $('.site-header');

@@ -41,7 +41,7 @@ $sv_sponsor = antispambot( SV_EMAIL_SPONSOR );
 			</div>
 
 			<div class="footer-col">
-				<h4><?php esc_html_e( 'Explore', 'startup-ventura' ); ?></h4>
+				<p class="footer-col__title"><?php esc_html_e( 'Explore', 'startup-ventura' ); ?></p>
 				<?php if ( has_nav_menu( 'footer' ) ) : ?>
 					<?php sv_nav_menu( 'footer', array( 'depth' => 1 ) ); ?>
 				<?php else : ?>
@@ -88,10 +88,6 @@ $sv_sponsor = antispambot( SV_EMAIL_SPONSOR );
 	<span class="give-bar__label"><?php esc_html_e( 'Fund the inaugural cohort', 'startup-ventura' ); ?></span>
 	<?php sv_give_button( 'mobile-bar' ); ?>
 </div>
-
-<?php if ( is_front_page() ) : ?>
-	<button class="replay" id="sv-intro-replay" type="button"><?php esc_html_e( 'Replay intro', 'startup-ventura' ); ?> &#8635;</button>
-<?php endif; ?>
 
 <?php wp_footer(); ?>
 </body>

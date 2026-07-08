@@ -21,22 +21,14 @@ $sv_nonce = function_exists( 'sv_csp_nonce' ) ? sv_csp_nonce() : '';
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
 <?php
-// No-flash: hide the intro instantly for returning visitors / reduced motion.
+// Enable JS-gated progressive enhancements (scroll reveals) before first paint.
 printf(
-	'<script%s>document.documentElement.classList.add("js");try{if(sessionStorage.getItem("sv_intro_seen")||(window.matchMedia&&matchMedia("(prefers-reduced-motion:reduce)").matches)){document.documentElement.classList.add("sv-skip-intro");}}catch(e){}</script>' . "\n",
+	'<script%s>document.documentElement.classList.add("js");</script>' . "\n",
 	$sv_nonce ? ' nonce="' . esc_attr( $sv_nonce ) . '"' : '' // phpcs:ignore WordPress.Security.EscapeOutput
 );
 ?>
 
 <a class="skip-link" href="#main"><?php esc_html_e( 'Skip to content', 'startup-ventura' ); ?></a>
-
-<?php
-// Intro overlay (plays once per session). Rendered in the DOM; the real hero
-// sits beneath it so nothing is hidden from crawlers or delays LCP.
-if ( is_front_page() ) {
-	get_template_part( 'template-parts/intro' );
-}
-?>
 
 <header class="site-header<?php echo is_front_page() ? ' site-header--over-hero' : ''; ?>">
 	<div class="wrap site-header__inner">

@@ -115,7 +115,9 @@ p{max-width:72ch}
 /* ---------- buttons ---------- */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:.5em;font-family:var(--font-body);font-weight:700;font-size:16px;line-height:1;min-height:48px;padding:14px 26px;border-radius:var(--r-sm);border:2px solid transparent;cursor:pointer;text-decoration:none;transition:transform .18s var(--ease),background .18s,box-shadow .18s,color .18s;position:relative;overflow:hidden}
 .btn:focus-visible{outline:3px solid #fff;outline-offset:2px;box-shadow:var(--ring)}
-.btn--give{background:var(--coral);color:#fff;box-shadow:0 8px 22px -8px rgba(234,90,61,.8)}
+/* Give: white on coral is 3.48:1 — clears WCAG AA for large text (>=18.66px
+   bold), so the brand coral is kept and the label is sized/weighted up. */
+.btn--give{background:var(--coral);color:#fff;font-size:19px;font-weight:800;box-shadow:0 8px 22px -8px rgba(234,90,61,.8)}
 .btn--give:hover{background:var(--coral-deep);color:#fff;transform:translateY(-2px);box-shadow:0 12px 28px -8px rgba(214,78,51,.9)}
 .btn--ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.85)}
 .btn--ghost:hover{background:#fff;color:var(--navy);transform:translateY(-2px)}
@@ -123,7 +125,7 @@ p{max-width:72ch}
 .btn--outline:hover{background:var(--navy);color:#fff;transform:translateY(-2px)}
 .btn--blue{background:var(--blue);color:#fff}
 .btn--blue:hover{background:var(--blue-deep);color:#fff;transform:translateY(-2px)}
-.btn--lg{font-size:18px;min-height:56px;padding:18px 34px}
+.btn--lg{font-size:19px;min-height:56px;padding:18px 34px}
 .btn--full{width:100%}
 /* one slow shine the first time the Give button enters view */
 .btn--give.is-shine::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-18deg);animation:shine 1.1s ease forwards}
@@ -165,7 +167,7 @@ p{max-width:72ch}
 .sub-menu a,.dropdown a{display:block;padding:10px 12px;border-radius:8px;font-weight:500;color:var(--navy)}
 .sub-menu a:hover,.dropdown a:hover{background:var(--sky-pale)}
 .header-cta{display:flex;align-items:center;gap:10px;flex:0 0 auto}
-.header-cta .btn--give{min-height:42px;padding:10px 20px;font-size:15px}
+.header-cta .btn--give{min-height:42px;padding:9px 20px;font-size:18.66px}
 
 /* transparent over the hero on the home page; solidifies on scroll */
 .site-header--over-hero{background:transparent;border-color:transparent;box-shadow:none}
@@ -246,31 +248,6 @@ p{max-width:72ch}
 .wave-divider.is-in .crest-path{stroke-dashoffset:0}
 .wave-footer{line-height:0}
 .wave-footer svg{width:100%;display:block}
-
-/* =========================================================================
-   INTRO OVERLAY — ported (plays once per session, gated in main.js)
-   ========================================================================= */
-.intro{position:fixed;top:0;left:0;right:0;height:100svh;z-index:9999;overflow:hidden;background:linear-gradient(180deg,#F2F7FB 0%,#E4EEF5 100%);transition:opacity .8s ease,transform .8s ease}
-.intro--resolve{opacity:0;transform:translateY(-18px);pointer-events:none}
-.intro--hidden{display:none}
-.sv-skip-intro .intro{display:none}
-.intro-center{position:absolute;left:0;right:0;top:29%;text-align:center;padding:0 24px}
-.intro .wordmark{font-family:var(--font-display);font-weight:900;letter-spacing:-.02em;line-height:.9;font-size:clamp(46px,9vw,104px);color:var(--navy)}
-.intro .intro-tag{margin-top:18px;color:var(--steel);font-size:13px;letter-spacing:.22em;text-transform:uppercase;font-family:var(--font-mono);max-width:none}
-.intro .skip{position:absolute;top:24px;right:26px;background:transparent;border:0;cursor:pointer;font-family:var(--font-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
-.intro .skip:hover{color:var(--navy)}
-.intro .crest path{stroke-dasharray:2300;stroke-dashoffset:2300}
-.intro .wordmark,.intro .intro-tag{opacity:0}
-.intro--play .band{animation:rise .95s var(--ease) both}
-.intro--play .band1{animation-delay:.10s}.intro--play .band2{animation-delay:.22s}
-.intro--play .band3{animation-delay:.34s}.intro--play .band4{animation-delay:.46s}
-.intro--play .crest path{animation:draw 1.15s ease .5s both}
-.intro--play .wordmark{animation:fadeUp .85s ease .58s both}
-.intro--play .intro-tag{animation:fadeUp .85s ease .9s both}
-@keyframes rise{from{transform:translateY(72px);opacity:0}to{transform:translateY(0);opacity:1}}
-@keyframes draw{to{stroke-dashoffset:0}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-.replay{position:fixed;left:18px;bottom:16px;z-index:1020;background:#fff;border:1px solid var(--line);border-radius:999px;padding:9px 16px;cursor:pointer;font-family:var(--font-mono);font-size:12px;letter-spacing:.08em;color:var(--navy);box-shadow:0 2px 10px -4px rgba(0,0,0,.2)}
 
 /* =========================================================================
    HOME sections
@@ -390,6 +367,9 @@ p{max-width:72ch}
 .board-grid--wide .board-card__bio{font-size:15px;line-height:1.65}
 .board-card{background:#fff;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow-sm);transition:transform .2s var(--ease),box-shadow .2s}
 .board-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md)}
+/* <picture> is a layout-transparent wrapper: the inner <img> keeps the exact
+   box its CSS expects (percentage heights, absolute hero, etc.). */
+picture{display:contents}
 .board-card__media{aspect-ratio:5/6;overflow:hidden;background:var(--sky-pale)}
 .board-card__photo{display:block;width:100%;height:100%;object-fit:cover}
 .board-card__body{padding:20px}
@@ -456,9 +436,12 @@ p{max-width:72ch}
 .carousel-nav__btn{width:44px;height:44px;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--navy);font-size:19px;line-height:1;cursor:pointer;transition:background .2s,color .2s,border-color .2s}
 .carousel-nav__btn:hover{background:var(--navy);color:#fff;border-color:var(--navy)}
 .carousel-nav__btn:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
-.carousel-nav__dots{display:flex;gap:8px}
-.carousel-nav__dot{width:9px;height:9px;border-radius:999px;border:0;padding:0;background:var(--line);cursor:pointer;transition:background .2s,transform .2s}
-.carousel-nav__dot.is-active{background:var(--blue);transform:scale(1.25)}
+.carousel-nav__dots{display:flex;gap:2px}
+/* 24x24 hit target (WCAG 2.2) with a 9px visual dot drawn by ::before. */
+.carousel-nav__dot{width:24px;height:24px;border:0;padding:0;background:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent}
+.carousel-nav__dot::before{content:"";width:9px;height:9px;border-radius:999px;background:var(--line);transition:background .2s,transform .2s}
+.carousel-nav__dot.is-active::before{background:var(--blue);transform:scale(1.25)}
+.carousel-nav__dot:focus-visible{outline:2px solid var(--blue);outline-offset:1px;border-radius:999px}
 .testimonial{position:relative;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:32px 30px 28px;box-shadow:var(--shadow-sm)}
 .testimonial__mark{position:absolute;top:6px;left:22px;font-family:var(--font-display);font-weight:900;font-size:84px;line-height:1;color:var(--coral);opacity:.18;pointer-events:none}
 .testimonial__quote{position:relative;font-family:var(--font-display);font-weight:800;letter-spacing:-.01em;font-size:clamp(17px,1.7vw,20px);line-height:1.4;color:var(--ink)}
@@ -590,7 +573,7 @@ p{max-width:72ch}
 .footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px;padding-block:40px 36px}
 .footer-brand > img{height:54px;width:auto;margin-bottom:16px}
 .footer-brand p{color:#9fb6c6;font-size:14.5px;max-width:36ch}
-.footer-col h4{color:#fff;font-family:var(--font-mono);font-weight:700;font-size:12px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px}
+.footer-col__title{color:#fff;font-family:var(--font-mono);font-weight:700;font-size:12px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px}
 .footer-col ul{list-style:none;display:grid;gap:9px}
 .footer-col a{color:#cfe0ea;text-decoration:none;font-size:15px}
 .footer-col a:hover{color:#fff}
@@ -723,8 +706,6 @@ p{max-width:72ch}
 
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
-  .intro{display:none!important}
-  .intro .band,.intro .crest path,.intro .wordmark,.intro .intro-tag{opacity:1;stroke-dashoffset:0}
   .js .reveal{opacity:1;transform:none}
   .primary-nav .sub-menu,.primary-nav .dropdown{transform:none}
   .wave-divider .crest-path{stroke-dashoffset:0}

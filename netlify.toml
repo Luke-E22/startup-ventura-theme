@@ -11,6 +11,31 @@
 [build.environment]
   NODE_VERSION = "22"
 
+# Cache policy. Static assets are content-addressed by a ?v= query on CSS/JS and
+# by stable filenames for images/fonts, so they are safe to cache for a year.
+# HTML must always revalidate so content edits go live on the next deploy.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# Default /favicon.ico request (crawlers, old clients) → the real icon, so it
+# never 404s. Modern browsers use the <link rel="icon"> tags instead.
+[[redirects]]
+  from = "/favicon.ico"
+  to = "/assets/img/favicon-32.png"
+  status = 200
+
 # Pretty route for the unlisted 83 Palm concept page (flat file convention).
 [[redirects]]
   from = "/explore/83-palm"

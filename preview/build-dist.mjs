@@ -31,6 +31,20 @@ fs.mkdirSync(DIST, { recursive: true });
 //    that stay valid once the whole tree lives under dist/assets/.
 fs.cpSync(ASSETS, path.join(DIST, 'assets'), { recursive: true });
 
+// 3a. Minify the CSS in dist/ only (source stays readable). Conservative and
+//     dependency-free: strip comments, collapse newlines/indentation and runs
+//     of spaces to one. Verified safe — no comment or 2+-space run lives inside
+//     a content:"" string in this stylesheet.
+{
+  const cssPath = path.join(DIST, 'assets', 'css', 'main.css');
+  const min = fs.readFileSync(cssPath, 'utf8')
+    .replace(/\/\*[\s\S]*?\*\//g, '')
+    .replace(/\s*\n\s*/g, ' ')
+    .replace(/ {2,}/g, ' ')
+    .trim();
+  fs.writeFileSync(cssPath, min);
+}
+
 // 4. Copy every generated file, rewriting the shared asset prefix so pages
 //    reference their own local assets/ instead of ../../startup-ventura/assets.
 const SHARED_PREFIX = /\.\.\/\.\.\/startup-ventura\/assets/g;
