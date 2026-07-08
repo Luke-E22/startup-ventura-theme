@@ -199,6 +199,7 @@ const page = (file, { title, overHero = false, body, crumbsTrail, desc, canonica
   const html = `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>${fullTitle}</title>
 ${seo}<link rel="preload" href="${A}/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="${A}/fonts/hanken-latin.woff2" as="font" type="font/woff2" crossorigin>
+${overHero ? `<link rel="preload" as="image" type="image/webp" imagesrcset="${A}/img/hero-960.webp 960w, ${A}/img/hero-1600.webp 1600w" imagesizes="100vw" fetchpriority="high">\n` : ''}
 <link rel="icon" href="${A}/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="${A}/img/favicon.png" sizes="any" type="image/png">
 <link rel="apple-touch-icon" href="${A}/img/favicon-180.png">
