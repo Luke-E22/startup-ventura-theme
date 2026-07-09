@@ -69,17 +69,23 @@ const NAV = [
   { label: 'Contact', href: 'contact.html' },
   { label: 'News', href: 'news.html' },
 ];
-const navList = () => `<ul class="sv-menu">${NAV.map(i => i.children
+const navList = (items = NAV) => `<ul class="sv-menu">${items.map(i => i.children
   ? `<li class="menu-item menu-item-has-children"><a href="${i.href}">${i.label}</a><ul class="sub-menu">${i.children.map(c => `<li class="menu-item"><a href="${c[1]}">${c[0]}</a></li>`).join('')}</ul></li>`
   : `<li class="menu-item"><a href="${i.href}">${i.label}</a></li>`).join('')}</ul>`;
 
 const header = (overHero = false) => `<a class="skip-link" href="#main">Skip to content</a>
 <header class="site-header${overHero ? ' site-header--over-hero' : ''}">
   <div class="wrap site-header__inner">
-    <a class="site-brand" href="index.html" rel="home"><span class="brand-text">Startup Ventura</span></a>
-    <nav class="primary-nav" aria-label="Primary">${navList()}</nav>
-    <div class="header-cta">${give('header')}
-      <button class="menu-toggle" type="button" aria-controls="sv-mobile-menu" aria-expanded="false"><span class="sr-only">Menu</span><span class="bar"></span><span class="bar"></span><span class="bar"></span></button>
+    <nav class="primary-nav primary-nav--left" aria-label="Primary">${navList(NAV.slice(0, 3))}</nav>
+    <a class="site-brand" href="index.html" rel="home" aria-label="Startup Ventura home">
+      <img class="brand-mark brand-mark--color" src="${A}/img/logo-mark.png" height="36" alt="Startup Ventura">
+      <img class="brand-mark brand-mark--white" src="${A}/img/logo-mark-white.png" height="36" alt="" aria-hidden="true">
+    </a>
+    <div class="header-right">
+      <div class="primary-nav primary-nav--right">${navList(NAV.slice(3))}</div>
+      <div class="header-cta">${give('header')}
+        <button class="menu-toggle" type="button" aria-controls="sv-mobile-menu" aria-expanded="false"><span class="sr-only">Menu</span><span class="bar"></span><span class="bar"></span><span class="bar"></span></button>
+      </div>
     </div>
   </div>
 </header>
@@ -226,7 +232,7 @@ ${overHero ? `<link rel="preload" as="image" type="image/webp" imagesrcset="${A}
 <link rel="icon" href="${A}/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="${A}/img/favicon.png" sizes="any" type="image/png">
 <link rel="apple-touch-icon" href="${A}/img/favicon-180.png">
-<link rel="stylesheet" href="${A}/css/main.css?v=34">
+<link rel="stylesheet" href="${A}/css/main.css?v=35">
 ${analyticsHead()}</head>
 <body class="${overHero ? 'home' : ''}">
 ${header(overHero)}
@@ -234,7 +240,7 @@ ${crumbsTrail ? crumbs(crumbsTrail) : ''}
 ${body}
 ${footer()}
 ${noZeffy ? '' : '<script src="https://zeffy-scripts.s3.ca-central-1.amazonaws.com/embed-form-script.min.js" defer></script>'}
-<script src="${A}/js/main.js?v=34"></script>
+<script src="${A}/js/main.js?v=35"></script>
 ${body.includes('data-netlify') ? NF_SCRIPT : ''}
 </body></html>`;
   fs.writeFileSync(path.join(OUT, file), html);
