@@ -154,7 +154,7 @@ p{max-width:72ch}
 .header-cta{grid-column:3;justify-self:end}
 
 .primary-nav{display:flex;align-items:center;gap:4px}
-.primary-nav > ul{list-style:none;display:flex;align-items:center;gap:2px}
+.primary-nav > ul{list-style:none;display:flex;align-items:center;gap:14px}
 .primary-nav a,.primary-nav .menu-item > .nav-toggle{font-family:var(--font-body);font-weight:600;font-size:15px;color:var(--navy);text-decoration:none;padding:10px 12px;border-radius:8px;display:inline-flex;align-items:center;gap:6px;background:none;border:0;cursor:pointer}
 .primary-nav a:hover,.primary-nav .menu-item:hover > a,.primary-nav .nav-toggle:hover{color:var(--coral-deep);background:rgba(48,96,156,.07)}
 .primary-nav .current-menu-item > a,.primary-nav .current_page_item > a{color:var(--blue);box-shadow:inset 0 -2px 0 var(--coral)}
