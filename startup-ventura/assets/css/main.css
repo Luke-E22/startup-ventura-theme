@@ -600,7 +600,7 @@ picture{display:contents}
 .post-card__more{margin-top:14px;font-weight:600;text-decoration:none}
 
 .single-post .entry-header{max-width:760px;margin:0 auto;text-align:center}
-.single-post .entry-meta{font-family:var(--font-mono);font-size:13px;letter-spacing:.06em;color:var(--blue);text-transform:uppercase;margin-bottom:14px}
+.single-post .entry-meta{font-family:var(--font-mono);font-size:13px;letter-spacing:.06em;color:var(--blue);text-transform:uppercase;margin-bottom:14px;max-width:none} /* override global p{max-width:72ch} so the centered date fills the header and aligns with the h1 */
 .single-post .entry-hero{margin:32px auto 0;max-width:1000px}
 .single-post .entry-hero img{width:100%;border-radius:var(--r);box-shadow:var(--shadow-md)}
 .entry-content{max-width:720px;margin:36px auto 0;font-size:1.075rem}
