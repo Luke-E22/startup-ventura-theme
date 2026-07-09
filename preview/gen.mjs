@@ -105,7 +105,7 @@ const footer = () => `</main>
       <a href="https://www.facebook.com/startupventura/" aria-label="Facebook" rel="noopener" target="_blank"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.9h2.54V9.85c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.44 2.9h-2.34V22c4.78-.76 8.44-4.92 8.44-9.94Z"/></svg></a>
       <a href="https://www.instagram.com/startup_ventura/" aria-label="Instagram" rel="noopener" target="_blank"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.2c3.2 0 3.6 0 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s0 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58 0-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.21 15.58 2.2 15.2 2.2 12s0-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.21 8.8 2.2 12 2.2zm0 1.98c-3.15 0-3.5.01-4.74.07-1.14.05-1.76.24-2.17.4-.55.22-.94.47-1.35.88-.41.41-.66.8-.88 1.35-.16.41-.35 1.03-.4 2.17-.06 1.24-.07 1.59-.07 4.74s.01 3.5.07 4.74c.05 1.14.24 1.76.4 2.17.22.55.47.94.88 1.35.41.41.8.66 1.35.88.41.16 1.03.35 2.17.4 1.24.06 1.59.07 4.74.07s3.5-.01 4.74-.07c1.14-.05 1.76-.24 2.17-.4.55-.22.94-.47 1.35-.88.41-.41.66-.8.88-1.35.16-.41.35-1.03.4-2.17.06-1.24.07-1.59.07-4.74s-.01-3.5-.07-4.74c-.05-1.14-.24-1.76-.4-2.17a3.6 3.6 0 0 0-.88-1.35 3.6 3.6 0 0 0-1.35-.88c-.41-.16-1.03-.35-2.17-.4-1.24-.06-1.59-.07-4.74-.07zm0 3.37a4.45 4.45 0 1 1 0 8.9 4.45 4.45 0 0 1 0-8.9zm0 7.34a2.89 2.89 0 1 0 0-5.78 2.89 2.89 0 0 0 0 5.78zm5.66-7.57a1.04 1.04 0 1 1-2.08 0 1.04 1.04 0 0 1 2.08 0z"/></svg></a>
     </div></div>
-    <div class="footer-col"><p class="footer-col__title">Explore</p><ul><li><a href="program.html">The Program</a></li><li><a href="why-ventura-county.html">Why Ventura County</a></li><li><a href="impact.html">Impact</a></li><li><a href="give.html">Give</a></li><li><a href="partner.html">Partner</a></li><li><a href="about.html">About</a></li><li><a href="news.html">News</a></li><li><a href="contact.html">Contact</a></li><li><a href="donor-wall.html">Donor Wall</a></li><li class="footer-hiring"><a href="careers.html">Join our team <span class="sep">|</span> Careers</a></li><li class="footer-note-link"><a href="explore-83-palm.html">83 Palm St &middot; concept study</a></li></ul></div>
+    <div class="footer-col"><p class="footer-col__title">Explore</p><ul><li><a href="program.html">The Program</a></li><li><a href="why-ventura-county.html">Why Ventura County</a></li><li><a href="impact.html">Impact</a></li><li><a href="give.html">Give</a></li><li><a href="partner.html">Partner</a></li><li><a href="about.html">About</a></li><li><a href="news.html">News</a></li><li><a href="contact.html">Contact</a></li><li><a href="faq.html">FAQ</a></li><li><a href="donor-wall.html">Donor Wall</a></li><li class="footer-hiring"><a href="careers.html">Join our team <span class="sep">|</span> Careers</a></li><li class="footer-note-link"><a href="explore-83-palm.html">83 Palm St &middot; concept study</a></li></ul></div>
     <div class="footer-col"><p class="footer-col__title">Get in touch</p><ul><li><a href="mailto:info@startupventura.com">info@startupventura.com</a></li><li><a href="mailto:sponsor@startupventura.com">sponsor@startupventura.com</a></li><li><a href="press.html">Press &amp; media kit</a></li></ul></div>
   </div><div class="footer-legal"><span>Startup Ventura is a 501(c)(3) nonprofit. EIN 39-2204612. Gifts are tax-deductible to the extent allowed by law.</span><span>&copy; 2026 Startup Ventura</span><span class="footer-legal__links"><a href="privacy.html">Privacy</a> &middot; <a href="terms.html">Terms</a></span><span class="footer-legal__credit">Website by <a href="https://lukeerickson.com" target="_blank" rel="noopener">Luke Erickson</a></span></div></div>
 </footer>`;
@@ -114,6 +114,33 @@ const crumbs = (trail) => `<nav class="breadcrumbs wrap" aria-label="Breadcrumb"
 
 // Production origin for absolute SEO URLs (canonical, Open Graph, JSON-LD).
 const SITE = 'https://startupventura.com';
+
+// Organization entity — emitted on every page so search + AI engines have a
+// consistent, machine-readable identity for Startup Ventura.
+const ORG_SCHEMA = {
+  '@context': 'https://schema.org',
+  '@type': ['NGO', 'NonprofitOrganization'],
+  '@id': `${SITE}/#organization`,
+  name: 'Startup Ventura',
+  url: `${SITE}/`,
+  logo: `${SITE}/assets/img/logo.png`,
+  image: `${SITE}/assets/img/og/og-default.jpg`,
+  description: 'Startup Ventura is a 501(c)(3) nonprofit startup accelerator in Ventura County, California, backing early-stage founders with mentorship, capital connections, and community so they can build high-growth companies at home.',
+  slogan: 'Great founders grow up here.',
+  foundingDate: '2025',
+  founder: { '@type': 'Person', name: 'Luke Erickson', url: 'https://lukeerickson.com' },
+  nonprofitStatus: 'Nonprofit501c3',
+  taxID: '39-2204612',
+  email: 'info@startupventura.com',
+  areaServed: { '@type': 'AdministrativeArea', name: 'Ventura County, California' },
+  address: { '@type': 'PostalAddress', addressLocality: 'Ventura', addressRegion: 'CA', addressCountry: 'US' },
+  knowsAbout: ['startup accelerator', 'entrepreneurship', 'economic development', 'venture capital', 'Ventura County'],
+  sameAs: [
+    'https://www.linkedin.com/company/startup-ventura',
+    'https://www.instagram.com/startup_ventura/',
+    'https://www.facebook.com/startupventura/',
+  ],
+};
 
 // Google Analytics: paste the ID and rebuild. Supports a GA4 Measurement ID
 // ("G-XXXXXXXXXX", loads gtag.js) or a Tag Manager container ("GTM-XXXXXXX").
@@ -189,7 +216,9 @@ const page = (file, { title, overHero = false, body, crumbsTrail, desc, canonica
   const canon = canonical || (file === 'index.html' ? `${SITE}/` : `${SITE}/${file}`);
   PAGE_MANIFEST.push({ file, canonical: canon, robots: robots || '' });
   const metaDesc = desc || DESC[file] || '';
-  const seo = seoHead({ title: fullTitle, desc: metaDesc, canonical: canon, ogType, ogImage, jsonld, robots });
+  // Organization schema on every page + any page-specific JSON-LD (Person, Article, JobPosting, FAQPage).
+  const allJsonld = [ORG_SCHEMA].concat(jsonld ? [].concat(jsonld) : []);
+  const seo = seoHead({ title: fullTitle, desc: metaDesc, canonical: canon, ogType, ogImage, jsonld: allJsonld, robots });
   const html = `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>${fullTitle}</title>
 ${seo}<link rel="preload" href="${A}/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="${A}/fonts/hanken-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -197,7 +226,7 @@ ${overHero ? `<link rel="preload" as="image" type="image/webp" imagesrcset="${A}
 <link rel="icon" href="${A}/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="${A}/img/favicon.png" sizes="any" type="image/png">
 <link rel="apple-touch-icon" href="${A}/img/favicon-180.png">
-<link rel="stylesheet" href="${A}/css/main.css?v=33">
+<link rel="stylesheet" href="${A}/css/main.css?v=34">
 ${analyticsHead()}</head>
 <body class="${overHero ? 'home' : ''}">
 ${header(overHero)}
@@ -205,7 +234,7 @@ ${crumbsTrail ? crumbs(crumbsTrail) : ''}
 ${body}
 ${footer()}
 ${noZeffy ? '' : '<script src="https://zeffy-scripts.s3.ca-central-1.amazonaws.com/embed-form-script.min.js" defer></script>'}
-<script src="${A}/js/main.js?v=33"></script>
+<script src="${A}/js/main.js?v=34"></script>
 ${body.includes('data-netlify') ? NF_SCRIPT : ''}
 </body></html>`;
   fs.writeFileSync(path.join(OUT, file), html);
@@ -726,16 +755,70 @@ const roles = [
     full: `${svJobAbout}<h4>About the role</h4><p>This is a flexible, learn-by-doing internship shaped around your interests and where we need help. You will work alongside a small team building a startup accelerator from the ground up, and get real exposure to nonprofit operations, live events, and Ventura County&rsquo;s founder community.</p><h4>What you might do</h4><ul><li>Support event planning and day-of logistics for workshops, Lunch &amp; Learns, and Pitch Day</li><li>Help with founder, funder, and sponsor research</li><li>Pitch in on marketing, social media, and content</li><li>Keep our CRM and records organized</li><li>Take on whatever the week needs, with real ownership</li></ul><h4>Who it&rsquo;s for</h4><p>Students and early-career people in or near Ventura County who want hands-on experience and a local network. Apply below and tell us what you are studying, your availability, and how you would like to help.</p>`,
   },
 ];
+// JobPosting structured data per role (Google for Jobs + AI job search).
+const jobMeta = {
+  'Community Operations Coordinator': { emp: 'PART_TIME', min: 20, max: 30 },
+  'Grant Writer': { emp: ['PART_TIME', 'CONTRACTOR'], min: 40, max: 65 },
+  'Corporate Partnerships & Sponsorship Lead': { emp: 'PART_TIME', min: 25, max: 35 },
+  'Development Director': { emp: 'CONTRACTOR', min: 40, max: 80 },
+  'Student Internship': { emp: 'INTERN' },
+};
+const JOBS_POSTED = '2026-07-08';
+const jobPostingSchema = (r) => {
+  const m = jobMeta[r.title] || {};
+  const obj = {
+    '@context': 'https://schema.org',
+    '@type': 'JobPosting',
+    title: r.title,
+    description: r.full,
+    datePosted: JOBS_POSTED,
+    employmentType: m.emp,
+    directApply: true,
+    url: `${SITE}/careers`,
+    hiringOrganization: { '@type': 'Organization', name: 'Startup Ventura', sameAs: `${SITE}/`, logo: `${SITE}/assets/img/logo.png` },
+    jobLocationType: 'TELECOMMUTE',
+    applicantLocationRequirements: { '@type': 'AdministrativeArea', name: 'Ventura County, California' },
+    jobLocation: { '@type': 'Place', address: { '@type': 'PostalAddress', addressLocality: 'Ventura', addressRegion: 'CA', addressCountry: 'US' } },
+  };
+  if (m.min) obj.baseSalary = { '@type': 'MonetaryAmount', currency: 'USD', value: { '@type': 'QuantitativeValue', minValue: m.min, maxValue: m.max, unitText: 'HOUR' } };
+  return obj;
+};
 page('careers.html', {
   title: 'Careers',
   desc: 'Join the team building Ventura County’s startup accelerator. Open roles plus ways to mentor founders and volunteer your skills.',
   canonical: `${SITE}/careers`,
+  jsonld: roles.map(jobPostingSchema),
   body: pageHead('Careers', 'Help build what founders build here.', 'Startup Ventura is a small team with outsized ambition for Ventura County. If you want your work to keep talent, jobs, and companies in the region, we would love to meet you.') +
     `<section class="section section--pale"><div class="wrap wrap--narrow">${head('Open roles', 'We are hiring.', 'Click a role to read the full description. Do not see your exact fit? Apply below and tell us how you would help.')}<div class="roles">${roles.map((r) => `<article class="role"><details class="role__d"><summary class="role__summary"><div class="role__head"><h3 class="role__title">${r.title}</h3><p class="role__meta">${r.meta}</p><p class="role__desc">${r.teaser}</p></div><span class="role__toggle" aria-hidden="true">Details</span></summary><div class="role__full">${r.full}</div></details><div class="role__actions"><a class="btn btn--outline role__apply" href="#apply" data-role="${r.title}">Apply for this role &darr;</a></div></article>`).join('')}</div></div></section>
     <section class="section" id="apply"><div class="wrap wrap--narrow">${head('Apply', 'Tell us about you.')}${form('careers', 'Submit application', false, true, { interest: ['Community Operations Coordinator', 'Grant Writer', 'Corporate Partnerships & Sponsorship Lead', 'Development Director', 'Student Internship', 'General interest'], interestLabel: 'Role you are applying for', linkLabel: 'LinkedIn or resume link', msgLabel: 'Why you, and how you would help', twoCol: true })}</div></section>
     <section class="section section--pale"><div class="wrap wrap--narrow">${headC('Mentor & volunteer', 'Lend your skills to a founder.', 'Not looking for a job, but want to help? Our founders grow fastest with operators, experts, and mentors in their corner. Whether you can give an hour or an ongoing commitment, we would love to hear what you bring.')}<div class="center"><a class="btn btn--blue" href="contact.html">Get in touch to mentor or volunteer</a></div></div></section>` +
     `<script>document.querySelectorAll('.role__apply').forEach(function(a){a.addEventListener('click',function(){var s=document.getElementById('careers-interest');if(s){var r=a.getAttribute('data-role');for(var i=0;i<s.options.length;i++){if(s.options[i].value===r){s.selectedIndex=i;break;}}}});});</script>` +
     ctaBand('Build the thing that builds Ventura County&rsquo;s founders.', 'none'),
+});
+
+// FAQ — plain, quotable answers to the questions people (and AI answer engines)
+// actually ask, plus FAQPage structured data.
+const faqs = [
+  ['What is Startup Ventura?', 'Startup Ventura is a 501(c)(3) nonprofit startup accelerator in Ventura County, California. It backs early-stage founders with mentorship, capital connections, and community so they can build high-growth companies at home instead of leaving for San Francisco or Los Angeles.'],
+  ['Is the accelerator free for founders?', 'Yes. Startup Ventura’s accelerator and workshops are free for founders, with no tuition and no equity taken. The program is funded by donors and community partners.'],
+  ['Who can apply, and when does the first cohort start?', 'Early-stage founders based in or building in Ventura County. The inaugural cohort is planned for Spring 2027, backed by committed funding from the City of Ventura. Join the notify list to apply when applications open.'],
+  ['Where is Startup Ventura located?', 'Startup Ventura serves founders across Ventura County, California.'],
+  ['Is my donation tax-deductible?', 'Yes. Startup Ventura is a 501(c)(3) nonprofit (EIN 39-2204612), so donations are tax-deductible to the extent allowed by law. Gifts fund the inaugural cohort and the program that backs local founders.'],
+  ['Who runs Startup Ventura?', 'Startup Ventura was founded by Luke Erickson, who serves as Executive Director. It is guided by a board of operators and civic leaders, including people behind companies like Curri and the Ventura Chamber of Commerce.'],
+  ['How can I get involved?', 'You can donate to fund the cohort, partner or sponsor as a business or foundation, mentor a founder or volunteer your skills, apply as a founder, or join the team through an open role. See the Give, Partner, and Careers pages.'],
+];
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })),
+};
+page('faq.html', {
+  title: 'FAQ',
+  canonical: `${SITE}/faq`,
+  jsonld: faqSchema,
+  body: pageHead('FAQ', 'Frequently asked questions', 'Quick answers about Startup Ventura, the accelerator, and how to get involved.') +
+    `<section class="section section--pale"><div class="wrap wrap--narrow"><div class="faq">${faqs.map(([q, a]) => `<details class="faq__item"><summary class="faq__q">${q}</summary><div class="faq__a"><p>${a}</p></div></details>`).join('')}</div></div></section>` +
+    ctaBand('Still have a question? We&rsquo;d love to hear from you.', 'none'),
 });
 
 // BOARD OF ADVISORS — unlisted for now (noindex, no nav/footer/sitemap link).
@@ -860,5 +943,35 @@ const sitemapUrls = PAGE_MANIFEST
   .join('\n');
 fs.writeFileSync(path.join(OUT, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemapUrls}\n</urlset>\n`);
 fs.writeFileSync(path.join(OUT, 'robots.txt'), `User-agent: *\nAllow: /\nDisallow: /explore-83-palm.html\nDisallow: /explore/83-palm\nDisallow: /advisors.html\nDisallow: /advisors\n\nSitemap: ${SITE}/sitemap.xml\n`);
+
+// llms.txt — a curated markdown map of the site for AI crawlers/answer engines.
+const llmsTxt = `# Startup Ventura
+
+> Startup Ventura is a 501(c)(3) nonprofit startup accelerator in Ventura County, California. It backs early-stage founders with mentorship, capital connections, and community so they can build high-growth companies at home instead of leaving for San Francisco or Los Angeles.
+
+Startup Ventura was founded in 2025 by Luke Erickson, who serves as Executive Director. Its accelerator and workshops are free for founders (no tuition, no equity), funded by donors and community partners. The inaugural cohort is planned for Spring 2027, backed by committed funding from the City of Ventura. Startup Ventura holds Candid's 2026 Platinum Seal of Transparency.
+
+## Key facts
+- Type: 501(c)(3) nonprofit startup accelerator (EIN 39-2204612)
+- Location: Ventura County, California
+- Founded: 2025 by Luke Erickson (Executive Director)
+- Program: a free accelerator plus a pre-accelerator workshop series for early-stage founders; mentorship, capital connections, and a Demo Day / Pitch Day with investors
+- Inaugural cohort: Spring 2027, with committed funding from the City of Ventura
+- Contact: info@startupventura.com
+
+## Main pages
+- [Home](${SITE}/): mission and overview
+- [The Program](${SITE}/program): accelerator + workshops
+- [Why Ventura County](${SITE}/why-ventura-county): the problem Startup Ventura solves
+- [Impact](${SITE}/impact): traction and where donations go
+- [Give](${SITE}/give): donate to fund the cohort (tax-deductible)
+- [Partner](${SITE}/partner): sponsorship and public/foundation partnership
+- [About](${SITE}/about): board, team, and story
+- [Careers](${SITE}/careers): open roles and how to apply
+- [FAQ](${SITE}/faq): common questions answered
+- [News](${SITE}/news): announcements and updates
+- [Contact](${SITE}/contact): get in touch
+`;
+fs.writeFileSync(path.join(OUT, 'llms.txt'), llmsTxt);
 
 console.log('Generated', fs.readdirSync(OUT).length, 'files into preview/site/ (incl. sitemap.xml + robots.txt)');
