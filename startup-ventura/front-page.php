@@ -26,8 +26,8 @@ get_header();
 <?php // ===== Program teaser ===== ?>
 <section class="section section--pale grain">
 	<div class="wrap">
-		<?php sv_section_header( 'The Program', 'The program is the product.', array(
-			'intro' => 'A focused accelerator and a workshop series, built for Ventura County founders who would rather build here than leave.',
+		<?php sv_section_header( 'The Program', 'The on-ramp founders need.', array(
+			'intro' => 'Everything entrepreneurs would leave town to find: a true accelerator with a pathway to raising venture capital.',
 		) ); ?>
 		<div class="card-grid card-grid--2">
 			<a class="card card--link reveal" href="<?php echo esc_url( home_url( '/program/accelerator/' ) ); ?>">
