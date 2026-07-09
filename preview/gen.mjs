@@ -195,7 +195,7 @@ ${overHero ? `<link rel="preload" as="image" type="image/webp" imagesrcset="${A}
 <link rel="icon" href="${A}/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="${A}/img/favicon.png" sizes="any" type="image/png">
 <link rel="apple-touch-icon" href="${A}/img/favicon-180.png">
-<link rel="stylesheet" href="${A}/css/main.css?v=31">
+<link rel="stylesheet" href="${A}/css/main.css?v=32">
 ${analyticsHead()}</head>
 <body class="${overHero ? 'home' : ''}">
 ${header(overHero)}
@@ -203,7 +203,7 @@ ${crumbsTrail ? crumbs(crumbsTrail) : ''}
 ${body}
 ${footer()}
 ${noZeffy ? '' : '<script src="https://zeffy-scripts.s3.ca-central-1.amazonaws.com/embed-form-script.min.js" defer></script>'}
-<script src="${A}/js/main.js?v=31"></script>
+<script src="${A}/js/main.js?v=32"></script>
 ${body.includes('data-netlify') ? NF_SCRIPT : ''}
 </body></html>`;
   fs.writeFileSync(path.join(OUT, file), html);
@@ -736,6 +736,25 @@ page('careers.html', {
     ctaBand('Build the thing that builds Ventura County&rsquo;s founders.', 'none'),
 });
 
+// BOARD OF ADVISORS — unlisted for now (noindex, no nav/footer/sitemap link).
+// Direct URL only until the org is ready to make it public. Names only for now;
+// add title/bio/photo per advisor to enrich the cards later.
+const advisors = [
+  { n: 'Jeff Forester' },
+  { n: 'Connor Macleod' },
+  { n: 'Immanuel Portus' },
+];
+const initials = (n) => n.split(/\s+/).filter(Boolean).map((w) => w[0]).slice(0, 2).join('').toUpperCase();
+page('advisors.html', {
+  title: 'Board of Advisors',
+  robots: 'noindex, nofollow',
+  desc: 'The advisors who help guide Startup Ventura.',
+  canonical: `${SITE}/advisors`,
+  body: pageHead('Advisory Board', 'Board of Advisors', 'Experienced advisors who lend their guidance, networks, and expertise as Startup Ventura builds Ventura County&rsquo;s accelerator.') +
+    `<section class="section section--pale"><div class="wrap"><div class="advisor-grid">${advisors.map((a) => `<article class="advisor-card">${a.photo ? `<div class="advisor-card__media"><img src="${A}/img/${a.photo}" width="200" height="200" alt="${a.n}"></div>` : `<div class="advisor-mono" aria-hidden="true">${initials(a.n)}</div>`}<h3 class="advisor-card__name">${a.n}</h3><p class="advisor-card__role">${a.role || 'Advisor'}</p>${a.bio ? `<p class="advisor-card__bio">${a.bio}</p>` : ''}</article>`).join('')}</div></div></section>` +
+    ctaBand('Guiding what founders build here.', 'none'),
+});
+
 // THANK YOU — post-donation page. Zeffy's custom redirect (set via Zeffy
 // support) points here after a completed gift, so this is where the donation
 // conversion fires. noindex (not a page anyone should find via search).
@@ -839,6 +858,6 @@ const sitemapUrls = PAGE_MANIFEST
   .map((p) => `  <url><loc>${p.canonical}</loc></url>`)
   .join('\n');
 fs.writeFileSync(path.join(OUT, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemapUrls}\n</urlset>\n`);
-fs.writeFileSync(path.join(OUT, 'robots.txt'), `User-agent: *\nAllow: /\nDisallow: /explore-83-palm.html\nDisallow: /explore/83-palm\n\nSitemap: ${SITE}/sitemap.xml\n`);
+fs.writeFileSync(path.join(OUT, 'robots.txt'), `User-agent: *\nAllow: /\nDisallow: /explore-83-palm.html\nDisallow: /explore/83-palm\nDisallow: /advisors.html\nDisallow: /advisors\n\nSitemap: ${SITE}/sitemap.xml\n`);
 
 console.log('Generated', fs.readdirSync(OUT).length, 'files into preview/site/ (incl. sitemap.xml + robots.txt)');

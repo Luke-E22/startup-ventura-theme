@@ -53,6 +53,12 @@
   to = "/careers.html"
   status = 200
 
+# Unlisted board of advisors page (noindex; direct URL only for now).
+[[redirects]]
+  from = "/advisors"
+  to = "/advisors.html"
+  status = 200
+
 [[redirects]]
   from = "/donor-wall"
   to = "/donor-wall.html"

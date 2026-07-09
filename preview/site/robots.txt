@@ -2,5 +2,7 @@ User-agent: *
 Allow: /
 Disallow: /explore-83-palm.html
 Disallow: /explore/83-palm
+Disallow: /advisors.html
+Disallow: /advisors
 
 Sitemap: https://startupventura.com/sitemap.xml
