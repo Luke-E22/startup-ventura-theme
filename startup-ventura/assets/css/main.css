@@ -595,6 +595,9 @@ picture{display:contents}
 .contact-aside__social{display:flex;flex-wrap:wrap;gap:20px}
 .contact-aside__social a{font-weight:600}
 .contact-aside .contact-card{margin-top:4px;background:#fff}
+/* When the card leads the aside (e.g. /connect) instead of closing it, keep clear
+   air between its shadowed edge and the next block's heading. */
+.contact-aside .contact-card:not(:last-child){margin-top:0;margin-bottom:26px}
 .contact-card h3{margin-bottom:8px}
 .contact-card p{color:var(--muted);font-size:15px}
 
