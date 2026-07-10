@@ -1042,7 +1042,7 @@ page('connected.html', {
     <h1 class="display">Big change starts with a conversation.</h1>
     <p class="lede" style="margin-inline:auto">The kind between people who are ready to make a difference. You just started one. A real member of our team will reach out within a day or two to set up time with our founder, Luke Erickson.</p>
     <div style="margin-top:34px">${MEAD_QUOTE}</div>
-    <div class="center" style="margin-top:30px"><a class="btn btn--blue" href="program.html">See what we are building</a>&nbsp;&nbsp;<a class="btn btn--outline" href="impact.html">Explore the impact</a></div>
+    <div class="center" style="margin-top:30px"><a class="btn btn--blue" href="index.html">See what we are building</a>&nbsp;&nbsp;<a class="btn btn--outline" href="impact.html">Explore the impact</a></div>
     <p class="muted" style="margin-top:34px;font-size:14px;max-width:60ch;margin-inline:auto">Prefer email? Reach us anytime at <a href="mailto:info@startupventura.com">info@startupventura.com</a>.</p>
     <button id="sv-confetti-again" class="thankyou__again" type="button">Celebrate again &#127881;</button>
   </div></section>
