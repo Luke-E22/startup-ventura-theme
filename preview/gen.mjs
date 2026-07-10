@@ -7,6 +7,9 @@ import fs from 'fs';
 import path from 'path';
 
 const OUT = path.join(path.dirname(new URL(import.meta.url).pathname), 'site');
+// Clean first so removed/renamed pages never linger as stale files (which
+// build-dist would otherwise copy into the deploy).
+fs.rmSync(OUT, { recursive: true, force: true });
 fs.mkdirSync(OUT, { recursive: true });
 const A = '../../startup-ventura/assets'; // assets path from preview/site/*.html
 
@@ -264,11 +267,12 @@ const board = [
     bio: `Brian Gonzalez is the CTO and co-founder of Curri, a nationwide delivery and logistics platform built for construction wholesalers and distributors. He began his career in startups in 2010 at Dollar Shave Club and has been immersed in the entrepreneurial world ever since. After earning his master's degree in data science, Brian launched Curri in the heart of downtown Ventura, where he continues to lead technology and innovation today. Under his leadership, Curri has raised capital from leading investors including Y Combinator and Bessemer Venture Partners.` },
   { n: 'Stephanie Caldwell', r: 'Board Member, CEO of Ventura Chamber of Commerce', p: 'team/stephanie-caldwell.jpg', pos: 'center 22%', li: 'https://www.linkedin.com/in/stephanie-caldwell-1b02b39/',
     bio: `Stephanie Caldwell has held a senior leadership role at the Ventura Chamber of Commerce since April 2015 and currently serves as a director for the California Chamber of Commerce. With a career spanning sales, operations, and workforce management, she began in the hospitality industry before transitioning into the staffing sector, where she led branch and on-site contingent staffing operations in Silicon Valley supporting major technology companies including Novell and Compaq (now HP). Previously, she served as Chief Operations Officer of the San Jose Silicon Valley Chamber of Commerce and has additional experience in both public service and industry associations, including roles in the district office of a California State Assembly member and as Director of Education and Events for the California Apartment Association's Tri-County Division.` },
-  { n: 'Sean Herwaldt', r: 'Board Member, Director at Curri · SpaceX alum', p: 'team/sean-herwaldt.jpg', pos: 'center 40%', zoom: 1.4, li: 'https://www.linkedin.com/in/seanherwaldt/',
+  // ARCHIVED (board-requested, 2026-07-08): hidden until Sean is officially onboarded (~week of 2026-07-15). Remove `archived: true` to republish.
+  { archived: true, n: 'Sean Herwaldt', r: 'Board Member, Director at Curri · SpaceX alum', p: 'team/sean-herwaldt.jpg', pos: 'center 40%', zoom: 1.4, li: 'https://www.linkedin.com/in/seanherwaldt/',
     bio: `Sean Herwaldt is a Director at Curri, the Series B last-mile logistics company, where he leads delivery operations. He started his career at SpaceX, which shaped how he works: first principles, no assumptions, move fast, and never confuse activity with progress. He then joined the longevity company NOVOS to build its operations from scratch, spending four years standing up a supply chain with no playbook, launching products from concept to shelf, rebuilding a customer-experience team with AI that made the team better rather than redundant, and writing his own tools when spreadsheets were no longer enough. Sean is drawn to the craft of taking an idea to something real, then making it repeatable and ready to scale, and he cares as much about the people doing the work as the work itself.` },
 ];
 // On the About page the full bio shows by default (open); the home teaser keeps it collapsed.
-const boardGrid = (openBios = false) => `<div class="board-grid${openBios ? ' board-grid--wide' : ''}">${board.map(b => `<article class="board-card">${b.p ? `<div class="board-card__media">${pic(`${A}/img/${b.p}`, { cls: 'board-card__photo', w: 600, h: 720, alt: b.n, sizes: '(max-width:620px) 92vw, (max-width:1024px) 45vw, 240px', style: `${b.pos ? `object-position:${b.pos};` : ''}${b.zoom ? `transform:scale(${b.zoom});transform-origin:${b.pos || 'center'};` : ''}` })}</div>` : ''}<div class="board-card__body"><h3 class="board-card__name">${b.n}</h3><p class="board-card__role">${b.r}</p><details class="board-card__details"${openBios ? ' open' : ''}><summary>${openBios ? 'Bio' : 'Read bio'}</summary><p class="board-card__bio">${b.bio}</p></details>${(b.li || b.ig || b.site) ? `<p class="board-card__links">${b.li ? `<a href="${b.li}" target="_blank" rel="noopener">LinkedIn &nearr;</a>` : ''}${b.ig ? `<a href="${b.ig}" target="_blank" rel="noopener">Instagram &nearr;</a>` : ''}${b.site ? `<a href="${b.site}" target="_blank" rel="noopener">${b.site.replace(/^https?:\/\/(www\.)?/, '')} &nearr;</a>` : ''}</p>` : ''}</div></article>`).join('')}</div>`;
+const boardGrid = (openBios = false) => `<div class="board-grid${openBios ? ' board-grid--wide' : ''}">${board.filter(b => !b.archived).map(b => `<article class="board-card">${b.p ? `<div class="board-card__media">${pic(`${A}/img/${b.p}`, { cls: 'board-card__photo', w: 600, h: 720, alt: b.n, sizes: '(max-width:620px) 92vw, (max-width:1024px) 45vw, 240px', style: `${b.pos ? `object-position:${b.pos};` : ''}${b.zoom ? `transform:scale(${b.zoom});transform-origin:${b.pos || 'center'};` : ''}` })}</div>` : ''}<div class="board-card__body"><h3 class="board-card__name">${b.n}</h3><p class="board-card__role">${b.r}</p><details class="board-card__details"${openBios ? ' open' : ''}><summary>${openBios ? 'Bio' : 'Read bio'}</summary><p class="board-card__bio">${b.bio}</p></details>${(b.li || b.ig || b.site) ? `<p class="board-card__links">${b.li ? `<a href="${b.li}" target="_blank" rel="noopener">LinkedIn &nearr;</a>` : ''}${b.ig ? `<a href="${b.ig}" target="_blank" rel="noopener">Instagram &nearr;</a>` : ''}${b.site ? `<a href="${b.site}" target="_blank" rel="noopener">${b.site.replace(/^https?:\/\/(www\.)?/, '')} &nearr;</a>` : ''}</p>` : ''}</div></article>`).join('')}</div>`;
 
 // Testimonials (mirror sv_testimonials(), verbatim) + partner logos (mirror sv_partners()).
 const testimonials = [
@@ -500,6 +504,8 @@ page('contact.html', {
 // NEWS — archive + one clickable article page per post (newest first)
 const newsPosts = [
   {
+    // ARCHIVED (board-requested, 2026-07-08): hidden until Sean is officially onboarded (~week of 2026-07-15). Remove `archived: true` to republish.
+    archived: true,
     file: 'news-sean-herwaldt-board.html', crumb: 'New Board Member',
     title: 'Welcoming Sean Herwaldt to the Startup Ventura Board',
     date: 'July 8, 2026', img: `${A}/img/team/sean-herwaldt.jpg`, alt: 'Sean Herwaldt',
@@ -603,11 +609,11 @@ page('news.html', {
   title: 'News', crumbsTrail: [['Home', 'index.html'], ['News', '']],
   body: `<section class="section"><div class="wrap"><header class="page-head"><p class="eyebrow">News &amp; Updates</p>${waveRule}<h1 class="display">News &amp; Updates</h1></header>
   <div class="news-signup"><div class="news-signup__copy"><h2 class="news-signup__title">Stay up to date with events and announcements</h2><p class="muted">Get Startup Ventura news, events, and cohort updates in your inbox.</p></div><div class="news-signup__form">${form('newsletter', 'Subscribe', false, false)}</div></div>
-  <div class="post-grid">${newsPosts.map(p => `<article class="post-card"><a href="${p.file}" tabindex="-1" aria-hidden="true">${pic(p.img, { cls: 'post-card__thumb', alt: '', sizes: '(max-width:640px) 92vw, 360px' })}</a><div class="post-card__body"><p class="post-card__date">${p.date}</p><h2 class="post-card__title"><a href="${p.file}">${p.title}</a></h2><p class="post-card__excerpt">${p.excerpt}</p><a class="post-card__more" href="${p.file}">Read more &rarr;</a></div></article>`).join('')}</div></div></section>` +
+  <div class="post-grid">${newsPosts.filter(p => !p.archived).map(p => `<article class="post-card"><a href="${p.file}" tabindex="-1" aria-hidden="true">${pic(p.img, { cls: 'post-card__thumb', alt: '', sizes: '(max-width:640px) 92vw, 360px' })}</a><div class="post-card__body"><p class="post-card__date">${p.date}</p><h2 class="post-card__title"><a href="${p.file}">${p.title}</a></h2><p class="post-card__excerpt">${p.excerpt}</p><a class="post-card__more" href="${p.file}">Read more &rarr;</a></div></article>`).join('')}</div></div></section>` +
     ctaBand('Help fund the inaugural cohort.', 'none'),
 });
 
-newsPosts.filter(p => !p.custom).forEach(p => page(p.file, {
+newsPosts.filter(p => !p.custom && !p.archived).forEach(p => page(p.file, {
   title: p.title, desc: p.excerpt, ogType: 'article',
   ogImage: `${SITE}/assets/img/` + p.img.replace(/^.*\/img\//, '').replace(/\?.*$/, ''),
   crumbsTrail: [['Home', 'index.html'], ['News', 'news.html'], [p.crumb, '']],
