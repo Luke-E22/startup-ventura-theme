@@ -329,6 +329,7 @@ const FORM_SUCCESS = {
   'partner-government': 'Request received. We will follow up to schedule a working session.',
   'partner-foundations': 'Thanks, we will be in touch about sponsorship.',
   careers: 'Thanks for applying. We review every application and will reach out if there is a fit.',
+  connect: 'Thanks. A real person will reach out within a day or two to find a time that works.',
 };
 const form = (type, submit, org = false, msg = true, opts = {}) => {
   const phone = !!opts.phone, interest = opts.interest || null, two = !!opts.twoCol;
@@ -346,7 +347,7 @@ ${org ? `<div class="field${full}"><label for="${id('org')}">Organization <span 
 ${phone ? `<div class="field"><label for="${id('phone')}">Phone</label><input id="${id('phone')}" name="phone" type="tel" autocomplete="tel"></div>` : ''}
 ${interest ? `<div class="field"><label for="${id('interest')}">${interestLabel}</label><select id="${id('interest')}" name="interest">${interest.map(o => `<option>${o}</option>`).join('')}</select></div>` : ''}
 ${linkLabel ? `<div class="field"><label for="${id('link')}">${linkLabel}</label><input id="${id('link')}" name="link" type="url" placeholder="https://" autocomplete="url"></div>` : ''}
-${msg ? `<div class="field${full}"><label for="${id('message')}">${msgLabel} <span class="req">*</span></label><textarea id="${id('message')}" name="message" rows="6" required></textarea></div>` : ''}
+${msg ? `<div class="field${full}"><label for="${id('message')}">${msgLabel}${opts.msgOptional ? '' : ' <span class="req">*</span>'}</label><textarea id="${id('message')}" name="message" rows="6"${opts.msgOptional ? '' : ' required'}></textarea></div>` : ''}
 <div class="form__submit${full}"><button class="btn btn--blue" type="submit">${submit}</button></div><p class="form__status${full}" role="status" aria-live="polite"></p></form>`;
 };
 // Delegated submit handler for every Netlify form on a page (injected by page()).
@@ -906,6 +907,31 @@ page('advisors.html', {
   body: pageHead('Advisory Board', 'Board of Advisors', 'Experienced advisors who lend their guidance, networks, and expertise as Startup Ventura builds Ventura County&rsquo;s accelerator.') +
     `<section class="section section--pale"><div class="wrap"><div class="advisor-grid">${advisors.map((a) => `<article class="advisor-card">${a.photo ? `<div class="advisor-card__media"><img src="${A}/img/${a.photo}" width="200" height="200" alt="${a.n}"></div>` : `<div class="advisor-mono" aria-hidden="true">${initials(a.n)}</div>`}<h3 class="advisor-card__name">${a.n}</h3><p class="advisor-card__role">${a.role || 'Advisor'}</p>${a.bio ? `<p class="advisor-card__bio">${a.bio}</p>` : ''}</article>`).join('')}</div></div></section>` +
     ctaBand('Guiding what founders build here.', 'none'),
+});
+
+// PAID-TRAFFIC LANDING PAGE — /connect (unlisted, noindex; built for the Google
+// Ad Grant and other paid campaigns). One job: turn a high-intent click into a
+// booked conversation with the founder instead of a cold Give ask. The 'connect'
+// Netlify form feeds the scheduling workflow (assistant follows up, Luke takes
+// the meeting and makes the direct ask). Give stays available as the closing
+// band for ready-now donors. Not in the nav, footer, or sitemap.
+page('connect.html', {
+  title: 'Talk With Our Founder',
+  robots: 'noindex',
+  desc: 'Book a conversation with Startup Ventura founder Luke Erickson. See the plan for Ventura County\'s startup accelerator, then decide where you fit.',
+  canonical: `${SITE}/connect`,
+  body: `<section class="section"><div class="wrap"><div class="contact-layout">
+    <div><p class="eyebrow">Make an Impact</p>${waveRule}<h1 class="display">Talk with our founder before you give.</h1><p class="lede">Serious support starts with a conversation, not a checkout page. Tell us how you want to help and we will set up time with our founder, Luke Erickson. See the plan, ask the hard questions, then decide where you fit.</p><div style="margin-top:28px">${form('connect', 'Request a conversation', false, true, { phone: true, twoCol: true, interest: ['Personal giving', 'Corporate partnership or sponsorship', 'Mentoring or advising', 'Still exploring'], interestLabel: 'How would you like to make an impact?', msgLabel: 'Anything we should know before we reach out?', msgOptional: true })}</div></div>
+    <aside class="contact-aside">
+      <div class="contact-card"><h3>What happens next</h3><p>A real person reaches out within a day or two to find a time that works. Then you meet with Luke, over coffee in Ventura or on a call, for about 30 minutes.</p></div>
+      <div class="contact-aside__block"><h3>Backed by the City of Ventura</h3><p>Startup Ventura earned a founding investment from the City of Ventura to launch the county&rsquo;s accelerator.</p></div>
+      <div class="contact-aside__block"><h3>Candid Platinum Seal</h3><p>We hold Candid&rsquo;s Platinum Seal of Transparency, the highest level, held by fewer than 1% of U.S. nonprofits.</p></div>
+      <div class="contact-aside__block"><h3>A board of operators</h3><p>Our board includes leadership behind SevenRooms&rsquo; $1.2B acquisition and the Ventura Chamber of Commerce.</p></div>
+      <div class="contact-aside__block"><h3>Rather start by email?</h3><p><a href="mailto:info@startupventura.com">info@startupventura.com</a></p></div>
+    </aside>
+  </div></div></section>
+  <section class="section section--pale"><div class="wrap wrap--narrow">${headC('How it works', 'Three steps, no pressure.')}<div class="steps"><div class="step"><div class="step__num">01</div><div class="step__content"><h3 class="step__title">Tell us how you want to help</h3><p class="step__body">The form takes 30 seconds. Giving, partnering, mentoring, or still exploring, every answer is a good answer.</p></div></div><div class="step"><div class="step__num">02</div><div class="step__content"><h3 class="step__title">We reach out personally</h3><p class="step__body">No automated sequences. A member of our team emails you to find a time that fits your calendar.</p></div></div><div class="step"><div class="step__num">03</div><div class="step__content"><h3 class="step__title">Meet Luke and see the plan</h3><p class="step__body">Thirty minutes on the accelerator, the funding model, and where Ventura County is headed. You decide what role you want in it.</p></div></div></div></div></section>` +
+    ctaBand('Already know you want to fund the cohort?', 'none'),
 });
 
 // THANK YOU — post-donation page. Zeffy's custom redirect (set via Zeffy

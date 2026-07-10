@@ -58,6 +58,12 @@
   to = "/faq.html"
   status = 200
 
+# Paid-traffic landing page (Google Ad Grant); unlisted + noindex.
+[[redirects]]
+  from = "/connect"
+  to = "/connect.html"
+  status = 200
+
 # Unlisted board of advisors page (noindex; direct URL only for now).
 [[redirects]]
   from = "/advisors"
