@@ -154,7 +154,7 @@ const ORG_SCHEMA = {
 // Google Analytics: paste the ID and rebuild. Supports a GA4 Measurement ID
 // ("G-XXXXXXXXXX", loads gtag.js) or a Tag Manager container ("GTM-XXXXXXX").
 // Empty string = no analytics emitted.
-const ANALYTICS_ID = '';
+const ANALYTICS_ID = 'G-6S0JCLV6SJ';
 const analyticsHead = () => {
   if (!ANALYTICS_ID) return '';
   if (ANALYTICS_ID.startsWith('GTM-')) {
