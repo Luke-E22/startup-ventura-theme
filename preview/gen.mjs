@@ -181,6 +181,7 @@ const DESC = {
   'index.html': 'Startup Ventura is a 501(c)(3) nonprofit startup accelerator in Ventura County. Donate to fund the inaugural Spring 2027 founder cohort, apply, or partner with us.',
   'give.html': "Donate to fund Ventura County's first startup accelerator cohort, launching Spring 2027. Startup Ventura is a 501(c)(3), so your gift is tax-deductible.",
   'impact.html': "See Startup Ventura's traction and where your gift goes, from jobs to founder revenue, and model your own impact with the Ventura County cohort calculator.",
+  'faq.html': 'Common questions about Startup Ventura, the 501(c)(3) startup accelerator in Ventura County: how the program works, how to apply, and ways to give or partner.',
   'partner.html': 'Partner with Startup Ventura. Cities, the county, foundations, and corporate sponsors backing high-growth founders across Ventura County.',
   'partner-foundations.html': 'Foundation and corporate giving for Startup Ventura, a 501(c)(3) accelerator in Ventura County. Sponsorship levels, grants, and partner recognition.',
   'partner-cities-county.html': 'A public-private economic development partner for Ventura County cities and the county. Keep founders, jobs, and the tax base local.',
@@ -349,7 +350,7 @@ ${msg ? `<div class="field${full}"><label for="${id('message')}">${msgLabel} <sp
 <div class="form__submit${full}"><button class="btn btn--blue" type="submit">${submit}</button></div><p class="form__status${full}" role="status" aria-live="polite"></p></form>`;
 };
 // Delegated submit handler for every Netlify form on a page (injected by page()).
-const NF_SCRIPT = `<script>document.addEventListener('submit',function(e){var f=e.target;if(!f||!f.hasAttribute||!f.hasAttribute('data-netlify'))return;e.preventDefault();var s=f.querySelector('.form__status');var b=f.querySelector('button[type=submit]');if(b)b.disabled=true;fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(new FormData(f)).toString()}).then(function(r){if(!r.ok)throw new Error(r.status);if(s){s.className=s.className.replace(' is-err','')+' is-ok';s.textContent=f.getAttribute('data-success')||'Thanks, we got it.';}f.reset();try{if(window.gtag){gtag('event','form_submit',{form_name:f.getAttribute('name')});}else if(window.dataLayer){dataLayer.push({event:'form_submit',form_name:f.getAttribute('name')});}}catch(err){}}).catch(function(){if(s){s.className=s.className.replace(' is-ok','')+' is-err';s.textContent='Something went wrong. Please email info@startupventura.com and we will take care of it.';}}).finally(function(){if(b)b.disabled=false;});});</script>`;
+const NF_SCRIPT = `<script>document.addEventListener('submit',function(e){var f=e.target;if(!f||!f.querySelector||!f.querySelector('input[name="form-name"]'))return;e.preventDefault();var s=f.querySelector('.form__status');var b=f.querySelector('button[type=submit]');if(b)b.disabled=true;fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(new FormData(f)).toString()}).then(function(r){if(!r.ok)throw new Error(r.status);if(s){s.className=s.className.replace(' is-err','')+' is-ok';s.textContent=f.getAttribute('data-success')||'Thanks, we got it.';}f.reset();try{if(window.gtag){gtag('event','form_submit',{form_name:f.getAttribute('name')});}else if(window.dataLayer){dataLayer.push({event:'form_submit',form_name:f.getAttribute('name')});}}catch(err){}}).catch(function(){if(s){s.className=s.className.replace(' is-ok','')+' is-err';s.textContent='Something went wrong. Please email info@startupventura.com and we will take care of it.';}}).finally(function(){if(b)b.disabled=false;});});</script>`;
 
 const pageHead = (e, h, lede) => `<section class="section"><div class="wrap"><header class="page-head"><p class="eyebrow">${e}</p>${waveRule}<h1 class="display">${h}</h1><p class="lede">${lede}</p></header></div></section>`;
 const card = (href, eyebrow, title, text, link) => `<a class="card card--link" href="${href}"><div class="card__body">${eyebrow ? `<p class="eyebrow">${eyebrow}</p>` : ''}<h3 class="card__title">${title}</h3><p class="card__text">${text}</p><span class="card__link">${link}</span></div></a>`;
@@ -412,7 +413,7 @@ page('why-ventura-county.html', {
 // IMPACT
 page('impact.html', {
   title: 'Impact', crumbsTrail: [['Home', 'index.html'], ['Impact', '']],
-  body: `<section class="section" style="padding-top:0"><div class="wrap"><header class="page-head"><p class="eyebrow">Impact</p>${waveRule}<h1 class="display">Model your impact</h1><p class="lede">See what your support builds in Ventura County: program longevity, jobs, and startup revenue. Adjust the inputs to explore the numbers.</p></header><iframe id="sv-impact-calc" src="impact-calculator.html" title="Startup Ventura Impact Calculator" loading="lazy" style="width:100%;border:0;min-height:1200px;display:block"></iframe></div></section>
+  body: `<section class="section" style="padding-top:0"><div class="wrap"><header class="page-head"><p class="eyebrow">Impact</p>${waveRule}<h1 class="display">Model your impact</h1><p class="lede">See what your support builds in Ventura County: program longevity, jobs, and startup revenue. Adjust the inputs to explore the numbers.</p></header><iframe id="sv-impact-calc" src="${A}/impact-calculator.html" title="Startup Ventura Impact Calculator" loading="lazy" style="width:100%;border:0;min-height:1200px;display:block"></iframe></div></section>
     <script>(function(){window.addEventListener('message',function(e){if(e.origin!==window.location.origin)return;if(e&&e.data&&e.data.type==='sv-impact-calc-height'){var f=document.getElementById('sv-impact-calc');if(f)f.style.height=e.data.height+'px';}});})();</script>
     <section class="section section--pale"><div class="wrap wrap--narrow">${head('Where it goes', 'Every dollar stays in Ventura County.')}<p class="lede">Your gift backs Ventura County founders and the program that supports them. It does not leave the county. Local innovation drives local jobs, and that is how we keep our best people here.</p></div></section>` +
     ctaBand('Give Ventura County&rsquo;s founders a reason to stay.', 'none'),
@@ -827,6 +828,9 @@ const jobMeta = {
   'Student Internship': { emp: 'INTERN' },
 };
 const JOBS_POSTED = '2026-07-08';
+// Google for Jobs delists postings ~30 days after datePosted unless validThrough
+// is set. These roles stay open until filled; bump this date when refreshing them.
+const JOBS_VALID_THROUGH = '2027-01-08';
 const jobPostingSchema = (r) => {
   const m = jobMeta[r.title] || {};
   const obj = {
@@ -835,6 +839,7 @@ const jobPostingSchema = (r) => {
     title: r.title,
     description: r.full,
     datePosted: JOBS_POSTED,
+    validThrough: JOBS_VALID_THROUGH,
     employmentType: m.emp,
     directApply: true,
     url: `${SITE}/careers`,
