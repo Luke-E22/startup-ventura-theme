@@ -235,7 +235,7 @@ ${overHero ? `<link rel="preload" as="image" type="image/webp" imagesrcset="${A}
 <link rel="icon" href="${A}/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="${A}/img/favicon.png" sizes="any" type="image/png">
 <link rel="apple-touch-icon" href="${A}/img/favicon-180.png">
-<link rel="stylesheet" href="${A}/css/main.css?v=37">
+<link rel="stylesheet" href="${A}/css/main.css?v=38">
 ${analyticsHead()}</head>
 <body class="${overHero ? 'home' : ''}">
 ${header(overHero)}
@@ -243,7 +243,7 @@ ${crumbsTrail ? crumbs(crumbsTrail) : ''}
 ${body}
 ${footer()}
 ${noZeffy ? '' : '<script src="https://zeffy-scripts.s3.ca-central-1.amazonaws.com/embed-form-script.min.js" defer></script>'}
-<script src="${A}/js/main.js?v=37"></script>
+<script src="${A}/js/main.js?v=38"></script>
 ${body.includes('data-netlify') ? NF_SCRIPT : ''}
 </body></html>`;
   fs.writeFileSync(path.join(OUT, file), html);
@@ -272,7 +272,7 @@ const board = [
     bio: `Sean Herwaldt is a Director at Curri, the Series B last-mile logistics company, where he leads delivery operations. He started his career at SpaceX, which shaped how he works: first principles, no assumptions, move fast, and never confuse activity with progress. He then joined the longevity company NOVOS to build its operations from scratch, spending four years standing up a supply chain with no playbook, launching products from concept to shelf, rebuilding a customer-experience team with AI that made the team better rather than redundant, and writing his own tools when spreadsheets were no longer enough. Sean is drawn to the craft of taking an idea to something real, then making it repeatable and ready to scale, and he cares as much about the people doing the work as the work itself.` },
 ];
 // On the About page the full bio shows by default (open); the home teaser keeps it collapsed.
-const boardGrid = (openBios = false) => `<div class="board-grid${openBios ? ' board-grid--wide' : ''}">${board.filter(b => !b.archived).map(b => `<article class="board-card">${b.p ? `<div class="board-card__media">${pic(`${A}/img/${b.p}`, { cls: 'board-card__photo', w: 600, h: 720, alt: b.n, sizes: '(max-width:620px) 92vw, (max-width:1024px) 45vw, 240px', style: `${b.pos ? `object-position:${b.pos};` : ''}${b.zoom ? `transform:scale(${b.zoom});transform-origin:${b.pos || 'center'};` : ''}` })}</div>` : ''}<div class="board-card__body"><h3 class="board-card__name">${b.n}</h3><p class="board-card__role">${b.r}</p><details class="board-card__details"${openBios ? ' open' : ''}><summary>${openBios ? 'Bio' : 'Read bio'}</summary><p class="board-card__bio">${b.bio}</p></details>${(b.li || b.ig || b.site) ? `<p class="board-card__links">${b.li ? `<a href="${b.li}" target="_blank" rel="noopener">LinkedIn &nearr;</a>` : ''}${b.ig ? `<a href="${b.ig}" target="_blank" rel="noopener">Instagram &nearr;</a>` : ''}${b.site ? `<a href="${b.site}" target="_blank" rel="noopener">${b.site.replace(/^https?:\/\/(www\.)?/, '')} &nearr;</a>` : ''}</p>` : ''}</div></article>`).join('')}</div>`;
+const boardGrid = (openBios = false, shown = board.filter(b => !b.archived)) => `<div class="board-grid${openBios ? ' board-grid--wide' : ''}" style="--board-cols:${shown.length}">${shown.map(b => `<article class="board-card">${b.p ? `<div class="board-card__media">${pic(`${A}/img/${b.p}`, { cls: 'board-card__photo', w: 600, h: 720, alt: b.n, sizes: '(max-width:620px) 92vw, (max-width:1024px) 45vw, 240px', style: `${b.pos ? `object-position:${b.pos};` : ''}${b.zoom ? `transform:scale(${b.zoom});transform-origin:${b.pos || 'center'};` : ''}` })}</div>` : ''}<div class="board-card__body"><h3 class="board-card__name">${b.n}</h3><p class="board-card__role">${b.r}</p><details class="board-card__details"${openBios ? ' open' : ''}><summary>${openBios ? 'Bio' : 'Read bio'}</summary><p class="board-card__bio">${b.bio}</p></details>${(b.li || b.ig || b.site) ? `<p class="board-card__links">${b.li ? `<a href="${b.li}" target="_blank" rel="noopener">LinkedIn &nearr;</a>` : ''}${b.ig ? `<a href="${b.ig}" target="_blank" rel="noopener">Instagram &nearr;</a>` : ''}${b.site ? `<a href="${b.site}" target="_blank" rel="noopener">${b.site.replace(/^https?:\/\/(www\.)?/, '')} &nearr;</a>` : ''}</p>` : ''}</div></article>`).join('')}</div>`;
 
 // Testimonials (mirror sv_testimonials(), verbatim) + partner logos (mirror sv_partners()).
 const testimonials = [

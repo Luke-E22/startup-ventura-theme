@@ -422,7 +422,10 @@ p{max-width:72ch}
 /* =========================================================================
    BOARD CARDS
    ========================================================================= */
-.board-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:20px;align-items:start}
+/* Column count follows the number of visible members (--board-cols, set inline),
+   so the row stays balanced whether there are 4 or 5. Responsive rules below
+   override at narrow widths. */
+.board-grid{display:grid;grid-template-columns:repeat(var(--board-cols,5),1fr);gap:20px;align-items:start}
 /* Wide variant (About page, bios open): 2-up horizontal cards so bios read at a
    comfortable measure instead of five narrow columns. Photo keeps the exact
    5:6 crop the compact cards use, so face framing (pos/zoom) is unchanged. */
