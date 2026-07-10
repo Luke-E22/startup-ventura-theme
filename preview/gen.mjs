@@ -167,13 +167,18 @@ const ORG_SCHEMA = {
 // ("G-XXXXXXXXXX", loads gtag.js) or a Tag Manager container ("GTM-XXXXXXX").
 // Empty string = no analytics emitted.
 const ANALYTICS_ID = 'G-6S0JCLV6SJ';
+// GTM container + GA4 run side by side: GA4 (gtag) owns analytics + key events;
+// GTM is the tag bus for everything else (Ads conversion tags, pixels). RULE: do
+// NOT add a GA4 tag inside the GTM container or every pageview double-counts.
+const GTM_ID = 'GTM-NGTJPLVT';
 const analyticsHead = () => {
-  if (!ANALYTICS_ID) return '';
-  if (ANALYTICS_ID.startsWith('GTM-')) {
-    return `<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${ANALYTICS_ID}');</script>\n`;
-  }
-  return `<script async src="https://www.googletagmanager.com/gtag/js?id=${ANALYTICS_ID}"></script>\n<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${ANALYTICS_ID}');</script>\n`;
+  let h = '';
+  if (GTM_ID) h += `<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${GTM_ID}');</script>\n`;
+  if (ANALYTICS_ID) h += `<script async src="https://www.googletagmanager.com/gtag/js?id=${ANALYTICS_ID}"></script>\n<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${ANALYTICS_ID}');</script>\n`;
+  return h;
 };
+// GTM noscript fallback — emitted immediately after <body> on every page.
+const analyticsBody = () => GTM_ID ? `<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=${GTM_ID}" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>\n` : '';
 
 // Collected as pages are generated; used to emit sitemap.xml at the end.
 const PAGE_MANIFEST = [];
@@ -264,12 +269,13 @@ ${overHero ? `<link rel="preload" as="image" type="image/webp" imagesrcset="${A}
 <link rel="stylesheet" href="${A}/css/main.css?v=40">
 ${analyticsHead()}</head>
 <body class="${overHero ? 'home' : ''}">
+${analyticsBody()}
 ${header(overHero)}
 ${crumbsTrail ? crumbs(crumbsTrail) : ''}
 ${body}
 ${footer()}
 ${noZeffy ? '' : '<script src="https://zeffy-scripts.s3.ca-central-1.amazonaws.com/embed-form-script.min.js" defer></script>'}
-<script src="${A}/js/main.js?v=38"></script>
+<script src="${A}/js/main.js?v=39"></script>
 ${body.includes('data-netlify') ? NF_SCRIPT : ''}
 </body></html>`;
   fs.writeFileSync(path.join(OUT, file), html);
@@ -354,7 +360,7 @@ ${msg ? `<div class="field${full}"><label for="${id('message')}">${msgLabel}${op
 <div class="form__submit${full}"><button class="btn btn--blue" type="submit">${submit}</button></div><p class="form__status${full}" role="status" aria-live="polite"></p></form>`;
 };
 // Delegated submit handler for every Netlify form on a page (injected by page()).
-const NF_SCRIPT = `<script>document.addEventListener('submit',function(e){var f=e.target;if(!f||!f.querySelector||!f.querySelector('input[name="form-name"]'))return;e.preventDefault();var s=f.querySelector('.form__status');var b=f.querySelector('button[type=submit]');if(b)b.disabled=true;fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(new FormData(f)).toString()}).then(function(r){if(!r.ok)throw new Error(r.status);var rd=f.getAttribute('data-redirect');if(rd){try{if(window.gtag){gtag('event','form_submit',{form_name:f.getAttribute('name')});}}catch(err){}window.location.href=rd;return;}if(s){s.className=s.className.replace(' is-err','')+' is-ok';s.textContent=f.getAttribute('data-success')||'Thanks, we got it.';}f.reset();try{if(window.gtag){gtag('event','form_submit',{form_name:f.getAttribute('name')});}else if(window.dataLayer){dataLayer.push({event:'form_submit',form_name:f.getAttribute('name')});}}catch(err){}}).catch(function(){if(s){s.className=s.className.replace(' is-ok','')+' is-err';s.textContent='Something went wrong. Please email info@startupventura.com and we will take care of it.';}}).finally(function(){if(b)b.disabled=false;});});</script>`;
+const NF_SCRIPT = `<script>document.addEventListener('submit',function(e){var f=e.target;if(!f||!f.querySelector||!f.querySelector('input[name="form-name"]'))return;e.preventDefault();var s=f.querySelector('.form__status');var b=f.querySelector('button[type=submit]');if(b)b.disabled=true;fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(new FormData(f)).toString()}).then(function(r){if(!r.ok)throw new Error(r.status);var tr=function(){try{if(window.dataLayer){dataLayer.push({event:'form_submit',form_name:f.getAttribute('name')});}if(window.gtag){gtag('event','form_submit',{form_name:f.getAttribute('name')});}}catch(err){}};var rd=f.getAttribute('data-redirect');if(rd){tr();window.location.href=rd;return;}if(s){s.className=s.className.replace(' is-err','')+' is-ok';s.textContent=f.getAttribute('data-success')||'Thanks, we got it.';}f.reset();tr();}).catch(function(){if(s){s.className=s.className.replace(' is-ok','')+' is-err';s.textContent='Something went wrong. Please email info@startupventura.com and we will take care of it.';}}).finally(function(){if(b)b.disabled=false;});});</script>`;
 
 const pageHead = (e, h, lede) => `<section class="section"><div class="wrap"><header class="page-head"><p class="eyebrow">${e}</p>${waveRule}<h1 class="display">${h}</h1><p class="lede">${lede}</p></header></div></section>`;
 const card = (href, eyebrow, title, text, link) => `<a class="card card--link" href="${href}"><div class="card__body">${eyebrow ? `<p class="eyebrow">${eyebrow}</p>` : ''}<h3 class="card__title">${title}</h3><p class="card__text">${text}</p><span class="card__link">${link}</span></div></a>`;
@@ -998,11 +1004,12 @@ const confettiScript = `<script>
 // action exists; the GA4 'donate' event works as soon as analytics is live.
 const conversionScript = `<script>
 (function(){try{
+  if(window.dataLayer){ window.dataLayer.push({event:'donate',transaction_source:'zeffy'}); }
   if(window.gtag){
     gtag('event','donate',{transaction_source:'zeffy'});
     /* Google Ads: replace AW-XXXXXXXXXX/LABEL with your conversion action, then uncomment:
     gtag('event','conversion',{send_to:'AW-XXXXXXXXXX/LABEL'}); */
-  } else if(window.dataLayer){ window.dataLayer.push({event:'donate',transaction_source:'zeffy'}); }
+  }
 }catch(e){}})();
 </script>`;
 
@@ -1046,7 +1053,7 @@ page('connected.html', {
     <p class="muted" style="margin-top:34px;font-size:14px;max-width:60ch;margin-inline:auto">Prefer email? Reach us anytime at <a href="mailto:info@startupventura.com">info@startupventura.com</a>.</p>
     <button id="sv-confetti-again" class="thankyou__again" type="button">Celebrate again &#127881;</button>
   </div></section>
-  ${confettiScript}<script>(function(){try{if(window.gtag){gtag('event','generate_lead',{form_name:'connect'});}else if(window.dataLayer){window.dataLayer.push({event:'generate_lead',form_name:'connect'});}}catch(e){}})();</script>
+  ${confettiScript}<script>(function(){try{if(window.dataLayer){window.dataLayer.push({event:'generate_lead',form_name:'connect'});}if(window.gtag){gtag('event','generate_lead',{form_name:'connect'});}}catch(e){}})();</script>
   <script>/* Zeffy embed is omitted here, so make any Give button open the hosted form. */
   document.querySelectorAll('[zeffy-form-link]').forEach(function(btn){btn.addEventListener('click',function(){window.open('https://www.zeffy.com/donation-form/donate-to-startup-ventura','_blank','noopener');});});</script>`,
 });

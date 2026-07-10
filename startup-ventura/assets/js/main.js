@@ -195,19 +195,19 @@
 		window.dataLayer = window.dataLayer || [];
 		$$('[data-cta]').forEach(function (el) {
 			el.addEventListener('click', function () {
-				// gtag (plain GA4) when present; otherwise the dataLayer (GTM).
-				if (window.gtag) {
-					window.gtag('event', 'cta_click', {
-						cta_type: el.dataset.cta,
-						cta_location: el.dataset.ctaLocation || ''
-					});
-					return;
-				}
+				// Both sinks: object push feeds GTM triggers, gtag feeds plain GA4.
+				// (GTM cannot see gtag-style calls, GA4 ignores object pushes.)
 				window.dataLayer.push({
 					event: 'cta_click',
 					cta_type: el.dataset.cta,
 					cta_location: el.dataset.ctaLocation || ''
 				});
+				if (window.gtag) {
+					window.gtag('event', 'cta_click', {
+						cta_type: el.dataset.cta,
+						cta_location: el.dataset.ctaLocation || ''
+					});
+				}
 			});
 		});
 	})();
