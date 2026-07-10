@@ -598,6 +598,10 @@ picture{display:contents}
 /* When the card leads the aside (e.g. /connect) instead of closing it, keep clear
    air between its shadowed edge and the next block's heading. */
 .contact-aside .contact-card:not(:last-child){margin-top:0;margin-bottom:26px}
+
+/* Mead epigraph (Give, Donor Wall, About, /connected) */
+.pull-quote{max-width:58ch;margin-inline:auto;text-align:center;font-style:italic;font-size:clamp(17px,1.9vw,21px);line-height:1.65}
+.pull-quote footer{font-style:normal;color:var(--muted);font-size:14px;margin-top:12px}
 .contact-card h3{margin-bottom:8px}
 .contact-card p{color:var(--muted);font-size:15px}
 
