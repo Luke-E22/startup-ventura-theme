@@ -199,6 +199,7 @@ const seoHead = ({ title, desc, canonical, ogType = 'website', ogImage, jsonld, 
   if (canonical) h += `<link rel="canonical" href="${esc(canonical)}">\n`;
   h += `<meta property="og:type" content="${ogType}">\n`;
   h += `<meta property="og:site_name" content="Startup Ventura">\n`;
+  h += `<meta property="fb:app_id" content="202766592142804">\n`;
   h += `<meta property="og:title" content="${esc(title)}">\n`;
   if (desc) h += `<meta property="og:description" content="${esc(desc)}">\n`;
   if (canonical) h += `<meta property="og:url" content="${esc(canonical)}">\n`;
