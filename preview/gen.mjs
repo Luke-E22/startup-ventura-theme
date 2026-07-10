@@ -124,6 +124,15 @@ const crumbs = (trail) => `<nav class="breadcrumbs wrap" aria-label="Breadcrumb"
 // Production origin for absolute SEO URLs (canonical, Open Graph, JSON-LD).
 const SITE = 'https://startupventura.com';
 
+// News post dates are authored as human strings ('July 8, 2026'); article:published_time
+// and schema datePublished need ISO 8601. Anchor to 9am Pacific so the calendar date is
+// unambiguous across time zones.
+const MONTHS = { January: '01', February: '02', March: '03', April: '04', May: '05', June: '06', July: '07', August: '08', September: '09', October: '10', November: '11', December: '12' };
+const isoDate = (human) => {
+  const m = String(human).match(/([A-Za-z]+)\s+(\d{1,2}),\s*(\d{4})/);
+  return m ? `${m[3]}-${MONTHS[m[1]] || '01'}-${m[2].padStart(2, '0')}T09:00:00-07:00` : '';
+};
+
 // Organization entity — emitted on every page so search + AI engines have a
 // consistent, machine-readable identity for Startup Ventura.
 const ORG_SCHEMA = {
@@ -188,7 +197,7 @@ const DESC = {
 };
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 // Per-page SEO head tags: description, canonical, Open Graph, Twitter, JSON-LD.
-const seoHead = ({ title, desc, canonical, ogType = 'website', ogImage, jsonld, robots }) => {
+const seoHead = ({ title, desc, canonical, ogType = 'website', ogImage, jsonld, robots, article }) => {
   // Default social share image: the branded 1200x630 card (assets/img/og/og-default.jpg).
   // Pages that pass ogImage (e.g. the Luke pages -> headshot) override it.
   const img = ogImage || `${SITE}/assets/img/og/og-default.jpg`;
@@ -212,6 +221,18 @@ const seoHead = ({ title, desc, canonical, ogType = 'website', ogImage, jsonld, 
   h += `<meta name="twitter:title" content="${esc(title)}">\n`;
   if (desc) h += `<meta name="twitter:description" content="${esc(desc)}">\n`;
   h += `<meta name="twitter:image" content="${esc(img)}">\n`;
+  // Article metadata: gives LinkedIn/Facebook a publish date + author on news posts
+  // (and Google an authored/dated document for article rich results).
+  if (ogType === 'article' && article) {
+    if (article.published) h += `<meta property="article:published_time" content="${esc(article.published)}">\n`;
+    h += `<meta property="article:modified_time" content="${esc(article.modified || article.published)}">\n`;
+    // LinkedIn's Post Inspector reads the plain HTML <meta name="author"> for its
+    // "Author" field — it ignores article:author (a profile-URL property) and JSON-LD.
+    // Emit both: name="author" for LinkedIn, article:author for OG-aware scrapers.
+    h += `<meta name="author" content="${esc(article.author || 'Startup Ventura')}">\n`;
+    h += `<meta property="article:author" content="${esc(article.author || 'Startup Ventura')}">\n`;
+    if (article.section) h += `<meta property="article:section" content="${esc(article.section)}">\n`;
+  }
   if (jsonld) {
     for (const obj of [].concat(jsonld)) {
       h += `<script type="application/ld+json">${JSON.stringify(obj)}</script>\n`;
@@ -220,7 +241,7 @@ const seoHead = ({ title, desc, canonical, ogType = 'website', ogImage, jsonld, 
   return h;
 };
 
-const page = (file, { title, overHero = false, body, crumbsTrail, desc, canonical, ogType = 'website', ogImage, jsonld, robots, noZeffy = false }) => {
+const page = (file, { title, overHero = false, body, crumbsTrail, desc, canonical, ogType = 'website', ogImage, jsonld, robots, noZeffy = false, article }) => {
   const fullTitle = `${title} — Startup Ventura`;
   // Every page gets a canonical: the home root, an explicit pretty route, or its real .html URL.
   const canon = canonical || (file === 'index.html' ? `${SITE}/` : `${SITE}/${file}`);
@@ -228,7 +249,7 @@ const page = (file, { title, overHero = false, body, crumbsTrail, desc, canonica
   const metaDesc = desc || DESC[file] || '';
   // Organization schema on every page + any page-specific JSON-LD (Person, Article, JobPosting, FAQPage).
   const allJsonld = [ORG_SCHEMA].concat(jsonld ? [].concat(jsonld) : []);
-  const seo = seoHead({ title: fullTitle, desc: metaDesc, canonical: canon, ogType, ogImage, jsonld: allJsonld, robots });
+  const seo = seoHead({ title: fullTitle, desc: metaDesc, canonical: canon, ogType, ogImage, jsonld: allJsonld, robots, article });
   const html = `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>${fullTitle}</title>
 ${seo}<link rel="preload" href="${A}/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="${A}/fonts/hanken-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -614,17 +635,39 @@ page('news.html', {
     ctaBand('Help fund the inaugural cohort.', 'none'),
 });
 
-newsPosts.filter(p => !p.custom && !p.archived).forEach(p => page(p.file, {
-  title: p.title, desc: p.excerpt, ogType: 'article',
-  ogImage: `${SITE}/assets/img/` + p.img.replace(/^.*\/img\//, '').replace(/\?.*$/, ''),
-  crumbsTrail: [['Home', 'index.html'], ['News', 'news.html'], [p.crumb, '']],
-  body: `<section class="section"><div class="wrap"><article class="single-post">
+// NewsArticle structured data for a news post — headline, dated + authored to the
+// Org (publisher). Feeds Google article rich results and gives social scrapers a
+// machine-readable date/author alongside the article:* OG tags.
+const newsArticleSchema = (p, canon, imgAbs) => ({
+  '@context': 'https://schema.org',
+  '@type': 'NewsArticle',
+  headline: p.title,
+  description: p.excerpt,
+  image: [imgAbs],
+  datePublished: isoDate(p.date),
+  dateModified: isoDate(p.date),
+  author: { '@type': 'Organization', name: 'Startup Ventura', url: `${SITE}/` },
+  publisher: { '@type': 'Organization', name: 'Startup Ventura', logo: { '@type': 'ImageObject', url: `${SITE}/assets/img/logo-mark.png` } },
+  mainEntityOfPage: { '@type': 'WebPage', '@id': canon },
+});
+
+newsPosts.filter(p => !p.custom && !p.archived).forEach(p => {
+  const imgAbs = `${SITE}/assets/img/` + p.img.replace(/^.*\/img\//, '').replace(/\?.*$/, '');
+  const canon = `${SITE}/${p.file}`;
+  page(p.file, {
+    title: p.title, desc: p.excerpt, ogType: 'article',
+    ogImage: imgAbs,
+    article: { published: isoDate(p.date), author: 'Startup Ventura', section: 'News' },
+    jsonld: newsArticleSchema(p, canon, imgAbs),
+    crumbsTrail: [['Home', 'index.html'], ['News', 'news.html'], [p.crumb, '']],
+    body: `<section class="section"><div class="wrap"><article class="single-post">
     <header class="entry-header"><p class="entry-meta">News &middot; ${p.date}</p><h1 class="display">${p.title}</h1></header>
     <div class="entry-hero">${pic(p.img, { alt: p.alt, sizes: '(max-width:1040px) 92vw, 1000px', eager: true })}</div>
     <div class="entry-content">${p.paras.map(t => `<p>${t}</p>`).join('')}${p.extra || ''}</div>
   </article></div></section>` +
-    ctaBand('Help fund the inaugural cohort.', 'none'),
-}));
+      ctaBand('Help fund the inaugural cohort.', 'none'),
+  });
+});
 
 // Luke Erickson, Executive Director — custom single page with full on-page SEO
 // (title + H1 lead with the name, excerpt meta description, OG/Twitter, Person
@@ -665,14 +708,19 @@ const lukeParas = [
   `"After I exited my first business, I made a conscious decision that I was going to have an outsized impact on this city and county, and turn it into a place that ambitious, innovative people want to call home," Erickson said. "That is the whole reason Startup Ventura exists. We are just getting started."`,
   `As Executive Director, he will lead Startup Ventura into its first full program year, with the inaugural cohort set to begin in Spring 2027. For Luke Erickson, it is less a new title than a deeper commitment to a mission he has carried from the start: making Ventura County the best place in the world to build something that lasts.`,
 ];
+// NewsArticle for the announcement, tied via `about` to the shared Luke Person entity.
+const lukePost = newsPosts.find(p => p.file === 'luke-erickson-executive-director.html');
+const lukeImgAbs = `${SITE}/assets/img/team/luke-erickson.jpg`;
+const lukeArticleSchema = { ...newsArticleSchema(lukePost, lukeUrl, lukeImgAbs), about: { '@id': `${SITE}/lukeerickson#luke` } };
 page('luke-erickson-executive-director.html', {
   title: 'Luke Erickson Steps Into the Role of Executive Director at Startup Ventura',
   crumbsTrail: [['Home', 'index.html'], ['News', 'news.html'], ['Executive Director', '']],
   desc: lukeExcerpt,
   canonical: lukeUrl,
   ogType: 'article',
-  ogImage: `${SITE}/assets/img/team/luke-erickson.jpg`,
-  jsonld: LUKE_PERSON,
+  ogImage: lukeImgAbs,
+  article: { published: isoDate(lukePost.date), author: 'Startup Ventura', section: 'News' },
+  jsonld: [LUKE_PERSON, lukeArticleSchema],
   body: `<section class="section"><div class="wrap"><article class="single-post">
     <header class="entry-header"><p class="entry-meta">News &middot; July 1, 2026</p><h1 class="display">Luke Erickson Steps Into the Role of Executive Director at Startup Ventura</h1></header>
     <div class="entry-hero"><img src="${A}/img/team/luke-erickson.jpg" alt="Luke Erickson, Founder and Executive Director of Startup Ventura." width="1000" height="1000"></div>
