@@ -64,6 +64,12 @@
   to = "/connect.html"
   status = 200
 
+# Success page for the /connect form (AJAX redirect + native-POST action target).
+[[redirects]]
+  from = "/connected"
+  to = "/connected.html"
+  status = 200
+
 # Unlisted board of advisors page (noindex; direct URL only for now).
 [[redirects]]
   from = "/advisors"

@@ -338,7 +338,7 @@ const form = (type, submit, org = false, msg = true, opts = {}) => {
   const msgLabel = opts.msgLabel || 'Message';
   const full = two ? ' field--full' : '';
   const id = (f) => `${type}-${f}`;
-  return `<form class="form${two ? ' form--grid' : ''}" name="${type}" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" data-success="${FORM_SUCCESS[type] || 'Thanks, we got it.'}">
+  return `<form class="form${two ? ' form--grid' : ''}" name="${type}" method="POST" data-netlify="true" data-netlify-honeypot="bot-field"${opts.redirect ? ` action="${opts.redirect}" data-redirect="${opts.redirect}"` : ''} data-success="${FORM_SUCCESS[type] || 'Thanks, we got it.'}">
 <input type="hidden" name="form-name" value="${type}">
 <p class="nf-hp" hidden aria-hidden="true"><label>Do not fill this out if you are human: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
 ${(type !== 'notify' && type !== 'newsletter') ? `<div class="field"><label for="${id('name')}">Name <span class="req">*</span></label><input id="${id('name')}" name="name" type="text" autocomplete="name" required></div>` : ''}
@@ -351,7 +351,7 @@ ${msg ? `<div class="field${full}"><label for="${id('message')}">${msgLabel}${op
 <div class="form__submit${full}"><button class="btn btn--blue" type="submit">${submit}</button></div><p class="form__status${full}" role="status" aria-live="polite"></p></form>`;
 };
 // Delegated submit handler for every Netlify form on a page (injected by page()).
-const NF_SCRIPT = `<script>document.addEventListener('submit',function(e){var f=e.target;if(!f||!f.querySelector||!f.querySelector('input[name="form-name"]'))return;e.preventDefault();var s=f.querySelector('.form__status');var b=f.querySelector('button[type=submit]');if(b)b.disabled=true;fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(new FormData(f)).toString()}).then(function(r){if(!r.ok)throw new Error(r.status);if(s){s.className=s.className.replace(' is-err','')+' is-ok';s.textContent=f.getAttribute('data-success')||'Thanks, we got it.';}f.reset();try{if(window.gtag){gtag('event','form_submit',{form_name:f.getAttribute('name')});}else if(window.dataLayer){dataLayer.push({event:'form_submit',form_name:f.getAttribute('name')});}}catch(err){}}).catch(function(){if(s){s.className=s.className.replace(' is-ok','')+' is-err';s.textContent='Something went wrong. Please email info@startupventura.com and we will take care of it.';}}).finally(function(){if(b)b.disabled=false;});});</script>`;
+const NF_SCRIPT = `<script>document.addEventListener('submit',function(e){var f=e.target;if(!f||!f.querySelector||!f.querySelector('input[name="form-name"]'))return;e.preventDefault();var s=f.querySelector('.form__status');var b=f.querySelector('button[type=submit]');if(b)b.disabled=true;fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(new FormData(f)).toString()}).then(function(r){if(!r.ok)throw new Error(r.status);var rd=f.getAttribute('data-redirect');if(rd){try{if(window.gtag){gtag('event','form_submit',{form_name:f.getAttribute('name')});}}catch(err){}window.location.href=rd;return;}if(s){s.className=s.className.replace(' is-err','')+' is-ok';s.textContent=f.getAttribute('data-success')||'Thanks, we got it.';}f.reset();try{if(window.gtag){gtag('event','form_submit',{form_name:f.getAttribute('name')});}else if(window.dataLayer){dataLayer.push({event:'form_submit',form_name:f.getAttribute('name')});}}catch(err){}}).catch(function(){if(s){s.className=s.className.replace(' is-ok','')+' is-err';s.textContent='Something went wrong. Please email info@startupventura.com and we will take care of it.';}}).finally(function(){if(b)b.disabled=false;});});</script>`;
 
 const pageHead = (e, h, lede) => `<section class="section"><div class="wrap"><header class="page-head"><p class="eyebrow">${e}</p>${waveRule}<h1 class="display">${h}</h1><p class="lede">${lede}</p></header></div></section>`;
 const card = (href, eyebrow, title, text, link) => `<a class="card card--link" href="${href}"><div class="card__body">${eyebrow ? `<p class="eyebrow">${eyebrow}</p>` : ''}<h3 class="card__title">${title}</h3><p class="card__text">${text}</p><span class="card__link">${link}</span></div></a>`;
@@ -921,7 +921,7 @@ page('connect.html', {
   desc: 'Book a conversation with Startup Ventura founder Luke Erickson. See the plan for Ventura County\'s startup accelerator, then decide where you fit.',
   canonical: `${SITE}/connect`,
   body: `<section class="section"><div class="wrap"><div class="contact-layout">
-    <div><p class="eyebrow">Make an Impact</p>${waveRule}<h1 class="display">Talk with our founder before you give.</h1><p class="lede">Serious support starts with a conversation, not a checkout page. Tell us how you want to help and we will set up time with our founder, Luke Erickson. See the plan, ask the hard questions, then decide where you fit.</p><div style="margin-top:28px">${form('connect', 'Request a conversation', false, true, { phone: true, twoCol: true, interest: ['Personal giving', 'Corporate partnership or sponsorship', 'Mentoring or advising', 'Still exploring'], interestLabel: 'How would you like to make an impact?', msgLabel: 'Anything we should know before we reach out?', msgOptional: true })}</div></div>
+    <div><p class="eyebrow">Make an Impact</p>${waveRule}<h1 class="display">Talk with our founder before you give.</h1><p class="lede">Serious support starts with a conversation, not a checkout page. Tell us how you want to help and we will set up time with our founder, Luke Erickson. See the plan, ask the hard questions, then decide where you fit.</p><div style="margin-top:28px">${form('connect', 'Request a conversation', false, true, { phone: true, twoCol: true, interest: ['Personal giving', 'Corporate partnership or sponsorship', 'Mentoring or advising', 'Still exploring'], interestLabel: 'How would you like to make an impact?', msgLabel: 'Anything we should know before we reach out?', msgOptional: true, redirect: '/connected' })}</div></div>
     <aside class="contact-aside">
       <div class="contact-card"><h3>What happens next</h3><p>A real person reaches out within a day or two to find a time that works. Then you meet with Luke, over coffee in Ventura or on a call, for about 30 minutes.</p></div>
       <div class="contact-aside__block"><h3>Backed by the City of Ventura</h3><p>Startup Ventura earned a founding investment from the City of Ventura to launch the county&rsquo;s accelerator.</p></div>
@@ -1014,6 +1014,33 @@ page('thank-you.html', {
     <button id="sv-confetti-again" class="thankyou__again" type="button">Celebrate again &#127881;</button>
   </div></section>
   ${confettiScript}${conversionScript}
+  <script>/* Zeffy embed is omitted here, so make any Give button open the hosted form. */
+  document.querySelectorAll('[zeffy-form-link]').forEach(function(btn){btn.addEventListener('click',function(){window.open('https://www.zeffy.com/donation-form/donate-to-startup-ventura','_blank','noopener');});});</script>`,
+});
+
+// /connected — success page for the /connect form (both the AJAX redirect and
+// Netlify's native-POST action land here). Unlisted + noindex. Fires the GA4
+// generate_lead event, which is the clean Google Ads conversion for the paid
+// funnel: only real conversation requests ever reach this URL, unlike the
+// form_submit event which fires for every form on the site.
+page('connected.html', {
+  title: 'Talk Soon',
+  robots: 'noindex',
+  noZeffy: true, // post-submit page: skip the heavy embed so the confetti runs smoothly
+  desc: 'Your conversation request is in. A member of the Startup Ventura team will reach out to set up time with founder Luke Erickson.',
+  canonical: `${SITE}/connected`,
+  body: `<canvas id="sv-confetti" aria-hidden="true"></canvas>
+  <section class="section thankyou"><div class="wrap wrap--narrow" style="text-align:center;position:relative;z-index:2">
+    <p class="eyebrow">Connected</p>${waveRule}
+    <h1 class="display">Big change starts with a conversation.</h1>
+    <p class="lede" style="margin-inline:auto">The kind between people who are ready to make a difference. You just started one. A real member of our team will reach out within a day or two to set up time with our founder, Luke Erickson.</p>
+    <p style="margin:34px auto 0;max-width:56ch;font-style:italic">&ldquo;Never doubt that a small group of thoughtful, committed citizens can change the world; indeed, it is the only thing that ever has.&rdquo;</p>
+    <p class="muted" style="margin:8px auto 0;font-size:14px">Attributed to Margaret Mead</p>
+    <div class="center" style="margin-top:30px"><a class="btn btn--blue" href="program.html">See what we are building</a>&nbsp;&nbsp;<a class="btn btn--outline" href="impact.html">Explore the impact</a></div>
+    <p class="muted" style="margin-top:34px;font-size:14px;max-width:60ch;margin-inline:auto">Prefer email? Reach us anytime at <a href="mailto:info@startupventura.com">info@startupventura.com</a>.</p>
+    <button id="sv-confetti-again" class="thankyou__again" type="button">Celebrate again &#127881;</button>
+  </div></section>
+  ${confettiScript}<script>(function(){try{if(window.gtag){gtag('event','generate_lead',{form_name:'connect'});}else if(window.dataLayer){window.dataLayer.push({event:'generate_lead',form_name:'connect'});}}catch(e){}})();</script>
   <script>/* Zeffy embed is omitted here, so make any Give button open the hosted form. */
   document.querySelectorAll('[zeffy-form-link]').forEach(function(btn){btn.addEventListener('click',function(){window.open('https://www.zeffy.com/donation-form/donate-to-startup-ventura','_blank','noopener');});});</script>`,
 });
