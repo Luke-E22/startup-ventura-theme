@@ -70,6 +70,47 @@
   to = "/connected.html"
   status = 200
 
+# Ad-funnel landing pages (unlisted + noindex) and their success pages.
+[[redirects]]
+  from = "/apply"
+  to = "/apply.html"
+  status = 200
+
+[[redirects]]
+  from = "/mentor"
+  to = "/mentor.html"
+  status = 200
+
+[[redirects]]
+  from = "/workshop"
+  to = "/workshop.html"
+  status = 200
+
+[[redirects]]
+  from = "/events"
+  to = "/events.html"
+  status = 200
+
+[[redirects]]
+  from = "/thanks-apply"
+  to = "/thanks-apply.html"
+  status = 200
+
+[[redirects]]
+  from = "/thanks-mentor"
+  to = "/thanks-mentor.html"
+  status = 200
+
+[[redirects]]
+  from = "/thanks-workshop"
+  to = "/thanks-workshop.html"
+  status = 200
+
+[[redirects]]
+  from = "/thanks-events"
+  to = "/thanks-events.html"
+  status = 200
+
 # Unlisted board of advisors page (noindex; direct URL only for now).
 [[redirects]]
   from = "/advisors"

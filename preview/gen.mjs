@@ -180,6 +180,10 @@ const analyticsHead = () => {
 // GTM noscript fallback — emitted immediately after <body> on every page.
 const analyticsBody = () => GTM_ID ? `<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=${GTM_ID}" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>\n` : '';
 
+// Public calendar-subscribe URL for the /events funnel (Google Calendar public
+// ICS/embed link). Empty hides the subscribe button until Luke provides it.
+const EVENTS_CAL_URL = '';
+
 // Collected as pages are generated; used to emit sitemap.xml at the end.
 const PAGE_MANIFEST = [];
 
@@ -339,6 +343,10 @@ const FORM_SUCCESS = {
   'partner-foundations': 'Thanks, we will be in touch about sponsorship.',
   careers: 'Thanks for applying. We review every application and will reach out if there is a fit.',
   connect: 'Thanks. A real person will reach out within a day or two to find a time that works.',
+  apply: 'You are in. When applications open for the Spring 2027 cohort, you will hear from us first.',
+  mentor: 'Thank you. We will reach out to match your expertise with our founders.',
+  workshop: 'Seat saved. You will get the first invitation when the next workshop is scheduled.',
+  events: 'You are on the list. Every event invitation will land in your inbox.',
 };
 const form = (type, submit, org = false, msg = true, opts = {}) => {
   const phone = !!opts.phone, interest = opts.interest || null, two = !!opts.twoCol;
@@ -947,6 +955,86 @@ page('connect.html', {
     ctaBand('Already know you want to fund the cohort?', 'none'),
 });
 
+// AD-FUNNEL LANDING PAGES — same pattern as /connect: unlisted + noindex, one
+// job each, short form, redirect to a /thanks-* page that fires that funnel's
+// own GA4 event. No fake dates or open applications: the founder and workshop
+// funnels are honest first-access lists until the real thing opens.
+
+// FOUNDERS → /apply (form 'apply' → /thanks-apply → founder_lead)
+page('apply.html', {
+  title: 'Founders: Get First Access',
+  robots: 'noindex',
+  desc: 'Get first access when applications open for Startup Ventura\'s Spring 2027 accelerator cohort. Free for founders: no tuition, no equity.',
+  canonical: `${SITE}/apply`,
+  body: pageHead('Founders', 'Build it here. Not somewhere else.', 'Our first accelerator cohort launches Spring 2027: free for founders, no tuition, no equity, with mentorship, capital connections, and a Pitch Day in front of 25+ investors. Tell us what you are building and you go to the front of the line when applications open.') +
+    `<section class="section section--pale"><div class="wrap"><div class="contact-layout">
+    <div>${head('First access', 'Tell us what you are building.')}<div style="margin-top:28px">${form('apply', 'Get first access', false, true, { twoCol: true, interest: ['Idea stage', 'Building, pre-revenue', 'Revenue, growing', 'Not sure yet'], interestLabel: 'Where are you today?', msgLabel: 'What are you building? A sentence or two is perfect.', linkLabel: 'Company or LinkedIn link', redirect: '/thanks-apply' })}</div></div>
+    <aside class="contact-aside">
+      <div class="contact-card"><h3>What the accelerator includes</h3><p>Mentorship from operators who have built and scaled, capital connections, weekly Lunch &amp; Learns, and a Pitch Day in front of 25+ investors.</p></div>
+      <div class="contact-aside__block"><h3>What it costs you</h3><p>Nothing. No tuition and no equity. The program is funded by the City of Ventura and community partners who want founders building here.</p></div>
+      <div class="contact-aside__block"><h3>The path</h3><p>The founder workshop series runs first as the on-ramp, then applications open ahead of the Spring 2027 cohort. This list hears everything first.</p></div>
+      <div class="contact-aside__block"><h3>Questions?</h3><p><a href="mailto:info@startupventura.com">info@startupventura.com</a></p></div>
+    </aside>
+  </div></div></section>` +
+    ctaBand('Know someone who backs founders? Send them here.', 'none'),
+});
+
+// MENTORS → /mentor (form 'mentor' → /thanks-mentor → mentor_lead)
+page('mentor.html', {
+  title: 'Mentor a Founder',
+  robots: 'noindex',
+  desc: 'Mentor Ventura County founders through Startup Ventura. An hour of your experience can change a company\'s trajectory.',
+  canonical: `${SITE}/mentor`,
+  body: pageHead('Mentors', 'Lend your skills to a founder.', 'Startup Ventura founders grow fastest with operators, experts, and investors in their corner. Tell us what you know and how much time you can give, whether that is a single workshop or an ongoing mentorship. We will match you where you matter most.') +
+    `<section class="section section--pale"><div class="wrap"><div class="contact-layout">
+    <div>${head('Raise your hand', 'Tell us where you can help.')}<div style="margin-top:28px">${form('mentor', 'Raise my hand', false, true, { twoCol: true, interest: ['Sales & marketing', 'Product & engineering', 'Finance, legal, or operations', 'Fundraising & investing', 'General mentorship'], interestLabel: 'Where could you help most?', msgLabel: 'Your background, in a sentence or two', msgOptional: true, linkLabel: 'LinkedIn', redirect: '/thanks-mentor' })}</div></div>
+    <aside class="contact-aside">
+      <div class="contact-card"><h3>What mentors do</h3><p>Lead a Lunch &amp; Learn, hold office hours with cohort founders, help a team get Pitch Day ready, or take one founder under your wing.</p></div>
+      <div class="contact-aside__block"><h3>The time commitment</h3><p>You set it. An hour counts. Founders remember the person who showed up when nobody had to.</p></div>
+      <div class="contact-aside__block"><h3>You are in good company</h3><p>Our board includes leadership behind SevenRooms&rsquo; $1.2B acquisition and the Ventura Chamber of Commerce.</p></div>
+      <div class="contact-aside__block"><h3>Questions?</h3><p><a href="mailto:info@startupventura.com">info@startupventura.com</a></p></div>
+    </aside>
+  </div></div></section>` +
+    ctaBand('Prefer to back founders financially?', 'none'),
+});
+
+// WORKSHOPS → /workshop (form 'workshop' → /thanks-workshop → workshop_lead)
+page('workshop.html', {
+  title: 'Founder Workshops: Save a Seat',
+  robots: 'noindex',
+  desc: 'Get first invitations to Startup Ventura\'s founder workshop series in Ventura County: practical sessions on starting and growing a company, free to attend.',
+  canonical: `${SITE}/workshop`,
+  body: pageHead('Workshops', 'Learn to build, right here at home.', 'Our founder workshop series is the on-ramp to the accelerator: practical, no-fluff sessions on starting and growing a company in Ventura County. Seats are limited and invitations go to this list first. Tell us you want in and we will save you a seat when the next workshop is scheduled.') +
+    `<section class="section section--pale"><div class="wrap"><div class="contact-layout">
+    <div>${head('Save a seat', 'Get the first invitation.')}<div style="margin-top:28px">${form('workshop', 'Save my seat', false, true, { twoCol: true, msgLabel: 'What do you want to learn?', msgOptional: true, redirect: '/thanks-workshop' })}</div></div>
+    <aside class="contact-aside">
+      <div class="contact-card"><h3>Who it is for</h3><p>Anyone in Ventura County with an idea, a side project, or an early company. No pitch deck required. Curiosity counts.</p></div>
+      <div class="contact-aside__block"><h3>What it costs</h3><p>Workshops are free to attend, funded by the community partners behind Startup Ventura.</p></div>
+      <div class="contact-aside__block"><h3>Where it leads</h3><p>The workshop series is the on-ramp to our accelerator, whose first cohort launches Spring 2027.</p></div>
+      <div class="contact-aside__block"><h3>Questions?</h3><p><a href="mailto:info@startupventura.com">info@startupventura.com</a></p></div>
+    </aside>
+  </div></div></section>` +
+    ctaBand('Help keep founder programming free.', 'none'),
+});
+
+// EVENTS → /events (form 'events' → /thanks-events → events_subscribe)
+page('events.html', {
+  title: 'Events: Get Every Invitation',
+  robots: 'noindex',
+  desc: 'Get invitations to every Startup Ventura event: founder workshops, Lunch & Learns, Pitch Day, and the Annual Benefit in Ventura County.',
+  canonical: `${SITE}/events`,
+  body: pageHead('Events', 'Be in the room.', 'From founder workshops and Lunch &amp; Learns to Pitch Day and our Annual Benefit, Startup Ventura events are where Ventura County&rsquo;s builders and backers meet. Drop your email and every invitation lands in your inbox.') +
+    `<section class="section section--pale"><div class="wrap"><div class="contact-layout">
+    <div>${head('Get invited', 'Every event, first.')}<div style="margin-top:28px">${form('events', 'Get event invites', false, false, { redirect: '/thanks-events' })}</div>${EVENTS_CAL_URL ? `<p style="margin-top:22px"><a class="btn btn--outline" href="${EVENTS_CAL_URL}" target="_blank" rel="noopener">Subscribe to the events calendar</a></p>` : ''}</div>
+    <aside class="contact-aside">
+      <div class="contact-card"><h3>The last one</h3><p>Our first Annual Benefit drew 75 supporters, 5 keynote speakers, and raised $17K in one night for the inaugural cohort.</p></div>
+      <div class="contact-aside__block"><h3>What is coming</h3><p>Founder workshops, weekly Lunch &amp; Learns during the cohort, and a Pitch Day in front of 25+ investors.</p></div>
+      <div class="contact-aside__block"><h3>Questions?</h3><p><a href="mailto:info@startupventura.com">info@startupventura.com</a></p></div>
+    </aside>
+  </div></div></section>` +
+    ctaBand('Want these rooms to keep happening?', 'none'),
+});
+
 // THANK YOU — post-donation page. Zeffy's custom redirect (set via Zeffy
 // support) points here after a completed gift, so this is where the donation
 // conversion fires. noindex (not a page anyone should find via search).
@@ -1056,6 +1144,59 @@ page('connected.html', {
   ${confettiScript}<script>(function(){try{if(window.dataLayer){window.dataLayer.push({event:'generate_lead',form_name:'connect'});}if(window.gtag){gtag('event','generate_lead',{form_name:'connect'});}}catch(e){}})();</script>
   <script>/* Zeffy embed is omitted here, so make any Give button open the hosted form. */
   document.querySelectorAll('[zeffy-form-link]').forEach(function(btn){btn.addEventListener('click',function(){window.open('https://www.zeffy.com/donation-form/donate-to-startup-ventura','_blank','noopener');});});</script>`,
+});
+
+// Ad-funnel success pages — one per funnel so each fires its own GA4 event
+// (clean per-campaign conversions) and each URL doubles as a remarketing
+// audience. Thank-you pattern: confetti, noZeffy, noindex, Give fallback.
+const funnelThanks = (file, o) => page(file, {
+  title: o.title,
+  robots: 'noindex',
+  noZeffy: true,
+  desc: o.desc,
+  canonical: `${SITE}/${file.replace('.html', '')}`,
+  body: `<canvas id="sv-confetti" aria-hidden="true"></canvas>
+  <section class="section thankyou"><div class="wrap wrap--narrow" style="text-align:center;position:relative;z-index:2">
+    <p class="eyebrow">${o.eyebrow}</p>${waveRule}
+    <h1 class="display">${o.h1}</h1>
+    <p class="lede" style="margin-inline:auto">${o.lede}</p>
+    ${o.quote ? `<div style="margin-top:34px">${MEAD_QUOTE}</div>` : ''}${o.extra || ''}
+    <div class="center" style="margin-top:30px"><a class="btn btn--blue" href="${o.primary[1]}">${o.primary[0]}</a>&nbsp;&nbsp;<a class="btn btn--outline" href="${o.secondary[1]}">${o.secondary[0]}</a></div>
+    <p class="muted" style="margin-top:34px;font-size:14px;max-width:60ch;margin-inline:auto">Prefer email? Reach us anytime at <a href="mailto:info@startupventura.com">info@startupventura.com</a>.</p>
+    <button id="sv-confetti-again" class="thankyou__again" type="button">Celebrate again &#127881;</button>
+  </div></section>
+  ${confettiScript}<script>(function(){try{if(window.dataLayer){window.dataLayer.push({event:'${o.event}'});}if(window.gtag){gtag('event','${o.event}');}}catch(e){}})();</script>
+  <script>document.querySelectorAll('[zeffy-form-link]').forEach(function(btn){btn.addEventListener('click',function(){window.open('https://www.zeffy.com/donation-form/donate-to-startup-ventura','_blank','noopener');});});</script>`,
+});
+
+funnelThanks('thanks-apply.html', {
+  title: 'You Are on the Inside Track', eyebrow: 'First Access', event: 'founder_lead',
+  desc: 'You have first access when applications open for Startup Ventura\'s Spring 2027 accelerator cohort.',
+  h1: 'Front of the line.',
+  lede: 'You have first access when applications open for the Spring 2027 cohort. We read every submission, and we will reach out as timing and fit line up. Until then: keep building.',
+  primary: ['See the program', 'program.html'], secondary: ['Meet the board', 'about.html'],
+});
+funnelThanks('thanks-mentor.html', {
+  title: 'Welcome, Mentor', eyebrow: 'Welcome', event: 'mentor_lead', quote: true,
+  desc: 'Thank you for offering your experience to Ventura County founders through Startup Ventura.',
+  h1: 'Founders just got stronger.',
+  lede: 'Thank you. We will reach out to match your expertise with the founders and programming where you matter most. The workshop series comes first, and the inaugural cohort launches Spring 2027.',
+  primary: ['See what we are building', 'index.html'], secondary: ['Explore the impact', 'impact.html'],
+});
+funnelThanks('thanks-workshop.html', {
+  title: 'Seat Saved', eyebrow: 'Seat Saved', event: 'workshop_lead',
+  desc: 'Your seat is saved. You will get the first invitation when the next Startup Ventura founder workshop is scheduled.',
+  h1: 'You are on the list.',
+  lede: 'When the next workshop is scheduled, your invitation goes out first. Bring your idea, your questions, or just your curiosity.',
+  primary: ['What the series covers', 'workshops.html'], secondary: ['See the full program', 'program.html'],
+});
+funnelThanks('thanks-events.html', {
+  title: 'See You in the Room', eyebrow: 'On the List', event: 'events_subscribe',
+  desc: 'You are on the Startup Ventura events list: workshops, Lunch & Learns, Pitch Day, and the Annual Benefit.',
+  h1: 'See you in the room.',
+  lede: 'Every Startup Ventura event invitation will land in your inbox, from founder workshops to Pitch Day to the Annual Benefit.',
+  extra: EVENTS_CAL_URL ? `<p style="margin-top:26px"><a class="btn btn--outline" href="${EVENTS_CAL_URL}" target="_blank" rel="noopener">Subscribe to the events calendar</a></p>` : '',
+  primary: ['See what we are building', 'index.html'], secondary: ['Latest news', 'news.html'],
 });
 
 // 404 — Netlify serves /404.html automatically for missing routes.
