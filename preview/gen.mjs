@@ -82,16 +82,16 @@ const navList = (items = NAV) => `<ul class="sv-menu">${items.map(i => i.childre
 const header = (overHero = false) => `<a class="skip-link" href="#main">Skip to content</a>
 <header class="site-header${overHero ? ' site-header--over-hero' : ''}">
   <div class="wrap site-header__inner">
-    <div class="nav-cluster">
-      <nav class="primary-nav primary-nav--left" aria-label="Primary">${navList(NAV.slice(0, 3))}</nav>
-      <a class="site-brand" href="index.html" rel="home" aria-label="Startup Ventura home">
-        <img class="brand-mark brand-mark--color" src="${A}/img/logo-mark.png" height="36" alt="Startup Ventura">
-        <img class="brand-mark brand-mark--white" src="${A}/img/logo-mark-white.png" height="36" alt="" aria-hidden="true">
-      </a>
+    <nav class="primary-nav primary-nav--left" aria-label="Primary">${navList(NAV.slice(0, 3))}</nav>
+    <a class="site-brand" href="index.html" rel="home" aria-label="Startup Ventura home">
+      <img class="brand-mark brand-mark--color" src="${A}/img/logo-mark.png" height="36" alt="Startup Ventura">
+      <img class="brand-mark brand-mark--white" src="${A}/img/logo-mark-white.png" height="36" alt="" aria-hidden="true">
+    </a>
+    <div class="nav-right">
       <div class="primary-nav primary-nav--right">${navList(NAV.slice(3))}</div>
-    </div>
-    <div class="header-cta">${give('header')}
-      <button class="menu-toggle" type="button" aria-controls="sv-mobile-menu" aria-expanded="false"><span class="sr-only">Menu</span><span class="bar"></span><span class="bar"></span><span class="bar"></span></button>
+      <div class="header-cta">${give('header')}
+        <button class="menu-toggle" type="button" aria-controls="sv-mobile-menu" aria-expanded="false"><span class="sr-only">Menu</span><span class="bar"></span><span class="bar"></span><span class="bar"></span></button>
+      </div>
     </div>
   </div>
 </header>
@@ -270,7 +270,7 @@ ${overHero ? `<link rel="preload" as="image" type="image/webp" imagesrcset="${A}
 <link rel="icon" href="${A}/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="${A}/img/favicon.png" sizes="any" type="image/png">
 <link rel="apple-touch-icon" href="${A}/img/favicon-180.png">
-<link rel="stylesheet" href="${A}/css/main.css?v=40">
+<link rel="stylesheet" href="${A}/css/main.css?v=41">
 ${analyticsHead()}</head>
 <body class="${overHero ? 'home' : ''}">
 ${analyticsBody()}
