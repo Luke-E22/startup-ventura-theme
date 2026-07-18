@@ -206,7 +206,30 @@ const eventCutoff = new Date(Date.now() - 864e5).toISOString().slice(0, 10); // 
 const workshopEvents = JSON.parse(fs.readFileSync(EVENTS_JSON, 'utf8'))
   .filter((e) => e.date.slice(0, 10) >= eventCutoff)
   .sort((a, b) => a.date.localeCompare(b.date))
-  .map((e) => ({ date: fmtEventDate(e.date), tag: e.tag, title: e.title }));
+  .map((e) => ({ iso: e.date.slice(0, 10), date: fmtEventDate(e.date), tag: e.tag, title: e.title }));
+
+// Per-event "add to calendar": a Google Calendar template link plus a static
+// .ics file (Apple/Outlook), one per event, generated alongside the pages.
+// All-day events until times are set in Notion; description points at /events.
+const EVENT_BLURB = 'A free Startup Ventura founder workshop. Details and invitations: https://startupventura.com/events';
+const slugify = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+const dayAfter = (iso) => {
+  const d = new Date(`${iso}T12:00:00Z`);
+  d.setUTCDate(d.getUTCDate() + 1);
+  return d.toISOString().slice(0, 10);
+};
+const gcalAddUrl = (e) => `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(e.title)}&dates=${e.iso.replace(/-/g, '')}/${dayAfter(e.iso).replace(/-/g, '')}&details=${encodeURIComponent(EVENT_BLURB)}&ctz=America/Los_Angeles`;
+const icsEsc = (s) => s.replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,');
+const icsFile = (e) => {
+  const file = `event-${slugify(e.title)}.ics`;
+  const body = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Startup Ventura//Events//EN', 'BEGIN:VEVENT',
+    `UID:sv-${slugify(e.title)}-${e.iso}@startupventura.com`, `DTSTAMP:${e.iso.replace(/-/g, '')}T000000Z`,
+    `DTSTART;VALUE=DATE:${e.iso.replace(/-/g, '')}`, `DTEND;VALUE=DATE:${dayAfter(e.iso).replace(/-/g, '')}`,
+    `SUMMARY:${icsEsc(e.title)}`, `DESCRIPTION:${icsEsc(EVENT_BLURB)}`,
+    'END:VEVENT', 'END:VCALENDAR'].join('\r\n') + '\r\n';
+  fs.writeFileSync(path.join(OUT, file), body);
+  return file;
+};
 
 // Collected as pages are generated; used to emit sitemap.xml at the end.
 const PAGE_MANIFEST = [];
@@ -294,7 +317,7 @@ ${overHero ? `<link rel="preload" as="image" type="image/webp" imagesrcset="${A}
 <link rel="icon" href="${A}/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="${A}/img/favicon.png" sizes="any" type="image/png">
 <link rel="apple-touch-icon" href="${A}/img/favicon-180.png">
-<link rel="stylesheet" href="${A}/css/main.css?v=42">
+<link rel="stylesheet" href="${A}/css/main.css?v=43">
 ${analyticsHead()}</head>
 <body class="${overHero ? 'home' : ''}">
 ${analyticsBody()}
@@ -1051,7 +1074,7 @@ page('events.html', {
   canonical: `${SITE}/events`,
   body: pageHead('Events', 'Be in the room.', 'Ten free workshops for Ventura County small businesses and founders, every other Tuesday starting September 1. Plus Lunch &amp; Learns, Pitch Day, and our Annual Benefit. Get on the list and every invitation lands in your inbox.') +
     `<section class="section"><div class="wrap wrap--narrow">${head('The schedule', 'Ten workshops. Every other Tuesday.', 'Practical, no-fluff sessions built on Google&rsquo;s small business curriculum, free to attend. Times and venues come with your invitation.')}
-    ${workshopEvents.length ? `<ol class="event-list">${workshopEvents.map((e) => `<li class="event-row"><span class="event-row__date">${esc(e.date)}</span><h3 class="event-row__title">${esc(e.title)}</h3>${e.tag ? `<span class="event-tag">${esc(e.tag)}</span>` : ''}</li>`).join('')}</ol>` : `<p class="muted" style="margin-top:12px">The next series is being scheduled now. Get on the list below and you will hear first.</p>`}
+    ${workshopEvents.length ? `<ol class="event-list">${workshopEvents.map((e) => `<li class="event-row"><span class="event-row__date">${esc(e.date)}</span><div><h3 class="event-row__title">${esc(e.title)}</h3><p class="event-row__add">Add to calendar: <a href="${gcalAddUrl(e)}" target="_blank" rel="noopener">Google</a> &middot; <a href="${icsFile(e)}">Apple / Outlook</a></p></div>${e.tag ? `<span class="event-tag">${esc(e.tag)}</span>` : ''}</li>`).join('')}</ol>` : `<p class="muted" style="margin-top:12px">The next series is being scheduled now. Get on the list below and you will hear first.</p>`}
     ${EVENTS_CAL_URL ? `<div class="center" style="margin-top:30px"><a class="btn btn--blue" href="${EVENTS_CAL_URL}" target="_blank" rel="noopener">Subscribe to the events calendar</a></div><p class="center muted" style="margin-top:10px;font-size:14px">Adds the series to your Google Calendar, updates included.</p>` : ''}</div></section>
     <section class="section section--pale"><div class="wrap"><div class="contact-layout">
     <div>${head('Get invited', 'Every event, first.')}<div style="margin-top:28px">${form('events', 'Get event invites', false, false, { redirect: '/thanks-events' })}</div></div>
