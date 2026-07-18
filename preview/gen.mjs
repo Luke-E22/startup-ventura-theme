@@ -211,10 +211,12 @@ const workshopEvents = JSON.parse(fs.readFileSync(EVENTS_JSON, 'utf8'))
 // Per-event "add to calendar": a Google Calendar template link plus a static
 // .ics file (Apple/Outlook), one per event, generated alongside the pages.
 // All-day events until times are set in Notion; description points at /events.
-// Public Notion RSVP form (a form view on the CRM RSVPs database). When set,
-// each event's RSVP button links here and submissions land directly in the
-// RSVPs DB; while empty, the inline Netlify 'rsvp' form renders instead.
-const NOTION_RSVP_FORM_URL = '';
+// Public Notion RSVP form (a form view on the CRM RSVPs database). RSVP buttons
+// open the embed in an on-page modal (lazy iframe); the plain URL is the no-JS
+// and new-tab fallback. Submissions land directly in the RSVPs DB; the
+// invite-sv-rsvps scheduled task turns them into Google Calendar invites.
+const NOTION_RSVP_FORM_URL = 'https://daisy-socks-9fb.notion.site/b0102e5cd47c4bba86fbfb1c7d35f2c0?pvs=105';
+const NOTION_RSVP_FORM_EMBED = 'https://daisy-socks-9fb.notion.site/ebd/b0102e5cd47c4bba86fbfb1c7d35f2c0';
 const EVENT_LINK = 'Details and invitations: https://startupventura.com/events';
 const eventBlurb = (e) => `${e.desc ? `${e.desc}\n\n` : ''}${EVENT_LINK}`;
 const slugify = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
@@ -322,7 +324,7 @@ ${overHero ? `<link rel="preload" as="image" type="image/webp" imagesrcset="${A}
 <link rel="icon" href="${A}/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="${A}/img/favicon.png" sizes="any" type="image/png">
 <link rel="apple-touch-icon" href="${A}/img/favicon-180.png">
-<link rel="stylesheet" href="${A}/css/main.css?v=45">
+<link rel="stylesheet" href="${A}/css/main.css?v=46">
 ${analyticsHead()}</head>
 <body class="${overHero ? 'home' : ''}">
 ${analyticsBody()}
@@ -1087,7 +1089,7 @@ page('events.html', {
       <h3 class="event-row__title">${esc(e.title)}</h3>
       ${e.desc ? `<p class="event-row__desc">${esc(e.desc)}</p>` : ''}
       <p class="event-row__add">Add to calendar: <a href="${gcalAddUrl(e)}" target="_blank" rel="noopener">Google</a> &middot; <a href="${icsFile(e)}">Apple / Outlook</a></p>
-      ${NOTION_RSVP_FORM_URL ? `<p><a class="event-rsvp__link" href="${NOTION_RSVP_FORM_URL}" target="_blank" rel="noopener">RSVP</a></p>` : `<details class="event-rsvp"><summary>RSVP</summary><div class="event-rsvp__form">${form('rsvp', 'RSVP', false, false, { idSuffix: i, hidden: { event: `${e.title} | ${e.iso}` } })}</div></details>`}
+      ${NOTION_RSVP_FORM_URL ? `<p><a class="event-rsvp__link" data-rsvp-open href="${NOTION_RSVP_FORM_URL}" target="_blank" rel="noopener">RSVP</a></p>` : `<details class="event-rsvp"><summary>RSVP</summary><div class="event-rsvp__form">${form('rsvp', 'RSVP', false, false, { idSuffix: i, hidden: { event: `${e.title} | ${e.iso}` } })}</div></details>`}
     </div>${e.tag ? `<span class="event-tag">${esc(e.tag)}</span>` : ''}</li>`).join('')}</ol>` : `<p class="muted" style="margin-top:12px">The next series is being scheduled now. Get on the list below and you will hear first.</p>`}
     ${EVENTS_CAL_URL ? `<div class="center" style="margin-top:30px"><a class="btn btn--blue" href="${EVENTS_CAL_URL}" target="_blank" rel="noopener">Subscribe to the events calendar</a></div><p class="center muted" style="margin-top:10px;font-size:14px">Adds the series to your Google Calendar, updates included.</p>` : ''}</div></section>
     <section class="section section--pale"><div class="wrap"><div class="contact-layout">
@@ -1097,7 +1099,15 @@ page('events.html', {
       <div class="contact-aside__block"><h3>What is coming</h3><p>The fall workshop series above, weekly Lunch &amp; Learns during the cohort, and a Pitch Day in front of 25+ investors.</p></div>
       <div class="contact-aside__block"><h3>Questions?</h3><p><a href="mailto:info@startupventura.com">info@startupventura.com</a></p></div>
     </aside>
-  </div></div></section>` +
+  </div></div></section>
+  <div class="rsvp-modal" id="sv-rsvp-modal" role="dialog" aria-modal="true" aria-label="RSVP form" hidden><div class="rsvp-modal__card"><button class="rsvp-modal__close" type="button" aria-label="Close">&times;</button><iframe id="sv-rsvp-frame" title="RSVP form"></iframe></div></div>
+  <script>(function(){var m=document.getElementById('sv-rsvp-modal');var fr=document.getElementById('sv-rsvp-frame');if(!m)return;
+  function openM(){if(!fr.src)fr.src='${NOTION_RSVP_FORM_EMBED}';m.hidden=false;document.body.style.overflow='hidden';try{if(window.dataLayer){dataLayer.push({event:'rsvp_open'});}if(window.gtag){gtag('event','rsvp_open');}}catch(e){}}
+  function closeM(){m.hidden=true;document.body.style.overflow='';}
+  document.querySelectorAll('[data-rsvp-open]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();openM();});});
+  m.addEventListener('click',function(e){if(e.target===m)closeM();});
+  m.querySelector('.rsvp-modal__close').addEventListener('click',closeM);
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeM();});})();</script>` +
     ctaBand('Want these rooms to keep happening?', 'none'),
 });
 
