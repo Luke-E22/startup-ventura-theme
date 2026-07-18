@@ -211,6 +211,10 @@ const workshopEvents = JSON.parse(fs.readFileSync(EVENTS_JSON, 'utf8'))
 // Per-event "add to calendar": a Google Calendar template link plus a static
 // .ics file (Apple/Outlook), one per event, generated alongside the pages.
 // All-day events until times are set in Notion; description points at /events.
+// Public Notion RSVP form (a form view on the CRM RSVPs database). When set,
+// each event's RSVP button links here and submissions land directly in the
+// RSVPs DB; while empty, the inline Netlify 'rsvp' form renders instead.
+const NOTION_RSVP_FORM_URL = '';
 const EVENT_LINK = 'Details and invitations: https://startupventura.com/events';
 const eventBlurb = (e) => `${e.desc ? `${e.desc}\n\n` : ''}${EVENT_LINK}`;
 const slugify = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
@@ -318,7 +322,7 @@ ${overHero ? `<link rel="preload" as="image" type="image/webp" imagesrcset="${A}
 <link rel="icon" href="${A}/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="${A}/img/favicon.png" sizes="any" type="image/png">
 <link rel="apple-touch-icon" href="${A}/img/favicon-180.png">
-<link rel="stylesheet" href="${A}/css/main.css?v=44">
+<link rel="stylesheet" href="${A}/css/main.css?v=45">
 ${analyticsHead()}</head>
 <body class="${overHero ? 'home' : ''}">
 ${analyticsBody()}
@@ -1083,7 +1087,7 @@ page('events.html', {
       <h3 class="event-row__title">${esc(e.title)}</h3>
       ${e.desc ? `<p class="event-row__desc">${esc(e.desc)}</p>` : ''}
       <p class="event-row__add">Add to calendar: <a href="${gcalAddUrl(e)}" target="_blank" rel="noopener">Google</a> &middot; <a href="${icsFile(e)}">Apple / Outlook</a></p>
-      <details class="event-rsvp"><summary>RSVP</summary><div class="event-rsvp__form">${form('rsvp', 'RSVP', false, false, { idSuffix: i, hidden: { event: `${e.title} | ${e.iso}` } })}</div></details>
+      ${NOTION_RSVP_FORM_URL ? `<p><a class="event-rsvp__link" href="${NOTION_RSVP_FORM_URL}" target="_blank" rel="noopener">RSVP</a></p>` : `<details class="event-rsvp"><summary>RSVP</summary><div class="event-rsvp__form">${form('rsvp', 'RSVP', false, false, { idSuffix: i, hidden: { event: `${e.title} | ${e.iso}` } })}</div></details>`}
     </div>${e.tag ? `<span class="event-tag">${esc(e.tag)}</span>` : ''}</li>`).join('')}</ol>` : `<p class="muted" style="margin-top:12px">The next series is being scheduled now. Get on the list below and you will hear first.</p>`}
     ${EVENTS_CAL_URL ? `<div class="center" style="margin-top:30px"><a class="btn btn--blue" href="${EVENTS_CAL_URL}" target="_blank" rel="noopener">Subscribe to the events calendar</a></div><p class="center muted" style="margin-top:10px;font-size:14px">Adds the series to your Google Calendar, updates included.</p>` : ''}</div></section>
     <section class="section section--pale"><div class="wrap"><div class="contact-layout">

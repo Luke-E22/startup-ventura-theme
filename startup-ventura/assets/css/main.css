@@ -620,6 +620,8 @@ picture{display:contents}
 .event-rsvp>summary::-webkit-details-marker{display:none}
 .event-rsvp[open]>summary{background:var(--blue);color:#fff}
 .event-rsvp__form{margin-top:14px;max-width:520px}
+.event-rsvp__link{display:inline-block;padding:7px 20px;border:1.5px solid var(--blue);border-radius:999px;color:var(--blue);font-weight:600;font-size:14px;margin-top:10px;text-decoration:none}
+.event-rsvp__link:hover{background:var(--blue);color:#fff}
 .event-tag{font-size:12px;font-weight:600;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:4px 12px;white-space:nowrap;justify-self:end}
 @media (max-width:640px){
   .event-row{grid-template-columns:1fr;gap:6px;padding:14px 0}
