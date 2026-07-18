@@ -190,24 +190,23 @@ const analyticsBody = () => GTM_ID ? `<noscript><iframe src="https://www.googlet
 // clicks it; /calendar/r?cid=... works for any visitor's default account.
 const EVENTS_CAL_URL = 'https://calendar.google.com/calendar/r?cid=Y18yZjM4Y2Y3Y2EwMDU5ZGQxYmIyZDBiYzEwMjFlMjhlN2YwYTlhODRhYmY1ZTQzNzJhMmY1MWQ3NjY4YTk0ZTljQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20';
 
-// Fall 2026 workshop series — every other Tuesday from Sep 1. Titles from the
-// Grow with Google small-business curriculum (Luke's source doc lives in
-// Google Docs; links intentionally not rendered — they are internal).
-// Order is pedagogical: presence -> customers -> ads -> sales -> analytics ->
-// advanced. Each date is an independent string, so shifting one (e.g. off a
-// holiday week) is a one-line edit.
-const workshopEvents = [
-  { date: 'Sep 1',        tag: 'Online presence', title: 'Get Your Local Business on Google Search and Maps' },
-  { date: 'Sep 15',       tag: 'Online presence', title: 'Make Your Website Work for You' },
-  { date: 'Sep 29',       tag: 'Reach customers', title: 'Reach Customers Online with Google' },
-  { date: 'Oct 13',       tag: 'Reach customers', title: 'Launch Your Business with Customer-Focused Marketing' },
-  { date: 'Oct 27',       tag: 'Reach customers', title: 'Learn the Basics of Google Ads' },
-  { date: 'Nov 10',       tag: 'Sell online',     title: 'Increase Your Sales with Google Tools' },
-  { date: 'Nov 24',       tag: 'Reach customers', title: 'Make Better Business Decisions with Analytics' },
-  { date: 'Dec 8',        tag: 'Reach customers', title: 'Use YouTube To Grow Your Business' },
-  { date: 'Dec 22',       tag: 'Online presence', title: 'Grow Your Business with AI-Powered Tools by Google' },
-  { date: 'Jan 5, 2027',  tag: 'Security',        title: 'Cybersecurity and Your Small Business' },
-];
+// Events schedule — sourced from the Notion "Website Events" database via
+// scripts/fetch-events.mjs, which refreshes preview/events-data.json at build
+// time (the committed JSON is the fail-soft snapshot; edit events in NOTION,
+// not here). Rendering rules: upcoming only (past events fall off on the next
+// nightly rebuild), sorted by date, year shown when it differs from the build
+// year. Titles/tags are external data, so the renderer escapes them.
+const EVENTS_JSON = path.join(path.dirname(new URL(import.meta.url).pathname), 'events-data.json');
+const fmtEventDate = (iso) => {
+  const d = new Date(`${iso.slice(0, 10)}T12:00:00Z`);
+  const label = `${d.toLocaleString('en-US', { month: 'short', timeZone: 'UTC' })} ${d.getUTCDate()}`;
+  return d.getUTCFullYear() === new Date().getUTCFullYear() ? label : `${label}, ${d.getUTCFullYear()}`;
+};
+const eventCutoff = new Date(Date.now() - 864e5).toISOString().slice(0, 10); // yesterday
+const workshopEvents = JSON.parse(fs.readFileSync(EVENTS_JSON, 'utf8'))
+  .filter((e) => e.date.slice(0, 10) >= eventCutoff)
+  .sort((a, b) => a.date.localeCompare(b.date))
+  .map((e) => ({ date: fmtEventDate(e.date), tag: e.tag, title: e.title }));
 
 // Collected as pages are generated; used to emit sitemap.xml at the end.
 const PAGE_MANIFEST = [];
@@ -1052,7 +1051,7 @@ page('events.html', {
   canonical: `${SITE}/events`,
   body: pageHead('Events', 'Be in the room.', 'Ten free workshops for Ventura County small businesses and founders, every other Tuesday starting September 1. Plus Lunch &amp; Learns, Pitch Day, and our Annual Benefit. Get on the list and every invitation lands in your inbox.') +
     `<section class="section"><div class="wrap wrap--narrow">${head('The schedule', 'Ten workshops. Every other Tuesday.', 'Practical, no-fluff sessions built on Google&rsquo;s small business curriculum, free to attend. Times and venues come with your invitation.')}
-    <ol class="event-list">${workshopEvents.map((e) => `<li class="event-row"><span class="event-row__date">${e.date}</span><h3 class="event-row__title">${e.title}</h3><span class="event-tag">${e.tag}</span></li>`).join('')}</ol>
+    ${workshopEvents.length ? `<ol class="event-list">${workshopEvents.map((e) => `<li class="event-row"><span class="event-row__date">${esc(e.date)}</span><h3 class="event-row__title">${esc(e.title)}</h3>${e.tag ? `<span class="event-tag">${esc(e.tag)}</span>` : ''}</li>`).join('')}</ol>` : `<p class="muted" style="margin-top:12px">The next series is being scheduled now. Get on the list below and you will hear first.</p>`}
     ${EVENTS_CAL_URL ? `<div class="center" style="margin-top:30px"><a class="btn btn--blue" href="${EVENTS_CAL_URL}" target="_blank" rel="noopener">Subscribe to the events calendar</a></div><p class="center muted" style="margin-top:10px;font-size:14px">Adds the series to your Google Calendar, updates included.</p>` : ''}</div></section>
     <section class="section section--pale"><div class="wrap"><div class="contact-layout">
     <div>${head('Get invited', 'Every event, first.')}<div style="margin-top:28px">${form('events', 'Get event invites', false, false, { redirect: '/thanks-events' })}</div></div>

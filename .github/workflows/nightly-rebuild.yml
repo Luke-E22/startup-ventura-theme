@@ -1,0 +1,22 @@
+# Rebuilds the Netlify site every morning so /events reflects the Notion
+# "Website Events" database without anyone touching code. Requires the
+# NETLIFY_BUILD_HOOK repo secret (Netlify > Build & deploy > Build hooks).
+# Also runnable on demand from the Actions tab (workflow_dispatch).
+name: Nightly site rebuild
+on:
+  schedule:
+    - cron: '0 13 * * *' # 6:00 AM Pacific during PDT
+  workflow_dispatch: {}
+jobs:
+  trigger-netlify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Netlify build hook
+        env:
+          HOOK: ${{ secrets.NETLIFY_BUILD_HOOK }}
+        run: |
+          if [ -z "$HOOK" ]; then
+            echo "NETLIFY_BUILD_HOOK secret is not set; skipping (add it in repo Settings > Secrets > Actions)."
+            exit 0
+          fi
+          curl -sf -X POST -d '{}' "$HOOK" && echo "Netlify rebuild triggered."

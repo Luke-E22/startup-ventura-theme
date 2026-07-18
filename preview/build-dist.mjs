@@ -20,6 +20,14 @@ const SITE = path.join(root, 'preview', 'site');
 const ASSETS = path.join(root, 'startup-ventura', 'assets');
 const DIST = path.join(root, 'dist');
 
+// 0. Refresh the events schedule from Notion (fail-soft: on any problem the
+//    committed preview/events-data.json snapshot is used instead).
+try {
+  execSync(`node ${JSON.stringify(path.join(root, 'scripts', 'fetch-events.mjs'))}`, { stdio: 'inherit', cwd: root });
+} catch (err) {
+  console.warn('events: fetch step crashed — continuing with the committed snapshot.');
+}
+
 // 1. Regenerate the static pages so dist/ is never stale against the theme.
 execSync(`node ${JSON.stringify(GEN)}`, { stdio: 'inherit', cwd: root });
 
