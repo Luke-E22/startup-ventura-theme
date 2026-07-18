@@ -5,17 +5,20 @@
 // missing (local dev) or Notion errors, it logs and leaves the committed
 // snapshot in place, so the site simply serves the last known schedule.
 //
-// Source of truth: Notion > Startup Ventura CRM > "Website Events".
-// Published rows: Status = Scheduled, sorted by Date. Rebuilds nightly via the
-// GitHub Action (.github/workflows/nightly-rebuild.yml -> Netlify build hook).
+// Source of truth: Notion > Startup Ventura CRM > "Events" — the SAME database
+// the CRM uses for RSVPs/outreach, so there is exactly one events list.
+// Published rows: Status = "Upcoming" or "Registration Open", sorted by Date.
+// (Draft/Planning stay internal; Completed ages out; Cancelled disappears.)
+// The "Website Category" select is the tag pill on the site (optional).
+// Rebuilds nightly via .github/workflows/nightly-rebuild.yml -> Netlify hook.
 //
 // Requires (Netlify env): NOTION_TOKEN — internal integration secret with
-// read access, connected to the Website Events database in Notion.
+// read access, connected to the Events database in Notion.
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-const DB_ID = 'f22d74a84b6f472086ee692bea414265'; // Website Events (not secret)
+const DB_ID = '5ae3efc8789848eba86180096ffd78ef'; // CRM "Events" DB (not secret)
 const OUT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', 'preview', 'events-data.json');
 
 const token = process.env.NOTION_TOKEN;
@@ -33,7 +36,10 @@ try {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      filter: { property: 'Status', select: { equals: 'Scheduled' } },
+      filter: { or: [
+        { property: 'Status', select: { equals: 'Upcoming' } },
+        { property: 'Status', select: { equals: 'Registration Open' } },
+      ] },
       sorts: [{ property: 'Date', direction: 'ascending' }],
       page_size: 100,
     }),
@@ -43,11 +49,11 @@ try {
 
   const events = (data.results || []).map((p) => ({
     date: p.properties?.Date?.date?.start || '',
-    tag: p.properties?.Category?.select?.name || '',
-    title: (p.properties?.Name?.title || []).map((t) => t.plain_text).join('').trim(),
+    tag: p.properties?.['Website Category']?.select?.name || '',
+    title: (p.properties?.['Event Name']?.title || []).map((t) => t.plain_text).join('').trim(),
   })).filter((e) => e.title && /^\d{4}-\d{2}-\d{2}/.test(e.date));
 
-  if (!events.length) throw new Error('query returned zero valid Scheduled events — keeping snapshot');
+  if (!events.length) throw new Error('query returned zero valid publishable events — keeping snapshot');
 
   fs.writeFileSync(OUT, JSON.stringify(events, null, 2) + '\n');
   console.log(`events: fetched ${events.length} from Notion.`);
