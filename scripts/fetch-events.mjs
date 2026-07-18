@@ -51,6 +51,7 @@ try {
     date: p.properties?.Date?.date?.start || '',
     tag: p.properties?.['Website Category']?.select?.name || '',
     title: (p.properties?.['Event Name']?.title || []).map((t) => t.plain_text).join('').trim(),
+    desc: (p.properties?.Description?.rich_text || []).map((t) => t.plain_text).join('').trim(),
   })).filter((e) => e.title && /^\d{4}-\d{2}-\d{2}/.test(e.date));
 
   if (!events.length) throw new Error('query returned zero valid publishable events — keeping snapshot');
