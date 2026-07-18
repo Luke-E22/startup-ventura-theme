@@ -67,11 +67,16 @@ const pic = (src, { cls = '', w, h, style = '', alt = '', sizes = '100vw', eager
   return srcset ? `<picture><source type="image/webp" srcset="${srcset}" sizes="${sizes}">${img}</picture>` : img;
 };
 
+// Flip to true when the events series is announced: adds Events to the nav
+// (right half, before Contact) AND lifts the noindex on events.html so it
+// enters the sitemap. Until then the page is live but unlisted.
+const SHOW_EVENTS_NAV = false;
 const NAV = [
   { label: 'Program', href: 'program.html', children: [['7-Week Accelerator', 'accelerator.html'], ['Workshop Series', 'workshops.html']] },
   { label: 'Impact', href: 'impact.html' },
   { label: 'Partner', href: 'partner.html', children: [['For Cities &amp; County', 'partner-cities-county.html'], ['For Foundations', 'partner-foundations.html']] },
   { label: 'About', href: 'about.html', children: [['Board of Directors', 'about.html'], ['Leadership', 'lukeerickson.html'], ['Why Ventura County', 'why-ventura-county.html']] },
+  ...(SHOW_EVENTS_NAV ? [{ label: 'Events', href: 'events.html' }] : []),
   { label: 'Contact', href: 'contact.html' },
   { label: 'News', href: 'news.html' },
 ];
@@ -180,9 +185,29 @@ const analyticsHead = () => {
 // GTM noscript fallback — emitted immediately after <body> on every page.
 const analyticsBody = () => GTM_ID ? `<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=${GTM_ID}" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>\n` : '';
 
-// Public calendar-subscribe URL for the /events funnel (Google Calendar public
-// ICS/embed link). Empty hides the subscribe button until Luke provides it.
-const EVENTS_CAL_URL = '';
+// Public calendar-subscribe URL for the /events page. NOTE: Luke's original
+// link had /u/1/ in it, which targets the SECOND signed-in account of whoever
+// clicks it; /calendar/r?cid=... works for any visitor's default account.
+const EVENTS_CAL_URL = 'https://calendar.google.com/calendar/r?cid=Y18yZjM4Y2Y3Y2EwMDU5ZGQxYmIyZDBiYzEwMjFlMjhlN2YwYTlhODRhYmY1ZTQzNzJhMmY1MWQ3NjY4YTk0ZTljQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20';
+
+// Fall 2026 workshop series — every other Tuesday from Sep 1. Titles from the
+// Grow with Google small-business curriculum (Luke's source doc lives in
+// Google Docs; links intentionally not rendered — they are internal).
+// Order is pedagogical: presence -> customers -> ads -> sales -> analytics ->
+// advanced. Each date is an independent string, so shifting one (e.g. off a
+// holiday week) is a one-line edit.
+const workshopEvents = [
+  { date: 'Sep 1',        tag: 'Online presence', title: 'Get Your Local Business on Google Search and Maps' },
+  { date: 'Sep 15',       tag: 'Online presence', title: 'Make Your Website Work for You' },
+  { date: 'Sep 29',       tag: 'Reach customers', title: 'Reach Customers Online with Google' },
+  { date: 'Oct 13',       tag: 'Reach customers', title: 'Launch Your Business with Customer-Focused Marketing' },
+  { date: 'Oct 27',       tag: 'Reach customers', title: 'Learn the Basics of Google Ads' },
+  { date: 'Nov 10',       tag: 'Sell online',     title: 'Increase Your Sales with Google Tools' },
+  { date: 'Nov 24',       tag: 'Reach customers', title: 'Make Better Business Decisions with Analytics' },
+  { date: 'Dec 8',        tag: 'Reach customers', title: 'Use YouTube To Grow Your Business' },
+  { date: 'Dec 22',       tag: 'Online presence', title: 'Grow Your Business with AI-Powered Tools by Google' },
+  { date: 'Jan 5, 2027',  tag: 'Security',        title: 'Cybersecurity and Your Small Business' },
+];
 
 // Collected as pages are generated; used to emit sitemap.xml at the end.
 const PAGE_MANIFEST = [];
@@ -270,7 +295,7 @@ ${overHero ? `<link rel="preload" as="image" type="image/webp" imagesrcset="${A}
 <link rel="icon" href="${A}/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="${A}/img/favicon.png" sizes="any" type="image/png">
 <link rel="apple-touch-icon" href="${A}/img/favicon-180.png">
-<link rel="stylesheet" href="${A}/css/main.css?v=41">
+<link rel="stylesheet" href="${A}/css/main.css?v=42">
 ${analyticsHead()}</head>
 <body class="${overHero ? 'home' : ''}">
 ${analyticsBody()}
@@ -1017,18 +1042,23 @@ page('workshop.html', {
     ctaBand('Help keep founder programming free.', 'none'),
 });
 
-// EVENTS → /events (form 'events' → /thanks-events → events_subscribe)
+// EVENTS → /events (form 'events' → /thanks-events → events_subscribe).
+// Full events page: fall workshop schedule + calendar subscribe + invite list.
+// Hidden until SHOW_EVENTS_NAV flips: no nav tab, noindex, out of sitemap.
 page('events.html', {
-  title: 'Events: Get Every Invitation',
-  robots: 'noindex',
-  desc: 'Get invitations to every Startup Ventura event: founder workshops, Lunch & Learns, Pitch Day, and the Annual Benefit in Ventura County.',
+  title: 'Events: The Fall Workshop Series',
+  robots: SHOW_EVENTS_NAV ? undefined : 'noindex',
+  desc: 'Startup Ventura\'s fall workshop series for Ventura County small businesses and founders: ten free sessions every other Tuesday starting September 1, plus Pitch Day and the Annual Benefit.',
   canonical: `${SITE}/events`,
-  body: pageHead('Events', 'Be in the room.', 'From founder workshops and Lunch &amp; Learns to Pitch Day and our Annual Benefit, Startup Ventura events are where Ventura County&rsquo;s builders and backers meet. Drop your email and every invitation lands in your inbox.') +
-    `<section class="section section--pale"><div class="wrap"><div class="contact-layout">
-    <div>${head('Get invited', 'Every event, first.')}<div style="margin-top:28px">${form('events', 'Get event invites', false, false, { redirect: '/thanks-events' })}</div>${EVENTS_CAL_URL ? `<p style="margin-top:22px"><a class="btn btn--outline" href="${EVENTS_CAL_URL}" target="_blank" rel="noopener">Subscribe to the events calendar</a></p>` : ''}</div>
+  body: pageHead('Events', 'Be in the room.', 'Ten free workshops for Ventura County small businesses and founders, every other Tuesday starting September 1. Plus Lunch &amp; Learns, Pitch Day, and our Annual Benefit. Get on the list and every invitation lands in your inbox.') +
+    `<section class="section"><div class="wrap wrap--narrow">${head('The schedule', 'Ten workshops. Every other Tuesday.', 'Practical, no-fluff sessions built on Google&rsquo;s small business curriculum, free to attend. Times and venues come with your invitation.')}
+    <ol class="event-list">${workshopEvents.map((e) => `<li class="event-row"><span class="event-row__date">${e.date}</span><h3 class="event-row__title">${e.title}</h3><span class="event-tag">${e.tag}</span></li>`).join('')}</ol>
+    ${EVENTS_CAL_URL ? `<div class="center" style="margin-top:30px"><a class="btn btn--blue" href="${EVENTS_CAL_URL}" target="_blank" rel="noopener">Subscribe to the events calendar</a></div><p class="center muted" style="margin-top:10px;font-size:14px">Adds the series to your Google Calendar, updates included.</p>` : ''}</div></section>
+    <section class="section section--pale"><div class="wrap"><div class="contact-layout">
+    <div>${head('Get invited', 'Every event, first.')}<div style="margin-top:28px">${form('events', 'Get event invites', false, false, { redirect: '/thanks-events' })}</div></div>
     <aside class="contact-aside">
       <div class="contact-card"><h3>The last one</h3><p>Our first Annual Benefit drew 75 supporters, 5 keynote speakers, and raised $17K in one night for the inaugural cohort.</p></div>
-      <div class="contact-aside__block"><h3>What is coming</h3><p>Founder workshops, weekly Lunch &amp; Learns during the cohort, and a Pitch Day in front of 25+ investors.</p></div>
+      <div class="contact-aside__block"><h3>What is coming</h3><p>The fall workshop series above, weekly Lunch &amp; Learns during the cohort, and a Pitch Day in front of 25+ investors.</p></div>
       <div class="contact-aside__block"><h3>Questions?</h3><p><a href="mailto:info@startupventura.com">info@startupventura.com</a></p></div>
     </aside>
   </div></div></section>` +
