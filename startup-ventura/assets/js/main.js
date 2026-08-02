@@ -233,9 +233,6 @@
 			if (!url || url.indexOf('[') === 0) { return url; }
 			return url + (url.indexOf('?') > -1 ? '&' : '?') + qs;
 		}
-		$$('[zeffy-form-link]').forEach(function (el) {
-			el.setAttribute('zeffy-form-link', append(el.getAttribute('zeffy-form-link')));
-		});
 		$$('a[href]').forEach(function (a) {
 			if (/zeffy\.com/.test(a.href) || a.dataset.cta === 'apply') { a.href = append(a.href); }
 		});

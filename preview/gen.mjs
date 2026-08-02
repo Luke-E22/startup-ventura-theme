@@ -13,7 +13,12 @@ fs.rmSync(OUT, { recursive: true, force: true });
 fs.mkdirSync(OUT, { recursive: true });
 const A = '../../startup-ventura/assets'; // assets path from preview/site/*.html
 
-const ZEFFY = 'https://www.zeffy.com/embed/donation-form/donate-to-startup-ventura?modal=true';
+// Give goes STRAIGHT to Zeffy's hosted donation page in a new tab. The embedded
+// modal (embed-form-script.min.js) was removed 2026-07-18 for Ad Grants perf:
+// it pulled Stripe/hCaptcha/reCAPTCHA/GooglePay/HubSpot/Amplitude onto EVERY
+// page (~27 third-party cookies, Best Practices ~74, heavy mobile blocking).
+// main.js still appends stored UTM params to any zeffy.com href.
+const ZEFFY = 'https://www.zeffy.com/donation-form/donate-to-startup-ventura';
 const waveRule = '<svg class="wave-rule" width="64" height="10" viewBox="0 0 64 10" fill="none" aria-hidden="true"><path d="M1 5C9 1 15 9 23 5C31 1 37 9 45 5C53 1 59 9 63 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
 const band = (d, f) => `<div class="band"><svg viewBox="0 0 1440 320" preserveAspectRatio="none"><path d="${d}" fill="${f}"/></svg></div>`;
 const waveFull = `<div class="wave" aria-hidden="true">
@@ -26,7 +31,7 @@ ${band('M0,240 C300,195 560,275 840,230 C1080,190 1260,260 1440,225 L1440,320 L0
 const waveDivider = `<div class="wave-divider" aria-hidden="true"><svg viewBox="0 0 1440 70" preserveAspectRatio="none" width="100%" height="64"><path d="M0,32 C300,6 560,56 840,33 C1080,14 1260,50 1440,30 L1440,70 L0,70 Z" fill="#78B4D8" opacity=".20"></path><path d="M0,42 C300,16 560,64 840,42 C1080,22 1260,56 1440,38 L1440,70 L0,70 Z" fill="#5484A8" opacity=".18"></path><path class="crest-path" d="M0,32 C300,6 560,56 840,33 C1080,14 1260,50 1440,30" fill="none" stroke="#FF8A80" stroke-width="2.5" vector-effect="non-scaling-stroke"></path></svg></div>`;
 
 const give = (loc, cls = '', note = '') =>
-  `<button class="btn btn--give${cls ? ' ' + cls : ''}" zeffy-form-link="${ZEFFY}" data-cta="give" data-cta-location="${loc}">Give</button>${note ? `<p class="cta-note give-note" style="color:var(--muted)">${note}</p>` : ''}`;
+  `<a class="btn btn--give${cls ? ' ' + cls : ''}" href="${ZEFFY}" target="_blank" rel="noopener" data-cta="give" data-cta-location="${loc}">Give</a>${note ? `<p class="cta-note give-note" style="color:var(--muted)">${note}</p>` : ''}`;
 const apply = (label = 'Get notified', cls = 'btn--outline') => `<a class="btn ${cls}" href="contact.html#notify" data-cta="apply">Get notified</a>`;
 const partnerBtn = (label = 'Partner with us', cls = 'btn--outline') => `<a class="btn ${cls}" href="partner.html" data-cta="partner">${label}</a>`;
 const candidSeal = (cls = '') => `<a class="candid-seal ${cls}" aria-label="Startup Ventura on Candid: 2026 Platinum Seal of Transparency" href="https://app.candid.org/profile/16385291/startup-ventura-39-2204612/?pkId=266ecad1-f625-40ab-acfb-c736d5b97833" target="_blank" rel="noopener"><img src="${A}/img/candid-platinum-seal-badge.png" alt="Candid 2026 Platinum Seal of Transparency" width="150" height="150" loading="lazy"></a>`;
@@ -177,7 +182,7 @@ const ANALYTICS_ID = 'G-6S0JCLV6SJ';
 // NOT add a GA4 tag inside the GTM container or every pageview double-counts.
 const GTM_ID = 'GTM-NGTJPLVT';
 const analyticsHead = () => {
-  let h = '';
+  let h = (GTM_ID || ANALYTICS_ID) ? '<link rel="preconnect" href="https://www.googletagmanager.com">\n' : '';
   if (GTM_ID) h += `<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${GTM_ID}');</script>\n`;
   if (ANALYTICS_ID) h += `<script async src="https://www.googletagmanager.com/gtag/js?id=${ANALYTICS_ID}"></script>\n<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${ANALYTICS_ID}');</script>\n`;
   return h;
@@ -308,7 +313,7 @@ const seoHead = ({ title, desc, canonical, ogType = 'website', ogImage, jsonld, 
   return h;
 };
 
-const page = (file, { title, overHero = false, body, crumbsTrail, desc, canonical, ogType = 'website', ogImage, jsonld, robots, noZeffy = false, article }) => {
+const page = (file, { title, overHero = false, body, crumbsTrail, desc, canonical, ogType = 'website', ogImage, jsonld, robots, article }) => {
   const fullTitle = `${title} — Startup Ventura`;
   // Every page gets a canonical: the home root, an explicit pretty route, or its real .html URL.
   const canon = canonical || (file === 'index.html' ? `${SITE}/` : `${SITE}/${file}`);
@@ -332,8 +337,7 @@ ${header(overHero)}
 ${crumbsTrail ? crumbs(crumbsTrail) : ''}
 ${body}
 ${footer()}
-${noZeffy ? '' : '<script src="https://zeffy-scripts.s3.ca-central-1.amazonaws.com/embed-form-script.min.js" defer></script>'}
-<script src="${A}/js/main.js?v=39"></script>
+<script src="${A}/js/main.js?v=40"></script>
 ${body.includes('data-netlify') ? NF_SCRIPT : ''}
 </body></html>`;
   fs.writeFileSync(path.join(OUT, file), html);
@@ -1180,7 +1184,6 @@ const conversionScript = `<script>
 page('thank-you.html', {
   title: 'Thank You',
   robots: 'noindex',
-  noZeffy: true, // post-donation page: skip the heavy embed so the confetti runs smoothly
   desc: 'Thank you for supporting Startup Ventura and the founders building in Ventura County.',
   body: `<canvas id="sv-confetti" aria-hidden="true"></canvas>
   <section class="section thankyou"><div class="wrap wrap--narrow" style="text-align:center;position:relative;z-index:2">
@@ -1191,9 +1194,7 @@ page('thank-you.html', {
     <p class="muted" style="margin-top:34px;font-size:14px;max-width:60ch;margin-inline:auto">A receipt is on its way to your inbox from Zeffy. Startup Ventura is a 501(c)(3) nonprofit (EIN 39-2204612); your donation is tax-deductible to the extent allowed by law.</p>
     <button id="sv-confetti-again" class="thankyou__again" type="button">Celebrate again &#127881;</button>
   </div></section>
-  ${confettiScript}${conversionScript}
-  <script>/* Zeffy embed is omitted here, so make any Give button open the hosted form. */
-  document.querySelectorAll('[zeffy-form-link]').forEach(function(btn){btn.addEventListener('click',function(){window.open('https://www.zeffy.com/donation-form/donate-to-startup-ventura','_blank','noopener');});});</script>`,
+  ${confettiScript}${conversionScript}`,
 });
 
 // /connected — success page for the /connect form (both the AJAX redirect and
@@ -1204,7 +1205,6 @@ page('thank-you.html', {
 page('connected.html', {
   title: 'Talk Soon',
   robots: 'noindex',
-  noZeffy: true, // post-submit page: skip the heavy embed so the confetti runs smoothly
   desc: 'Your conversation request is in. A member of the Startup Ventura team will reach out to set up time with founder Luke Erickson.',
   canonical: `${SITE}/connected`,
   body: `<canvas id="sv-confetti" aria-hidden="true"></canvas>
@@ -1217,18 +1217,15 @@ page('connected.html', {
     <p class="muted" style="margin-top:34px;font-size:14px;max-width:60ch;margin-inline:auto">Prefer email? Reach us anytime at <a href="mailto:info@startupventura.com">info@startupventura.com</a>.</p>
     <button id="sv-confetti-again" class="thankyou__again" type="button">Celebrate again &#127881;</button>
   </div></section>
-  ${confettiScript}<script>(function(){try{if(window.dataLayer){window.dataLayer.push({event:'generate_lead',form_name:'connect'});}if(window.gtag){gtag('event','generate_lead',{form_name:'connect'});}}catch(e){}})();</script>
-  <script>/* Zeffy embed is omitted here, so make any Give button open the hosted form. */
-  document.querySelectorAll('[zeffy-form-link]').forEach(function(btn){btn.addEventListener('click',function(){window.open('https://www.zeffy.com/donation-form/donate-to-startup-ventura','_blank','noopener');});});</script>`,
+  ${confettiScript}<script>(function(){try{if(window.dataLayer){window.dataLayer.push({event:'generate_lead',form_name:'connect'});}if(window.gtag){gtag('event','generate_lead',{form_name:'connect'});}}catch(e){}})();</script>`,
 });
 
 // Ad-funnel success pages — one per funnel so each fires its own GA4 event
 // (clean per-campaign conversions) and each URL doubles as a remarketing
-// audience. Thank-you pattern: confetti, noZeffy, noindex, Give fallback.
+// audience. Thank-you pattern: confetti, noindex.
 const funnelThanks = (file, o) => page(file, {
   title: o.title,
   robots: 'noindex',
-  noZeffy: true,
   desc: o.desc,
   canonical: `${SITE}/${file.replace('.html', '')}`,
   body: `<canvas id="sv-confetti" aria-hidden="true"></canvas>
@@ -1241,8 +1238,7 @@ const funnelThanks = (file, o) => page(file, {
     <p class="muted" style="margin-top:34px;font-size:14px;max-width:60ch;margin-inline:auto">Prefer email? Reach us anytime at <a href="mailto:info@startupventura.com">info@startupventura.com</a>.</p>
     <button id="sv-confetti-again" class="thankyou__again" type="button">Celebrate again &#127881;</button>
   </div></section>
-  ${confettiScript}<script>(function(){try{if(window.dataLayer){window.dataLayer.push({event:'${o.event}'});}if(window.gtag){gtag('event','${o.event}');}}catch(e){}})();</script>
-  <script>document.querySelectorAll('[zeffy-form-link]').forEach(function(btn){btn.addEventListener('click',function(){window.open('https://www.zeffy.com/donation-form/donate-to-startup-ventura','_blank','noopener');});});</script>`,
+  ${confettiScript}<script>(function(){try{if(window.dataLayer){window.dataLayer.push({event:'${o.event}'});}if(window.gtag){gtag('event','${o.event}');}}catch(e){}})();</script>`,
 });
 
 funnelThanks('thanks-apply.html', {
