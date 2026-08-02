@@ -329,7 +329,7 @@ ${overHero ? `<link rel="preload" as="image" type="image/webp" imagesrcset="${A}
 <link rel="icon" href="${A}/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="${A}/img/favicon.png" sizes="any" type="image/png">
 <link rel="apple-touch-icon" href="${A}/img/favicon-180.png">
-<link rel="stylesheet" href="${A}/css/main.css?v=46">
+<link rel="stylesheet" href="${A}/css/main.css?v=47">
 ${analyticsHead()}</head>
 <body class="${overHero ? 'home' : ''}">
 ${analyticsBody()}
@@ -357,7 +357,9 @@ const board = [
     bio: `Luke Erickson is the founder of Startup Ventura and serves as Executive Director of the organization. With a background in business development and entrepreneurship, Luke launched Startup Ventura in 2025 to bring nationally recognized accelerator programming to Ventura County. Driven by a passion for empowering founders and strengthening the local economy, he leads the organization's programming, partnerships, and community impact initiatives. Luke's vision is to position Ventura as a hub of innovation and entrepreneurial growth.` },
   { n: 'Brent-Stig Kraus', r: 'Board Member, Senior Revenue Executive', p: 'team/brent-stig-kraus.jpg', pos: '42% 22%', zoom: 1.5, li: 'https://www.linkedin.com/in/brent-stig-kraus-7958125/',
     bio: `Brent Stig Kraus is a senior revenue executive with extensive experience scaling SaaS companies through hypergrowth and strategic exits. He most recently served as CRO at SevenRooms, acquired by DoorDash in a $1.2B transaction, and previously held leadership roles at ChowNow and MINDBODY during its $1.9B acquisition by Vista Equity Partners. Earlier in his career, Brent helped drive Lynda.com's growth leading to its $1.5B acquisition by LinkedIn. With a track record of building high-performing teams and driving transformative growth across multiple SaaS verticals, Brent brings deep expertise in enterprise sales, go-to-market strategy, and operational excellence.` },
-  { n: 'Brian Gonzalez', r: 'Board Member, Co-Founder &amp; CTO of Curri', p: 'team/brian-gonzalez.jpg', pos: 'center 30%', li: 'https://www.linkedin.com/in/brianmatthewgonzalez/',
+  // NOTE: Brian's LinkedIn link removed 2026-07-18 — the /in/brianmatthewgonzalez/
+  // slug 404s ("Profile Not Found"); re-add `li:` when Luke supplies the current URL.
+  { n: 'Brian Gonzalez', r: 'Board Member, Co-Founder &amp; CTO of Curri', p: 'team/brian-gonzalez.jpg', pos: 'center 30%',
     bio: `Brian Gonzalez is the CTO and co-founder of Curri, a nationwide delivery and logistics platform built for construction wholesalers and distributors. He began his career in startups in 2010 at Dollar Shave Club and has been immersed in the entrepreneurial world ever since. After earning his master's degree in data science, Brian launched Curri in the heart of downtown Ventura, where he continues to lead technology and innovation today. Under his leadership, Curri has raised capital from leading investors including Y Combinator and Bessemer Venture Partners.` },
   { n: 'Stephanie Caldwell', r: 'Board Member, CEO of Ventura Chamber of Commerce', p: 'team/stephanie-caldwell.jpg', pos: 'center 22%', li: 'https://www.linkedin.com/in/stephanie-caldwell-1b02b39/',
     bio: `Stephanie Caldwell has held a senior leadership role at the Ventura Chamber of Commerce since April 2015 and currently serves as a director for the California Chamber of Commerce. With a career spanning sales, operations, and workforce management, she began in the hospitality industry before transitioning into the staffing sector, where she led branch and on-site contingent staffing operations in Silicon Valley supporting major technology companies including Novell and Compaq (now HP). Previously, she served as Chief Operations Officer of the San Jose Silicon Valley Chamber of Commerce and has additional experience in both public service and industry associations, including roles in the district office of a California State Assembly member and as Director of Education and Events for the California Apartment Association's Tri-County Division.` },
@@ -456,7 +458,11 @@ page('index.html', {
 page('program.html', {
   title: 'The Program', crumbsTrail: [['Home', 'index.html'], ['The Program', '']],
   body: pageHead('The Program', 'The on-ramp founders need.', 'Everything entrepreneurs would leave town to find: a true accelerator with a pathway to raising venture capital.') +
-    `<section class="section section--pale"><div class="wrap"><div class="card-grid card-grid--2">${card('accelerator.html', 'Spring 2027 · S27', '7-Week Accelerator', 'The flagship program: mentorship, capital connections, workshops, community, and a Demo Day.', 'Explore the accelerator')}${card('workshops.html', 'Pre-accelerator', 'Workshop Series', 'Readies earlier-stage founders and feeds the accelerator pipeline.', 'Explore the workshops')}</div></div></section>` +
+    `<section class="section"><div class="wrap wrap--narrow"><div class="entry-content">
+    <p>Ventura County raises talented, ambitious people and then loses them to San Francisco and Los Angeles, because building a high-growth company here has meant doing it alone. Startup Ventura exists to change that. Our programming gives local founders the mentorship, capital connections, and community they would otherwise leave town to find, at no cost: no tuition and no equity, funded by the City of Ventura and the community partners behind us.</p>
+    <p>The program runs in two stages. The <a href="workshops.html">workshop series</a> is the open front door: free, practical sessions on starting and growing a business, every other Tuesday beginning September 1. The <a href="accelerator.html">7-week accelerator</a> is the flagship: an intensive cohort program launching Spring 2027 with mentorship from operators who have built and scaled real companies, weekly Lunch &amp; Learns, investor introductions, and a Pitch Day in front of 25+ investors. Founders leave with sharper companies, warmer capital paths, and a community that wants them to build here.</p>
+    </div></div></section>
+    <section class="section section--pale"><div class="wrap"><div class="card-grid card-grid--2">${card('accelerator.html', 'Spring 2027 · S27', '7-Week Accelerator', 'The flagship program: mentorship, capital connections, workshops, community, and a Demo Day.', 'Explore the accelerator')}${card('workshops.html', 'Pre-accelerator', 'Workshop Series', 'Free practical sessions, every other Tuesday from September 1. The on-ramp to the accelerator.', 'Explore the workshops')}</div></div></section>` +
     ctaBand('Help us launch Ventura County&rsquo;s first founder cohort.', 'apply'),
 });
 
@@ -473,9 +479,16 @@ page('accelerator.html', {
 // WORKSHOPS
 page('workshops.html', {
   title: 'Workshop Series', crumbsTrail: [['Home', 'index.html'], ['The Program', 'program.html'], ['Workshop Series', '']],
-  body: pageHead('Workshop Series', 'A pre-accelerator workshop series.', 'A pre-accelerator workshop series that readies earlier-stage founders and feeds the accelerator pipeline.') +
-    `<section class="section section--pale"><div class="wrap"><p class="lede measure">Working sessions on the hard parts of building a company. <span class="muted">[Confirm format, cadence, topics.]</span></p></div></section>` +
-    ctaBand('Help us launch Ventura County&rsquo;s first founder cohort.', 'apply'),
+  body: pageHead('Workshop Series', 'The on-ramp to the accelerator.', 'Free, practical workshops for Ventura County small businesses and early-stage founders. No pitch deck required, no cost to attend, and a straight line into the accelerator when you are ready.') +
+    `<section class="section section--pale"><div class="wrap wrap--narrow"><div class="entry-content">
+    <p>The workshop series is where Startup Ventura programming begins. Every other Tuesday starting September 1, we host a practical, no-fluff session on one part of starting and growing a company, built on Google&rsquo;s small business curriculum and taught for Ventura County. Come with an idea, a side project, or a business that is already running; every session stands on its own, so you can attend one or work through the whole series.</p>
+    <p>Workshops are free to attend, funded by the City of Ventura and the community partners behind Startup Ventura. Seats are limited and invitations go out by email first. The series is also the front door to everything else we do: founders who work through it are first in line when applications open for the Spring 2027 accelerator cohort, which adds mentorship from experienced operators, capital connections, weekly Lunch &amp; Learns, and a Pitch Day in front of 25+ investors.</p>
+    </div></div></section>
+    <section class="section"><div class="wrap wrap--narrow">${head('Fall 2026 lineup', 'Ten sessions, every other Tuesday.', 'Times and venues come with your invitation.')}
+    <ol class="event-list">${workshopEvents.filter((e) => e.tag !== 'Community').map((e) => `<li class="event-row"><span class="event-row__date">${esc(e.date)}</span><div><h3 class="event-row__title">${esc(e.title)}</h3>${e.desc ? `<p class="event-row__desc">${esc(e.desc)}</p>` : ''}</div>${e.tag ? `<span class="event-tag">${esc(e.tag)}</span>` : ''}</li>`).join('')}</ol>
+    <div class="center" style="margin-top:28px"><a class="btn btn--blue" href="workshop.html" data-cta="apply" data-cta-location="workshops">Save a seat</a></div>
+    </div></section>` +
+    ctaBand('Help keep founder programming free.', 'apply'),
 });
 
 // WHY VENTURA COUNTY
@@ -495,7 +508,11 @@ page('impact.html', {
   title: 'Impact', crumbsTrail: [['Home', 'index.html'], ['Impact', '']],
   body: `<section class="section" style="padding-top:0"><div class="wrap"><header class="page-head"><p class="eyebrow">Impact</p>${waveRule}<h1 class="display">Model your impact</h1><p class="lede">See what your support builds in Ventura County: program longevity, jobs, and startup revenue. Adjust the inputs to explore the numbers.</p></header><iframe id="sv-impact-calc" src="${A}/impact-calculator.html" title="Startup Ventura Impact Calculator" loading="lazy" style="width:100%;border:0;min-height:1200px;display:block"></iframe></div></section>
     <script>(function(){window.addEventListener('message',function(e){if(e.origin!==window.location.origin)return;if(e&&e.data&&e.data.type==='sv-impact-calc-height'){var f=document.getElementById('sv-impact-calc');if(f)f.style.height=e.data.height+'px';}});})();</script>
-    <section class="section section--pale"><div class="wrap wrap--narrow">${head('Where it goes', 'Every dollar stays in Ventura County.')}<p class="lede">Your gift backs Ventura County founders and the program that supports them. It does not leave the county. Local innovation drives local jobs, and that is how we keep our best people here.</p></div></section>` +
+    <section class="section section--pale"><div class="wrap wrap--narrow">${head('Where it goes', 'Every dollar stays in Ventura County.')}<div class="entry-content">
+    <p class="lede">Your gift backs Ventura County founders and the program that supports them. It does not leave the county. Local innovation drives local jobs, and that is how we keep our best people here.</p>
+    <p>The traction so far is real: the City of Ventura invested $49,500 in Startup Ventura through its Economic Development department, our first Annual Benefit brought 75 supporters together and raised $17,000 in one night, and Candid awarded us its 2026 Platinum Seal of Transparency, the highest level it grants. Programming is free for founders, no tuition and no equity, so every contribution goes toward the workshop series, the Spring 2027 accelerator cohort, and the mentors, events, and investor connections around them.</p>
+    <p>The calculator above is a planning model, not a report: it estimates what a gift sustains using assumptions you can adjust, like cohort size and program cost. As the first cohort completes the program, this page will grow to track actual outcomes, including founders served, companies launched, jobs created, and follow-on capital raised.</p>
+    </div></div></section>` +
     ctaBand('Give Ventura County&rsquo;s founders a reason to stay.', 'none'),
 });
 
@@ -557,7 +574,10 @@ page('explore-83-palm.html', {
 page('partner.html', {
   title: 'Partner', crumbsTrail: [['Home', 'index.html'], ['Partner', '']],
   body: pageHead('Partner', 'Partner with us to grow talent here.', 'Cities, county offices, foundations, and companies all have a stake in keeping Ventura County&rsquo;s founders building here.') +
-    `<section class="section section--pale"><div class="wrap"><div class="card-grid card-grid--2">${card('partner-cities-county.html', 'Government', 'For Cities &amp; County', 'The economic-development case. We are the execution partner that keeps talent and the tax base local.', 'See the case')}${card('partner-foundations.html', 'Philanthropy &amp; corporate', 'For Foundations &amp; Corporate Giving', 'The grant and sponsorship case, tied to the Founder&rsquo;s Circle levels.', 'See the case')}</div></div></section>` +
+    `<section class="section"><div class="wrap wrap--narrow"><div class="entry-content">
+    <p>Partnership takes different forms depending on who you are. Cities and county offices invest in economic development outcomes: keeping founders, jobs, and the tax base local, the way the City of Ventura did with its $49,500 founding investment through its Economic Development department. Foundations and corporate partners fund and sponsor the programming itself, from the free workshop series to the Spring 2027 accelerator cohort, with recognition through our Founder&rsquo;s Circle levels. Either way, a partnership converts directly into programming for Ventura County founders: our team is small by design, and the accelerator charges founders nothing.</p>
+    </div></div></section>
+    <section class="section section--pale"><div class="wrap"><div class="card-grid card-grid--2">${card('partner-cities-county.html', 'Government', 'For Cities &amp; County', 'The economic-development case. We are the execution partner that keeps talent and the tax base local.', 'See the case')}${card('partner-foundations.html', 'Philanthropy &amp; corporate', 'For Foundations &amp; Corporate Giving', 'The grant and sponsorship case, tied to the Founder&rsquo;s Circle levels.', 'See the case')}</div></div></section>` +
     ctaBand('Invest in the founders who will keep Ventura County strong.', 'partner'),
 });
 
@@ -700,7 +720,7 @@ const newsPosts = [
   {
     file: 'news-501c3.html', crumb: '501(c)(3) Status',
     title: 'Startup Ventura Is Now a 501(c)(3) Nonprofit',
-    date: 'May 14, 2025', img: `${A}/img/hero.jpg`, alt: 'Ventura, California',
+    date: 'May 14, 2025', img: `${A}/img/hero-960.webp`, alt: 'Ventura, California',
     excerpt: 'The IRS has granted Startup Ventura 501(c)(3) status, making every gift tax-deductible and laying the legal foundation for our work across Ventura County.',
     paras: [
       'Startup Ventura is officially a 501(c)(3) nonprofit. The IRS granted our tax-exempt status on May 14, 2025, a foundational step for everything we are building in Ventura County.',

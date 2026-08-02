@@ -509,7 +509,7 @@ picture{display:contents}
 .carousel-nav__btn{width:44px;height:44px;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--navy);font-size:19px;line-height:1;cursor:pointer;transition:background .2s,color .2s,border-color .2s}
 .carousel-nav__btn:hover{background:var(--navy);color:#fff;border-color:var(--navy)}
 .carousel-nav__btn:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
-.carousel-nav__dots{display:flex;gap:2px}
+.carousel-nav__dots{display:flex;gap:10px}
 /* 24x24 hit target (WCAG 2.2) with a 9px visual dot drawn by ::before. */
 .carousel-nav__dot{width:24px;height:24px;border:0;padding:0;background:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent}
 .carousel-nav__dot::before{content:"";width:9px;height:9px;border-radius:999px;background:var(--line);transition:background .2s,transform .2s}
