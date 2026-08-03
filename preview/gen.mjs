@@ -39,7 +39,7 @@ const candidSeal = (cls = '') => `<a class="candid-seal ${cls}" aria-label="Star
 // (self-hosted Chamber logo) linking to Startup Ventura's verified Chamber listing.
 const chamberBadge = () => `<a class="chamber-badge" href="https://ventura.chambermaster.com/list/member/startup-ventura-38811" target="_blank" rel="noopener">
   <span class="chamber-badge__label">Proud member of the</span>
-  <img class="chamber-badge__logo" src="${A}/img/partners/ventura-chamber.png" width="800" height="266" alt="Ventura Chamber of Commerce" loading="lazy" decoding="async">
+  <img class="chamber-badge__logo" src="${A}/img/partners/ventura-chamber-2x.webp" width="460" height="153" alt="Ventura Chamber of Commerce" loading="lazy" decoding="async">
 </a>`;
 
 const head = (e, h, lede = '') => `<header class="section-head section-head--left"><p class="eyebrow">${e}</p>${waveRule}<h2 class="section-head__title display">${h}</h2>${lede ? `<p class="section-head__intro lede">${lede}</p>` : ''}</header>`;
@@ -94,8 +94,8 @@ const header = (overHero = false) => `<a class="skip-link" href="#main">Skip to 
   <div class="wrap site-header__inner">
     <nav class="primary-nav primary-nav--left" aria-label="Primary">${navList(NAV.slice(0, 3))}</nav>
     <a class="site-brand" href="index.html" rel="home" aria-label="Startup Ventura home">
-      <img class="brand-mark brand-mark--color" src="${A}/img/logo-mark.png" height="36" alt="Startup Ventura">
-      <img class="brand-mark brand-mark--white" src="${A}/img/logo-mark-white.png" height="36" alt="" aria-hidden="true">
+      <img class="brand-mark brand-mark--color" src="${A}/img/logo-mark-112.png" height="36" alt="Startup Ventura">
+      <img class="brand-mark brand-mark--white" src="${A}/img/logo-mark-white-112.png" height="36" alt="" aria-hidden="true">
     </a>
     <div class="nav-right">
       <div class="primary-nav primary-nav--right">${navList(NAV.slice(3))}</div>
@@ -325,6 +325,7 @@ const page = (file, { title, overHero = false, body, crumbsTrail, desc, canonica
   const html = `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>${fullTitle}</title>
 ${seo}<link rel="preload" href="${A}/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="${A}/fonts/hanken-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="${A}/fonts/spacemono-400-latin.woff2" as="font" type="font/woff2" crossorigin>
 ${overHero ? `<link rel="preload" as="image" type="image/webp" imagesrcset="${A}/img/hero-960.webp 960w, ${A}/img/hero-1600.webp 1600w" imagesizes="100vw" fetchpriority="high">\n` : ''}
 <link rel="icon" href="${A}/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="${A}/img/favicon.png" sizes="any" type="image/png">
@@ -337,7 +338,7 @@ ${header(overHero)}
 ${crumbsTrail ? crumbs(crumbsTrail) : ''}
 ${body}
 ${footer()}
-<script src="${A}/js/main.js?v=40"></script>
+<script src="${A}/js/main.js?v=41"></script>
 ${body.includes('data-netlify') ? NF_SCRIPT : ''}
 </body></html>`;
   fs.writeFileSync(path.join(OUT, file), html);
@@ -378,9 +379,9 @@ const testimonials = [
 const testimonialGrid = () => `<div class="testimonials">${testimonials.map(([who, q]) => `<figure class="testimonial"><span class="testimonial__mark" aria-hidden="true">&ldquo;</span><blockquote class="testimonial__quote">${q}</blockquote><figcaption class="testimonial__attr">${who}</figcaption></figure>`).join('')}</div>`;
 const partners = [
   ['City of Ventura', 'partners/city-of-ventura.png'],
-  ['Ventura Community College District', 'partners/ventura-community-college.png'],
-  ['Ventura County Credit Union', 'partners/ventura-county-credit-union.png'],
-  ['Ventura Chamber of Commerce', 'partners/ventura-chamber.png'],
+  ['Ventura Community College District', 'partners/ventura-community-college-2x.png'],
+  ['Ventura County Credit Union', 'partners/ventura-county-credit-union-2x.png'],
+  ['Ventura Chamber of Commerce', 'partners/ventura-chamber-2x.webp'],
 ];
 const partnerRow = () => `<div class="partner-row">${partners.map(([n, logo]) => `<div class="partner"><img src="${A}/img/${logo}" height="64" loading="lazy" decoding="async" alt="${n}"></div>`).join('')}</div>`;
 

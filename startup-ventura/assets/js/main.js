@@ -26,9 +26,16 @@
 	(function header() {
 		var hdr = $('.site-header');
 		if (!hdr) { return; }
+		// rAF-throttled so the classList write happens once per frame instead of
+		// on every scroll event (PSI flagged this handler for forced reflow).
+		var ticking = false;
 		var onScroll = function () {
-			if (window.pageYOffset > 40) { hdr.classList.add('is-scrolled'); }
-			else { hdr.classList.remove('is-scrolled'); }
+			if (ticking) { return; }
+			ticking = true;
+			requestAnimationFrame(function () {
+				hdr.classList.toggle('is-scrolled', window.pageYOffset > 40);
+				ticking = false;
+			});
 		};
 		onScroll();
 		window.addEventListener('scroll', onScroll, { passive: true });
