@@ -177,10 +177,15 @@ const ORG_SCHEMA = {
 // ("G-XXXXXXXXXX", loads gtag.js) or a Tag Manager container ("GTM-XXXXXXX").
 // Empty string = no analytics emitted.
 const ANALYTICS_ID = 'G-6S0JCLV6SJ';
-// GTM container + GA4 run side by side: GA4 (gtag) owns analytics + key events;
-// GTM is the tag bus for everything else (Ads conversion tags, pixels). RULE: do
-// NOT add a GA4 tag inside the GTM container or every pageview double-counts.
-const GTM_ID = 'GTM-NGTJPLVT';
+// GTM DISABLED 2026-07-19 (perf + data): PSI showed the container loading its
+// own copy of GA4 (gtag/js?id=G-...&gtm=...) on top of the on-page gtag — ~800ms
+// of duplicate script CPU per page AND likely double-counted pageviews. The
+// container holds no other tags, so it was pure cost. All tracking (pageviews,
+// generate_lead, form_submit, cta_click, donate, Ads conversions via GA4
+// import) runs through the on-page gtag below. To re-enable GTM when a real
+// tag is needed (e.g. Meta pixel), set GTM_ID back to 'GTM-NGTJPLVT' AND
+// remove/pause the GA4 Google tag inside the container first.
+const GTM_ID = '';
 const analyticsHead = () => {
   let h = (GTM_ID || ANALYTICS_ID) ? '<link rel="preconnect" href="https://www.googletagmanager.com">\n' : '';
   if (GTM_ID) h += `<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${GTM_ID}');</script>\n`;
@@ -326,6 +331,7 @@ const page = (file, { title, overHero = false, body, crumbsTrail, desc, canonica
 ${seo}<link rel="preload" href="${A}/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="${A}/fonts/hanken-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="${A}/fonts/spacemono-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="${A}/fonts/spacemono-700-latin.woff2" as="font" type="font/woff2" crossorigin>
 ${overHero ? `<link rel="preload" as="image" type="image/webp" imagesrcset="${A}/img/hero-960.webp 960w, ${A}/img/hero-1600.webp 1600w" imagesizes="100vw" fetchpriority="high">\n` : ''}
 <link rel="icon" href="${A}/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="${A}/img/favicon.png" sizes="any" type="image/png">
