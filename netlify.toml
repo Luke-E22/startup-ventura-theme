@@ -131,3 +131,9 @@
   from = "/luke-erickson-executive-director"
   to = "/luke-erickson-executive-director.html"
   status = 200
+
+# Retired article (board change 2026-07-20): permanent redirect, page was indexed.
+[[redirects]]
+  from = "/news-stephanie-board.html"
+  to = "/news.html"
+  status = 301

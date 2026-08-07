@@ -265,7 +265,7 @@ const DESC = {
   'accelerator.html': 'A 7-week accelerator for Ventura County founders. Mentorship, capital connections, workshops, and a Demo Day. Join the Spring 2027 notify list.',
   'program.html': 'The Startup Ventura program: a 7-week accelerator plus a workshop series for Ventura County founders, ending in a Demo Day.',
   'workshops.html': "Startup Ventura's founder workshop series, the on-ramp to the accelerator for early-stage founders in Ventura County.",
-  'about.html': 'Startup Ventura is a 501(c)(3) nonprofit keeping Ventura County the best place to build, led by operators behind Curri, SevenRooms, and the Ventura Chamber.',
+  'about.html': 'Startup Ventura is a 501(c)(3) nonprofit keeping Ventura County the best place to build, led by operators behind companies like Curri and SevenRooms.',
   'contact.html': 'Contact Startup Ventura for general questions, press, major gifts, sponsorship, mentoring, and investor inquiries. Based in Ventura County, California.',
   'news.html': 'News and announcements from Startup Ventura, the 501(c)(3) nonprofit startup accelerator backing founders across Ventura County, California.',
   'press.html': 'Press and media kit for Startup Ventura, the Ventura County nonprofit startup accelerator. Logos, boilerplate, EIN, board bios, and a press contact.',
@@ -366,7 +366,8 @@ const board = [
     bio: `Brent Stig Kraus is a senior revenue executive with extensive experience scaling SaaS companies through hypergrowth and strategic exits. He most recently served as CRO at SevenRooms, acquired by DoorDash in a $1.2B transaction, and previously held leadership roles at ChowNow and MINDBODY during its $1.9B acquisition by Vista Equity Partners. Earlier in his career, Brent helped drive Lynda.com's growth leading to its $1.5B acquisition by LinkedIn. With a track record of building high-performing teams and driving transformative growth across multiple SaaS verticals, Brent brings deep expertise in enterprise sales, go-to-market strategy, and operational excellence.` },
   { n: 'Brian Gonzalez', r: 'Board Member, Co-Founder &amp; CTO of Curri', p: 'team/brian-gonzalez.jpg', pos: 'center 30%', li: 'https://www.linkedin.com/in/brianmatthewgonzalez/',
     bio: `Brian Gonzalez is the CTO and co-founder of Curri, a nationwide delivery and logistics platform built for construction wholesalers and distributors. He began his career in startups in 2010 at Dollar Shave Club and has been immersed in the entrepreneurial world ever since. After earning his master's degree in data science, Brian launched Curri in the heart of downtown Ventura, where he continues to lead technology and innovation today. Under his leadership, Curri has raised capital from leading investors including Y Combinator and Bessemer Venture Partners.` },
-  { n: 'Stephanie Caldwell', r: 'Board Member, CEO of Ventura Chamber of Commerce', p: 'team/stephanie-caldwell.jpg', pos: 'center 22%', li: 'https://www.linkedin.com/in/stephanie-caldwell-1b02b39/',
+  // ARCHIVED (2026-07-20, per Luke): removed from the board. Restore by deleting `archived: true`.
+  { archived: true, n: 'Stephanie Caldwell', r: 'Board Member, CEO of Ventura Chamber of Commerce', p: 'team/stephanie-caldwell.jpg', pos: 'center 22%', li: 'https://www.linkedin.com/in/stephanie-caldwell-1b02b39/',
     bio: `Stephanie Caldwell has held a senior leadership role at the Ventura Chamber of Commerce since April 2015 and currently serves as a director for the California Chamber of Commerce. With a career spanning sales, operations, and workforce management, she began in the hospitality industry before transitioning into the staffing sector, where she led branch and on-site contingent staffing operations in Silicon Valley supporting major technology companies including Novell and Compaq (now HP). Previously, she served as Chief Operations Officer of the San Jose Silicon Valley Chamber of Commerce and has additional experience in both public service and industry associations, including roles in the district office of a California State Assembly member and as Director of Education and Events for the California Apartment Association's Tri-County Division.` },
   // ARCHIVED (board-requested, 2026-07-08): hidden until Sean is officially onboarded (~week of 2026-07-15). Remove `archived: true` to republish.
   { archived: true, n: 'Sean Herwaldt', r: 'Board Member, Director at Curri · SpaceX alum', p: 'team/sean-herwaldt.jpg', pos: 'center 40%', zoom: 1.4, li: 'https://www.linkedin.com/in/seanherwaldt/',
@@ -671,6 +672,8 @@ const newsPosts = [
     ],
   },
   {
+    // ARCHIVED (2026-07-20, per Luke): removed with her board departure.
+    archived: true,
     file: 'news-stephanie-board.html', crumb: 'New Board Member',
     title: 'Stephanie Caldwell Joins the Startup Ventura Board of Directors',
     date: 'February 28, 2026', img: `${A}/img/team/stephanie-caldwell.jpg`, alt: 'Stephanie Caldwell',
@@ -887,7 +890,7 @@ page('terms.html', {
 page('press.html', {
   title: 'Press & Media Kit', crumbsTrail: [['Home', 'index.html'], ['Press', '']],
   body: pageHead('Press', 'Press &amp; media kit', 'Everything you need to cover Startup Ventura. For interviews or more information, contact us any time.') +
-    `<section class="section"><div class="wrap wrap--narrow"><div class="entry-content"><h2>About Startup Ventura</h2><p>Startup Ventura is a 501(c)(3) nonprofit startup accelerator in Ventura County, California. We back local founders with the mentorship, capital connections, and community to build high-growth companies, and to keep that talent and those jobs in Ventura County. Our inaugural Spring 2027 cohort is now being funded.</p><h2>Quick facts</h2><ul><li>501(c)(3) nonprofit startup accelerator</li><li>EIN 39-2204612</li><li>Ventura County, California</li><li>A 7-week accelerator, a founder workshop series, and a Demo Day</li><li>Inaugural cohort: Spring 2027</li></ul><h2>Logos</h2><p><a href="${A}/img/logo.png" download>Download logo (color)</a><br><a href="${A}/img/logo-white.png" download>Download logo (white)</a></p><h2>Leadership</h2><p>Led by operators behind Curri, SevenRooms, and the Ventura Chamber of Commerce. Read more on our <a href="about.html">About page</a>.</p><h2>Press contact</h2><p>Email <a href="mailto:info@startupventura.com">info@startupventura.com</a>, or use our <a href="contact.html">contact form</a> and choose "Press."</p></div></div></section>`,
+    `<section class="section"><div class="wrap wrap--narrow"><div class="entry-content"><h2>About Startup Ventura</h2><p>Startup Ventura is a 501(c)(3) nonprofit startup accelerator in Ventura County, California. We back local founders with the mentorship, capital connections, and community to build high-growth companies, and to keep that talent and those jobs in Ventura County. Our inaugural Spring 2027 cohort is now being funded.</p><h2>Quick facts</h2><ul><li>501(c)(3) nonprofit startup accelerator</li><li>EIN 39-2204612</li><li>Ventura County, California</li><li>A 7-week accelerator, a founder workshop series, and a Demo Day</li><li>Inaugural cohort: Spring 2027</li></ul><h2>Logos</h2><p><a href="${A}/img/logo.png" download>Download logo (color)</a><br><a href="${A}/img/logo-white.png" download>Download logo (white)</a></p><h2>Leadership</h2><p>Led by operators behind companies like Curri and SevenRooms. Read more on our <a href="about.html">About page</a>.</p><h2>Press contact</h2><p>Email <a href="mailto:info@startupventura.com">info@startupventura.com</a>, or use our <a href="contact.html">contact form</a> and choose "Press."</p></div></div></section>`,
 });
 
 // CAREERS — open roles with expandable descriptions + an application form,
@@ -980,7 +983,7 @@ const faqs = [
   ['Who can apply, and when does the first cohort start?', 'Early-stage founders based in or building in Ventura County. The inaugural cohort is planned for Spring 2027, backed by committed funding from the City of Ventura. Join the notify list to apply when applications open.'],
   ['Where is Startup Ventura located?', 'Startup Ventura serves founders across Ventura County, California.'],
   ['Is my donation tax-deductible?', 'Yes. Startup Ventura is a 501(c)(3) nonprofit (EIN 39-2204612), so donations are tax-deductible to the extent allowed by law. Gifts fund the inaugural cohort and the program that backs local founders.'],
-  ['Who runs Startup Ventura?', 'Startup Ventura was founded by Luke Erickson, who serves as Executive Director. It is guided by a board of operators and civic leaders, including people behind companies like Curri and the Ventura Chamber of Commerce.'],
+  ['Who runs Startup Ventura?', 'Startup Ventura was founded by Luke Erickson, who serves as Executive Director. It is guided by a board of operators and civic leaders, including people behind companies like Curri and SevenRooms.'],
   ['How can I get involved?', 'You can donate to fund the cohort, partner or sponsor as a business or foundation, mentor a founder or volunteer your skills, apply as a founder, or join the team through an open role. See the Give, Partner, and Careers pages.'],
 ];
 const faqSchema = {
@@ -1035,7 +1038,7 @@ page('connect.html', {
       <div class="contact-card"><h3>What happens next</h3><p>A real person reaches out within a day or two to find a time that works. Then you meet with Luke, over coffee in Ventura or on a call, for about 30 minutes.</p></div>
       <div class="contact-aside__block"><h3>Backed by the City of Ventura</h3><p>Startup Ventura earned a founding investment from the City of Ventura to launch the county&rsquo;s accelerator.</p></div>
       <div class="contact-aside__block"><h3>Candid Platinum Seal</h3><p>We hold Candid&rsquo;s Platinum Seal of Transparency, the highest level, held by fewer than 1% of U.S. nonprofits.</p></div>
-      <div class="contact-aside__block"><h3>A board of operators</h3><p>Our board includes leadership behind SevenRooms&rsquo; $1.2B acquisition and the Ventura Chamber of Commerce.</p></div>
+      <div class="contact-aside__block"><h3>A board of operators</h3><p>Our board includes leadership behind SevenRooms&rsquo; $1.2B acquisition and Curri, the logistics company headquartered right here in Ventura.</p></div>
       <div class="contact-aside__block"><h3>Rather start by email?</h3><p><a href="mailto:info@startupventura.com">info@startupventura.com</a></p></div>
     </aside>
   </div></div></section>` +
@@ -1078,7 +1081,7 @@ page('mentor.html', {
     <aside class="contact-aside">
       <div class="contact-card"><h3>What mentors do</h3><p>Lead a Lunch &amp; Learn, hold office hours with cohort founders, help a team get Pitch Day ready, or take one founder under your wing.</p></div>
       <div class="contact-aside__block"><h3>The time commitment</h3><p>You set it. An hour counts. Founders remember the person who showed up when nobody had to.</p></div>
-      <div class="contact-aside__block"><h3>You are in good company</h3><p>Our board includes leadership behind SevenRooms&rsquo; $1.2B acquisition and the Ventura Chamber of Commerce.</p></div>
+      <div class="contact-aside__block"><h3>You are in good company</h3><p>Our board includes leadership behind SevenRooms&rsquo; $1.2B acquisition and Curri, the logistics company headquartered right here in Ventura.</p></div>
       <div class="contact-aside__block"><h3>Questions?</h3><p><a href="mailto:info@startupventura.com">info@startupventura.com</a></p></div>
     </aside>
   </div></div></section>` +
