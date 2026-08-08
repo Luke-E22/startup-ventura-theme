@@ -636,6 +636,22 @@ page('contact.html', {
 // NEWS — archive + one clickable article page per post (newest first)
 const newsPosts = [
   {
+    file: 'news-joe-knows-ventura.html', crumb: 'Joe Knows Ventura',
+    title: 'A Vision Everyone Can Get Behind: Luke Erickson on Joe Knows Ventura',
+    date: 'July 20, 2026', img: `${A}/img/team/luke-erickson.jpg`,
+    alt: 'Luke Erickson, Founder and Executive Director of Startup Ventura',
+    excerpt: 'Founder and Executive Director Luke Erickson joined the Joe Knows Ventura podcast to ask a big question: is Ventura becoming the next Silicon Valley, and what would it take to get there?',
+    paras: [
+      'Startup Ventura founder and Executive Director Luke Erickson recently sat down with Joe Knows Ventura, the podcast that spotlights the people shaping our city, for a 23-minute conversation titled <a href="https://open.spotify.com/episode/2ukvJkEWd2yvsWrbD0j6oQ" target="_blank" rel="noopener">&ldquo;Is Ventura Becoming The Next Silicon Valley?&rdquo;</a>',
+      'The heart of the conversation is an argument Luke has been making since the day Startup Ventura was founded: keeping high-paying tech jobs in Ventura is not just good for the people who hold them. It benefits everyone. Business owners gain customers, families gain the option to build a life here without a brutal commute, and the local economy keeps the spending, the energy, and the tax base that leave town every time a talented founder does.',
+      'The story is familiar to anyone who has watched a friend pack for San Francisco or Los Angeles. Ventura County raises ambitious, talented people, educates them at strong local universities, and then loses them, because there has been nowhere here to build a high-growth company. Startup Ventura exists to change that.',
+      'The plan is already in motion: a free founder <a href="workshops.html">workshop series</a> running every other Tuesday this fall, followed by a seven-week accelerator cohort launching Spring 2027 with mentorship from experienced operators, capital connections, and a Pitch Day in front of 25+ investors. All of it free for founders. No tuition, no equity.',
+      'And what makes it a vision everyone can get behind is who is already behind it. The City of Ventura invested $49,500 through its Economic Development department. The board includes operators behind companies like Curri and SevenRooms. The community showed up 75 strong at our first Annual Benefit. Cities win jobs, colleges win pathways for their graduates, employers win a deeper talent pool, and founders win a reason to stay.',
+      '&ldquo;After I exited my first business, I made a conscious decision that I was going to have an outsized impact on this city and county, and turn it into a place that ambitious, innovative people want to call home,&rdquo; Erickson said. &ldquo;That is the whole reason Startup Ventura exists. We are just getting started.&rdquo;',
+      '<a href="https://open.spotify.com/episode/2ukvJkEWd2yvsWrbD0j6oQ" target="_blank" rel="noopener">Listen to the full episode on Spotify</a>, and follow Joe Knows Ventura for more of the people building this city. Our thanks to Joe for having us, and for telling Ventura&rsquo;s stories.',
+    ],
+  },
+  {
     // ARCHIVED (board-requested, 2026-07-08): hidden until Sean is officially onboarded (~week of 2026-07-15). Remove `archived: true` to republish.
     archived: true,
     file: 'news-sean-herwaldt-board.html', crumb: 'New Board Member',
