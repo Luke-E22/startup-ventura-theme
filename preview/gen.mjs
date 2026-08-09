@@ -75,7 +75,7 @@ const pic = (src, { cls = '', w, h, style = '', alt = '', sizes = '100vw', eager
 // Flip to true when the events series is announced: adds Events to the nav
 // (right half, before Contact) AND lifts the noindex on events.html so it
 // enters the sitemap. Until then the page is live but unlisted.
-const SHOW_EVENTS_NAV = false;
+const SHOW_EVENTS_NAV = true; // flipped 2026-07-21: events tab live, page indexable
 const NAV = [
   { label: 'Program', href: 'program.html', children: [['7-Week Accelerator', 'accelerator.html'], ['Workshop Series', 'workshops.html']] },
   { label: 'Impact', href: 'impact.html' },
@@ -443,6 +443,129 @@ const NF_SCRIPT = `<script>document.addEventListener('submit',function(e){var f=
 const pageHead = (e, h, lede) => `<section class="section"><div class="wrap"><header class="page-head"><p class="eyebrow">${e}</p>${waveRule}<h1 class="display">${h}</h1><p class="lede">${lede}</p></header></div></section>`;
 const card = (href, eyebrow, title, text, link) => `<a class="card card--link" href="${href}"><div class="card__body">${eyebrow ? `<p class="eyebrow">${eyebrow}</p>` : ''}<h3 class="card__title">${title}</h3><p class="card__text">${text}</p><span class="card__link">${link}</span></div></a>`;
 
+// News data lives above the pages: the homepage "News & Events" section and
+// the News pages both render from it.
+const newsPosts = [
+  {
+    file: 'news-joe-knows-ventura.html', crumb: 'Joe Knows Ventura',
+    title: 'A Vision Everyone Can Get Behind: Luke Erickson on Joe Knows Ventura',
+    date: 'July 20, 2026', img: `${A}/img/team/luke-erickson.jpg`,
+    alt: 'Luke Erickson, Founder and Executive Director of Startup Ventura',
+    excerpt: 'Founder and Executive Director Luke Erickson joined the Joe Knows Ventura podcast to ask a big question: is Ventura becoming the next Silicon Valley, and what would it take to get there?',
+    paras: [
+      'Startup Ventura founder and Executive Director Luke Erickson recently sat down with Joe Knows Ventura, the podcast that spotlights the people shaping our city, for a 23-minute conversation titled <a href="https://open.spotify.com/episode/2ukvJkEWd2yvsWrbD0j6oQ" target="_blank" rel="noopener">&ldquo;Is Ventura Becoming The Next Silicon Valley?&rdquo;</a>',
+      'The heart of the conversation is an argument Luke has been making since the day Startup Ventura was founded: keeping high-paying tech jobs in Ventura is not just good for the people who hold them. It benefits everyone. Business owners gain customers, families gain the option to build a life here without a brutal commute, and the local economy keeps the spending, the energy, and the tax base that leave town every time a talented founder does.',
+      'The story is familiar to anyone who has watched a friend pack for San Francisco or Los Angeles. Ventura County raises ambitious, talented people, educates them at strong local universities, and then loses them, because there has been nowhere here to build a high-growth company. Startup Ventura exists to change that.',
+      'The plan is already in motion: a free founder <a href="workshops.html">workshop series</a> running every other Tuesday this fall, followed by a seven-week accelerator cohort launching Spring 2027 with mentorship from experienced operators, capital connections, and a Pitch Day in front of 25+ investors. All of it free for founders. No tuition, no equity.',
+      'And what makes it a vision everyone can get behind is who is already behind it. The City of Ventura invested $49,500 through its Economic Development department. The board includes operators behind companies like Curri and SevenRooms. The community showed up 75 strong at our first Annual Benefit. Cities win jobs, colleges win pathways for their graduates, employers win a deeper talent pool, and founders win a reason to stay.',
+      '&ldquo;After I exited my first business, I made a conscious decision that I was going to have an outsized impact on this city and county, and turn it into a place that ambitious, innovative people want to call home,&rdquo; Erickson said. &ldquo;That is the whole reason Startup Ventura exists. We are just getting started.&rdquo;',
+      '<a href="https://open.spotify.com/episode/2ukvJkEWd2yvsWrbD0j6oQ" target="_blank" rel="noopener">Listen to the full episode on Spotify</a>, and follow Joe Knows Ventura for more of the people building this city. Our thanks to Joe for having us, and for telling Ventura&rsquo;s stories.',
+    ],
+  },
+  {
+    // ARCHIVED (board-requested, 2026-07-08): hidden until Sean is officially onboarded (~week of 2026-07-15). Remove `archived: true` to republish.
+    archived: true,
+    file: 'news-sean-herwaldt-board.html', crumb: 'New Board Member',
+    title: 'Welcoming Sean Herwaldt to the Startup Ventura Board',
+    date: 'July 8, 2026', img: `${A}/img/team/sean-herwaldt.jpg`, alt: 'Sean Herwaldt',
+    excerpt: 'Sean Herwaldt, a SpaceX supply chain veteran and now a Director at Curri in Ventura, has joined the Startup Ventura Board of Directors.',
+    paras: [
+      'Startup Ventura is honored to welcome Sean Herwaldt to our Board of Directors.',
+      'Sean spent six years at SpaceX, rising to global supply chain manager at one of the most demanding engineering companies in the world, now publicly traded after the largest IPO in history this past June. Keeping a rocket company supplied means solving hard problems under constant pressure and building the planning systems and supplier relationships that let ambitious teams actually ship. That is exactly the kind of operating experience early founders need in their corner.',
+      'His path reflects the kind of hands-on background our board is built on. Before SpaceX, Sean worked in supply chain and operations for major manufacturers including Owens Corning and Progress Rail, learning how real things get built and moved at scale. Today he leads delivery operations as a Director at Curri, the last-mile logistics company headquartered right here in Ventura. He knows what it takes to build something and see it through, from the ground floor up.',
+      'What Sean brings to Startup Ventura is more than a resume. He feels strongly about building a strong entrepreneurial ecosystem in Ventura, so founders with big ideas can build them at home instead of leaving to do it somewhere else. That belief is the entire reason we exist.',
+      'We could not be more excited to have him help guide what comes next. Welcome, Sean.',
+    ],
+  },
+  {
+    // Custom single page generated separately (full SEO head + Person schema).
+    file: 'luke-erickson-executive-director.html', crumb: 'Executive Director', custom: true,
+    title: 'Luke Erickson Steps Into the Role of Executive Director at Startup Ventura',
+    date: 'July 1, 2026', img: `${A}/img/team/luke-erickson.jpg`,
+    alt: 'Luke Erickson, Founder and Executive Director of Startup Ventura.',
+    excerpt: 'Luke Erickson, founder of Startup Ventura, steps into the role of Executive Director, leading the Ventura County accelerator he built to keep local talent home.',
+  },
+  {
+    file: 'news-candid-platinum-seal.html', crumb: 'Platinum Seal',
+    title: 'Startup Ventura Earns Candid\'s Platinum Seal of Transparency',
+    date: 'June 24, 2026', img: `${A}/img/news/candid-platinum-seal.jpg?v=2`, alt: 'Startup Ventura earns the Candid 2026 Platinum Seal of Transparency',
+    excerpt: 'Startup Ventura has earned the 2026 Platinum Seal of Transparency, the highest level Candid awards, giving donors and funders a complete, verified view of how we operate.',
+    paras: [
+      '<strong>Fewer than 1% of U.S. nonprofits hold Candid&rsquo;s Platinum Seal of Transparency. Startup Ventura is now one of them.</strong>',
+      'We earned the 2026 Platinum Seal from Candid, the organization formed by the merger of GuideStar and Foundation Center, whose database funders, foundations, and donors across the country use to research nonprofits. Platinum is the highest of four levels. Earning it means we have published our financials, our governance and board, our mission and programs, and the specific goals and impact metrics we hold ourselves to.',
+      'For a young organization asking the community to invest in its first cohort of founders, this matters. We are asking people and institutions to put real money behind local entrepreneurs. They deserve complete visibility into how that money is managed and what it produces. The Platinum Seal is independent, third-party proof that we operate that way.',
+      'It also pairs with our 501(c)(3) status to give funders confidence at a glance. Many foundations and corporate and institutional funders now look for a Candid Seal, often at the Gold or Platinum level, before they give. We are starting at the top.',
+      'Transparency is how we intend to run this organization, starting now. You can see <a href="https://app.candid.org/profile/16385291/startup-ventura/?pkId=266ecad1-f625-40ab-acfb-c736d5b97833&amp;isActive=true" target="_blank" rel="noopener">our full profile on Candid</a>.',
+    ],
+  },
+  {
+    // ARCHIVED (2026-07-20, per Luke): removed with her board departure.
+    archived: true,
+    file: 'news-stephanie-board.html', crumb: 'New Board Member',
+    title: 'Stephanie Caldwell Joins the Startup Ventura Board of Directors',
+    date: 'February 28, 2026', img: `${A}/img/team/stephanie-caldwell.jpg`, alt: 'Stephanie Caldwell',
+    excerpt: 'Stephanie Caldwell, a longtime champion of Ventura business and a leader at the Ventura Chamber of Commerce, has joined our Board of Directors.',
+    paras: [
+      'Startup Ventura is honored to welcome Stephanie Caldwell to our Board of Directors.',
+      'Few people have spent more of their career advocating for Ventura business than Stephanie. As President and CEO at the Ventura Chamber of Commerce since 2015, she has built a reputation as a tireless champion for local employers, workforce development, and economic opportunity across the region. She also serves as a director for the California Chamber of Commerce, which gives her a statewide view of what helps businesses grow and what holds them back.',
+      'Her path here reflects the kind of operating experience our board is built on. Before Ventura, Stephanie led contingent staffing operations in Silicon Valley supporting major technology companies, and served as Chief Operations Officer of the San Jose Silicon Valley Chamber of Commerce. Her career spans sales, operations, workforce management, public service, and industry associations. She knows how businesses actually get built and supported, from the ground floor up.',
+      'What she brings to Startup Ventura is more than a resume. It is a genuine, long-running commitment to seeing Ventura County businesses thrive. That is the entire reason we exist, and Stephanie has been living it for years.',
+      'We could not be more excited to have her help guide what comes next. Welcome, Stephanie.',
+    ],
+  },
+  {
+    file: 'news-annual-benefit.html', crumb: 'Annual Benefit',
+    title: 'Startup Ventura Annual Benefit: A Night to Remember',
+    date: 'November 17, 2025', img: `${A}/img/event/annual-benefit-venue.jpg`, alt: 'The Annual Benefit venue at dusk',
+    excerpt: 'Founders, officials, and supporters braved the storm and helped raise $17,000 to fuel entrepreneurship in Ventura.',
+    paras: [
+      'On Friday, November 14th, we hosted our first-ever Startup Ventura Annual Benefit, bringing together an incredible cross-section of our community. Founders, Ventura Community College leadership, Chamber board members, city and county officials, and supporters all showed up despite the stormy weather to rally behind the future of entrepreneurship in Ventura.',
+      'With signature cocktails crafted by the Ventura Chamber of Commerce, a full buffet from Santa Cruz Market, and keynote remarks from Startup Ventura leadership and local officials, the evening carried a sense of purpose and momentum. Most importantly, our community helped raise $17,000 to fuel Startup Ventura’s mission.',
+      'We heard from Luke Erickson, Deputy Mayor Doug Halter, Brent Kraus, Brian Gonzalez, and John Will III, each helping spotlight the vision for an incubator launching in early 2026.',
+      'Conversations throughout the night centered on Ventura’s entrepreneurial potential, and the role local leaders will play in shaping a thriving startup ecosystem.',
+      'A massive thank-you to our sponsors: Ventura Chamber of Commerce, Ventura County Credit Union, and Santa Cruz Market.',
+      'And we’re grateful to Doug and Randy for opening their beautiful space for the evening.',
+    ],
+    extra: `<div class="entry-gallery">${[1, 2, 3, 4, 5, 6].map(n => `<img src="${A}/img/event/benefit-0${n}.jpg" alt="Startup Ventura Annual Benefit photo ${n}" loading="lazy">`).join('')}</div>`,
+  },
+  {
+    file: 'news-city-investment.html', crumb: 'City of Ventura',
+    title: 'The City of Ventura Invests $49,500 in Startup Ventura',
+    date: 'November 1, 2025', img: `${A}/img/ventura-pier.jpg`, alt: 'Aerial view of downtown Ventura and the pier',
+    excerpt: 'The City of Ventura’s Economic Development department has committed $49,500 to Startup Ventura, backing local founders and the companies they will build here.',
+    paras: [
+      'The City of Ventura has invested $49,500 in Startup Ventura through its Economic Development department, a significant vote of confidence in our mission and our model.',
+      'This is what a real public-private partnership looks like. The city is not simply endorsing the idea of a stronger entrepreneurial economy. It is funding it. The investment directly supports our accelerator and the founders who come through it. As part of our partnership, seats in each cohort are reserved for entrepreneurs based in the City of Ventura, which ensures this investment comes home to local founders.',
+      'The logic is straightforward. High-growth companies create jobs, payroll, and economic activity that ripple across the entire community. By investing early in the founders who build those companies, the City of Ventura is investing in its own future tax base, its own job market, and its own long-term resilience.',
+      'We are grateful to the City of Ventura’s Economic Development team for their leadership and their belief in what Ventura County founders can build. This is a model we intend to grow.',
+    ],
+  },
+  {
+    file: 'news-board-gonzalez-kraus.html', crumb: 'New Board Members',
+    title: 'Brian Gonzalez and Brent Kraus Join the Startup Ventura Board',
+    date: 'July 10, 2025', img: `${A}/img/news/board-gonzalez-kraus.jpg`, alt: 'Brian Gonzalez and Brent Kraus',
+    excerpt: 'Two proven operators, Curri co-founder Brian Gonzalez and SaaS revenue leader Brent Kraus, have joined the Startup Ventura Board of Directors.',
+    paras: [
+      'Startup Ventura is proud to welcome two accomplished operators to our Board of Directors: Brian Gonzalez and Brent-Stig Kraus.',
+      'Brian Gonzalez is the co-founder and CTO of Curri, the nationwide delivery and logistics platform he launched in downtown Ventura. He has been building in startups since 2010, when he started his career at Dollar Shave Club, and Curri has since raised capital from leading investors including Y Combinator and Bessemer Venture Partners. Brian is proof of exactly what we are trying to make ordinary in Ventura County: a high-growth company, founded and headquartered right here.',
+      'Brent Kraus brings two decades of experience scaling SaaS companies through hypergrowth and major exits. He most recently served as Chief Revenue Officer at SevenRooms, acquired by DoorDash in a $1.2 billion deal, and previously held leadership roles at MINDBODY and Lynda.com through their respective billion-dollar acquisitions. His expertise in go-to-market strategy and building high-performing teams is exactly the kind of guidance our founders need.',
+      'Together, Brian and Brent strengthen a board built around people who have actually done the work: founded companies, scaled them, and created jobs. Their experience will directly shape how we prepare Ventura County founders to do the same. Welcome to the team.',
+    ],
+  },
+  {
+    file: 'news-501c3.html', crumb: '501(c)(3) Status',
+    title: 'Startup Ventura Is Now a 501(c)(3) Nonprofit',
+    date: 'May 14, 2025', img: `${A}/img/hero-960.webp`, alt: 'Ventura, California',
+    excerpt: 'The IRS has granted Startup Ventura 501(c)(3) status, making every gift tax-deductible and laying the legal foundation for our work across Ventura County.',
+    paras: [
+      'Startup Ventura is officially a 501(c)(3) nonprofit. The IRS granted our tax-exempt status on May 14, 2025, a foundational step for everything we are building in Ventura County.',
+      'Here is what that means in practical terms. Every gift to Startup Ventura is now tax-deductible to the extent allowed by law. We can pursue grants, accept foundation and corporate support, and operate with the governance and transparency that serious philanthropy requires. Our EIN is 39-2204612.',
+      'What it means for the mission is bigger. Startup Ventura exists to keep Ventura County the best place in the world to live by helping local founders build high-growth companies here, instead of leaving to build them somewhere else. 501(c)(3) status turns that mission into an organization that people and institutions can invest in with confidence.',
+      'This is the starting line, not the finish. With the legal foundation in place, our focus turns to the work itself: the partnerships, the funding, and the program that will put Ventura County founders in a position to succeed. Thank you to everyone who helped us get here. The best is ahead.',
+    ],
+  },
+];
+
 /* ---------------- pages ---------------- */
 
 // HOME
@@ -454,6 +577,10 @@ page('index.html', {
   <section class="section section--pale grain"><div class="wrap">${head('The Program', 'The on-ramp founders need.', 'Everything entrepreneurs would leave town to find: a true accelerator with a pathway to raising venture capital.')}<div class="card-grid card-grid--2">${card('accelerator.html', 'Spring 2027 · S27', '7-Week Accelerator', 'Mentorship, capital connections, hands-on workshops, community, and a Demo Day.', 'Explore the accelerator')}${card('workshops.html', 'Pre-accelerator', 'Workshop Series', 'A workshop series that readies earlier-stage founders and feeds the pipeline.', 'Explore the workshops')}</div><div class="center" style="margin-top:32px">${apply('Apply to the cohort', 'btn--outline btn--lg')}</div></div></section>
   <section class="section"><div class="wrap"><header class="section-head section-head--center"><p class="eyebrow">In the room</p>${waveRule}<h2 class="section-head__title display">What people are saying.</h2></header>${testimonialGrid()}</div></section>
   <section class="section section--pale section--tight"><div class="wrap"><header class="section-head section-head--center"><p class="eyebrow">Backed by the community</p>${waveRule}<h2 class="section-head__title display">Partners &amp; supporters.</h2></header>${partnerRow()}</div></section>
+  <section class="section"><div class="wrap"><header class="section-head section-head--center"><p class="eyebrow">News &amp; Events</p>${waveRule}<h2 class="section-head__title display">What is happening right now.</h2></header>
+  <div class="post-grid">${newsPosts.filter((p) => !p.archived).slice(0, 3).map((p) => `<article class="post-card"><a href="${p.file}" tabindex="-1" aria-hidden="true">${pic(p.img, { cls: 'post-card__thumb', alt: '', sizes: '(max-width:640px) 92vw, 360px' })}</a><div class="post-card__body"><p class="post-card__date">${p.date}</p><h2 class="post-card__title"><a href="${p.file}">${p.title}</a></h2><p class="post-card__excerpt">${p.excerpt}</p><a class="post-card__more" href="${p.file}">Read more &rarr;</a></div></article>`).join('')}</div>
+  <div class="center" style="margin-top:30px"><a class="btn btn--blue" href="events.html">See the fall workshop schedule</a>&nbsp;&nbsp;<a class="btn btn--outline" href="news.html">All news</a></div>
+  </div></section>
   <section class="section"><div class="wrap"><header class="section-head section-head--center"><p class="eyebrow">Who we are</p>${waveRule}<h2 class="section-head__title display">A board that has built and scaled here.</h2></header>${boardGrid()}<div class="center" style="margin-top:32px"><a class="btn btn--outline" href="about.html">Meet the full board</a></div></div></section>
   ${waveDivider}
   <section class="section section--pale"><div class="wrap">${head('Why Ventura County', 'Great talent grows up here. Too much of it leaves.')}<p class="lede">The county raises and educates talent, then watches affordability and a lack of opportunity push it out. High-growth companies are the fix.</p><div style="margin-top:32px">${statStrip()}</div><div style="margin-top:28px"><a class="card__link" href="why-ventura-county.html" style="font-size:1.05rem">Read the full case</a></div></div></section>
@@ -634,126 +761,6 @@ page('contact.html', {
 });
 
 // NEWS — archive + one clickable article page per post (newest first)
-const newsPosts = [
-  {
-    file: 'news-joe-knows-ventura.html', crumb: 'Joe Knows Ventura',
-    title: 'A Vision Everyone Can Get Behind: Luke Erickson on Joe Knows Ventura',
-    date: 'July 20, 2026', img: `${A}/img/team/luke-erickson.jpg`,
-    alt: 'Luke Erickson, Founder and Executive Director of Startup Ventura',
-    excerpt: 'Founder and Executive Director Luke Erickson joined the Joe Knows Ventura podcast to ask a big question: is Ventura becoming the next Silicon Valley, and what would it take to get there?',
-    paras: [
-      'Startup Ventura founder and Executive Director Luke Erickson recently sat down with Joe Knows Ventura, the podcast that spotlights the people shaping our city, for a 23-minute conversation titled <a href="https://open.spotify.com/episode/2ukvJkEWd2yvsWrbD0j6oQ" target="_blank" rel="noopener">&ldquo;Is Ventura Becoming The Next Silicon Valley?&rdquo;</a>',
-      'The heart of the conversation is an argument Luke has been making since the day Startup Ventura was founded: keeping high-paying tech jobs in Ventura is not just good for the people who hold them. It benefits everyone. Business owners gain customers, families gain the option to build a life here without a brutal commute, and the local economy keeps the spending, the energy, and the tax base that leave town every time a talented founder does.',
-      'The story is familiar to anyone who has watched a friend pack for San Francisco or Los Angeles. Ventura County raises ambitious, talented people, educates them at strong local universities, and then loses them, because there has been nowhere here to build a high-growth company. Startup Ventura exists to change that.',
-      'The plan is already in motion: a free founder <a href="workshops.html">workshop series</a> running every other Tuesday this fall, followed by a seven-week accelerator cohort launching Spring 2027 with mentorship from experienced operators, capital connections, and a Pitch Day in front of 25+ investors. All of it free for founders. No tuition, no equity.',
-      'And what makes it a vision everyone can get behind is who is already behind it. The City of Ventura invested $49,500 through its Economic Development department. The board includes operators behind companies like Curri and SevenRooms. The community showed up 75 strong at our first Annual Benefit. Cities win jobs, colleges win pathways for their graduates, employers win a deeper talent pool, and founders win a reason to stay.',
-      '&ldquo;After I exited my first business, I made a conscious decision that I was going to have an outsized impact on this city and county, and turn it into a place that ambitious, innovative people want to call home,&rdquo; Erickson said. &ldquo;That is the whole reason Startup Ventura exists. We are just getting started.&rdquo;',
-      '<a href="https://open.spotify.com/episode/2ukvJkEWd2yvsWrbD0j6oQ" target="_blank" rel="noopener">Listen to the full episode on Spotify</a>, and follow Joe Knows Ventura for more of the people building this city. Our thanks to Joe for having us, and for telling Ventura&rsquo;s stories.',
-    ],
-  },
-  {
-    // ARCHIVED (board-requested, 2026-07-08): hidden until Sean is officially onboarded (~week of 2026-07-15). Remove `archived: true` to republish.
-    archived: true,
-    file: 'news-sean-herwaldt-board.html', crumb: 'New Board Member',
-    title: 'Welcoming Sean Herwaldt to the Startup Ventura Board',
-    date: 'July 8, 2026', img: `${A}/img/team/sean-herwaldt.jpg`, alt: 'Sean Herwaldt',
-    excerpt: 'Sean Herwaldt, a SpaceX supply chain veteran and now a Director at Curri in Ventura, has joined the Startup Ventura Board of Directors.',
-    paras: [
-      'Startup Ventura is honored to welcome Sean Herwaldt to our Board of Directors.',
-      'Sean spent six years at SpaceX, rising to global supply chain manager at one of the most demanding engineering companies in the world, now publicly traded after the largest IPO in history this past June. Keeping a rocket company supplied means solving hard problems under constant pressure and building the planning systems and supplier relationships that let ambitious teams actually ship. That is exactly the kind of operating experience early founders need in their corner.',
-      'His path reflects the kind of hands-on background our board is built on. Before SpaceX, Sean worked in supply chain and operations for major manufacturers including Owens Corning and Progress Rail, learning how real things get built and moved at scale. Today he leads delivery operations as a Director at Curri, the last-mile logistics company headquartered right here in Ventura. He knows what it takes to build something and see it through, from the ground floor up.',
-      'What Sean brings to Startup Ventura is more than a resume. He feels strongly about building a strong entrepreneurial ecosystem in Ventura, so founders with big ideas can build them at home instead of leaving to do it somewhere else. That belief is the entire reason we exist.',
-      'We could not be more excited to have him help guide what comes next. Welcome, Sean.',
-    ],
-  },
-  {
-    // Custom single page generated separately (full SEO head + Person schema).
-    file: 'luke-erickson-executive-director.html', crumb: 'Executive Director', custom: true,
-    title: 'Luke Erickson Steps Into the Role of Executive Director at Startup Ventura',
-    date: 'July 1, 2026', img: `${A}/img/team/luke-erickson.jpg`,
-    alt: 'Luke Erickson, Founder and Executive Director of Startup Ventura.',
-    excerpt: 'Luke Erickson, founder of Startup Ventura, steps into the role of Executive Director, leading the Ventura County accelerator he built to keep local talent home.',
-  },
-  {
-    file: 'news-candid-platinum-seal.html', crumb: 'Platinum Seal',
-    title: 'Startup Ventura Earns Candid\'s Platinum Seal of Transparency',
-    date: 'June 24, 2026', img: `${A}/img/news/candid-platinum-seal.jpg?v=2`, alt: 'Startup Ventura earns the Candid 2026 Platinum Seal of Transparency',
-    excerpt: 'Startup Ventura has earned the 2026 Platinum Seal of Transparency, the highest level Candid awards, giving donors and funders a complete, verified view of how we operate.',
-    paras: [
-      '<strong>Fewer than 1% of U.S. nonprofits hold Candid&rsquo;s Platinum Seal of Transparency. Startup Ventura is now one of them.</strong>',
-      'We earned the 2026 Platinum Seal from Candid, the organization formed by the merger of GuideStar and Foundation Center, whose database funders, foundations, and donors across the country use to research nonprofits. Platinum is the highest of four levels. Earning it means we have published our financials, our governance and board, our mission and programs, and the specific goals and impact metrics we hold ourselves to.',
-      'For a young organization asking the community to invest in its first cohort of founders, this matters. We are asking people and institutions to put real money behind local entrepreneurs. They deserve complete visibility into how that money is managed and what it produces. The Platinum Seal is independent, third-party proof that we operate that way.',
-      'It also pairs with our 501(c)(3) status to give funders confidence at a glance. Many foundations and corporate and institutional funders now look for a Candid Seal, often at the Gold or Platinum level, before they give. We are starting at the top.',
-      'Transparency is how we intend to run this organization, starting now. You can see <a href="https://app.candid.org/profile/16385291/startup-ventura/?pkId=266ecad1-f625-40ab-acfb-c736d5b97833&amp;isActive=true" target="_blank" rel="noopener">our full profile on Candid</a>.',
-    ],
-  },
-  {
-    // ARCHIVED (2026-07-20, per Luke): removed with her board departure.
-    archived: true,
-    file: 'news-stephanie-board.html', crumb: 'New Board Member',
-    title: 'Stephanie Caldwell Joins the Startup Ventura Board of Directors',
-    date: 'February 28, 2026', img: `${A}/img/team/stephanie-caldwell.jpg`, alt: 'Stephanie Caldwell',
-    excerpt: 'Stephanie Caldwell, a longtime champion of Ventura business and a leader at the Ventura Chamber of Commerce, has joined our Board of Directors.',
-    paras: [
-      'Startup Ventura is honored to welcome Stephanie Caldwell to our Board of Directors.',
-      'Few people have spent more of their career advocating for Ventura business than Stephanie. As President and CEO at the Ventura Chamber of Commerce since 2015, she has built a reputation as a tireless champion for local employers, workforce development, and economic opportunity across the region. She also serves as a director for the California Chamber of Commerce, which gives her a statewide view of what helps businesses grow and what holds them back.',
-      'Her path here reflects the kind of operating experience our board is built on. Before Ventura, Stephanie led contingent staffing operations in Silicon Valley supporting major technology companies, and served as Chief Operations Officer of the San Jose Silicon Valley Chamber of Commerce. Her career spans sales, operations, workforce management, public service, and industry associations. She knows how businesses actually get built and supported, from the ground floor up.',
-      'What she brings to Startup Ventura is more than a resume. It is a genuine, long-running commitment to seeing Ventura County businesses thrive. That is the entire reason we exist, and Stephanie has been living it for years.',
-      'We could not be more excited to have her help guide what comes next. Welcome, Stephanie.',
-    ],
-  },
-  {
-    file: 'news-annual-benefit.html', crumb: 'Annual Benefit',
-    title: 'Startup Ventura Annual Benefit: A Night to Remember',
-    date: 'November 17, 2025', img: `${A}/img/event/annual-benefit-venue.jpg`, alt: 'The Annual Benefit venue at dusk',
-    excerpt: 'Founders, officials, and supporters braved the storm and helped raise $17,000 to fuel entrepreneurship in Ventura.',
-    paras: [
-      'On Friday, November 14th, we hosted our first-ever Startup Ventura Annual Benefit, bringing together an incredible cross-section of our community. Founders, Ventura Community College leadership, Chamber board members, city and county officials, and supporters all showed up despite the stormy weather to rally behind the future of entrepreneurship in Ventura.',
-      'With signature cocktails crafted by the Ventura Chamber of Commerce, a full buffet from Santa Cruz Market, and keynote remarks from Startup Ventura leadership and local officials, the evening carried a sense of purpose and momentum. Most importantly, our community helped raise $17,000 to fuel Startup Ventura’s mission.',
-      'We heard from Luke Erickson, Deputy Mayor Doug Halter, Brent Kraus, Brian Gonzalez, and John Will III, each helping spotlight the vision for an incubator launching in early 2026.',
-      'Conversations throughout the night centered on Ventura’s entrepreneurial potential, and the role local leaders will play in shaping a thriving startup ecosystem.',
-      'A massive thank-you to our sponsors: Ventura Chamber of Commerce, Ventura County Credit Union, and Santa Cruz Market.',
-      'And we’re grateful to Doug and Randy for opening their beautiful space for the evening.',
-    ],
-    extra: `<div class="entry-gallery">${[1, 2, 3, 4, 5, 6].map(n => `<img src="${A}/img/event/benefit-0${n}.jpg" alt="Startup Ventura Annual Benefit photo ${n}" loading="lazy">`).join('')}</div>`,
-  },
-  {
-    file: 'news-city-investment.html', crumb: 'City of Ventura',
-    title: 'The City of Ventura Invests $49,500 in Startup Ventura',
-    date: 'November 1, 2025', img: `${A}/img/ventura-pier.jpg`, alt: 'Aerial view of downtown Ventura and the pier',
-    excerpt: 'The City of Ventura’s Economic Development department has committed $49,500 to Startup Ventura, backing local founders and the companies they will build here.',
-    paras: [
-      'The City of Ventura has invested $49,500 in Startup Ventura through its Economic Development department, a significant vote of confidence in our mission and our model.',
-      'This is what a real public-private partnership looks like. The city is not simply endorsing the idea of a stronger entrepreneurial economy. It is funding it. The investment directly supports our accelerator and the founders who come through it. As part of our partnership, seats in each cohort are reserved for entrepreneurs based in the City of Ventura, which ensures this investment comes home to local founders.',
-      'The logic is straightforward. High-growth companies create jobs, payroll, and economic activity that ripple across the entire community. By investing early in the founders who build those companies, the City of Ventura is investing in its own future tax base, its own job market, and its own long-term resilience.',
-      'We are grateful to the City of Ventura’s Economic Development team for their leadership and their belief in what Ventura County founders can build. This is a model we intend to grow.',
-    ],
-  },
-  {
-    file: 'news-board-gonzalez-kraus.html', crumb: 'New Board Members',
-    title: 'Brian Gonzalez and Brent Kraus Join the Startup Ventura Board',
-    date: 'July 10, 2025', img: `${A}/img/news/board-gonzalez-kraus.jpg`, alt: 'Brian Gonzalez and Brent Kraus',
-    excerpt: 'Two proven operators, Curri co-founder Brian Gonzalez and SaaS revenue leader Brent Kraus, have joined the Startup Ventura Board of Directors.',
-    paras: [
-      'Startup Ventura is proud to welcome two accomplished operators to our Board of Directors: Brian Gonzalez and Brent-Stig Kraus.',
-      'Brian Gonzalez is the co-founder and CTO of Curri, the nationwide delivery and logistics platform he launched in downtown Ventura. He has been building in startups since 2010, when he started his career at Dollar Shave Club, and Curri has since raised capital from leading investors including Y Combinator and Bessemer Venture Partners. Brian is proof of exactly what we are trying to make ordinary in Ventura County: a high-growth company, founded and headquartered right here.',
-      'Brent Kraus brings two decades of experience scaling SaaS companies through hypergrowth and major exits. He most recently served as Chief Revenue Officer at SevenRooms, acquired by DoorDash in a $1.2 billion deal, and previously held leadership roles at MINDBODY and Lynda.com through their respective billion-dollar acquisitions. His expertise in go-to-market strategy and building high-performing teams is exactly the kind of guidance our founders need.',
-      'Together, Brian and Brent strengthen a board built around people who have actually done the work: founded companies, scaled them, and created jobs. Their experience will directly shape how we prepare Ventura County founders to do the same. Welcome to the team.',
-    ],
-  },
-  {
-    file: 'news-501c3.html', crumb: '501(c)(3) Status',
-    title: 'Startup Ventura Is Now a 501(c)(3) Nonprofit',
-    date: 'May 14, 2025', img: `${A}/img/hero-960.webp`, alt: 'Ventura, California',
-    excerpt: 'The IRS has granted Startup Ventura 501(c)(3) status, making every gift tax-deductible and laying the legal foundation for our work across Ventura County.',
-    paras: [
-      'Startup Ventura is officially a 501(c)(3) nonprofit. The IRS granted our tax-exempt status on May 14, 2025, a foundational step for everything we are building in Ventura County.',
-      'Here is what that means in practical terms. Every gift to Startup Ventura is now tax-deductible to the extent allowed by law. We can pursue grants, accept foundation and corporate support, and operate with the governance and transparency that serious philanthropy requires. Our EIN is 39-2204612.',
-      'What it means for the mission is bigger. Startup Ventura exists to keep Ventura County the best place in the world to live by helping local founders build high-growth companies here, instead of leaving to build them somewhere else. 501(c)(3) status turns that mission into an organization that people and institutions can invest in with confidence.',
-      'This is the starting line, not the finish. With the legal foundation in place, our focus turns to the work itself: the partnerships, the funding, and the program that will put Ventura County founders in a position to succeed. Thank you to everyone who helped us get here. The best is ahead.',
-    ],
-  },
-];
 
 page('news.html', {
   title: 'News', crumbsTrail: [['Home', 'index.html'], ['News', '']],
