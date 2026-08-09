@@ -449,8 +449,8 @@ const newsPosts = [
   {
     file: 'news-joe-knows-ventura.html', crumb: 'Joe Knows Ventura',
     title: 'A Vision Everyone Can Get Behind: Luke Erickson on Joe Knows Ventura',
-    date: 'July 20, 2026', img: `${A}/img/team/luke-erickson.jpg`,
-    alt: 'Luke Erickson, Founder and Executive Director of Startup Ventura',
+    date: 'July 20, 2026', img: `${A}/img/news/joe-knows-ventura.jpg`,
+    alt: 'Podcast out now with Luke Erickson, on Joe Knows Ventura',
     excerpt: 'Founder and Executive Director Luke Erickson joined the Joe Knows Ventura podcast to ask a big question: is Ventura becoming the next Silicon Valley, and what would it take to get there?',
     paras: [
       'Startup Ventura founder and Executive Director Luke Erickson recently sat down with Joe Knows Ventura, the podcast that spotlights the people shaping our city, for a 23-minute conversation titled <a href="https://open.spotify.com/episode/2ukvJkEWd2yvsWrbD0j6oQ" target="_blank" rel="noopener">&ldquo;Is Ventura Becoming The Next Silicon Valley?&rdquo;</a>',
