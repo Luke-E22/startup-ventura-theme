@@ -58,6 +58,11 @@
   to = "/faq.html"
   status = 200
 
+[[redirects]]
+  from = "/resources"
+  to = "/resources.html"
+  status = 200
+
 # Paid-traffic landing page (Google Ad Grant); unlisted + noindex.
 [[redirects]]
   from = "/connect"

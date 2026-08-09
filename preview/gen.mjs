@@ -77,7 +77,7 @@ const pic = (src, { cls = '', w, h, style = '', alt = '', sizes = '100vw', eager
 // enters the sitemap. Until then the page is live but unlisted.
 const SHOW_EVENTS_NAV = true; // flipped 2026-07-21: events tab live, page indexable
 const NAV = [
-  { label: 'Program', href: 'program.html', children: [['7-Week Accelerator', 'accelerator.html'], ['Workshop Series', 'workshops.html']] },
+  { label: 'Program', href: 'program.html', children: [['7-Week Accelerator', 'accelerator.html'], ['Workshop Series', 'workshops.html'], ['Founder Resources', 'resources.html']] },
   { label: 'Impact', href: 'impact.html' },
   { label: 'Partner', href: 'partner.html', children: [['For Cities &amp; County', 'partner-cities-county.html'], ['For Foundations', 'partner-foundations.html']] },
   { label: 'About', href: 'about.html', children: [['Board of Directors', 'about.html'], ['Leadership', 'lukeerickson.html'], ['Why Ventura County', 'why-ventura-county.html']] },
@@ -127,7 +127,7 @@ const footer = () => `</main>
       <a href="https://www.facebook.com/startupventura/" aria-label="Facebook" rel="noopener" target="_blank"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.9h2.54V9.85c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.44 2.9h-2.34V22c4.78-.76 8.44-4.92 8.44-9.94Z"/></svg></a>
       <a href="https://www.instagram.com/startup_ventura/" aria-label="Instagram" rel="noopener" target="_blank"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.2c3.2 0 3.6 0 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s0 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58 0-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.21 15.58 2.2 15.2 2.2 12s0-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.21 8.8 2.2 12 2.2zm0 1.98c-3.15 0-3.5.01-4.74.07-1.14.05-1.76.24-2.17.4-.55.22-.94.47-1.35.88-.41.41-.66.8-.88 1.35-.16.41-.35 1.03-.4 2.17-.06 1.24-.07 1.59-.07 4.74s.01 3.5.07 4.74c.05 1.14.24 1.76.4 2.17.22.55.47.94.88 1.35.41.41.8.66 1.35.88.41.16 1.03.35 2.17.4 1.24.06 1.59.07 4.74.07s3.5-.01 4.74-.07c1.14-.05 1.76-.24 2.17-.4.55-.22.94-.47 1.35-.88.41-.41.66-.8.88-1.35.16-.41.35-1.03.4-2.17.06-1.24.07-1.59.07-4.74s-.01-3.5-.07-4.74c-.05-1.14-.24-1.76-.4-2.17a3.6 3.6 0 0 0-.88-1.35 3.6 3.6 0 0 0-1.35-.88c-.41-.16-1.03-.35-2.17-.4-1.24-.06-1.59-.07-4.74-.07zm0 3.37a4.45 4.45 0 1 1 0 8.9 4.45 4.45 0 0 1 0-8.9zm0 7.34a2.89 2.89 0 1 0 0-5.78 2.89 2.89 0 0 0 0 5.78zm5.66-7.57a1.04 1.04 0 1 1-2.08 0 1.04 1.04 0 0 1 2.08 0z"/></svg></a>
     </div></div>
-    <div class="footer-col"><p class="footer-col__title">Explore</p><ul><li><a href="program.html">The Program</a></li><li><a href="why-ventura-county.html">Why Ventura County</a></li><li><a href="impact.html">Impact</a></li><li><a href="give.html">Give</a></li><li><a href="partner.html">Partner</a></li><li><a href="about.html">About</a></li><li><a href="news.html">News</a></li><li><a href="contact.html">Contact</a></li><li><a href="faq.html">FAQ</a></li><li><a href="donor-wall.html">Donor Wall</a></li><li class="footer-hiring"><a href="careers.html">Join our team <span class="sep">|</span> Careers</a></li><li class="footer-note-link"><a href="explore-83-palm.html">83 Palm St &middot; concept study</a></li></ul></div>
+    <div class="footer-col"><p class="footer-col__title">Explore</p><ul><li><a href="program.html">The Program</a></li><li><a href="why-ventura-county.html">Why Ventura County</a></li><li><a href="impact.html">Impact</a></li><li><a href="give.html">Give</a></li><li><a href="partner.html">Partner</a></li><li><a href="about.html">About</a></li><li><a href="news.html">News</a></li><li><a href="resources.html">Founder Resources</a></li><li><a href="contact.html">Contact</a></li><li><a href="faq.html">FAQ</a></li><li><a href="donor-wall.html">Donor Wall</a></li><li class="footer-hiring"><a href="careers.html">Join our team <span class="sep">|</span> Careers</a></li><li class="footer-note-link"><a href="explore-83-palm.html">83 Palm St &middot; concept study</a></li></ul></div>
     <div class="footer-col"><p class="footer-col__title">Get in touch</p><ul><li><a href="mailto:info@startupventura.com">info@startupventura.com</a></li><li><a href="mailto:sponsor@startupventura.com">sponsor@startupventura.com</a></li><li><a href="press.html">Press &amp; media kit</a></li></ul></div>
   </div><div class="footer-legal"><span>Startup Ventura is a 501(c)(3) nonprofit. EIN 39-2204612. Gifts are tax-deductible to the extent allowed by law.</span><span>&copy; 2026 Startup Ventura</span><span class="footer-legal__links"><a href="privacy.html">Privacy</a> &middot; <a href="terms.html">Terms</a></span><span class="footer-legal__credit">Website by <a href="https://lukeerickson.com" target="_blank" rel="noopener">Luke Erickson</a></span></div></div>
 </footer>`;
@@ -623,6 +623,106 @@ page('workshops.html', {
     </div></section>` +
     ctaBand('Help keep founder programming free.', 'apply'),
 });
+
+// FOUNDER RESOURCES — evergreen guides, one per workshop topic. Original
+// educational content: each guide is the written companion to a fall session
+// and doubles as an ad-campaign landing page for its keyword group. Add a
+// guide = add an entry here; the index page and sitemap follow.
+const guides = [
+  {
+    file: 'guide-google-business-profile.html',
+    title: 'Get Your Business on Google Search and Maps',
+    workshopDate: 'Sep 1', workshopTitle: 'Get Your Local Business on Google Search and Maps',
+    summary: 'The free profile that decides whether local customers find you. How to claim it, complete it, and keep it working.',
+    desc: 'A practical guide for Ventura County small businesses: claim and optimize your free Google Business Profile so customers find you on Search and Maps.',
+    lede: 'When someone nearby searches for what you sell, Google decides who shows up. This free profile is how you get on that list, and most local businesses leave half of it blank.',
+    body: `<h2>Why your Business Profile matters more than your website</h2>
+<p>Before a local customer ever sees your website, they see the map. Search for &ldquo;coffee near me&rdquo; or &ldquo;bookkeeper in Ventura&rdquo; and the top of the page is a map with three businesses under it. That box is powered by Google Business Profiles, and the businesses in it win the click far more often than anything below. The profile is free, it takes an afternoon to set up properly, and it is the single highest-leverage marketing task for a local business.</p>
+<h2>Claim and verify your profile</h2>
+<p>Go to google.com/business and search for your business name. If a profile already exists, claim it; if not, create one. Google will verify that you actually run the business, usually by video, phone, or a postcard to your address. Do not skip or rush verification: an unverified profile does not appear in results. If your business is service-based and you work from home, you can hide your address and set a service area instead.</p>
+<h2>Complete every field, not just the easy ones</h2>
+<p>Google rewards complete profiles. Work through all of it: primary category (be specific; &ldquo;Mexican restaurant&rdquo; beats &ldquo;restaurant&rdquo;), secondary categories, hours including holidays, phone, website, services or menu, a plain-language business description, and attributes like wheelchair access or outdoor seating. The categories matter most: they decide which searches you can appear for at all.</p>
+<h2>Photos are not decoration</h2>
+<p>Profiles with real photos get dramatically more requests for directions and website clicks. Upload the storefront (so people recognize it from the street), the interior, your products or work, and your team. Add new photos monthly; a profile that has not changed in a year signals a business that might not be open.</p>
+<h2>Reviews: ask early, answer everything</h2>
+<p>Reviews are the strongest local ranking signal you can influence. Build the habit: ask every happy customer, make it easy with the direct review link Google gives you, and respond to every review, good and bad. A calm, helpful reply to a bad review often earns more trust than the five-star reviews around it. Never buy reviews or review your own business; Google removes them and can suspend the profile.</p>
+<h2>The mistakes that quietly hurt you</h2>
+<p>The usual suspects: a wrong phone number or old address after a move, hours that do not match reality (nothing earns a one-star review faster than a locked door during posted hours), a duplicate profile splitting your reviews, and treating the profile as done. Google now also lets customers message you and ask questions directly from the profile; if you turn messaging on, answer it.</p>`,
+  },
+  {
+    file: 'guide-google-ads-basics.html',
+    title: 'Google Ads for Small Businesses: Start Without Wasting Money',
+    workshopDate: 'Oct 27', workshopTitle: 'Learn the Basics of Google Ads',
+    summary: 'How search ads actually work, what to set up before you spend a dollar, and the five beginner mistakes that burn budgets.',
+    desc: 'A practical Google Ads primer for Ventura County small businesses: how the auction works, campaign structure, keywords, budgets, and the beginner mistakes to avoid.',
+    lede: 'Google Ads can put your business in front of someone at the exact moment they are searching for what you sell. It can also quietly spend your budget on clicks that never had a chance. The difference is setup.',
+    body: `<h2>How search ads actually work</h2>
+<p>Every time someone searches, Google runs an instant auction among advertisers who chose keywords matching that search. Your ad&rsquo;s position depends on your bid and your quality: how relevant your ad and landing page are to the search. That second part is the small-business advantage. A tightly relevant ad from a small shop routinely beats a bigger budget with lazy targeting, because Google discounts the price of relevant ads.</p>
+<h2>Before you spend a dollar</h2>
+<p>Three things first. Decide the one action a click should lead to: a call, a form, a booking. Send clicks to a page built for that action, not your homepage; the fewer choices on the page, the better it converts. And set up conversion tracking so Google knows which clicks turned into that action. Skipping tracking is the most common and most expensive beginner mistake, because without it neither you nor Google can tell what is working.</p>
+<h2>The anatomy of a campaign</h2>
+<p>A campaign holds your budget and settings, like the geographic area you serve. Inside it, ad groups each cover one tight theme with their own keywords and ads. A plumber might run ad groups for &ldquo;water heater repair,&rdquo; &ldquo;drain cleaning,&rdquo; and &ldquo;emergency plumber&rdquo; rather than one pile of everything. Tight themes keep the ad matched to the search, which raises quality and lowers cost.</p>
+<h2>Keywords, match types, and the negative list</h2>
+<p>Start with phrase and exact match, which keep your ads on searches close to what you wrote. Broad match trades control for reach and tends to punish beginners. Just as important is the negative keyword list, the searches you refuse to pay for: &ldquo;free,&rdquo; &ldquo;jobs,&rdquo; &ldquo;DIY,&rdquo; and whatever else attracts clicks that will never become customers. Review the search terms report weekly at first; it shows the real searches that triggered your ads and is the fastest education in the entire platform.</p>
+<h2>Budgets without fear</h2>
+<p>You set a daily budget and can stop any time; there is no contract. A sensible small-business start is a modest daily amount focused on one campaign, one goal, and your actual service area, then scale what proves itself. Expect the first two weeks to be learning, not profit.</p>
+<h2>Five mistakes that burn budgets</h2>
+<p>Sending clicks to the homepage. Running broad match with no negative keywords. Skipping conversion tracking. Targeting a wider map than you actually serve. And set-and-forget: ten minutes a week reviewing search terms and pausing what does not work beats any amount of setup cleverness.</p>`,
+  },
+  {
+    file: 'guide-small-business-cybersecurity.html',
+    title: 'Cybersecurity for Small Businesses: Five Habits That Prevent Most Attacks',
+    workshopDate: 'Jan 5', workshopTitle: 'Cybersecurity and Your Small Business',
+    summary: 'Small businesses are targets precisely because they assume they are not. Five inexpensive habits stop the large majority of attacks.',
+    desc: 'A practical cybersecurity checklist for Ventura County small businesses: password managers, two-factor authentication, updates, phishing defense, and backups.',
+    lede: 'Attackers do not target small businesses despite their size. They target them because of it: valuable data, real bank accounts, and usually nobody in charge of security. Five habits close most of the gap.',
+    body: `<h2>Why you, specifically</h2>
+<p>Most attacks on small businesses are not sophisticated or personal. They are automated and opportunistic: software scanning for reused passwords, unpatched systems, and anyone who will click a convincing email. That is good news, in a way. You do not need enterprise security; you need to stop being the easy target on the block.</p>
+<h2>1. Use a password manager, everywhere</h2>
+<p>The single most common breach path is a password reused across services: one site leaks, and attackers try that email-password pair on your bank, your email, your point of sale. A password manager generates and remembers a different strong password for every account, so one leak stays one leak. Roll it out to every employee and make the shared-spreadsheet-of-passwords a fireable offense.</p>
+<h2>2. Turn on two-factor authentication</h2>
+<p>Two-factor authentication means a stolen password alone is not enough to get in. Turn it on for email first (whoever controls your email can reset everything else), then banking, payroll, social accounts, and your website admin. An authenticator app is stronger than text-message codes, but any second factor beats none.</p>
+<h2>3. Let things update</h2>
+<p>Updates are mostly security patches for holes attackers already know about. Turn on automatic updates for operating systems, browsers, phones, and any software touching money or customer data, and retire anything so old it no longer receives updates. Unpatched systems are how automated attacks get in without anyone being tricked.</p>
+<h2>4. Train the phishing reflex</h2>
+<p>Nearly every serious small-business incident starts with an email. The tells are consistent: urgency, a request involving money, credentials, or gift cards, and a sender address that is almost right. Build one team habit: any unexpected request involving money or logins gets verified through a second channel, like calling the person at a number you already have. No legitimate vendor or bank will resent the check.</p>
+<h2>5. Back up like you mean it</h2>
+<p>Ransomware only works when your only copy is the one it encrypted. Keep automatic backups of anything you cannot afford to lose, keep at least one copy somewhere your main systems cannot touch, and test a restore twice a year. A backup you have never restored is a hope, not a plan.</p>
+<h2>If something goes wrong</h2>
+<p>Move fast and in order: change the affected passwords from a clean device, revoke active sessions, tell your bank if money is involved, and write down what happened while it is fresh. Speed limits damage far more than perfection does.</p>`,
+  },
+];
+
+// Guides index
+page('resources.html', {
+  title: 'Founder Resources',
+  desc: 'Free practical guides for Ventura County founders and small businesses: getting found on Google, running your first ads, protecting your business, and more.',
+  canonical: `${SITE}/resources`,
+  crumbsTrail: [['Home', 'index.html'], ['The Program', 'program.html'], ['Founder Resources', '']],
+  body: pageHead('Founder Resources', 'Practical guides for building here.', 'Free, no-fluff guides written for Ventura County founders and small businesses. Each pairs with a session in our fall workshop series: read the essentials now, then go deeper in the room.') +
+    `<section class="section section--pale"><div class="wrap"><div class="card-grid card-grid--3">${guides.map((g) => card(g.file, `Guide &middot; pairs with ${g.workshopDate}`, g.title, g.summary, 'Read the guide')).join('')}</div>
+    <p class="center muted" style="margin-top:30px">More guides publish as the workshop series runs. <a href="events.html">RSVP to a session</a> or <a href="contact.html">tell us what you want covered</a>.</p></div></section>` +
+    ctaBand('Help keep founder education free.', 'none'),
+});
+
+// Individual guide pages (Article schema; workshop CTA at the end)
+guides.forEach((g) => page(g.file, {
+  title: g.title,
+  desc: g.desc,
+  crumbsTrail: [['Home', 'index.html'], ['Founder Resources', 'resources.html'], [g.title.split(':')[0], '']],
+  jsonld: {
+    '@context': 'https://schema.org', '@type': 'Article',
+    headline: g.title, description: g.desc, datePublished: '2026-07-21',
+    author: { '@type': 'Organization', name: 'Startup Ventura', url: `${SITE}/` },
+    publisher: { '@type': 'Organization', name: 'Startup Ventura', logo: { '@type': 'ImageObject', url: `${SITE}/assets/img/logo-mark.png` } },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `${SITE}/${g.file}` },
+  },
+  body: pageHead('Founder Guide', g.title, g.lede) +
+    `<section class="section"><div class="wrap wrap--narrow"><div class="entry-content">${g.body}</div>
+    <div class="contact-card" style="margin-top:38px"><h3>Go deeper in person</h3><p>This guide pairs with &ldquo;${g.workshopTitle},&rdquo; a free Startup Ventura workshop on ${g.workshopDate}. Practical, no pitch deck required, and seats are limited.</p><p style="margin-top:14px"><a class="btn btn--blue" href="events.html">RSVP free</a>&nbsp;&nbsp;<a class="btn btn--outline" href="resources.html">More guides</a></p></div>
+    </div></section>` +
+    ctaBand('Help keep founder education free.', 'none'),
+}));
 
 // WHY VENTURA COUNTY
 page('why-ventura-county.html', {
