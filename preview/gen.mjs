@@ -214,9 +214,9 @@ const fmtEventDate = (iso) => {
 };
 const eventCutoff = new Date(Date.now() - 864e5).toISOString().slice(0, 10); // yesterday
 const workshopEvents = JSON.parse(fs.readFileSync(EVENTS_JSON, 'utf8'))
-  .filter((e) => e.date.slice(0, 10) >= eventCutoff)
-  .sort((a, b) => a.date.localeCompare(b.date))
-  .map((e) => ({ iso: e.date.slice(0, 10), date: fmtEventDate(e.date), tag: e.tag, title: e.title, desc: e.desc || '' }));
+  .filter((e) => !e.date || e.date.slice(0, 10) >= eventCutoff)
+  .sort((a, b) => (a.date || '9999').localeCompare(b.date || '9999'))
+  .map((e) => ({ iso: e.date ? e.date.slice(0, 10) : '', date: e.date ? fmtEventDate(e.date) : 'TBD', tag: e.tag, title: e.title, desc: e.desc || '' }));
 
 // Per-event "add to calendar": a Google Calendar template link plus a static
 // .ics file (Apple/Outlook), one per event, generated alongside the pages.
@@ -456,7 +456,7 @@ const newsPosts = [
       'Startup Ventura founder and Executive Director Luke Erickson recently sat down with Joe Knows Ventura, the podcast that spotlights the people shaping our city, for a 23-minute conversation titled <a href="https://open.spotify.com/episode/2ukvJkEWd2yvsWrbD0j6oQ" target="_blank" rel="noopener">&ldquo;Is Ventura Becoming The Next Silicon Valley?&rdquo;</a>',
       'The heart of the conversation is an argument Luke has been making since the day Startup Ventura was founded: keeping high-paying tech jobs in Ventura is not just good for the people who hold them. It benefits everyone. Business owners gain customers, families gain the option to build a life here without a brutal commute, and the local economy keeps the spending, the energy, and the tax base that leave town every time a talented founder does.',
       'The story is familiar to anyone who has watched a friend pack for San Francisco or Los Angeles. Ventura County raises ambitious, talented people, educates them at strong local universities, and then loses them, because there has been nowhere here to build a high-growth company. Startup Ventura exists to change that.',
-      'The plan is already in motion: a free founder <a href="workshops.html">workshop series</a> running every other Tuesday this fall, followed by a seven-week accelerator cohort launching Spring 2027 with mentorship from experienced operators, capital connections, and a Pitch Day in front of 25+ investors. All of it free for founders. No tuition, no equity.',
+      'The plan is already in motion: a free founder <a href="workshops.html">workshop series</a> launching soon, followed by a seven-week accelerator cohort launching Spring 2027 with mentorship from experienced operators, capital connections, and a Pitch Day in front of 25+ investors. All of it free for founders. No tuition, no equity.',
       'And what makes it a vision everyone can get behind is who is already behind it. The City of Ventura invested $49,500 through its Economic Development department. The board includes operators behind companies like Curri and SevenRooms. The community showed up 75 strong at our first Annual Benefit. Cities win jobs, colleges win pathways for their graduates, employers win a deeper talent pool, and founders win a reason to stay.',
       '&ldquo;After I exited my first business, I made a conscious decision that I was going to have an outsized impact on this city and county, and turn it into a place that ambitious, innovative people want to call home,&rdquo; Erickson said. &ldquo;That is the whole reason Startup Ventura exists. We are just getting started.&rdquo;',
       '<a href="https://open.spotify.com/episode/2ukvJkEWd2yvsWrbD0j6oQ" target="_blank" rel="noopener">Listen to the full episode on Spotify</a>, and follow Joe Knows Ventura for more of the people building this city. Our thanks to Joe for having us, and for telling Ventura&rsquo;s stories.',
@@ -579,7 +579,7 @@ page('index.html', {
   <section class="section section--pale section--tight"><div class="wrap"><header class="section-head section-head--center"><p class="eyebrow">Backed by the community</p>${waveRule}<h2 class="section-head__title display">Partners &amp; supporters.</h2></header>${partnerRow()}</div></section>
   <section class="section"><div class="wrap"><header class="section-head section-head--center"><p class="eyebrow">News &amp; Events</p>${waveRule}<h2 class="section-head__title display">What is happening right now.</h2></header>
   <div class="post-grid">${newsPosts.filter((p) => !p.archived).slice(0, 3).map((p) => `<article class="post-card"><a href="${p.file}" tabindex="-1" aria-hidden="true">${pic(p.img, { cls: 'post-card__thumb', alt: '', sizes: '(max-width:640px) 92vw, 360px' })}</a><div class="post-card__body"><p class="post-card__date">${p.date}</p><h2 class="post-card__title"><a href="${p.file}">${p.title}</a></h2><p class="post-card__excerpt">${p.excerpt}</p><a class="post-card__more" href="${p.file}">Read more &rarr;</a></div></article>`).join('')}</div>
-  <div class="center" style="margin-top:30px"><a class="btn btn--blue" href="events.html">See the fall workshop schedule</a>&nbsp;&nbsp;<a class="btn btn--outline" href="news.html">All news</a></div>
+  <div class="center" style="margin-top:30px"><a class="btn btn--blue" href="events.html">See the workshop schedule</a>&nbsp;&nbsp;<a class="btn btn--outline" href="news.html">All news</a></div>
   </div></section>
   <section class="section"><div class="wrap"><header class="section-head section-head--center"><p class="eyebrow">Who we are</p>${waveRule}<h2 class="section-head__title display">A board that has built and scaled here.</h2></header>${boardGrid()}<div class="center" style="margin-top:32px"><a class="btn btn--outline" href="about.html">Meet the full board</a></div></div></section>
   ${waveDivider}
@@ -593,9 +593,9 @@ page('program.html', {
   body: pageHead('The Program', 'The on-ramp founders need.', 'Everything entrepreneurs would leave town to find: a true accelerator with a pathway to raising venture capital.') +
     `<section class="section"><div class="wrap wrap--narrow"><div class="entry-content">
     <p>Ventura County raises talented, ambitious people and then loses them to San Francisco and Los Angeles, because building a high-growth company here has meant doing it alone. Startup Ventura exists to change that. Our programming gives local founders the mentorship, capital connections, and community they would otherwise leave town to find, at no cost: no tuition and no equity, funded by the City of Ventura and the community partners behind us.</p>
-    <p>The program runs in two stages. The <a href="workshops.html">workshop series</a> is the open front door: free, practical sessions on starting and growing a business, every other Tuesday beginning September 1. The <a href="accelerator.html">7-week accelerator</a> is the flagship: an intensive cohort program launching Spring 2027 with mentorship from operators who have built and scaled real companies, weekly Lunch &amp; Learns, investor introductions, and a Pitch Day in front of 25+ investors. Founders leave with sharper companies, warmer capital paths, and a community that wants them to build here.</p>
+    <p>The program runs in two stages. The <a href="workshops.html">workshop series</a> is the open front door: free, practical sessions on starting and growing a business, with the first dates being finalized now. The <a href="accelerator.html">7-week accelerator</a> is the flagship: an intensive cohort program launching Spring 2027 with mentorship from operators who have built and scaled real companies, weekly Lunch &amp; Learns, investor introductions, and a Pitch Day in front of 25+ investors. Founders leave with sharper companies, warmer capital paths, and a community that wants them to build here.</p>
     </div></div></section>
-    <section class="section section--pale"><div class="wrap"><div class="card-grid card-grid--2">${card('accelerator.html', 'Spring 2027 · S27', '7-Week Accelerator', 'The flagship program: mentorship, capital connections, workshops, community, and a Demo Day.', 'Explore the accelerator')}${card('workshops.html', 'Pre-accelerator', 'Workshop Series', 'Free practical sessions, every other Tuesday from September 1. The on-ramp to the accelerator.', 'Explore the workshops')}</div></div></section>` +
+    <section class="section section--pale"><div class="wrap"><div class="card-grid card-grid--2">${card('accelerator.html', 'Spring 2027 · S27', '7-Week Accelerator', 'The flagship program: mentorship, capital connections, workshops, community, and a Demo Day.', 'Explore the accelerator')}${card('workshops.html', 'Pre-accelerator', 'Workshop Series', 'Free practical sessions on starting and growing a business. The on-ramp to the accelerator.', 'Explore the workshops')}</div></div></section>` +
     ctaBand('Help us launch Ventura County&rsquo;s first founder cohort.', 'apply'),
 });
 
@@ -605,7 +605,7 @@ page('accelerator.html', {
   body: pageHead('7-Week Accelerator', 'A 7-week accelerator for Ventura County founders.', 'A focused seven-week accelerator, free for accepted founders: no tuition, no fees, and no equity taken. Funded by the City of Ventura and community partners, with the inaugural Spring 2027 (S27) cohort.') +
     `<section class="section section--pale grain"><div class="wrap">${head('What you get', 'Seven weeks built to move you forward.')}<div class="card-grid card-grid--3"><div class="card"><div class="card__body"><h3 class="card__title">Mentorship</h3><p class="card__text">Operators and founders who have built and scaled real companies.</p></div></div><div class="card"><div class="card__body"><h3 class="card__title">Capital connections</h3><p class="card__text">Investor introductions and warm paths to a check.</p></div></div><div class="card"><div class="card__body"><h3 class="card__title">A Demo Day</h3><p class="card__text">A stage in front of investors, partners, and the community.</p></div></div></div></div></section>
     <section class="section"><div class="wrap">${head('How we select', 'We pick founders, not decks.')}<p class="lede measure">What we care about most: the quality of the founder. A great founder with an early idea beats a polished deck and a mediocre team.</p><div class="steps"><div class="step"><div class="step__num">01</div><div class="step__content"><h3 class="step__title">Application</h3><p class="step__body">We weight the founder over the idea.</p></div></div><div class="step"><div class="step__num">02</div><div class="step__content"><h3 class="step__title">Screening Call</h3><p class="step__body">We listen for clarity, drive, and commitment.</p></div></div><div class="step"><div class="step__num">03</div><div class="step__content"><h3 class="step__title">Founder Deep-Dive</h3><p class="step__body">The core interview, where founder quality shows.</p></div></div></div></div></section>
-    <section class="section section--pale" id="notify"><div class="wrap wrap--narrow">${head('Applications', 'Applications open ahead of Spring 2027.', 'Our workshop series is running now and the cohort application window opens ahead of Spring 2027. Leave your email and you will hear the moment it does.')}${form('notify', 'Notify me', false, false)}</div></section>` +
+    <section class="section section--pale" id="notify"><div class="wrap wrap--narrow">${head('Applications', 'Applications open ahead of Spring 2027.', 'Our workshop series is coming together now and the cohort application window opens ahead of Spring 2027. Leave your email and you will hear the moment it does.')}${form('notify', 'Notify me', false, false)}</div></section>` +
     ctaBand('Help us launch Ventura County&rsquo;s first founder cohort.', 'apply'),
 });
 
@@ -614,10 +614,10 @@ page('workshops.html', {
   title: 'Workshop Series', crumbsTrail: [['Home', 'index.html'], ['The Program', 'program.html'], ['Workshop Series', '']],
   body: pageHead('Workshop Series', 'The on-ramp to the accelerator.', 'Free, practical workshops for Ventura County small businesses and early-stage founders. No pitch deck required, no cost to attend, and a straight line into the accelerator when you are ready.') +
     `<section class="section section--pale"><div class="wrap wrap--narrow"><div class="entry-content">
-    <p>The workshop series is where Startup Ventura programming begins. Every other Tuesday starting September 1, we host a practical, no-fluff session on one part of starting and growing a company, built on Google&rsquo;s small business curriculum and taught for Ventura County. Come with an idea, a side project, or a business that is already running; every session stands on its own, so you can attend one or work through the whole series.</p>
+    <p>The workshop series is where Startup Ventura programming begins. Session dates are being finalized now. Each is a practical, no-fluff session on one part of starting and growing a company, built on Google&rsquo;s small business curriculum and taught for Ventura County. Come with an idea, a side project, or a business that is already running; every session stands on its own, so you can attend one or work through the whole series.</p>
     <p>Workshops are free to attend, funded by the City of Ventura and the community partners behind Startup Ventura. Seats are limited and invitations go out by email first. The series is also the front door to everything else we do: founders who work through it are first in line when applications open for the Spring 2027 accelerator cohort, which adds mentorship from experienced operators, capital connections, weekly Lunch &amp; Learns, and a Pitch Day in front of 25+ investors.</p>
     </div></div></section>
-    <section class="section"><div class="wrap wrap--narrow">${head('Fall 2026 lineup', 'Ten sessions, every other Tuesday.', 'Times and venues come with your invitation.')}
+    <section class="section"><div class="wrap wrap--narrow">${head('The lineup', 'Ten sessions. Dates announced soon.', 'RSVP below and your invitation lands in your inbox the moment each date is set.')}
     <ol class="event-list">${workshopEvents.filter((e) => e.tag !== 'Community').map((e) => `<li class="event-row"><span class="event-row__date">${esc(e.date)}</span><div><h3 class="event-row__title">${esc(e.title)}</h3>${e.desc ? `<p class="event-row__desc">${esc(e.desc)}</p>` : ''}</div>${e.tag ? `<span class="event-tag">${esc(e.tag)}</span>` : ''}</li>`).join('')}</ol>
     <div class="center" style="margin-top:28px"><a class="btn btn--blue" href="workshop.html" data-cta="apply" data-cta-location="workshops">Save a seat</a></div>
     </div></section>` +
@@ -632,7 +632,7 @@ const guides = [
   {
     file: 'guide-google-business-profile.html',
     title: 'Get Your Business on Google Search and Maps',
-    workshopDate: 'Sep 1', workshopTitle: 'Get Your Local Business on Google Search and Maps',
+    workshopDate: 'TBD', workshopTitle: 'Get Your Local Business on Google Search and Maps',
     summary: 'The free profile that decides whether local customers find you. How to claim it, complete it, and keep it working.',
     desc: 'A practical guide for Ventura County small businesses: claim and optimize your free Google Business Profile so customers find you on Search and Maps.',
     lede: 'When someone nearby searches for what you sell, Google decides who shows up. This free profile is how you get on that list, and most local businesses leave half of it blank.',
@@ -652,7 +652,7 @@ const guides = [
   {
     file: 'guide-google-ads-basics.html',
     title: 'Google Ads for Small Businesses: Start Without Wasting Money',
-    workshopDate: 'Oct 27', workshopTitle: 'Learn the Basics of Google Ads',
+    workshopDate: 'TBD', workshopTitle: 'Learn the Basics of Google Ads',
     summary: 'How search ads actually work, what to set up before you spend a dollar, and the five beginner mistakes that burn budgets.',
     desc: 'A practical Google Ads primer for Ventura County small businesses: how the auction works, campaign structure, keywords, budgets, and the beginner mistakes to avoid.',
     lede: 'Google Ads can put your business in front of someone at the exact moment they are searching for what you sell. It can also quietly spend your budget on clicks that never had a chance. The difference is setup.',
@@ -672,7 +672,7 @@ const guides = [
   {
     file: 'guide-small-business-cybersecurity.html',
     title: 'Cybersecurity for Small Businesses: Five Habits That Prevent Most Attacks',
-    workshopDate: 'Jan 5', workshopTitle: 'Cybersecurity and Your Small Business',
+    workshopDate: 'TBD', workshopTitle: 'Cybersecurity and Your Small Business',
     summary: 'Small businesses are targets precisely because they assume they are not. Five inexpensive habits stop the large majority of attacks.',
     desc: 'A practical cybersecurity checklist for Ventura County small businesses: password managers, two-factor authentication, updates, phishing defense, and backups.',
     lede: 'Attackers do not target small businesses despite their size. They target them because of it: valuable data, real bank accounts, and usually nobody in charge of security. Five habits close most of the gap.',
@@ -699,8 +699,8 @@ page('resources.html', {
   desc: 'Free practical guides for Ventura County founders and small businesses: getting found on Google, running your first ads, protecting your business, and more.',
   canonical: `${SITE}/resources`,
   crumbsTrail: [['Home', 'index.html'], ['The Program', 'program.html'], ['Founder Resources', '']],
-  body: pageHead('Founder Resources', 'Practical guides for building here.', 'Free, no-fluff guides written for Ventura County founders and small businesses. Each pairs with a session in our fall workshop series: read the essentials now, then go deeper in the room.') +
-    `<section class="section section--pale"><div class="wrap"><div class="card-grid card-grid--3">${guides.map((g) => card(g.file, `Guide &middot; pairs with ${g.workshopDate}`, g.title, g.summary, 'Read the guide')).join('')}</div>
+  body: pageHead('Founder Resources', 'Practical guides for building here.', 'Free, no-fluff guides written for Ventura County founders and small businesses. Each pairs with a session in our workshop series: read the essentials now, then go deeper in the room.') +
+    `<section class="section section--pale"><div class="wrap"><div class="card-grid card-grid--3">${guides.map((g) => card(g.file, 'Founder Guide', g.title, g.summary, 'Read the guide')).join('')}</div>
     <p class="center muted" style="margin-top:30px">More guides publish as the workshop series runs. <a href="events.html">RSVP to a session</a> or <a href="contact.html">tell us what you want covered</a>.</p></div></section>` +
     ctaBand('Help keep founder education free.', 'none'),
 });
@@ -719,7 +719,7 @@ guides.forEach((g) => page(g.file, {
   },
   body: pageHead('Founder Guide', g.title, g.lede) +
     `<section class="section"><div class="wrap wrap--narrow"><div class="entry-content">${g.body}</div>
-    <div class="contact-card" style="margin-top:38px"><h3>Go deeper in person</h3><p>This guide pairs with &ldquo;${g.workshopTitle},&rdquo; a free Startup Ventura workshop on ${g.workshopDate}. Practical, no pitch deck required, and seats are limited.</p><p style="margin-top:14px"><a class="btn btn--blue" href="events.html">RSVP free</a>&nbsp;&nbsp;<a class="btn btn--outline" href="resources.html">More guides</a></p></div>
+    <div class="contact-card" style="margin-top:38px"><h3>Go deeper in person</h3><p>This guide pairs with &ldquo;${g.workshopTitle},&rdquo; a free Startup Ventura workshop. Dates are being finalized now; RSVP and your invitation arrives the moment it is set.</p><p style="margin-top:14px"><a class="btn btn--blue" href="events.html">RSVP free</a>&nbsp;&nbsp;<a class="btn btn--outline" href="resources.html">More guides</a></p></div>
     </div></section>` +
     ctaBand('Help keep founder education free.', 'none'),
 }));
@@ -1234,16 +1234,16 @@ page('workshop.html', {
 // Full events page: fall workshop schedule + calendar subscribe + invite list.
 // Hidden until SHOW_EVENTS_NAV flips: no nav tab, noindex, out of sitemap.
 page('events.html', {
-  title: 'Events: The Fall Workshop Series',
+  title: 'Events: Workshops & Community',
   robots: SHOW_EVENTS_NAV ? undefined : 'noindex',
-  desc: 'Startup Ventura\'s fall workshop series for Ventura County small businesses and founders: ten free sessions every other Tuesday starting September 1, plus Pitch Day and the Annual Benefit.',
+  desc: 'Startup Ventura events for Ventura County small businesses and founders: the free workshop series, Pitch Day, and the Annual Benefit. RSVP and subscribe to the calendar.',
   canonical: `${SITE}/events`,
-  body: pageHead('Events', 'Be in the room.', 'Ten free workshops for Ventura County small businesses and founders, every other Tuesday starting September 1. Plus Lunch &amp; Learns, Pitch Day, and our Annual Benefit. Get on the list and every invitation lands in your inbox.') +
-    `<section class="section"><div class="wrap wrap--narrow">${head('The schedule', 'Ten workshops. Every other Tuesday.', 'Practical, no-fluff sessions built on Google&rsquo;s small business curriculum, free to attend. Times and venues come with your invitation.')}
+  body: pageHead('Events', 'Be in the room.', 'Free workshops for Ventura County small businesses and founders, with dates being finalized now. Plus Lunch &amp; Learns, Pitch Day, and our Annual Benefit. Get on the list and every invitation lands in your inbox.') +
+    `<section class="section"><div class="wrap wrap--narrow">${head('The schedule', 'The workshop series and beyond.', 'Practical, no-fluff sessions built on Google&rsquo;s small business curriculum, free to attend. Dates are being finalized; invitations go out by email first.')}
     ${workshopEvents.length ? `<ol class="event-list">${workshopEvents.map((e, i) => `<li class="event-row"><span class="event-row__date">${esc(e.date)}</span><div>
       <h3 class="event-row__title">${esc(e.title)}</h3>
       ${e.desc ? `<p class="event-row__desc">${esc(e.desc)}</p>` : ''}
-      <p class="event-row__add">Add to calendar: <a href="${gcalAddUrl(e)}" target="_blank" rel="noopener">Google</a> &middot; <a href="${icsFile(e)}">Apple / Outlook</a></p>
+      ${e.iso ? `<p class="event-row__add">Add to calendar: <a href="${gcalAddUrl(e)}" target="_blank" rel="noopener">Google</a> &middot; <a href="${icsFile(e)}">Apple / Outlook</a></p>` : ''}
       ${NOTION_RSVP_FORM_URL ? `<p><a class="event-rsvp__link" data-rsvp-open href="${NOTION_RSVP_FORM_URL}" target="_blank" rel="noopener">RSVP</a></p>` : `<details class="event-rsvp"><summary>RSVP</summary><div class="event-rsvp__form">${form('rsvp', 'RSVP', false, false, { idSuffix: i, hidden: { event: `${e.title} | ${e.iso}` } })}</div></details>`}
     </div>${e.tag ? `<span class="event-tag">${esc(e.tag)}</span>` : ''}</li>`).join('')}</ol>` : `<p class="muted" style="margin-top:12px">The next series is being scheduled now. Get on the list below and you will hear first.</p>`}
     ${EVENTS_CAL_URL ? `<div class="center" style="margin-top:30px"><a class="btn btn--blue" href="${EVENTS_CAL_URL}" target="_blank" rel="noopener">Subscribe to the events calendar</a></div><p class="center muted" style="margin-top:10px;font-size:14px">Adds the series to your Google Calendar, updates included.</p>` : ''}</div></section>
@@ -1251,7 +1251,7 @@ page('events.html', {
     <div>${head('Get invited', 'Every event, first.')}<div style="margin-top:28px">${form('events', 'Get event invites', false, false, { redirect: '/thanks-events' })}</div></div>
     <aside class="contact-aside">
       <div class="contact-card"><h3>The last one</h3><p>Our first Annual Benefit drew 75 supporters, 5 keynote speakers, and raised $17K in one night for the inaugural cohort.</p></div>
-      <div class="contact-aside__block"><h3>What is coming</h3><p>The fall workshop series above, weekly Lunch &amp; Learns during the cohort, and a Pitch Day in front of 25+ investors.</p></div>
+      <div class="contact-aside__block"><h3>What is coming</h3><p>The workshop series above, weekly Lunch &amp; Learns during the cohort, and a Pitch Day in front of 25+ investors.</p></div>
       <div class="contact-aside__block"><h3>Questions?</h3><p><a href="mailto:info@startupventura.com">info@startupventura.com</a></p></div>
     </aside>
   </div></div></section>
