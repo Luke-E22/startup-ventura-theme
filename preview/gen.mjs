@@ -318,6 +318,34 @@ const seoHead = ({ title, desc, canonical, ogType = 'website', ogImage, jsonld, 
   return h;
 };
 
+// ---------------------------------------------------------------------------
+// "Get involved" entry modal. Ships hidden in the markup of every indexable
+// page; main.js (section 13) reveals it once per visit (sessionStorage) and
+// handles focus trap, scroll lock, and dismissal. Ad-funnel landers (noindex),
+// thank-you pages, and the 404 never get it: those pages are single-purpose
+// and an interstitial there would fight the conversion they exist for.
+// A card pointing at the page it is on is dropped (no self-links).
+const GET_INVOLVED = [
+  { href: 'apply.html', title: 'Apply as a Founder', desc: 'Join our Spring 2027 cohort',
+    icon: '<path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>' },
+  { href: 'give.html', title: 'Support Our Cause', desc: 'Fuel the next generation of Ventura County startups',
+    icon: '<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>' },
+  { href: 'mentor.html', title: 'Volunteer or Mentor', desc: 'Share your time and expertise with local founders',
+    icon: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>' },
+  { href: 'program.html', title: 'Learn More', desc: 'See how Startup Ventura works',
+    icon: '<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h6z"/>' },
+];
+const giModal = (file) => `<div class="gi-modal" id="sv-gi-modal" role="dialog" aria-modal="true" aria-labelledby="sv-gi-heading" hidden>
+  <div class="gi-modal__card">
+    <button class="gi-modal__close" type="button" aria-label="Close">&times;</button>
+    <h2 class="gi-modal__heading" id="sv-gi-heading">How do you want to get involved?</h2>
+    <p class="gi-modal__sub">Startup Ventura is building Ventura County&rsquo;s startup ecosystem. Pick your path.</p>
+    <div class="gi-modal__grid">
+      ${GET_INVOLVED.filter((o) => o.href !== file).map((o) => `<a class="gi-card" href="${o.href}" data-gi="${o.title}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${o.icon}</svg><span class="gi-card__title">${o.title}</span><span class="gi-card__desc">${o.desc}</span></a>`).join('\n      ')}
+    </div>
+  </div>
+</div>`;
+
 const page = (file, { title, overHero = false, body, crumbsTrail, desc, canonical, ogType = 'website', ogImage, jsonld, robots, article }) => {
   const fullTitle = `${title} — Startup Ventura`;
   // Every page gets a canonical: the home root, an explicit pretty route, or its real .html URL.
@@ -336,7 +364,7 @@ ${overHero ? `<link rel="preload" as="image" type="image/webp" imagesrcset="${A}
 <link rel="icon" href="${A}/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="${A}/img/favicon.png" sizes="any" type="image/png">
 <link rel="apple-touch-icon" href="${A}/img/favicon-180.png">
-<link rel="stylesheet" href="${A}/css/main.css?v=48">
+<link rel="stylesheet" href="${A}/css/main.css?v=49">
 ${analyticsHead()}</head>
 <body class="${overHero ? 'home' : ''}">
 ${analyticsBody()}
@@ -344,7 +372,8 @@ ${header(overHero)}
 ${crumbsTrail ? crumbs(crumbsTrail) : ''}
 ${body}
 ${footer()}
-<script src="${A}/js/main.js?v=41"></script>
+${(robots || '').includes('noindex') || /^(404|thank-you|connected|thanks-)/.test(file) ? '' : giModal(file)}
+<script src="${A}/js/main.js?v=42"></script>
 ${body.includes('data-netlify') ? NF_SCRIPT : ''}
 </body></html>`;
   fs.writeFileSync(path.join(OUT, file), html);

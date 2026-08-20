@@ -417,4 +417,72 @@
 		});
 	})();
 
+	/* ---------------------------------------------------------------------
+	 * 13. "Get involved" entry modal — once per visit (sessionStorage), on
+	 *     pages whose markup includes #sv-gi-modal (gen.mjs decides which).
+	 * ------------------------------------------------------------------- */
+	(function getInvolved() {
+		var modal = document.getElementById('sv-gi-modal');
+		if (!modal) { return; }
+		var KEY = 'sv_get_involved_seen';
+		// If storage is blocked (e.g. "block all cookies") the once-per-visit flag
+		// cannot persist; never showing beats an interstitial on every page.
+		var seen = '';
+		try {
+			sessionStorage.setItem(KEY + '_t', '1'); sessionStorage.removeItem(KEY + '_t');
+			seen = sessionStorage.getItem(KEY) || '';
+		} catch (e) { return; }
+		if (seen === '1') { return; }
+		var closeBtn = modal.querySelector('.gi-modal__close');
+		var lastFocus = document.activeElement;
+
+		function trackGetInvolved(option) {
+			window.dataLayer = window.dataLayer || [];
+			window.dataLayer.push({ event: 'get_involved', option: option });
+			if (window.gtag) { window.gtag('event', 'get_involved', { option: option }); }
+		}
+		function remember() { try { sessionStorage.setItem(KEY, '1'); } catch (e) {} }
+		function close() {
+			remember();
+			modal.classList.remove('is-open');
+			modal.hidden = true;
+			document.body.style.overflow = '';
+			document.removeEventListener('keydown', onKey);
+			if (lastFocus && lastFocus.focus) { try { lastFocus.focus(); } catch (e) {} }
+		}
+		function onKey(e) {
+			if (e.key === 'Escape') { close(); return; }
+			if (e.key !== 'Tab') { return; }
+			var f = $$('a.gi-card, button', modal);
+			var first = f[0], last = f[f.length - 1];
+			// Focus parked outside the trap (a click on the card's padding blurs to
+			// <body>) would otherwise Tab into the page behind the backdrop.
+			if (!modal.contains(document.activeElement)) { e.preventDefault(); first.focus(); }
+			else if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+			else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+		}
+		// Close on backdrop click only when the press also started there, so a
+		// text-selection drag that ends on the backdrop does not dismiss.
+		var downOnBackdrop = false;
+		modal.addEventListener('mousedown', function (e) { downOnBackdrop = e.target === modal; });
+		modal.addEventListener('click', function (e) { if (e.target === modal && downOnBackdrop) { close(); } });
+		closeBtn.addEventListener('click', close);
+		$$('a.gi-card', modal).forEach(function (a) {
+			// remember() before navigation so the modal never re-triggers mid-visit;
+			// auxclick covers middle-click open-in-new-tab.
+			var pick = function () { trackGetInvolved(a.dataset.gi || ''); remember(); };
+			a.addEventListener('click', pick);
+			a.addEventListener('auxclick', function (e) { if (e.button === 1) { pick(); } });
+		});
+		// A card click navigates without closing; if bfcache restores this page
+		// via Back, close the stale open modal instead of showing it scroll-locked.
+		window.addEventListener('pageshow', function (e) { if (e.persisted && !modal.hidden) { close(); } });
+		document.addEventListener('keydown', onKey);
+		modal.hidden = false;
+		document.body.style.overflow = 'hidden';
+		requestAnimationFrame(function () { requestAnimationFrame(function () { modal.classList.add('is-open'); }); });
+		var firstCard = modal.querySelector('a.gi-card');
+		if (firstCard) { firstCard.focus(); }
+	})();
+
 })();
