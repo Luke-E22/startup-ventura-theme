@@ -485,4 +485,28 @@
 		if (firstCard) { firstCard.focus(); }
 	})();
 
+	/* ---------------------------------------------------------------------
+	 * 14. Ecosystem guide — category filter. Pills are plain #anchors (work
+	 *     with no JS); with JS a pill also hides the other categories, and a
+	 *     deep link like /ecosystem#capital opens pre-filtered.
+	 * ------------------------------------------------------------------- */
+	(function ecosystemFilter() {
+		var wrap = document.getElementById('eco-directory');
+		if (!wrap) { return; }
+		var pills = $$('.eco-pill', wrap);
+		var cats = $$('.eco-cat', wrap);
+		function apply(key) {
+			cats.forEach(function (s) { s.hidden = key !== 'all' && s.id !== key; });
+			pills.forEach(function (p) {
+				p.classList.toggle('is-active', p.dataset.cat === key);
+				p.setAttribute('aria-pressed', p.dataset.cat === key ? 'true' : 'false');
+			});
+		}
+		pills.forEach(function (p) {
+			p.addEventListener('click', function () { apply(p.dataset.cat); });
+		});
+		var h = location.hash.replace('#', '');
+		if (cats.some(function (s) { return s.id === h; })) { apply(h); }
+	})();
+
 })();

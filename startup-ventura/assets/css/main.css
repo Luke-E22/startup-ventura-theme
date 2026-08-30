@@ -488,6 +488,28 @@ picture{display:contents}
 /* =========================================================================
    PARTNER ROW (uniform grayscale, color on hover)
    ========================================================================= */
+/* Ecosystem guide — pill filter (pills are real #anchors, JS adds filtering),
+   category sections, and directory entry cards. */
+.eco-reviewed{font-family:var(--font-mono);font-size:13px;letter-spacing:.04em;color:var(--muted)}
+.eco-toc{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0 6px}
+.eco-pill{display:inline-block;font-family:var(--font-body);font-weight:700;font-size:14px;line-height:1;padding:11px 16px;border-radius:999px;border:1.5px solid var(--line);background:#fff;color:var(--navy);text-decoration:none;transition:border-color .18s,background .18s,color .18s}
+.eco-pill:hover{border-color:var(--steel)}
+.eco-pill.is-active{background:var(--navy);border-color:var(--navy);color:#fff}
+.eco-pill:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.eco-cat{margin-top:46px;scroll-margin-top:calc(var(--header-h) + 20px)}
+.eco-cat[hidden]{display:none}
+.eco-cat__title{font-family:var(--font-display);font-size:clamp(22px,3.4vw,28px);color:var(--navy);margin:0}
+.eco-cat__note{color:var(--muted);font-size:15px;margin:6px 0 0}
+.eco-list{display:grid;grid-template-columns:1fr;gap:12px;margin-top:18px}
+@media (min-width:760px){.eco-list{grid-template-columns:1fr 1fr}}
+.eco-item{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;box-shadow:var(--shadow-sm)}
+.eco-item h3{font-family:var(--font-body);font-weight:700;font-size:17px;margin:0 0 4px}
+.eco-item h3 a{color:var(--blue);text-decoration:none}
+.eco-item h3 a:hover{text-decoration:underline}
+.eco-item p{color:var(--muted);font-size:15px;line-height:1.5;margin:0}
+.eco-ours{display:inline-block;vertical-align:2px;margin-left:8px;font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);border:1px solid var(--sky);border-radius:999px;padding:3px 8px}
+.partner-group + .partner-group{margin-top:40px}
+.partner-group__label{text-align:center;margin:0 0 20px}
 .partner-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:clamp(28px,5vw,64px)}
 .partner{flex:0 0 160px;max-width:160px}
 .partner img{height:64px;width:100%;object-fit:contain;filter:grayscale(1);opacity:.7;transition:filter .25s,opacity .25s}

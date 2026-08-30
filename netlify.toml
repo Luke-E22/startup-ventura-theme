@@ -63,6 +63,12 @@
   to = "/resources.html"
   status = 200
 
+# Evergreen Ventura County startup ecosystem guide (backlink magnet; clean URL).
+[[redirects]]
+  from = "/ecosystem"
+  to = "/ecosystem.html"
+  status = 200
+
 # Paid-traffic landing page (Google Ad Grant); unlisted + noindex.
 [[redirects]]
   from = "/connect"

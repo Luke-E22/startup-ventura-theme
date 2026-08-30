@@ -80,7 +80,7 @@ const NAV = [
   { label: 'Program', href: 'program.html', children: [['7-Week Accelerator', 'accelerator.html'], ['Workshop Series', 'workshops.html'], ['Founder Resources', 'resources.html']] },
   { label: 'Impact', href: 'impact.html' },
   { label: 'Partner', href: 'partner.html', children: [['For Cities &amp; County', 'partner-cities-county.html'], ['For Foundations', 'partner-foundations.html']] },
-  { label: 'About', href: 'about.html', children: [['Board of Directors', 'about.html'], ['Leadership', 'lukeerickson.html'], ['Why Ventura County', 'why-ventura-county.html']] },
+  { label: 'About', href: 'about.html', children: [['Board of Directors', 'about.html'], ['Leadership', 'lukeerickson.html'], ['Why Ventura County', 'why-ventura-county.html'], ['Ecosystem Guide', 'ecosystem.html']] },
   ...(SHOW_EVENTS_NAV ? [{ label: 'Events', href: 'events.html' }] : []),
   { label: 'Contact', href: 'contact.html' },
   { label: 'News', href: 'news.html' },
@@ -127,7 +127,7 @@ const footer = () => `</main>
       <a href="https://www.facebook.com/startupventura/" aria-label="Facebook" rel="noopener" target="_blank"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.9h2.54V9.85c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.44 2.9h-2.34V22c4.78-.76 8.44-4.92 8.44-9.94Z"/></svg></a>
       <a href="https://www.instagram.com/startup_ventura/" aria-label="Instagram" rel="noopener" target="_blank"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.2c3.2 0 3.6 0 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s0 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58 0-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.21 15.58 2.2 15.2 2.2 12s0-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.21 8.8 2.2 12 2.2zm0 1.98c-3.15 0-3.5.01-4.74.07-1.14.05-1.76.24-2.17.4-.55.22-.94.47-1.35.88-.41.41-.66.8-.88 1.35-.16.41-.35 1.03-.4 2.17-.06 1.24-.07 1.59-.07 4.74s.01 3.5.07 4.74c.05 1.14.24 1.76.4 2.17.22.55.47.94.88 1.35.41.41.8.66 1.35.88.41.16 1.03.35 2.17.4 1.24.06 1.59.07 4.74.07s3.5-.01 4.74-.07c1.14-.05 1.76-.24 2.17-.4.55-.22.94-.47 1.35-.88.41-.41.66-.8.88-1.35.16-.41.35-1.03.4-2.17.06-1.24.07-1.59.07-4.74s-.01-3.5-.07-4.74c-.05-1.14-.24-1.76-.4-2.17a3.6 3.6 0 0 0-.88-1.35 3.6 3.6 0 0 0-1.35-.88c-.41-.16-1.03-.35-2.17-.4-1.24-.06-1.59-.07-4.74-.07zm0 3.37a4.45 4.45 0 1 1 0 8.9 4.45 4.45 0 0 1 0-8.9zm0 7.34a2.89 2.89 0 1 0 0-5.78 2.89 2.89 0 0 0 0 5.78zm5.66-7.57a1.04 1.04 0 1 1-2.08 0 1.04 1.04 0 0 1 2.08 0z"/></svg></a>
     </div></div>
-    <div class="footer-col"><p class="footer-col__title">Explore</p><ul><li><a href="program.html">The Program</a></li><li><a href="why-ventura-county.html">Why Ventura County</a></li><li><a href="impact.html">Impact</a></li><li><a href="give.html">Give</a></li><li><a href="partner.html">Partner</a></li><li><a href="about.html">About</a></li><li><a href="news.html">News</a></li><li><a href="resources.html">Founder Resources</a></li><li><a href="contact.html">Contact</a></li><li><a href="faq.html">FAQ</a></li><li><a href="donor-wall.html">Donor Wall</a></li><li class="footer-hiring"><a href="careers.html">Join our team <span class="sep">|</span> Careers</a></li><li class="footer-note-link"><a href="explore-83-palm.html">83 Palm St &middot; concept study</a></li></ul></div>
+    <div class="footer-col"><p class="footer-col__title">Explore</p><ul><li><a href="program.html">The Program</a></li><li><a href="why-ventura-county.html">Why Ventura County</a></li><li><a href="ecosystem.html">Ecosystem Guide</a></li><li><a href="impact.html">Impact</a></li><li><a href="give.html">Give</a></li><li><a href="partner.html">Partner</a></li><li><a href="about.html">About</a></li><li><a href="news.html">News</a></li><li><a href="resources.html">Founder Resources</a></li><li><a href="contact.html">Contact</a></li><li><a href="faq.html">FAQ</a></li><li><a href="donor-wall.html">Donor Wall</a></li><li class="footer-hiring"><a href="careers.html">Join our team <span class="sep">|</span> Careers</a></li><li class="footer-note-link"><a href="explore-83-palm.html">83 Palm St &middot; concept study</a></li></ul></div>
     <div class="footer-col"><p class="footer-col__title">Get in touch</p><ul><li><a href="mailto:info@startupventura.com">info@startupventura.com</a></li><li><a href="mailto:sponsor@startupventura.com">sponsor@startupventura.com</a></li><li><a href="press.html">Press &amp; media kit</a></li></ul></div>
   </div><div class="footer-legal"><span>Startup Ventura is a 501(c)(3) nonprofit. EIN 39-2204612. Gifts are tax-deductible to the extent allowed by law.</span><span>&copy; 2026 Startup Ventura</span><span class="footer-legal__links"><a href="privacy.html">Privacy</a> &middot; <a href="terms.html">Terms</a></span><span class="footer-legal__credit">Website by <a href="https://lukeerickson.com" target="_blank" rel="noopener">Luke Erickson</a></span></div></div>
 </footer>`;
@@ -364,7 +364,7 @@ ${overHero ? `<link rel="preload" as="image" type="image/webp" imagesrcset="${A}
 <link rel="icon" href="${A}/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="${A}/img/favicon.png" sizes="any" type="image/png">
 <link rel="apple-touch-icon" href="${A}/img/favicon-180.png">
-<link rel="stylesheet" href="${A}/css/main.css?v=49">
+<link rel="stylesheet" href="${A}/css/main.css?v=51">
 ${analyticsHead()}</head>
 <body class="${overHero ? 'home' : ''}">
 ${analyticsBody()}
@@ -373,7 +373,7 @@ ${crumbsTrail ? crumbs(crumbsTrail) : ''}
 ${body}
 ${footer()}
 ${(robots || '').includes('noindex') || /^(404|thank-you|connected|thanks-)/.test(file) ? '' : giModal(file)}
-<script src="${A}/js/main.js?v=42"></script>
+<script src="${A}/js/main.js?v=43"></script>
 ${body.includes('data-netlify') ? NF_SCRIPT : ''}
 </body></html>`;
   fs.writeFileSync(path.join(OUT, file), html);
@@ -413,13 +413,27 @@ const testimonials = [
   ['Rob Russel', 'Ventura County has an affordability problem that is also a brain drain problem. People grow up here, get educated here, and then have to leave because there are not enough opportunities to stay. Luke and the team are building something from the ground up by bringing together education, capital, entrepreneurs, and government to create the kind of community where founders can actually succeed, where local innovation drives local jobs and we stop losing our best people to other cities.'],
 ];
 const testimonialGrid = () => `<div class="testimonials">${testimonials.map(([who, q]) => `<figure class="testimonial"><span class="testimonial__mark" aria-hidden="true">&ldquo;</span><blockquote class="testimonial__quote">${q}</blockquote><figcaption class="testimonial__attr">${who}</figcaption></figure>`).join('')}</div>`;
-const partners = [
-  ['City of Ventura', 'partners/city-of-ventura.png'],
-  ['Ventura Community College District', 'partners/ventura-community-college-2x.png'],
-  ['Ventura County Credit Union', 'partners/ventura-county-credit-union-2x.png'],
-  ['Ventura Chamber of Commerce', 'partners/ventura-chamber-2x.webp'],
+const partnerGroups = [
+  ['Supporting Partners', [
+    ['City of Ventura', 'partners/city-of-ventura.png'],
+    ['Ventura County Credit Union', 'partners/ventura-county-credit-union-2x.png'],
+    ['Ventura Chamber of Commerce', 'partners/ventura-chamber-2x.webp'],
+  ]],
+  ['Educational Partners', [
+    ['Ventura County Community College District', 'partners/ventura-community-college-2x.png'],
+    ['Moorpark College', 'partners/moorpark-college.png'],
+    ['Oxnard College', 'partners/oxnard-college.png'],
+    ['Ventura College', 'partners/ventura-college.png'],
+    ['CSU Channel Islands', 'partners/csu-channel-islands.png'],
+    ['Ventura Unified School District', 'partners/ventura-unified.png'],
+    ['Oak Park Unified School District', 'partners/oak-park-unified.png'],
+  ]],
+  ['Workforce &amp; Industry Partners', [
+    ['Workforce Development Board of Ventura County', 'partners/wdb-ventura-county.png'],
+    ['Curri', 'partners/curri.png'],
+  ]],
 ];
-const partnerRow = () => `<div class="partner-row">${partners.map(([n, logo]) => `<div class="partner"><img src="${A}/img/${logo}" height="64" loading="lazy" decoding="async" alt="${n}"></div>`).join('')}</div>`;
+const partnerRow = () => partnerGroups.map(([label, items]) => `<div class="partner-group"><p class="eyebrow partner-group__label">${label}</p><div class="partner-row">${items.map(([n, logo]) => `<div class="partner"><img src="${A}/img/${logo}" height="64" loading="lazy" decoding="async" alt="${n}"></div>`).join('')}</div></div>`).join('');
 
 const statStrip = () => `<ul class="stat-strip"><li class="stat-strip__item"><div class="stat-strip__num">54%</div><div class="stat-strip__label">above the U.S. cost of living</div></li><li class="stat-strip__item"><div class="stat-strip__num">1 in 7</div><div class="stat-strip__label">households can afford a median home (down from 1 in 2 a decade ago)</div></li><li class="stat-strip__item"><div class="stat-strip__num">5</div><div class="stat-strip__label">local jobs created by every tech job</div></li></ul>`;
 const statBand = () => `<section class="section stat-band">${waveFull}<div class="wrap" style="position:relative;z-index:2"><div class="stat-band__grid"><div class="stat"><div class="stat__num" data-count="75">75</div><div class="stat__label">Attended the first annual benefit</div></div><div class="stat"><div class="stat__num" data-count="17" data-prefix="$" data-suffix="K">$17<span class="unit">K</span></div><div class="stat__label">Raised in one night</div></div><div class="stat"><div class="stat__num" data-count="5">5</div><div class="stat__label">Keynote speakers</div></div></div></div></section>`;
@@ -475,6 +489,21 @@ const card = (href, eyebrow, title, text, link) => `<a class="card card--link" h
 // News data lives above the pages: the homepage "News & Events" section and
 // the News pages both render from it.
 const newsPosts = [
+  {
+    file: 'news-accelerator-14-application.html', crumb: 'Accelerator 14 Application',
+    title: 'Startup Ventura Applies for State Grant to Build Quantum and Fusion Career Pathways',
+    date: 'August 29, 2026', img: `${A}/img/news/accelerator-14.jpg`,
+    alt: 'Logos of the partners behind the Quantum and Fusion Skills Accelerator application: Workforce Development Board of Ventura County, City of Ventura, Ventura County Community College District, Moorpark College, Oxnard College, Ventura College, CSU Channel Islands, Ventura Unified, Oak Park Unified, and Curri.',
+    excerpt: 'Startup Ventura has submitted an application to the California Workforce Development Board&rsquo;s Accelerator 14 program to design quantum and fusion career pathways with schools, colleges, and industry across Ventura County.',
+    paras: [
+      'Startup Ventura has submitted an application to the California Workforce Development Board&rsquo;s <a href="https://cwdb.ca.gov/cwdb-home/grant-information/accelerator-14/" target="_blank" rel="noopener">Workforce Accelerator Fund 14</a> (Accelerator 14) program. The proposal, the Quantum and Fusion Skills Accelerator, is a planning and development project to build career pathways that prepare Ventura County students and workers for jobs in quantum computing and fusion energy.',
+      'California has made up to $3 million available through Accelerator 14 to fund partnerships that develop scalable, replicable career pathway programs in the quantum and fusion sectors, two technologies the state has identified as engines of its next generation of high-wage jobs. Funded projects run from January 2027 through March 2029.',
+      'Our proposal brings local industry to the same table as educators at every level. Working alongside gener8tor&rsquo;s Skills Accelerator team, the partnership would research and design curriculum for quantum and fusion occupations, develop industry-recognized credentials with employers, and map a pathway that carries a student from a Ventura County high school classroom through community college and university coursework and into a career, without leaving the region. The planning period also includes piloting and testing the program and building a sustainability plan so the work continues beyond the grant.',
+      'The coalition behind the application reflects how seriously this region takes the opportunity: the Workforce Development Board of Ventura County, the Ventura County Community College District and its three colleges, Moorpark College, Oxnard College, and Ventura College, CSU Channel Islands, Ventura Unified School District, Oak Park Unified School District, and Curri, the Ventura-headquartered logistics technology company. The City of Ventura has signaled its intent to provide $200,000 in matching funds over the two-year grant period, subject to formal City Council approval.',
+      'Emerging industries do not wait for regions to get ready. Quantum computing and fusion energy will need technicians, engineers, and operators within the decade, and the communities that train that workforce first will be the communities where those industries put down roots. This application is a bet that Ventura County can be one of them.',
+      'Awards have not yet been announced, and we will share the outcome when the state completes its review. Whatever the result, the partnerships formed through this application are exactly the coalition Startup Ventura was built to convene, and this is only the first project we intend to pursue together.',
+    ],
+  },
   {
     file: 'news-joe-knows-ventura.html', crumb: 'Joe Knows Ventura',
     title: 'A Vision Everyone Can Get Behind: Luke Erickson on Joe Knows Ventura',
@@ -612,7 +641,7 @@ page('index.html', {
   </div></section>
   <section class="section"><div class="wrap"><header class="section-head section-head--center"><p class="eyebrow">Who we are</p>${waveRule}<h2 class="section-head__title display">A board that has built and scaled here.</h2></header>${boardGrid()}<div class="center" style="margin-top:32px"><a class="btn btn--outline" href="about.html">Meet the full board</a></div></div></section>
   ${waveDivider}
-  <section class="section section--pale"><div class="wrap">${head('Why Ventura County', 'Great talent grows up here. Too much of it leaves.')}<p class="lede">The county raises and educates talent, then watches affordability and a lack of opportunity push it out. High-growth companies are the fix.</p><div style="margin-top:32px">${statStrip()}</div><div style="margin-top:28px"><a class="card__link" href="why-ventura-county.html" style="font-size:1.05rem">Read the full case</a></div></div></section>
+  <section class="section section--pale"><div class="wrap">${head('Why Ventura County', 'Great talent grows up here. Too much of it leaves.')}<p class="lede">The county raises and educates talent, then watches affordability and a lack of opportunity push it out. High-growth companies are the fix.</p><div style="margin-top:32px">${statStrip()}</div><div style="margin-top:28px"><a class="card__link" href="why-ventura-county.html" style="font-size:1.05rem">Read the full case</a> &nbsp;&middot;&nbsp; <a class="card__link" href="ecosystem.html" style="font-size:1.05rem">Explore the ecosystem guide</a></div></div></section>
   ${ctaBand('Give Ventura County&rsquo;s founders a reason to stay.', 'apply')}`,
 });
 
@@ -754,6 +783,128 @@ guides.forEach((g) => page(g.file, {
 }));
 
 // WHY VENTURA COUNTY
+// ---------------------------------------------------------------------------
+// /ecosystem — the Ventura County Startup Ecosystem guide. Evergreen civic
+// directory + verified history; the county's answer to "Ventura County
+// startups". EVERY entry and history fact was source-verified 2026-08-29
+// (workflow: press archives, city records, live org sites). Editing rules:
+//   - ONE data structure below (ECOSYSTEM); add {name, url, desc, cats} rows.
+//   - Descriptions stay neutral and factual; no rankings, no "best of".
+//   - Never list an org Luke has not approved. Update ECO_REVIEWED (and the
+//     ISO twin) at every 6-month review; a stale guide is worse than none.
+const ECO_REVIEWED = 'August 2026';
+const ECO_REVIEWED_ISO = '2026-08-29';
+const ECO_CATS = [
+  // Starting minimal by design (Luke, 2026-08-29): 'capital', 'communities',
+  // and 'services' are reserved category keys — add the row here and entries
+  // below as Luke meets and approves more organizations.
+  ['accelerators', 'Accelerators &amp; Incubators'],
+  ['education', 'Education &amp; Talent'],
+  ['government', 'Government &amp; Economic Development'],
+  ['coworking', 'Coworking &amp; Spaces'],
+];
+const ECOSYSTEM = [
+  { name: 'Startup Ventura', url: 'program.html', ours: true, cats: ['accelerators'],
+    desc: 'Our 501(c)(3) nonprofit accelerator: a free seven week program for Ventura County founders with mentorship, workshops, and a Demo Day. No tuition, no equity.' },
+  { name: 'Hub101', url: 'https://www.hub101.org/', cats: ['accelerators', 'coworking'],
+    desc: 'California Lutheran University&rsquo;s startup incubator and coworking community, home of the 14 week IdeaToDo accelerator program.' },
+  { name: 'FATHOMWERX', url: 'https://www.fathomwerx.com/', cats: ['accelerators'],
+    desc: 'Public private innovation lab at the Port of Hueneme where companies prototype and test maritime, port, and defense technology.' },
+
+
+  { name: 'Martin V. Smith School of Business &amp; Economics, CSU Channel Islands', url: 'https://business.csuci.edu/', cats: ['education'],
+    desc: 'The business school at CSU Channel Islands in Camarillo, with undergraduate business and economics programs and entrepreneurship coursework.' },
+  { name: 'Entrepreneurship &amp; Small Business Institute, CSU Channel Islands', url: 'https://www.csuci.edu/esbi/', cats: ['education'],
+    desc: 'CSUCI institute offering student mentorship, business competitions, and an annual Startup Day for entrepreneurs.' },
+  { name: 'California Lutheran University School of Management', url: 'https://www.callutheran.edu/management/', cats: ['education'],
+    desc: 'Cal Lutheran&rsquo;s business school in Thousand Oaks, offering undergraduate and graduate programs including an MBA.' },
+  { name: 'Ventura County Community College District', url: 'https://www.vcccd.edu/', cats: ['education'],
+    desc: 'Public community college district operating Moorpark College, Oxnard College, and Ventura College across the county.' },
+  { name: 'Moorpark College', url: 'https://www.moorparkcollege.edu/', cats: ['education'],
+    desc: 'Community college in Moorpark offering career technical education and the district&rsquo;s first bachelor&rsquo;s degree, in Biomanufacturing.' },
+  { name: 'Oxnard College', url: 'https://www.oxnardcollege.edu/', cats: ['education'],
+    desc: 'Community college in Oxnard offering career technical education programs and a campus career center.' },
+  { name: 'Ventura College', url: 'https://www.venturacollege.edu/', cats: ['education'],
+    desc: 'Community college in Ventura offering a Small Business Management associate degree and business administration transfer pathways.' },
+  { name: 'Workforce Development Board of Ventura County', url: 'https://workforce.venturacounty.gov/', cats: ['education'],
+    desc: 'Oversees federal workforce development funding and services for Ventura County businesses, workers, and job seekers.' },
+
+  { name: 'City of Ventura Economic Development Division', url: 'https://www.cityofventura.ca.gov/913/Economic-Development-Division', cats: ['government'],
+    desc: 'City division providing business startup, retention, and growth assistance, ombudsman help with city processes, and the Small Business Studio.' },
+  { name: 'Economic Development Collaborative', url: 'https://edcollaborative.com/', cats: ['government'],
+    desc: 'Camarillo based nonprofit founded in 1996, providing no cost business consulting, workshops, and small business lending for the region.' },
+  { name: 'Small Business Development Center Serving Ventura County', url: 'https://edcsbdc.org/', cats: ['government'],
+    desc: 'Free one on one business advising and workshops, funded by the SBA and hosted by the Economic Development Collaborative.' },
+  { name: 'County of Ventura Business Services', url: 'https://venturacounty.gov/business-services/business-assistance-and-resources/', cats: ['government'],
+    desc: 'County hub offering Permit Navigator help, Green Business certification, and referrals to regional business assistance programs.' },
+  { name: 'Business Forward Ventura County', url: 'https://businessforward.venturacounty.gov/', cats: ['government'],
+    desc: 'Countywide initiative and resource hub connecting businesses to advising, capital, and incentives across all ten cities.' },
+  { name: 'Choose Camarillo', url: 'https://choosecamarillo.com/', cats: ['government'],
+    desc: 'The City of Camarillo&rsquo;s economic development office, with concierge services, site selection help, and a small business resource directory.' },
+  { name: 'City of Oxnard Economic Development Division', url: 'https://www.oxnard.gov/economic-development', cats: ['government'],
+    desc: 'City division assisting with opening a business, licensing, site selection, workshops, and the Oxnard Employee Pipeline workforce program.' },
+  { name: 'City of Thousand Oaks Economic Development', url: 'https://toaks.gov/doingbusiness', cats: ['government'],
+    desc: 'City economic development office offering a business concierge, a monthly newsletter, and the Business Recognition Program.' },
+
+  { name: 'Coastal Coworking', url: 'https://www.coastalcoworkingvta.com/', cats: ['coworking'],
+    desc: 'Coworking space on Thompson Boulevard in Ventura with day passes, dedicated desks, and phone booths.' },
+  { name: 'Circle Hub Ventura', url: 'https://circlehub.net/ventura-location/', cats: ['coworking'],
+    desc: 'Coworking campus on Eastman Avenue in Ventura with private offices, hot desks, conference rooms, an event space, and 24/7 access.' },
+  { name: 'officeLOCALE', url: 'https://officelocale.com/', cats: ['coworking'],
+    desc: 'Coworking and business center in Thousand Oaks and Newbury Park, operating since 2002, with flex desks, private offices, and meeting rooms.' },
+  { name: 'The IDEA Center Makerspace', url: 'https://www.ideacentervta.com/', cats: ['coworking'],
+    desc: 'Nonprofit makerspace on Ventura Avenue with 3D printers, laser cutters, and CNC tools, offering memberships and classes.' },
+
+];
+const ecoAbs = (u) => u.startsWith('http') ? u : `${SITE}/${u.replace(/\.html$/, '') === 'program' ? 'program' : u}`;
+const ecoUnique = ECOSYSTEM.filter((e, i) => ECOSYSTEM.findIndex((x) => x.name === e.name) === i);
+const ECO_URL = `${SITE}/ecosystem`;
+const ecoJsonld = [
+  { '@context': 'https://schema.org', '@type': 'WebPage', '@id': `${ECO_URL}#webpage`, url: ECO_URL,
+    name: 'Ventura County Startup Ecosystem: The Founder&rsquo;s Guide'.replace('&rsquo;', '’'),
+    description: 'A verified guide to the Ventura County startup ecosystem: accelerators, coworking, education, and economic development for founders.',
+    dateModified: ECO_REVIEWED_ISO, isPartOf: { '@type': 'WebSite', url: SITE, name: 'Startup Ventura' } },
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE}/` },
+    { '@type': 'ListItem', position: 2, name: 'Ecosystem Guide', item: ECO_URL } ] },
+  { '@context': 'https://schema.org', '@type': 'ItemList', name: 'Ventura County startup ecosystem directory',
+    numberOfItems: ecoUnique.length,
+    itemListElement: ecoUnique.map((e, i) => ({ '@type': 'ListItem', position: i + 1,
+      item: { '@type': 'Organization', name: e.name.replace(/&amp;/g, '&').replace(/&rsquo;/g, '’'), url: ecoAbs(e.url) } })) },
+];
+const ecoHistory = `<section class="section section--pale grain"><div class="wrap wrap--narrow">${head('The History', 'This county has done it before.')}<div class="entry-content">
+<p>Ventura County has already produced a generational technology company, and it happened because the City of Ventura tried something almost no city was trying. In December 2008, with the economy in freefall, the City announced a high tech incubator on the third floor of 505 Poli Street, the five story building directly behind City Hall. The Ventura Ventures Technology Center opened to tenants in early 2009: seventy six workstations renting for a couple hundred dollars a month, with conference rooms, internet, and free parking included. The City went further than desks. It put $3 million into the venture fund DFJ Frontier, reportedly the first time an American municipality had invested in a venture capital fund, and startups had to be based in Ventura to qualify for its checks.</p>
+<p>Among the roughly ten startups working out of the incubator in its first year was a quiet one, still in stealth mode, called The Trade Desk. Jeff Green and Dave Pickles founded it in Ventura in 2009 to change how advertising is bought. The company outgrew the incubator floor, leased three thousand square feet upstairs in the same city owned building in 2011, and kept climbing: a $20 million round in 2014 that the Pacific Coast Business Times called &ldquo;likely the biggest funding round ever for a Ventura-based tech company,&rdquo; a Nasdaq IPO in September 2016, and entry into the S&amp;P 500 in 2025, with $2.9 billion in revenue that fiscal year. The Trade Desk is still headquartered in downtown Ventura.</p>
+<p>It was not the only company to come out of the building. The City&rsquo;s own history credits the incubator with graduating MomentFeed, Connexity, and GiddyUp, and GiddyUp still operates from Ventura today.</p>
+<p>The program itself did not last. The City ended its venture capital relationship in early 2014, then handed daily management of the incubator to a private operator that December. The operator resigned two years later. By 2017 the upper floors of 505 Poli sat vacant, the remaining tenants had been consolidated onto a single floor, and the City Council was openly debating what to do with the building. A city report from that year still pointed to The Trade Desk as &ldquo;an excellent example of the potential success and ROI of an incubator program,&rdquo; but the incubator era ended without ceremony: a quiet wind down, and no city backed program left to catch the next founder with a big idea.</p>
+<p>The rebuilding is now underway from many directions. Regional organizations, universities, and community groups carry much of the load, and the directory below maps all of them. Startup Ventura exists to rebuild the accelerator itself: a 501(c)(3) nonprofit bringing structured, no cost accelerator programming back to the county, with the City of Ventura investing $49,500 through its Economic Development department to help launch it. The next Trade Desk should not have to leave to be built.</p>
+</div></div></section>`;
+const ecoPlugIn = `<section class="section section--pale"><div class="wrap">${head('How to Plug In', 'Four first steps that work.', 'Every step below is real, free or cheap, and active right now.')}<div class="card-grid card-grid--2">
+${card('https://edcsbdc.org/', 'Step 1', 'Book free advising', 'The Small Business Development Center offers no cost one on one advising for Ventura County businesses, funded by the SBA.', 'Visit the SBDC')}
+${card('events.html', 'Step 2', 'Show up to one thing', 'Our events calendar lists free workshops and community events where the county&rsquo;s builders actually meet.', 'See upcoming events')}
+${card('ecosystem.html#coworking', 'Step 3', 'Work near other builders', 'Day passes at the coworking spaces in the directory cost less than lunch, and the person at the next desk is the point.', 'Find a space')}
+${card('contact.html#notify', 'Step 4', 'Raise your hand', 'Get first access when Startup Ventura&rsquo;s accelerator applications open, and join the free workshop series before then.', 'Get notified')}
+</div></div></section>`;
+page('ecosystem.html', {
+  title: 'Ventura County Startup Ecosystem: The Founder&rsquo;s Guide',
+  canonical: ECO_URL,
+  desc: 'A verified guide to the Ventura County startup ecosystem: accelerators, coworking, education, and economic development for founders building here.',
+  jsonld: ecoJsonld,
+  crumbsTrail: [['Home', 'index.html'], ['Ecosystem Guide', '']],
+  body: pageHead('The Guide', 'The Ventura County Startup Ecosystem', 'A living guide for founders building in Ventura County: who is here, how it all connects, and where to start.') +
+    `<section class="section" style="padding-top:0"><div class="wrap"><p class="eco-reviewed">Last reviewed: ${ECO_REVIEWED} &middot; Reviewed twice a year &middot; <a href="mailto:info@startupventura.com?subject=Ecosystem%20guide%20suggestion">Suggest an addition</a></p></div></section>` +
+    ecoHistory +
+    `<section class="section" id="directory"><div class="wrap">${head('The Ecosystem Today', 'Who is here, and what they do.', 'Every organization below is real, active, and verified as of the review date above. Filter by category, or link straight to a section.')}
+    <div id="eco-directory">
+    <nav class="eco-toc" aria-label="Directory categories"><a class="eco-pill is-active" href="#directory" data-cat="all" aria-pressed="true">All</a>${ECO_CATS.map(([k, label]) => `<a class="eco-pill" href="#${k}" data-cat="${k}" aria-pressed="false">${label}</a>`).join('')}</nav>
+    ${ECO_CATS.map(([k, label]) => `<section class="eco-cat" id="${k}"><h2 class="eco-cat__title">${label}</h2><div class="eco-list">${ECOSYSTEM.filter((e) => e.cats.includes(k)).map((e) => `<div class="eco-item"><h3><a href="${e.url}"${e.url.startsWith('http') ? ' target="_blank" rel="noopener"' : ''}>${e.name}</a>${e.ours ? '<span class="eco-ours">Our program</span>' : ''}</h3><p>${e.desc}</p></div>`).join('')}</div></section>`).join('')}
+    </div>
+    <p style="margin-top:36px" class="eco-reviewed">Missing an organization that belongs here? <a href="mailto:info@startupventura.com?subject=Ecosystem%20guide%20suggestion">Suggest an addition</a> and we will review it.</p>
+    </div></section>` +
+    ecoPlugIn +
+    `<section class="section"><div class="wrap">${headC('Building Here?', 'This is what Startup Ventura is for.', 'A free accelerator, a workshop series, and a community built to keep Ventura County founders home.')}<div class="center" style="margin-top:8px">${apply('Get notified', 'btn--outline btn--lg')} <a class="btn btn--ghost btn--lg" href="program.html">Explore the program</a></div></div></section>`,
+});
+
 page('why-ventura-county.html', {
   title: 'Why Ventura County', crumbsTrail: [['Home', 'index.html'], ['Why Ventura County', '']],
   body: pageHead('Why Ventura County', 'We raise and educate great people. Then we lose them.', 'Ventura County has an affordability problem that is also a brain drain problem. They are the same problem, and high-growth companies are the fix.') +
@@ -1490,6 +1641,7 @@ Startup Ventura was founded in 2025 by Luke Erickson, who serves as Executive Di
 - [Home](${SITE}/): mission and overview
 - [The Program](${SITE}/program): accelerator + workshops
 - [Why Ventura County](${SITE}/why-ventura-county): the problem Startup Ventura solves
+- [Ventura County Startup Ecosystem Guide](${SITE}/ecosystem): verified directory of accelerators, capital, education, government, coworking, and communities
 - [Impact](${SITE}/impact): traction and where donations go
 - [Give](${SITE}/give): donate to fund the cohort (tax-deductible)
 - [Partner](${SITE}/partner): sponsorship and public/foundation partnership
