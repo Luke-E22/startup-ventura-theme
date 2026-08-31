@@ -490,6 +490,20 @@ const card = (href, eyebrow, title, text, link) => `<a class="card card--link" h
 // the News pages both render from it.
 const newsPosts = [
   {
+    file: 'news-yahoo-finance.html', crumb: 'Yahoo Finance',
+    title: 'Startup Ventura Featured in Yahoo Finance',
+    date: 'August 31, 2026', img: `${A}/img/news/yahoo-finance.jpg`,
+    alt: 'Yahoo Finance logo',
+    excerpt: 'Startup Ventura&rsquo;s launch announcement is now live on Yahoo Finance, telling the story of a new home for technology founders in Ventura County.',
+    paras: [
+      'Startup Ventura is on Yahoo Finance. The feature, <a href="https://finance.yahoo.com/small-business/articles/luke-erickson-launches-startup-ventura-150200274.html" target="_blank" rel="noopener">&ldquo;Luke Erickson Launches Startup Ventura to Build a New Home for Technology Founders in Ventura County,&rdquo;</a> published August 31 in Yahoo Finance&rsquo;s small business section, and it puts the case for this county in front of a national audience.',
+      'The piece tells the story we have been building toward: a 501(c)(3) nonprofit accelerator founded on the belief that entrepreneurs should not have to leave Ventura County for Los Angeles or Silicon Valley to find the resources to build a high-growth company. It covers the founding investment from the City of Ventura, the partnership with the Ventura County Community College District, and Candid&rsquo;s Platinum Seal of Transparency.',
+      'It also introduces the board to a wider audience: operators representing more than $4.5 billion in combined exit value, including Brent-Stig Kraus, who held leadership roles at Lynda.com, MINDBODY, and SevenRooms through their acquisitions, and Brian Gonzalez, Y Combinator backed co-founder and CTO of Curri, the logistics technology company headquartered in downtown Ventura.',
+      'The framing matters as much as the facts. The article places Startup Ventura against the backdrop of a county that has watched jobs and talent drift toward bigger tech hubs for a decade, and argues the moment is right to reverse it: modern tools have made it possible to build a serious company from anywhere, and founders should get to choose home. As Luke puts it in the piece, &ldquo;You can build a serious company and a good life in the same place.&rdquo;',
+      '<a href="https://finance.yahoo.com/small-business/articles/luke-erickson-launches-startup-ventura-150200274.html" target="_blank" rel="noopener">Read the full feature on Yahoo Finance</a>. To be part of what it describes, explore <a href="program.html">the program</a>, <a href="give.html">support the mission</a>, or <a href="contact.html">reach out</a>.',
+    ],
+  },
+  {
     file: 'news-accelerator-14-application.html', crumb: 'Accelerator 14 Application',
     title: 'Startup Ventura Applies for State Grant to Build Quantum and Fusion Career Pathways',
     date: 'August 29, 2026', img: `${A}/img/news/accelerator-14.jpg`,
