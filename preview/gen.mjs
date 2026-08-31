@@ -553,7 +553,7 @@ const newsPosts = [
     // Custom single page generated separately (full SEO head + Person schema).
     file: 'luke-erickson-executive-director.html', crumb: 'Executive Director', custom: true,
     title: 'Luke Erickson Steps Into the Role of Executive Director at Startup Ventura',
-    date: 'July 1, 2026', img: `${A}/img/team/luke-erickson.jpg`,
+    date: 'July 1, 2026', img: `${A}/img/news/luke-erickson-portrait.jpg`,
     alt: 'Luke Erickson, Founder and Executive Director of Startup Ventura.',
     excerpt: 'Luke Erickson, founder of Startup Ventura, steps into the role of Executive Director, leading the Ventura County accelerator he built to keep local talent home.',
   },
@@ -1139,7 +1139,7 @@ const lukeParas = [
 ];
 // NewsArticle for the announcement, tied via `about` to the shared Luke Person entity.
 const lukePost = newsPosts.find(p => p.file === 'luke-erickson-executive-director.html');
-const lukeImgAbs = `${SITE}/assets/img/team/luke-erickson.jpg`;
+const lukeImgAbs = `${SITE}/assets/img/news/luke-erickson-portrait.jpg`;
 const lukeArticleSchema = { ...newsArticleSchema(lukePost, lukeUrl, lukeImgAbs), about: { '@id': `${SITE}/lukeerickson#luke` } };
 page('luke-erickson-executive-director.html', {
   title: 'Luke Erickson Steps Into the Role of Executive Director at Startup Ventura',
@@ -1152,7 +1152,7 @@ page('luke-erickson-executive-director.html', {
   jsonld: [LUKE_PERSON, lukeArticleSchema],
   body: `<section class="section"><div class="wrap"><article class="single-post">
     <header class="entry-header"><p class="entry-meta">News &middot; July 1, 2026</p><h1 class="display">Luke Erickson Steps Into the Role of Executive Director at Startup Ventura</h1></header>
-    <div class="entry-hero"><img src="${A}/img/team/luke-erickson.jpg" alt="Luke Erickson, Founder and Executive Director of Startup Ventura." width="1000" height="1000"></div>
+    <div class="entry-hero">${pic(`${A}/img/news/luke-erickson-portrait.jpg`, { alt: 'Luke Erickson, Founder and Executive Director of Startup Ventura.', sizes: '(max-width:1040px) 92vw, 1000px', eager: true })}</div>
     <div class="entry-content">${lukeParas.map(t => `<p>${t}</p>`).join('')}</div>
   </article></div></section>` +
     ctaBand('Help fund the inaugural cohort.', 'none'),
