@@ -69,6 +69,17 @@
   to = "/ecosystem.html"
   status = 200
 
+# Board of Directors interest form (organic, linked from About) + its thanks page.
+[[redirects]]
+  from = "/board-interest"
+  to = "/board-interest.html"
+  status = 200
+
+[[redirects]]
+  from = "/thanks-board"
+  to = "/thanks-board.html"
+  status = 200
+
 # Paid-traffic landing page (Google Ad Grant); unlisted + noindex.
 [[redirects]]
   from = "/connect"

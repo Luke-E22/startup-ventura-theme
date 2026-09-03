@@ -80,7 +80,7 @@ const NAV = [
   { label: 'Program', href: 'program.html', children: [['7-Week Accelerator', 'accelerator.html'], ['Workshop Series', 'workshops.html'], ['Founder Resources', 'resources.html']] },
   { label: 'Impact', href: 'impact.html' },
   { label: 'Partner', href: 'partner.html', children: [['For Cities &amp; County', 'partner-cities-county.html'], ['For Foundations', 'partner-foundations.html']] },
-  { label: 'About', href: 'about.html', children: [['Board of Directors', 'about.html'], ['Leadership', 'lukeerickson.html'], ['Why Ventura County', 'why-ventura-county.html'], ['Ecosystem Guide', 'ecosystem.html']] },
+  { label: 'About', href: 'about.html', children: [['Board of Directors', 'about.html'], ['Join the Board', 'board-interest.html'], ['Leadership', 'lukeerickson.html'], ['Why Ventura County', 'why-ventura-county.html'], ['Ecosystem Guide', 'ecosystem.html']] },
   ...(SHOW_EVENTS_NAV ? [{ label: 'Events', href: 'events.html' }] : []),
   { label: 'Contact', href: 'contact.html' },
   { label: 'News', href: 'news.html' },
@@ -398,8 +398,7 @@ const board = [
   // ARCHIVED (2026-07-20, per Luke): removed from the board. Restore by deleting `archived: true`.
   { archived: true, n: 'Stephanie Caldwell', r: 'Board Member, CEO of Ventura Chamber of Commerce', p: 'team/stephanie-caldwell.jpg', pos: 'center 22%', li: 'https://www.linkedin.com/in/stephanie-caldwell-1b02b39/',
     bio: `Stephanie Caldwell has held a senior leadership role at the Ventura Chamber of Commerce since April 2015 and currently serves as a director for the California Chamber of Commerce. With a career spanning sales, operations, and workforce management, she began in the hospitality industry before transitioning into the staffing sector, where she led branch and on-site contingent staffing operations in Silicon Valley supporting major technology companies including Novell and Compaq (now HP). Previously, she served as Chief Operations Officer of the San Jose Silicon Valley Chamber of Commerce and has additional experience in both public service and industry associations, including roles in the district office of a California State Assembly member and as Director of Education and Events for the California Apartment Association's Tri-County Division.` },
-  // ARCHIVED (board-requested, 2026-07-08): hidden until Sean is officially onboarded (~week of 2026-07-15). Remove `archived: true` to republish.
-  { archived: true, n: 'Sean Herwaldt', r: 'Board Member, Director at Curri · SpaceX alum', p: 'team/sean-herwaldt.jpg', pos: 'center 40%', zoom: 1.4, li: 'https://www.linkedin.com/in/seanherwaldt/',
+  { n: 'Sean Herwaldt', r: 'Board Member, Director at Curri · SpaceX alum', p: 'team/sean-herwaldt.jpg', pos: 'center 40%', zoom: 1.4, li: 'https://www.linkedin.com/in/seanherwaldt/',
     bio: `Sean Herwaldt is a Director at Curri, the Series B last-mile logistics company, where he leads delivery operations. He started his career at SpaceX, which shaped how he works: first principles, no assumptions, move fast, and never confuse activity with progress. He then joined the longevity company NOVOS to build its operations from scratch, spending four years standing up a supply chain with no playbook, launching products from concept to shelf, rebuilding a customer-experience team with AI that made the team better rather than redundant, and writing his own tools when spreadsheets were no longer enough. Sean is drawn to the craft of taking an idea to something real, then making it repeatable and ready to scale, and he cares as much about the people doing the work as the work itself.` },
 ];
 // On the About page the full bio shows by default (open); the home teaser keeps it collapsed.
@@ -489,14 +488,27 @@ const card = (href, eyebrow, title, text, link) => `<a class="card card--link" h
 // News data lives above the pages: the homepage "News & Events" section and
 // the News pages both render from it.
 const newsPosts = [
-  {
-    file: 'news-yahoo-finance.html', crumb: 'Yahoo Finance',
-    title: 'Startup Ventura Featured in Yahoo Finance',
-    date: 'August 31, 2026', img: `${A}/img/news/yahoo-finance.jpg`,
-    alt: 'Yahoo Finance logo',
-    excerpt: 'Startup Ventura&rsquo;s launch announcement is now live on Yahoo Finance, telling the story of a new home for technology founders in Ventura County.',
+    {
+    file: 'news-sean-herwaldt-board.html', crumb: 'New Board Member',
+    title: 'Former SpaceX Executive Sean Herwaldt Joins Startup Ventura Board of Directors',
+    date: 'September 1, 2026', img: `${A}/img/team/sean-herwaldt.jpg`, alt: 'Sean Herwaldt',
+    excerpt: 'Sean Herwaldt, a SpaceX supply chain veteran and now a Director at Curri in Ventura, has joined the Startup Ventura Board of Directors.',
     paras: [
-      'Startup Ventura is on Yahoo Finance. The feature, <a href="https://finance.yahoo.com/small-business/articles/luke-erickson-launches-startup-ventura-150200274.html" target="_blank" rel="noopener">&ldquo;Luke Erickson Launches Startup Ventura to Build a New Home for Technology Founders in Ventura County,&rdquo;</a> published August 31 in Yahoo Finance&rsquo;s small business section, and it puts the case for this county in front of a national audience.',
+      'Startup Ventura is honored to welcome Sean Herwaldt to our Board of Directors.',
+      'Sean spent six years at SpaceX, rising to global supply chain manager at one of the most demanding engineering companies in the world, now publicly traded after the largest IPO in history this past June. Keeping a rocket company supplied means solving hard problems under constant pressure and building the planning systems and supplier relationships that let ambitious teams actually ship. That is exactly the kind of operating experience early founders need in their corner.',
+      'His path reflects the kind of hands-on background our board is built on. Before SpaceX, Sean worked in supply chain and operations for major manufacturers including Owens Corning and Progress Rail, learning how real things get built and moved at scale. Today he leads delivery operations as a Director at Curri, the last-mile logistics company headquartered right here in Ventura. He knows what it takes to build something and see it through, from the ground floor up.',
+      'What Sean brings to Startup Ventura is more than a resume. He feels strongly about building a strong entrepreneurial ecosystem in Ventura, so founders with big ideas can build them at home instead of leaving to do it somewhere else. That belief is the entire reason we exist.',
+      'We could not be more excited to have him help guide what comes next. Welcome, Sean.',
+    ],
+  },
+  {
+    file: 'news-launch-press.html', crumb: 'National Press',
+    title: 'Startup Ventura Featured in Yahoo Finance, Business Insider, and AP',
+    date: 'August 31, 2026', img: `${A}/img/news/launch-press.jpg`,
+    alt: 'Yahoo Finance, Business Insider, and Associated Press logos',
+    excerpt: 'Startup Ventura&rsquo;s launch announcement is running nationally on Yahoo Finance, Business Insider, and the Associated Press wire, telling the story of a new home for technology founders in Ventura County.',
+    paras: [
+      'Startup Ventura is national news. The feature, <a href="https://finance.yahoo.com/small-business/articles/luke-erickson-launches-startup-ventura-150200274.html" target="_blank" rel="noopener">&ldquo;Luke Erickson Launches Startup Ventura to Build a New Home for Technology Founders in Ventura County,&rdquo;</a> published August 31 and is running on Yahoo Finance, Business Insider, and the Associated Press wire, putting the case for this county in front of a national audience.',
       'The piece tells the story we have been building toward: a 501(c)(3) nonprofit accelerator founded on the belief that entrepreneurs should not have to leave Ventura County for Los Angeles or Silicon Valley to find the resources to build a high-growth company. It covers the founding investment from the City of Ventura, the partnership with the Ventura County Community College District, and Candid&rsquo;s Platinum Seal of Transparency.',
       'It also introduces the board to a wider audience: operators representing more than $4.5 billion in combined exit value, including Brent-Stig Kraus, who held leadership roles at Lynda.com, MINDBODY, and SevenRooms through their acquisitions, and Brian Gonzalez, Y Combinator backed co-founder and CTO of Curri, the logistics technology company headquartered in downtown Ventura.',
       'The framing matters as much as the facts. The article places Startup Ventura against the backdrop of a county that has watched jobs and talent drift toward bigger tech hubs for a decade, and argues the moment is right to reverse it: modern tools have made it possible to build a serious company from anywhere, and founders should get to choose home. As Luke puts it in the piece, &ldquo;You can build a serious company and a good life in the same place.&rdquo;',
@@ -532,21 +544,6 @@ const newsPosts = [
       'And what makes it a vision everyone can get behind is who is already behind it. The City of Ventura invested $49,500 through its Economic Development department. The board includes operators behind companies like Curri and SevenRooms. The community showed up 75 strong at our first Annual Benefit. Cities win jobs, colleges win pathways for their graduates, employers win a deeper talent pool, and founders win a reason to stay.',
       '&ldquo;After I exited my first business, I made a conscious decision that I was going to have an outsized impact on this city and county, and turn it into a place that ambitious, innovative people want to call home,&rdquo; Erickson said. &ldquo;That is the whole reason Startup Ventura exists. We are just getting started.&rdquo;',
       '<a href="https://open.spotify.com/episode/2ukvJkEWd2yvsWrbD0j6oQ" target="_blank" rel="noopener">Listen to the full episode on Spotify</a>, and follow Joe Knows Ventura for more of the people building this city. Our thanks to Joe for having us, and for telling Ventura&rsquo;s stories.',
-    ],
-  },
-  {
-    // ARCHIVED (board-requested, 2026-07-08): hidden until Sean is officially onboarded (~week of 2026-07-15). Remove `archived: true` to republish.
-    archived: true,
-    file: 'news-sean-herwaldt-board.html', crumb: 'New Board Member',
-    title: 'Welcoming Sean Herwaldt to the Startup Ventura Board',
-    date: 'July 8, 2026', img: `${A}/img/team/sean-herwaldt.jpg`, alt: 'Sean Herwaldt',
-    excerpt: 'Sean Herwaldt, a SpaceX supply chain veteran and now a Director at Curri in Ventura, has joined the Startup Ventura Board of Directors.',
-    paras: [
-      'Startup Ventura is honored to welcome Sean Herwaldt to our Board of Directors.',
-      'Sean spent six years at SpaceX, rising to global supply chain manager at one of the most demanding engineering companies in the world, now publicly traded after the largest IPO in history this past June. Keeping a rocket company supplied means solving hard problems under constant pressure and building the planning systems and supplier relationships that let ambitious teams actually ship. That is exactly the kind of operating experience early founders need in their corner.',
-      'His path reflects the kind of hands-on background our board is built on. Before SpaceX, Sean worked in supply chain and operations for major manufacturers including Owens Corning and Progress Rail, learning how real things get built and moved at scale. Today he leads delivery operations as a Director at Curri, the last-mile logistics company headquartered right here in Ventura. He knows what it takes to build something and see it through, from the ground floor up.',
-      'What Sean brings to Startup Ventura is more than a resume. He feels strongly about building a strong entrepreneurial ecosystem in Ventura, so founders with big ideas can build them at home instead of leaving to do it somewhere else. That belief is the entire reason we exist.',
-      'We could not be more excited to have him help guide what comes next. Welcome, Sean.',
     ],
   },
   {
@@ -1033,7 +1030,7 @@ page('about.html', {
   body: pageHead('About', 'Built to keep Ventura County the best place to live.', 'A local nonprofit backing local founders.') +
     `<section class="section section--pale grain"><div class="wrap">${head('Mission & Model', 'Why we exist, and how we do the work.')}<div class="measure"><p class="lede">To keep Ventura County the best place in the world to live by fueling entrepreneurship, building high-growth companies, and transforming our region into a recognized hub of innovation.</p><p>We run a nonprofit accelerator paired with a pre-accelerator workshop series. Every dollar stays local.</p></div></div></section>
     <section class="section section--tight"><div class="wrap" style="padding-top:26px">${MEAD_QUOTE}</div></section>
-    <section class="section"><div class="wrap">${head('Board & Team', 'A board that has built and scaled here.')}${boardGrid(true)}<p class="center" style="margin-top:32px"><a class="card__link" href="luke-erickson-executive-director.html">Read the announcement: Luke Erickson, Executive Director &rarr;</a></p></div></section>` +
+    <section class="section"><div class="wrap">${head('Board & Team', 'A board that has built and scaled here.')}${boardGrid(true)}<p class="center" style="margin-top:32px"><a class="card__link" href="luke-erickson-executive-director.html">Read the announcement: Luke Erickson, Executive Director &rarr;</a></p><p class="center" style="margin-top:14px"><a class="card__link" href="board-interest.html">Interested in serving on the board? Express interest &rarr;</a></p></div></section>` +
     ctaBand('Help us keep Ventura County the best place to live.', 'partner'),
 });
 
@@ -1405,6 +1402,27 @@ page('mentor.html', {
     ctaBand('Prefer to back founders financially?', 'none'),
 });
 
+// BOARD OF DIRECTORS INTEREST → /board-interest (form 'board' → /thanks-board →
+// board_lead). Indexable, linked from About: an organic pipeline for future
+// board members, not an ad lander.
+page('board-interest.html', {
+  title: 'Join the Board of Directors',
+  desc: 'Express interest in serving on the Startup Ventura Board of Directors and help govern Ventura County\'s nonprofit startup accelerator.',
+  canonical: `${SITE}/board-interest`,
+  crumbsTrail: [['Home', 'index.html'], ['About', 'about.html'], ['Join the Board', '']],
+  body: pageHead('Board of Directors', 'Help govern what we are building.', 'Startup Ventura is governed by a working board of operators, builders, and civic leaders. As the accelerator grows, so will the board. If you want a seat at that table, introduce yourself.') +
+    `<section class="section section--pale"><div class="wrap"><div class="contact-layout">
+    <div>${head('Raise your hand', 'Tell us what you would bring.')}<div style="margin-top:28px">${form('board', 'Express interest', false, true, { twoCol: true, interest: ['Fundraising & development', 'Finance, legal, or governance', 'Marketing & communications', 'Technology & product', 'Community & partnerships'], interestLabel: 'Where could you contribute?', msgLabel: 'Why board service, and what you would bring', linkLabel: 'LinkedIn', redirect: '/thanks-board' })}</div></div>
+    <aside class="contact-aside">
+      <div class="contact-card"><h3>What board service involves</h3><p>Regular board meetings, committee work, and real ownership of the mission: opening doors, guiding strategy, and helping fund the work. Board seats are volunteer positions.</p></div>
+      <div class="contact-aside__block"><h3>Who we look for</h3><p>People who have built, scaled, funded, or governed organizations, and who want Ventura County&rsquo;s next generation of companies built at home.</p></div>
+      <div class="contact-aside__block"><h3>You are in good company</h3><p>Our board includes leadership behind SevenRooms&rsquo; $1.2B acquisition, Curri, and SpaceX. <a href="about.html">Meet the current board</a>.</p></div>
+      <div class="contact-aside__block"><h3>Questions?</h3><p><a href="mailto:info@startupventura.com">info@startupventura.com</a></p></div>
+    </aside>
+  </div></div></section>` +
+    ctaBand('Prefer to support the mission financially?', 'none'),
+});
+
 // WORKSHOPS → /workshop (form 'workshop' → /thanks-workshop → workshop_lead)
 page('workshop.html', {
   title: 'Founder Workshops: Save a Seat',
@@ -1599,6 +1617,14 @@ funnelThanks('thanks-mentor.html', {
   h1: 'Founders just got stronger.',
   lede: 'Thank you. We will reach out to match your expertise with the founders and programming where you matter most. The workshop series comes first, and the inaugural cohort launches Spring 2027.',
   primary: ['See what we are building', 'index.html'], secondary: ['Explore the impact', 'impact.html'],
+});
+
+funnelThanks('thanks-board.html', {
+  title: 'Thank You for Raising Your Hand', eyebrow: 'Thank you', event: 'board_lead', quote: true,
+  desc: 'Thank you for expressing interest in serving on the Startup Ventura Board of Directors.',
+  h1: 'Leadership starts like this.',
+  lede: 'Thank you. Our board reviews every expression of interest, and we will reach out to start the conversation. In the meantime, get to know the people you would be building with.',
+  primary: ['Meet the current board', 'about.html'], secondary: ['See what we are building', 'index.html'],
 });
 funnelThanks('thanks-workshop.html', {
   title: 'Seat Saved', eyebrow: 'Seat Saved', event: 'workshop_lead',
