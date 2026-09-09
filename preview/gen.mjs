@@ -1416,7 +1416,7 @@ page('board-interest.html', {
   body: pageHead('Board of Directors', 'Help govern what we are building.', 'Startup Ventura is governed by a working board of operators, builders, and civic leaders. As the accelerator grows, so will the board. Here is what serving involves, what we look for, and how to raise your hand.') +
     `<section class="section section--pale"><div class="wrap">${head('The Expectations', 'What we ask of every director.', 'Board seats are working, volunteer positions. Every director makes the same commitments.')}
     <div class="eco-list" style="margin-top:28px">
-      <div class="eco-item"><h3>Monthly board meetings</h3><p>Attend monthly meetings, review the materials beforehand, and engage actively in discussion and decisions.</p></div>
+      <div class="eco-item"><h3>Bi-monthly board meetings</h3><p>Attend bi-monthly board meetings, review the materials beforehand, and engage actively in discussion and decisions.</p></div>
       <div class="eco-item"><h3>Strategic guidance</h3><p>Bring real insight to program development, partnerships, and the long term direction of the organization.</p></div>
       <div class="eco-item"><h3>Ambassadorship</h3><p>Champion the mission in your own circles and make introductions to potential donors, mentors, partners, and community leaders.</p></div>
       <div class="eco-item"><h3>Events and engagement</h3><p>Show up to Startup Ventura events and fundraisers, and represent the organization to founders, sponsors, and ecosystem partners.</p></div>
@@ -1437,7 +1437,7 @@ page('board-interest.html', {
     <section class="section section--pale"><div class="wrap"><div class="contact-layout">
     <div>${head('Raise your hand', 'Tell us what you would bring.')}<div style="margin-top:28px">${form('board', 'Express interest', false, true, { twoCol: true, interest: ['Fundraising & development', 'Finance, legal, or governance', 'Marketing & communications', 'Technology & product', 'Community & partnerships'], interestLabel: 'Where could you contribute?', msgLabel: 'Why board service, and what you would bring', linkLabel: 'LinkedIn', redirect: '/thanks-board' })}</div></div>
     <aside class="contact-aside">
-      <div class="contact-card"><h3>The short version</h3><p>Monthly meetings, 3 to 6 hours a month, two year terms, and a 100% giving board with no fixed dollar amount. Working seats, real ownership.</p></div>
+      <div class="contact-card"><h3>The short version</h3><p>Bi-monthly meetings, 3 to 6 hours a month, two year terms, and a 100% giving board with no fixed dollar amount. Working seats, real ownership.</p></div>
       <div class="contact-aside__block"><h3>You are in good company</h3><p>Our board includes leadership behind SevenRooms&rsquo; $1.2B acquisition, Curri, and SpaceX. <a href="about.html">Meet the current board</a>.</p></div>
       <div class="contact-aside__block"><h3>Questions?</h3><p><a href="mailto:info@startupventura.com">info@startupventura.com</a></p></div>
     </aside>
