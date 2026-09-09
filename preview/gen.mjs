@@ -1213,6 +1213,8 @@ page('press.html', {
 const svJobAbout = `<h4>About Startup Ventura</h4><p>Startup Ventura is a 501(c)(3) nonprofit with one goal: keep Ventura County the best place in the world to live by fueling entrepreneurship. This county produced companies like The Trade Desk and Curri. Our job is to make sure the next generation of great companies starts here and stays here.</p><p>We are launching nationally ranked accelerator programming for early-stage founders, with our inaugural Spring 2027 cohort and committed funding from the City of Ventura. You would be joining at the moment it all becomes real.</p>`;
 const roles = [
   {
+    // ARCHIVED (2026-09-08, per Luke): hidden from the Careers page, JobPosting schema, and apply dropdown. Remove `archived: true` to republish.
+    archived: true,
     title: 'Community Operations Coordinator',
     meta: 'Part-time &middot; $20&ndash;$30/hour &middot; Mostly remote, with in-person events across Ventura County',
     teaser: 'The operational right hand to our Executive Director, and the person who makes our events happen end to end.',
