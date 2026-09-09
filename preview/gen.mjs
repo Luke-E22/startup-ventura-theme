@@ -1413,12 +1413,31 @@ page('board-interest.html', {
   desc: 'Express interest in serving on the Startup Ventura Board of Directors and help govern Ventura County\'s nonprofit startup accelerator.',
   canonical: `${SITE}/board-interest`,
   crumbsTrail: [['Home', 'index.html'], ['About', 'about.html'], ['Join the Board', '']],
-  body: pageHead('Board of Directors', 'Help govern what we are building.', 'Startup Ventura is governed by a working board of operators, builders, and civic leaders. As the accelerator grows, so will the board. If you want a seat at that table, introduce yourself.') +
-    `<section class="section section--pale"><div class="wrap"><div class="contact-layout">
+  body: pageHead('Board of Directors', 'Help govern what we are building.', 'Startup Ventura is governed by a working board of operators, builders, and civic leaders. As the accelerator grows, so will the board. Here is what serving involves, what we look for, and how to raise your hand.') +
+    `<section class="section section--pale"><div class="wrap">${head('The Expectations', 'What we ask of every director.', 'Board seats are working, volunteer positions. Every director makes the same commitments.')}
+    <div class="eco-list" style="margin-top:28px">
+      <div class="eco-item"><h3>Monthly board meetings</h3><p>Attend monthly meetings, review the materials beforehand, and engage actively in discussion and decisions.</p></div>
+      <div class="eco-item"><h3>Strategic guidance</h3><p>Bring real insight to program development, partnerships, and the long term direction of the organization.</p></div>
+      <div class="eco-item"><h3>Ambassadorship</h3><p>Champion the mission in your own circles and make introductions to potential donors, mentors, partners, and community leaders.</p></div>
+      <div class="eco-item"><h3>Events and engagement</h3><p>Show up to Startup Ventura events and fundraisers, and represent the organization to founders, sponsors, and ecosystem partners.</p></div>
+      <div class="eco-item"><h3>A 100% giving board</h3><p>There is no fixed dollar amount, but every director gives personally every year, and we ask that Startup Ventura sit among the top three charities you support. Beyond personal giving, directors help secure sponsorships, introductions, and outside funding.</p></div>
+      <div class="eco-item"><h3>Governance and oversight</h3><p>Provide independent oversight and input on financial and organizational decisions, and engage with leadership when significant decisions arise.</p></div>
+      <div class="eco-item"><h3>Communication</h3><p>Stay responsive between meetings and share stakeholder conversations promptly so nothing falls through the cracks.</p></div>
+      <div class="eco-item"><h3>Time and term</h3><p>Roughly 3 to 6 hours per month, with additional time around key events. Directors serve two year terms, renewable.</p></div>
+    </div></div></section>
+    <section class="section"><div class="wrap wrap--narrow">${head('What We Look For', 'How we evaluate every candidate.')}<div class="entry-content" style="margin-top:8px"><ul>
+      <li><strong>Mission alignment:</strong> genuine belief in empowering Ventura County entrepreneurs and building the local startup ecosystem</li>
+      <li><strong>Professional expertise:</strong> skills that strengthen governance, operations, or strategy, such as fundraising, finance, law, government relations, economic development, or community leadership, and the ability to offer real guidance, not just credentials</li>
+      <li><strong>Community reach:</strong> respected standing in Ventura County or relevant networks, and the ability to open doors for sponsors, mentors, donors, partners, or talent</li>
+      <li><strong>Reliability:</strong> consistent follow-through on meetings, events, and commitments</li>
+      <li><strong>Cultural fit:</strong> collaborative and constructive in a small, hands-on governance group</li>
+      <li><strong>Independence:</strong> no conflicts of interest that would interfere with fiduciary duties</li>
+      <li><strong>Long term value:</strong> a good director for today and for where Startup Ventura will be three years from now</li>
+    </ul></div></div></section>
+    <section class="section section--pale"><div class="wrap"><div class="contact-layout">
     <div>${head('Raise your hand', 'Tell us what you would bring.')}<div style="margin-top:28px">${form('board', 'Express interest', false, true, { twoCol: true, interest: ['Fundraising & development', 'Finance, legal, or governance', 'Marketing & communications', 'Technology & product', 'Community & partnerships'], interestLabel: 'Where could you contribute?', msgLabel: 'Why board service, and what you would bring', linkLabel: 'LinkedIn', redirect: '/thanks-board' })}</div></div>
     <aside class="contact-aside">
-      <div class="contact-card"><h3>What board service involves</h3><p>Regular board meetings, committee work, and real ownership of the mission: opening doors, guiding strategy, and helping fund the work. Board seats are volunteer positions.</p></div>
-      <div class="contact-aside__block"><h3>Who we look for</h3><p>People who have built, scaled, funded, or governed organizations, and who want Ventura County&rsquo;s next generation of companies built at home.</p></div>
+      <div class="contact-card"><h3>The short version</h3><p>Monthly meetings, 3 to 6 hours a month, two year terms, and a 100% giving board with no fixed dollar amount. Working seats, real ownership.</p></div>
       <div class="contact-aside__block"><h3>You are in good company</h3><p>Our board includes leadership behind SevenRooms&rsquo; $1.2B acquisition, Curri, and SpaceX. <a href="about.html">Meet the current board</a>.</p></div>
       <div class="contact-aside__block"><h3>Questions?</h3><p><a href="mailto:info@startupventura.com">info@startupventura.com</a></p></div>
     </aside>
