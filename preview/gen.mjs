@@ -547,11 +547,12 @@ const newsPosts = [
   {
     file: 'news-joe-knows-ventura.html', crumb: 'Joe Knows Ventura',
     title: 'A Vision Everyone Can Get Behind: Luke Erickson on Joe Knows Ventura',
-    date: 'July 20, 2026', img: `${A}/img/news/joe-knows-ventura.jpg`,
+    date: 'August 7, 2026', img: `${A}/img/news/joe-knows-ventura.jpg`,
     alt: 'Podcast out now with Luke Erickson, on Joe Knows Ventura',
     excerpt: 'Founder and Executive Director Luke Erickson joined the Joe Knows Ventura podcast to ask a big question: is Ventura becoming the next Silicon Valley, and what would it take to get there?',
     paras: [
       'Startup Ventura founder and Executive Director Luke Erickson recently sat down with Joe Knows Ventura, the podcast that spotlights the people shaping our city, for a 23-minute conversation titled <a href="https://open.spotify.com/episode/2ukvJkEWd2yvsWrbD0j6oQ" target="_blank" rel="noopener">&ldquo;Is Ventura Becoming The Next Silicon Valley?&rdquo;</a>',
+      '<iframe class="embed-video" style="border-radius:12px" src="https://open.spotify.com/embed/episode/2ukvJkEWd2yvsWrbD0j6oQ/video?utm_source=generator&theme=0" title="Joe Knows Ventura: Is Ventura Becoming The Next Silicon Valley?" loading="lazy" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" allowfullscreen></iframe>',
       'The heart of the conversation is an argument Luke has been making since the day Startup Ventura was founded: keeping high-paying tech jobs in Ventura is not just good for the people who hold them. It benefits everyone. Business owners gain customers, families gain the option to build a life here without a brutal commute, and the local economy keeps the spending, the energy, and the tax base that leave town every time a talented founder does.',
       'The story is familiar to anyone who has watched a friend pack for San Francisco or Los Angeles. Ventura County raises ambitious, talented people, educates them at strong local universities, and then loses them, because there has been nowhere here to build a high-growth company. Startup Ventura exists to change that.',
       'The plan is already in motion: a free founder <a href="workshops.html">workshop series</a> launching soon, followed by a seven-week accelerator cohort launching Spring 2027 with mentorship from experienced operators, capital connections, and a Pitch Day in front of 25+ investors. All of it free for founders. No tuition, no equity.',
