@@ -490,6 +490,9 @@ picture{display:contents}
    ========================================================================= */
 /* Ecosystem guide — pill filter (pills are real #anchors, JS adds filtering),
    category sections, and directory entry cards. */
+/* Embedded podcast/video players in news articles (lazy iframes) */
+.embed-video{display:block;width:100%;max-width:680px;aspect-ratio:16/9;border:0;border-radius:12px;margin:8px auto 0;box-shadow:var(--shadow-md)}
+
 .eco-reviewed{font-family:var(--font-mono);font-size:13px;letter-spacing:.04em;color:var(--muted)}
 .eco-toc{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0 6px}
 .eco-pill{display:inline-block;font-family:var(--font-body);font-weight:700;font-size:14px;line-height:1;padding:11px 16px;border-radius:999px;border:1.5px solid var(--line);background:#fff;color:var(--navy);text-decoration:none;transition:border-color .18s,background .18s,color .18s}

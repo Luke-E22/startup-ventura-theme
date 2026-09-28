@@ -364,7 +364,7 @@ ${overHero ? `<link rel="preload" as="image" type="image/webp" imagesrcset="${A}
 <link rel="icon" href="${A}/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="${A}/img/favicon.png" sizes="any" type="image/png">
 <link rel="apple-touch-icon" href="${A}/img/favicon-180.png">
-<link rel="stylesheet" href="${A}/css/main.css?v=51">
+<link rel="stylesheet" href="${A}/css/main.css?v=52">
 ${analyticsHead()}</head>
 <body class="${overHero ? 'home' : ''}">
 ${analyticsBody()}
@@ -488,6 +488,19 @@ const card = (href, eyebrow, title, text, link) => `<a class="card card--link" h
 // News data lives above the pages: the homepage "News & Events" section and
 // the News pages both render from it.
 const newsPosts = [
+  {
+    file: 'news-the-hustle.html', crumb: 'The Hustle Podcast',
+    title: 'Luke Erickson on The Hustle: Can Ventura Become California&rsquo;s Next Startup Hub?',
+    date: 'September 25, 2026', img: `${A}/img/news/the-hustle.jpg`,
+    alt: 'The Hustle podcast, episode one, featuring Luke Erickson of Startup Ventura',
+    excerpt: 'Founder and Executive Director Luke Erickson joined VC Locals Only for the debut episode of The Hustle, asking whether Ventura can become California&rsquo;s next startup hub.',
+    paras: [
+      'Founder and Executive Director Luke Erickson is the guest on the debut episode of The Hustle, the new podcast from <a href="https://www.youtube.com/watch?v=EVHIP8QqFnc" target="_blank" rel="noopener">VC Locals Only</a>, released September 25 and titled &ldquo;Can Ventura become California&rsquo;s next startup hub?&rdquo;',
+      'It is the question Startup Ventura was founded to answer. Ventura County raises and educates talented, ambitious people, then watches too many of them leave for Los Angeles or the Bay Area to build. A free accelerator, a founder workshop series, and a community of operators exist to change that, and the inaugural Spring 2027 cohort is where it becomes real.',
+      '<iframe class="embed-video" src="https://www.youtube-nocookie.com/embed/EVHIP8QqFnc" title="Can Ventura become California&rsquo;s next startup hub? | The Hustle Ep 1" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+      'Watch the full conversation above or <a href="https://www.youtube.com/watch?v=EVHIP8QqFnc" target="_blank" rel="noopener">on YouTube</a>, and follow VC Locals Only for more stories from the people building Ventura County&rsquo;s startup ecosystem. Our thanks to the show for making Startup Ventura part of episode one.',
+    ],
+  },
     {
     file: 'news-sean-herwaldt-board.html', crumb: 'New Board Member',
     title: 'Senior SpaceX Alum Sean Herwaldt Joins Startup Ventura Board of Directors',
