@@ -489,6 +489,21 @@ const card = (href, eyebrow, title, text, link) => `<a class="card card--link" h
 // the News pages both render from it.
 const newsPosts = [
   {
+    file: 'news-nsf-ate.html', crumb: 'NSF ATE Application',
+    title: 'Startup Ventura, VCCCD, and gener8tor Apply for a $3 Million NSF Grant',
+    date: 'October 1, 2026', img: `${A}/img/news/nsf-ate.jpg`,
+    alt: 'Logos of Startup Ventura, the Ventura County Community College District, gener8tor, and the National Science Foundation',
+    excerpt: 'Startup Ventura, the Ventura County Community College District, and gener8tor have applied for a $3 million National Science Foundation grant to train technicians and build entrepreneurial skills on real industry problems.',
+    paras: [
+      'Startup Ventura, the Ventura County Community College District, and gener8tor have submitted an application for a $3 million grant from the National Science Foundation&rsquo;s <a href="https://www.nsf.gov/funding/opportunities/ate-advanced-technological-education/nsf24-584/solicitation" target="_blank" rel="noopener">Advanced Technological Education (ATE) program</a> to build a new kind of technical education in Ventura County: one where students learn by working real problems from real employers.',
+      'ATE is the NSF program dedicated to educating the technicians who power the country&rsquo;s high-technology industries, and it is built around community colleges, which train most of America&rsquo;s science and engineering technicians. The application targets the program&rsquo;s largest project track, Consortia for Innovations in Technician Education, which awards between $1.2 million and $3 million over three to four years to a handful of projects nationwide. Two-year college faculty lead every ATE project, which puts VCCCD and its colleges, Moorpark, Oxnard, and Ventura College, at the center of this one.',
+      'Startup Ventura&rsquo;s job in the partnership is the employer side of the equation. We will build and maintain relationships with employers across the county and source the problem statements that students work on: real, current challenges from real companies, not textbook exercises. Students iterate on those problems the way founders iterate on a product, learning the technology and the craft of solving an actual customer&rsquo;s pain.',
+      'The design produces two outcomes at once. Students build entrepreneurial muscles, defining a problem, testing solutions, and presenting to the employer who owns it, and the ATE program explicitly supports entrepreneurial skills development for exactly this reason. And the county gains a pipeline of skilled technicians for the industries that need them most, including the defense sector anchored by Ventura County&rsquo;s naval installations and the contractors around them.',
+      'This is the second major workforce application Startup Ventura and VCCCD have partnered on this year, following the <a href="news-accelerator-14-application.html">Quantum and Fusion Skills Accelerator proposal</a> to the California Workforce Development Board, and it deepens our work with gener8tor, the nationally ranked accelerator network. Building coalitions like this one is the core of what Startup Ventura exists to do.',
+      'Awards have not yet been announced, and we will share the outcome when NSF completes its review. Whatever the result, the model, students learning on real problems from real employers, is one this county will see again.',
+    ],
+  },
+  {
     file: 'news-the-hustle.html', crumb: 'The Hustle Podcast',
     title: 'Luke Erickson on The Hustle: Can Ventura Become California&rsquo;s Next Startup Hub?',
     date: 'September 25, 2026', img: `${A}/img/news/the-hustle.jpg`,
