@@ -489,6 +489,19 @@ const card = (href, eyebrow, title, text, link) => `<a class="card card--link" h
 // the News pages both render from it.
 const newsPosts = [
   {
+    file: 'news-vccu-grant.html', crumb: 'VCCU Grant',
+    title: 'Ventura County Credit Union Awards Startup Ventura a $10,000 Grant',
+    date: 'October 1, 2026', img: `${A}/img/news/vccu-grant.jpg`,
+    alt: 'Startup Ventura and Ventura County Credit Union logos',
+    excerpt: 'The Foundation of VCCU has awarded Startup Ventura a $10,000 community grant, deepening a partnership that already spans our Annual Benefit and the founders we serve.',
+    paras: [
+      'Startup Ventura has been awarded a $10,000 grant by The Foundation of Ventura County Credit Union, the credit union&rsquo;s philanthropic arm, through its annual community grant program.',
+      'VCCU is not a new name to this community or to us. The credit union has backed Startup Ventura from the start as a supporting partner and an Annual Benefit sponsor, and its foundation puts $100,000 into Ventura County nonprofits every year. This grant deepens a relationship we are proud of, with a local financial institution that puts its money where its members live.',
+      'Every dollar goes to work in Ventura County: free accelerator programming, the founder workshop series, and the community that keeps our next generation of companies building at home. Our accelerator takes no tuition and no equity, which means support like this is exactly what keeps it free for founders.',
+      'To the board and team at VCCU and The Foundation of VCCU: thank you for betting on Ventura County founders. To everyone else who wants to see what this community can build, <a href="give.html">join them</a>.',
+    ],
+  },
+  {
     file: 'news-nsf-ate.html', crumb: 'NSF ATE Application',
     title: 'Startup Ventura, VCCCD, and gener8tor Apply for a $3 Million NSF Grant',
     date: 'October 1, 2026', img: `${A}/img/news/nsf-ate.jpg`,
@@ -501,6 +514,19 @@ const newsPosts = [
       'The design produces two outcomes at once. Students build entrepreneurial muscles, defining a problem, testing solutions, and presenting to the employer who owns it, and the ATE program explicitly supports entrepreneurial skills development for exactly this reason. And the county gains a pipeline of skilled technicians for the industries that need them most, including the defense sector anchored by Ventura County&rsquo;s naval installations and the contractors around them.',
       'This is the second major workforce application Startup Ventura and VCCCD have partnered on this year, following the <a href="news-accelerator-14-application.html">Quantum and Fusion Skills Accelerator proposal</a> to the California Workforce Development Board, and it deepens our work with gener8tor, the nationally ranked accelerator network. Building coalitions like this one is the core of what Startup Ventura exists to do.',
       'Awards have not yet been announced, and we will share the outcome when NSF completes its review. Whatever the result, the model, students learning on real problems from real employers, is one this county will see again.',
+    ],
+  },
+  {
+    file: 'news-our-ventura-tv.html', crumb: 'Our Ventura TV',
+    title: 'Luke Erickson Talks Startup Ventura on Channel 6&rsquo;s Our Ventura TV',
+    date: 'October 1, 2026', img: `${A}/img/news/our-ventura-tv.jpg`,
+    alt: 'Luke Erickson on the Our Ventura TV set with host George Alger',
+    excerpt: 'Founder and Executive Director Luke Erickson joined host George Alger on Our Ventura TV for a conversation about connecting early stage founders with mentors and funding.',
+    paras: [
+      'Founder and Executive Director Luke Erickson joined host George Alger on Our Ventura TV, the community program broadcast on Ventura&rsquo;s Channel 6, for a segment titled <a href="https://ourventura.com/startup-ventura-connecting-early-stage-founders-with-mentors-and-funding/" target="_blank" rel="noopener">&ldquo;Startup Ventura: Connecting Early-Stage Founders with Mentors and Funding,&rdquo;</a> published September 30.',
+      'The conversation covers the whole arc of what Startup Ventura is building: a thriving technology ecosystem that attracts, launches, and scales innovative companies in Ventura County, and why that work matters in a region where the cost of living keeps pushing young people away. Luke walks through the accelerator and its partnerships with gener8tor and Plug and Play, how founders should think about fundraising, and the qualities that separate the founders who make it.',
+      '<iframe class="embed-video" src="https://www.youtube-nocookie.com/embed/4oNIn2sBPoI" title="Startup Ventura: Connecting Early-Stage Founders with Mentors and Funding" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+      'Watch the full segment above, <a href="https://www.youtube.com/watch?v=4oNIn2sBPoI" target="_blank" rel="noopener">on YouTube</a>, or at <a href="https://ourventura.com/startup-ventura-connecting-early-stage-founders-with-mentors-and-funding/" target="_blank" rel="noopener">ourventura.com</a>. Our thanks to George Alger and the Channel 6 team for spotlighting the founders of Ventura County.',
     ],
   },
   {
