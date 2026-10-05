@@ -489,6 +489,21 @@ const card = (href, eyebrow, title, text, link) => `<a class="card card--link" h
 // the News pages both render from it.
 const newsPosts = [
   {
+    file: 'news-pacific-coast-business-times.html', crumb: 'Business Times',
+    title: 'Pacific Coast Business Times: Ventura Pushes the Accelerator Pedal',
+    date: 'October 5, 2026', img: `${A}/img/news/pcbt.jpg`,
+    alt: 'Pacific Coast Business Times logo',
+    excerpt: 'The Pacific Coast Business Times profiled Startup Ventura, from the Trade Desk lineage to the gener8tor and Plug and Play partnerships behind the inaugural cohort.',
+    paras: [
+      'The Pacific Coast Business Times, the business journal of record for the Central Coast, has profiled Startup Ventura. Reporter Jorge Mercado&rsquo;s October 2 feature, <a href="https://www.pacbiztimes.com/2026/10/02/ventura-pushes-the-accelerator-pedal/" target="_blank" rel="noopener">&ldquo;Ventura pushes the accelerator pedal,&rdquo;</a> tells the story of the accelerator from its founding to the inaugural cohort now taking shape.',
+      'The piece traces the arc readers of this site will recognize: founder and Executive Director Luke Erickson arrived in Ventura in 2022, built and exited his own company, and founded Startup Ventura in 2025 to give local founders the options they would otherwise leave to find. &ldquo;I thought this was going to be my 10-year passion project for the county, but we had some very serious business professionals join our board and they said, &lsquo;We want to do this now,&rsquo;&rdquo; Erickson told the Business Times.',
+      'It also puts our national partnerships on the record: gener8tor, the nationally recognized accelerator network, and Plug and Play, the global innovation platform and venture capital firm that has long wanted an accelerator presence in Southern California. The inaugural cohort will be selected from the industries where Ventura County already has a foothold: biotech, defense, and AI and software companies.',
+      'Board member Sean Herwaldt, who helped build Starlink at SpaceX before joining Curri here in Ventura, put the mission in personal terms: &ldquo;I just had my firstborn son in February and when he gets to be of age to start his career, I want him to have the choice to be able to start that career in Ventura.&rdquo;',
+      'The article also reports where the campaign stands: roughly $100,000 raised of the $300,000 needed to fund operations through the first cohort. That gap is the distance between a promising story and a running accelerator, and closing it is what <a href="give.html">every gift</a> goes toward.',
+      '<a href="https://www.pacbiztimes.com/2026/10/02/ventura-pushes-the-accelerator-pedal/" target="_blank" rel="noopener">Read the full story at the Pacific Coast Business Times</a>. Our thanks to Jorge Mercado and the Business Times for taking Ventura County&rsquo;s founders seriously.',
+    ],
+  },
+  {
     file: 'news-vccu-grant.html', crumb: 'VCCU Grant',
     title: 'Ventura County Credit Union Awards Startup Ventura a $10,000 Grant',
     date: 'October 1, 2026', img: `${A}/img/news/vccu-grant.jpg`,
