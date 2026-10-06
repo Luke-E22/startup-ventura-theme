@@ -506,7 +506,7 @@ const newsPosts = [
   {
     file: 'news-vccu-grant.html', crumb: 'VCCU Grant',
     title: 'Ventura County Credit Union Awards Startup Ventura a $10,000 Grant',
-    date: 'October 1, 2026', img: `${A}/img/news/vccu-grant.jpg`,
+    date: 'October 1, 2026', img: `${A}/img/news/vccu-check.jpg`,
     alt: 'Luke Erickson accepts a $10,000 check from The Foundation of VCCU team at Ventura County Credit Union.',
     excerpt: 'The Foundation of VCCU has awarded Startup Ventura a $10,000 community grant, deepening a partnership that already spans our Annual Benefit and the founders we serve.',
     paras: [
