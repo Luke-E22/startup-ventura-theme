@@ -489,6 +489,20 @@ const card = (href, eyebrow, title, text, link) => `<a class="card card--link" h
 // the News pages both render from it.
 const newsPosts = [
   {
+    file: 'news-boys-girls-club.html', crumb: 'Boys &amp; Girls Club',
+    title: 'Startup Ventura Teaches Entrepreneurship at the Boys &amp; Girls Club of Greater Ventura',
+    date: 'October 9, 2026', img: `${A}/img/news/bgclub.jpg`,
+    alt: 'Luke Erickson with students after an entrepreneurship class at the Boys and Girls Club of Greater Ventura.',
+    excerpt: 'Luke Erickson brought a hands on hour of entrepreneurship to the Boys &amp; Girls Club of Greater Ventura, where every student left with a problem, a solution, and a business name of their own.',
+    paras: [
+      'Entrepreneurship education should not wait for college. This week, founder and Executive Director Luke Erickson taught a one hour entrepreneurship class at the <a href="https://bgclubventura.org/" target="_blank" rel="noopener">Boys &amp; Girls Club of Greater Ventura</a>.',
+      'The hour ran in two parts. First, Luke told his own story: starting a company, the setbacks nobody advertises, and the decision to build in Ventura County instead of leaving it. Then the students became the founders. Each one picked a real problem they had noticed, designed a solution for it, and named the business they would build around it.',
+      'The ideas came fast, and so did the lesson underneath them: entrepreneurship is not a mystery reserved for other people in other cities. It is a way of looking at problems, and it can be learned here, young, by anyone.',
+      'This is what building an ecosystem actually looks like. The founders who will lead Ventura County&rsquo;s companies in 2040 are sitting in classrooms and club rooms right now, and every hour spent showing them what is possible is an investment with a very long tail. Our thanks to the Boys &amp; Girls Club of Greater Ventura team for the invitation and for the work they do every day.',
+      'Want Startup Ventura in front of your students or your organization? <a href="contact.html">Reach out</a>. And if you want to put your own experience in front of the next generation of founders, <a href="mentor.html">raise your hand as a mentor</a>.',
+    ],
+  },
+  {
     file: 'news-pacific-coast-business-times.html', crumb: 'Business Times',
     title: 'Pacific Coast Business Times: Ventura Pushes the Accelerator Pedal',
     date: 'October 5, 2026', img: `${A}/img/news/pcbt.jpg`,
