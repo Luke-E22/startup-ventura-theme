@@ -11,6 +11,13 @@
 [build.environment]
   NODE_VERSION = "22"
 
+# Serverless functions. netlify/functions/submission-created.mjs is an event
+# function: Netlify runs it on every form submission and it syncs the entry
+# into the Notion CRM (People + Interactions). Needs NOTION_TOKEN in env.
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
 # Cache policy. Static assets are content-addressed by a ?v= query on CSS/JS and
 # by stable filenames for images/fonts, so they are safe to cache for a year.
 # HTML must always revalidate so content edits go live on the next deploy.
