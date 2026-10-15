@@ -489,6 +489,20 @@ const card = (href, eyebrow, title, text, link) => `<a class="card card--link" h
 // the News pages both render from it.
 const newsPosts = [
   {
+    file: 'news-conejo-valley-visionaries.html', crumb: 'Conejo Valley Visionaries',
+    title: 'How to Raise Money for Your Business: Luke Erickson on Conejo Valley Visionaries',
+    date: 'October 15, 2026', img: `${A}/img/news/visionary-podcast.jpg`,
+    alt: 'Luke Erickson on the Conejo Valley Visionaries podcast, Visionary Playbook series',
+    excerpt: 'Luke Erickson joined host Cristina Dennstedt on Conejo Valley Visionaries for a practical conversation on when to raise money, what investors really want, and why founders should not build alone.',
+    paras: [
+      'Founder and Executive Director Luke Erickson is the guest on the latest <a href="https://www.youtube.com/watch?v=du8KrOPdTkY" target="_blank" rel="noopener">Conejo Valley Visionaries</a> episode, the second installment of the show&rsquo;s Visionary Playbook series: practical business advice from people who have actually done it. The episode, &ldquo;How to Raise Money for Your Business (What Investors Really Want),&rdquo; was released October 15 and is hosted and produced by Cristina Dennstedt.',
+      'The conversation is a founder&rsquo;s field guide to capital. Luke walks through when to raise money at all, including why the best time to approach investors is often when you do not need their money, how the stages of funding differ from friends and family to angel investors to venture capital, what investors look for in an early stage founder, how to prepare for a pitch, and how to decide whether outside investment is even the right move for your business.',
+      'It also gets personal. Luke, who went from preparing for medical school to founding and exiting his own company, explains why he would not want to build another company alone and what he looks for in a co-founder, and shares a surprisingly simple public speaking trick that can make an investor pitch stronger. The episode closes with what is ahead for Startup Ventura, including the accelerator, and why entrepreneurs should not have to leave Ventura County to build a successful company.',
+      '<iframe class="embed-video" src="https://www.youtube-nocookie.com/embed/du8KrOPdTkY" title="How to Raise Money for Your Business (What Investors Really Want) | Conejo Valley Visionaries" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+      'Watch the full episode above or <a href="https://www.youtube.com/watch?v=du8KrOPdTkY" target="_blank" rel="noopener">on YouTube</a>, and follow <a href="https://www.youtube.com/@VisionaryPodcasts" target="_blank" rel="noopener">Conejo Valley Visionaries</a> for conversations with the entrepreneurs, creatives, and community leaders shaping Thousand Oaks, Westlake Village, Agoura Hills, and Newbury Park. Our thanks to Cristina Dennstedt for the invitation. If the episode has you thinking about your own company, <a href="contact.html#notify">get first access to the accelerator</a>.',
+    ],
+  },
+  {
     file: 'news-boys-girls-club.html', crumb: 'Boys &amp; Girls Club',
     title: 'Startup Ventura Teaches Entrepreneurship at the Boys &amp; Girls Club of Greater Ventura',
     date: 'October 9, 2026', img: `${A}/img/news/bgclub.jpg`,
