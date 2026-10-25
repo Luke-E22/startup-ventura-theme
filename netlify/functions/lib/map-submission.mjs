@@ -18,6 +18,7 @@ export const FORMS = {
   workshop:            { label: 'Workshop seat request',   interest: ['Attending events'],        relationship: ['Event Attendee'], topics: ['Event'] },
   events:              { label: 'Events calendar signup',  interest: ['Attending events'],        relationship: [],                 topics: ['Event'] },
   board:               { label: 'Board of Directors interest', interest: ['Volunteering'],        relationship: ['Board Candidate'], topics: ['Mission'] },
+  invest:              { label: 'Investor inquiry',        interest: [],                          relationship: ['Connector'],      topics: ['Intro'] },
   careers:             { label: 'Job application',         interest: [],                          relationship: [],                 topics: ['Operations'] },
   newsletter:          { label: 'Newsletter signup',       interest: [],                          relationship: [],                 topics: ['Mission'] },
   'partner-foundations': { label: 'Foundation partnership', interest: ['Partnership / sponsorship'], relationship: ['Prospect'],    topics: ['Partnership'] },
@@ -35,6 +36,7 @@ function refine(form, interest, out) {
   }
   if (form === 'connect' && v.includes('corporate')) { out.interest = ['Partnership / sponsorship']; out.topics = ['Partnership']; }
   if (form === 'connect' && v.includes('exploring')) { out.interest = []; out.relationship = ['Prospect']; }
+  if (form === 'invest' && (v.includes('mentor') || v.includes('judge'))) { out.interest = ['Mentoring']; out.relationship = ['Mentor']; out.topics = ['Mentoring']; }
 }
 
 const SKIP = new Set(['form-name', 'bot-field', 'ip', 'user_agent', 'referrer', 'g-recaptcha-response']);

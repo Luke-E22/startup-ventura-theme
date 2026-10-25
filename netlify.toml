@@ -76,6 +76,17 @@
   to = "/ecosystem.html"
   status = 200
 
+# Investor inquiry page (indexable; modal + footer) and its thanks page.
+[[redirects]]
+  from = "/invest"
+  to = "/invest.html"
+  status = 200
+
+[[redirects]]
+  from = "/thanks-invest"
+  to = "/thanks-invest.html"
+  status = 200
+
 # Board of Directors interest form (organic, linked from About) + its thanks page.
 [[redirects]]
   from = "/board-interest"

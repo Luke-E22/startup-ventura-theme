@@ -127,7 +127,7 @@ const footer = () => `</main>
       <a href="https://www.facebook.com/startupventura/" aria-label="Facebook" rel="noopener" target="_blank"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.9h2.54V9.85c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.44 2.9h-2.34V22c4.78-.76 8.44-4.92 8.44-9.94Z"/></svg></a>
       <a href="https://www.instagram.com/startup_ventura/" aria-label="Instagram" rel="noopener" target="_blank"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.2c3.2 0 3.6 0 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s0 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58 0-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.21 15.58 2.2 15.2 2.2 12s0-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.21 8.8 2.2 12 2.2zm0 1.98c-3.15 0-3.5.01-4.74.07-1.14.05-1.76.24-2.17.4-.55.22-.94.47-1.35.88-.41.41-.66.8-.88 1.35-.16.41-.35 1.03-.4 2.17-.06 1.24-.07 1.59-.07 4.74s.01 3.5.07 4.74c.05 1.14.24 1.76.4 2.17.22.55.47.94.88 1.35.41.41.8.66 1.35.88.41.16 1.03.35 2.17.4 1.24.06 1.59.07 4.74.07s3.5-.01 4.74-.07c1.14-.05 1.76-.24 2.17-.4.55-.22.94-.47 1.35-.88.41-.41.66-.8.88-1.35.16-.41.35-1.03.4-2.17.06-1.24.07-1.59.07-4.74s-.01-3.5-.07-4.74c-.05-1.14-.24-1.76-.4-2.17a3.6 3.6 0 0 0-.88-1.35 3.6 3.6 0 0 0-1.35-.88c-.41-.16-1.03-.35-2.17-.4-1.24-.06-1.59-.07-4.74-.07zm0 3.37a4.45 4.45 0 1 1 0 8.9 4.45 4.45 0 0 1 0-8.9zm0 7.34a2.89 2.89 0 1 0 0-5.78 2.89 2.89 0 0 0 0 5.78zm5.66-7.57a1.04 1.04 0 1 1-2.08 0 1.04 1.04 0 0 1 2.08 0z"/></svg></a>
     </div></div>
-    <div class="footer-col"><p class="footer-col__title">Explore</p><ul><li><a href="program.html">The Program</a></li><li><a href="why-ventura-county.html">Why Ventura County</a></li><li><a href="ecosystem.html">Ecosystem Guide</a></li><li><a href="impact.html">Impact</a></li><li><a href="give.html">Give</a></li><li><a href="partner.html">Partner</a></li><li><a href="about.html">About</a></li><li><a href="news.html">News</a></li><li><a href="resources.html">Founder Resources</a></li><li><a href="contact.html">Contact</a></li><li><a href="faq.html">FAQ</a></li><li><a href="donor-wall.html">Donor Wall</a></li><li class="footer-hiring"><a href="careers.html">Join our team <span class="sep">|</span> Careers</a></li><li class="footer-note-link"><a href="explore-83-palm.html">83 Palm St &middot; concept study</a></li></ul></div>
+    <div class="footer-col"><p class="footer-col__title">Explore</p><ul><li><a href="program.html">The Program</a></li><li><a href="why-ventura-county.html">Why Ventura County</a></li><li><a href="ecosystem.html">Ecosystem Guide</a></li><li><a href="impact.html">Impact</a></li><li><a href="give.html">Give</a></li><li><a href="partner.html">Partner</a></li><li><a href="invest.html">Invest</a></li><li><a href="about.html">About</a></li><li><a href="news.html">News</a></li><li><a href="resources.html">Founder Resources</a></li><li><a href="contact.html">Contact</a></li><li><a href="faq.html">FAQ</a></li><li><a href="donor-wall.html">Donor Wall</a></li><li class="footer-hiring"><a href="careers.html">Join our team <span class="sep">|</span> Careers</a></li><li class="footer-note-link"><a href="explore-83-palm.html">83 Palm St &middot; concept study</a></li></ul></div>
     <div class="footer-col"><p class="footer-col__title">Get in touch</p><ul><li><a href="mailto:info@startupventura.com">info@startupventura.com</a></li><li><a href="mailto:sponsor@startupventura.com">sponsor@startupventura.com</a></li><li><a href="press.html">Press &amp; media kit</a></li></ul></div>
   </div><div class="footer-legal"><span>Startup Ventura is a 501(c)(3) nonprofit. EIN 39-2204612. Gifts are tax-deductible to the extent allowed by law.</span><span>&copy; 2026 Startup Ventura</span><span class="footer-legal__links"><a href="privacy.html">Privacy</a> &middot; <a href="terms.html">Terms</a></span><span class="footer-legal__credit">Website by <a href="https://lukeerickson.com" target="_blank" rel="noopener">Luke Erickson</a></span></div></div>
 </footer>`;
@@ -332,6 +332,8 @@ const GET_INVOLVED = [
     icon: '<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>' },
   { href: 'mentor.html', title: 'Volunteer or Mentor', desc: 'Share your time and expertise with local founders',
     icon: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>' },
+  { href: 'invest.html', title: 'Invest in Founders', desc: 'Back the companies coming out of the accelerator',
+    icon: '<path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/>' },
   { href: 'index.html', title: 'Learn More', desc: 'See how Startup Ventura works',
     icon: '<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h6z"/>' },
 ];
@@ -1137,7 +1139,7 @@ page('about.html', {
 page('contact.html', {
   title: 'Contact', crumbsTrail: [['Home', 'index.html'], ['Contact', '']],
   body: `<section class="section"><div class="wrap"><div class="contact-layout">
-    <div><p class="eyebrow">Contact</p>${waveRule}<h1 class="display">Send us a message</h1><p class="lede">Fill out the form below and we will get back to you. Tell us a little about yourself and what you are interested in, whether that is the cohort, partnership, mentoring, or something else.</p><div style="margin-top:28px">${form('contact', 'Send Message', false, true, { phone: true, twoCol: true, interest: ['General', 'Press', 'Major Gifts', 'Sponsorship', 'Investor inquiry', 'Mentoring', 'Other'] })}</div></div>
+    <div><p class="eyebrow">Contact</p>${waveRule}<h1 class="display">Send us a message</h1><p class="lede">Fill out the form below and we will get back to you. Tell us a little about yourself and what you are interested in, whether that is the cohort, partnership, mentoring, or something else. Investors can go straight to our <a href="invest.html">investor page</a>.</p><div style="margin-top:28px">${form('contact', 'Send Message', false, true, { phone: true, twoCol: true, interest: ['General', 'Press', 'Major Gifts', 'Sponsorship', 'Investor inquiry', 'Mentoring', 'Other'] })}</div></div>
     <aside class="contact-aside"><h2 class="display">Other ways to reach us</h2>
       <div class="contact-aside__block"><h3>Email</h3><a href="mailto:info@startupventura.com">info@startupventura.com</a></div>
       <div class="contact-aside__block"><h3>Partnerships &amp; sponsorship</h3><a href="mailto:sponsor@startupventura.com">sponsor@startupventura.com</a></div>
@@ -1543,6 +1545,47 @@ page('board-interest.html', {
     ctaBand('Prefer to support the mission financially?', 'none'),
 });
 
+// INVESTORS → /invest (form 'invest' → /thanks-invest → investor_lead). Indexable,
+// linked from the entry modal and footer. Startup Ventura is a 501(c)(3): it does
+// NOT sell equity in itself and takes none in cohort companies. Language here is
+// deliberately Rule 148-safe (nonprofit-hosted pitch events): no recommendations,
+// no 'deal flow' / 'early looks' / 'vetted', no round terms, no returns talk.
+// Facts still unconfirmed by Luke are left OUT rather than guessed.
+const investorFaq = [
+  ['Can I invest in Startup Ventura itself?', 'No. Startup Ventura is a 501(c)(3) nonprofit (EIN 39-2204612). It has no shareholders, does not sell stock, notes, or any other security, and does not pay financial returns. If you want to fund the program, that is a tax deductible gift or sponsorship through our <a href="give.html">Give page</a>. If you want to invest, you invest directly in the independent companies that come through the accelerator, on terms you work out with those founders. Startup Ventura is not a party to those investments.'],
+  ['Does Startup Ventura take equity or a fee when I invest in a company?', 'No. The program takes no equity in cohort companies, charges founders no tuition and no fees, and receives no fee, carried interest, or success payment tied to any investment. It does not run a fund or a special purpose vehicle, and it does not pool or syndicate investments. Operating costs are covered by the City of Ventura, grants, sponsors, and donors.'],
+  ['How do I meet the companies?', 'Every cohort ends with a Pitch Day in front of investors. Pitch Day is by invitation, and invitations go to people with investment or industry experience based on what you tell us on this form. After Pitch Day, tell us which founders you would like to meet and we pass the request along. Founders decide whom they meet. Startup Ventura arranges introductions and nothing more.'],
+  ['Do I need to be an accredited investor?', 'Not to join this list, attend Pitch Day as an invited guest, mentor, or judge. Whether you may invest in a particular company is decided by that company and its counsel under the securities exemption it uses, and most early stage rounds are limited to accredited investors. Startup Ventura does not verify accreditation and does not decide eligibility for any investment.'],
+  ['What does Startup Ventura do, and not do, in a deal?', 'We introduce, convene, and educate. We do not recommend investments, provide investment, legal, or tax advice, evaluate companies for investment merit, negotiate or structure deals, hold or transmit funds, or receive any payment when an investment closes. Selection into the cohort reflects our program criteria and is not an endorsement of any company. Nothing on this site is an offer to sell or a solicitation of an offer to buy any security. Do your own diligence and consult your own advisers.'],
+  ['Who sets the terms, valuation, and minimum check?', 'Each company does. Startup Ventura does not set, negotiate, or publish any company&rsquo;s round terms. Because the program takes no equity and charges nothing, there is no accelerator instrument on the cap table. We ask about your typical check size, stage, and sectors only so the introductions we make are useful to you and to the founders.'],
+  ['What returns should I expect, and what is your track record?', 'We make no representation about any company&rsquo;s prospects or about returns. Early stage private investments are illiquid, information is limited, and you may lose the entire amount you invest. Our first cohort launches in 2027, so we have no alumni outcomes to report yet. What we can point to is the program design, the operators on our board, and our partners, Plug and Play and gener8tor. Once results exist we will publish factual cohort figures with dates and sources.'],
+  ['Can I be involved without writing a check?', 'Yes. Investor mentors hold office hours or short sessions with cohort founders in the sectors they know, on a schedule they set. Pitch Day needs judges and attendees. Sponsoring Pitch Day is handled separately from investing, through <a href="mailto:sponsor@startupventura.com">sponsor@startupventura.com</a> and the Give page. None of these roles requires accreditation.'],
+  ['If I mentor or judge, can I invest in a company I worked with?', 'Mentors and judges keep founder information confidential and disclose any existing or contemplated financial or personal relationship with a cohort company, and they step back from scoring that company. Any investment conversation is between you and the founder, in your personal capacity.'],
+  ['Does giving to the program get me access to founders?', 'No. Giving and investing are separate. Donors and sponsors receive recognition and community: name or logo placement, impact reports, and event invitations. Access to founders is based on what founders need and is open to any qualified investor regardless of giving. Gifts to Startup Ventura are tax deductible to the extent allowed by law.'],
+];
+page('invest.html', {
+  title: 'Invest in Ventura County Founders',
+  desc: 'For angels, funds, and family offices: Pitch Day invitations, introductions to cohort companies, and investor mentoring. Startup Ventura is a nonprofit and does not sell equity in itself.',
+  canonical: `${SITE}/invest`,
+  crumbsTrail: [['Home', 'index.html'], ['Invest', '']],
+  body: pageHead('Investors', 'Back the founders building here.', 'Every cohort ends with a Pitch Day in front of investors, and the companies on that stage are the whole point of the program. If you invest in early stage companies, or want to, this is where to start.') +
+    `<section class="section section--tight"><div class="wrap"><div class="card-grid card-grid--2">
+      <div class="card"><div class="card__body"><p class="eyebrow">Invest in the companies</p><h3 class="card__title">You invest in founders, not in us.</h3><p class="card__text">Startup Ventura is a 501(c)(3). It has no shareholders and takes no equity in cohort companies. Investing means backing the independent companies that come through the accelerator, on terms you negotiate directly with those founders. Use the form below.</p></div></div>
+      ${card('give.html', 'Support the program', 'Want to fund the accelerator itself?', 'That is a tax deductible gift or sponsorship, kept completely separate from investing. It keeps the program free for founders.', 'Go to Give')}
+    </div></div></section>
+    <section class="section section--pale"><div class="wrap"><div class="contact-layout">
+    <div>${head('Get on the list', 'Tell us how you invest.')}<div style="margin-top:28px">${form('invest', 'Inquire about investing', false, true, { twoCol: true, interest: ['Angel investor', 'Angel group member', 'Venture capital fund', 'Family office', 'Corporate or strategic investor', 'Investor mentor or Pitch Day judge', 'Exploring, not yet investing'], interestLabel: 'How do you invest?', msgLabel: 'Typical check size, stage, sectors, and what you are looking for', msgOptional: true, linkLabel: 'LinkedIn or firm website', redirect: '/thanks-invest' })}</div><p class="muted" style="margin-top:14px;font-size:14px">We ask about check size, stage, and sectors only so introductions are useful to you and to the founders. Startup Ventura does not verify accredited status; each company is responsible for confirming investor eligibility.</p></div>
+    <aside class="contact-aside">
+      <div class="contact-card"><h3>What you can expect</h3><p>An invitation to Pitch Day, introductions to founders who want to meet you after they present, and the option to mentor cohort founders in the sectors you know. Founders arrive with no accelerator instrument on the cap table, because the program takes no equity.</p></div>
+      <div class="contact-aside__block"><h3>Who is already in the room</h3><p>Our board includes leadership behind SevenRooms&rsquo; $1.2B acquisition, Curri, and SpaceX, and the program runs with Plug and Play and gener8tor.</p></div>
+      <div class="contact-aside__block"><h3>Not an offer</h3><p>Nothing on this site is an offer to sell or a solicitation of an offer to buy any security. Startup Ventura does not recommend investments or provide investment advice.</p></div>
+      <div class="contact-aside__block"><h3>Questions?</h3><p><a href="mailto:info@startupventura.com">info@startupventura.com</a></p></div>
+    </aside>
+  </div></div></section>
+    <section class="section"><div class="wrap wrap--narrow">${head('Investor questions', 'What investors ask us first.')}<div class="faq" style="margin-top:24px">${investorFaq.map(([q, a]) => `<details class="faq__item"><summary class="faq__q">${q}</summary><div class="faq__a"><p>${a}</p></div></details>`).join('')}</div></div></section>` +
+    ctaBand('Would rather fund the program than the companies?', 'none'),
+});
+
 // WORKSHOPS → /workshop (form 'workshop' → /thanks-workshop → workshop_lead)
 page('workshop.html', {
   title: 'Founder Workshops: Save a Seat',
@@ -1746,6 +1789,14 @@ funnelThanks('thanks-board.html', {
   lede: 'Thank you. Our board reviews every expression of interest, and we will reach out to start the conversation. In the meantime, get to know the people you would be building with.',
   primary: ['Meet the current board', 'about.html'], secondary: ['See what we are building', 'index.html'],
 });
+
+funnelThanks('thanks-invest.html', {
+  title: 'You Are on the Investor List', eyebrow: 'Investors', event: 'investor_lead',
+  desc: 'Thank you for your interest in backing Ventura County founders through Startup Ventura.',
+  h1: 'Founders will be glad you are here.',
+  lede: 'Thank you. We will reach out to learn how you invest, and you will hear about Pitch Day, early looks at cohort companies, and mentoring opportunities before anyone else.',
+  primary: ['Meet the board', 'about.html'], secondary: ['See what we are building', 'index.html'],
+});
 funnelThanks('thanks-workshop.html', {
   title: 'Seat Saved', eyebrow: 'Seat Saved', event: 'workshop_lead',
   desc: 'Your seat is saved. You will get the first invitation when the next Startup Ventura founder workshop is scheduled.',
@@ -1801,6 +1852,7 @@ Startup Ventura was founded in 2025 by Luke Erickson, who serves as Executive Di
 - [Home](${SITE}/): mission and overview
 - [The Program](${SITE}/program): accelerator + workshops
 - [Why Ventura County](${SITE}/why-ventura-county): the problem Startup Ventura solves
+- [Invest in Founders](${SITE}/invest): Pitch Day access and early looks at cohort companies for angels, funds, and family offices (the nonprofit itself does not sell equity)
 - [Ventura County Startup Ecosystem Guide](${SITE}/ecosystem): verified directory of accelerators, capital, education, government, coworking, and communities
 - [Impact](${SITE}/impact): traction and where donations go
 - [Give](${SITE}/give): donate to fund the cohort (tax-deductible)
