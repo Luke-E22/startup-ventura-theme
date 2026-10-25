@@ -511,6 +511,14 @@ picture{display:contents}
 .eco-item h3 a:hover{text-decoration:underline}
 .eco-item p{color:var(--muted);font-size:15px;line-height:1.5;margin:0}
 .eco-ours{display:inline-block;vertical-align:2px;margin-left:8px;font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);border:1px solid var(--sky);border-radius:999px;padding:3px 8px}
+/* Investor page: partner portfolio lists */
+.portfolio-list{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:10px}
+.portfolio-list li{display:grid;grid-template-columns:1fr auto;gap:2px 10px;align-items:baseline;padding:10px 0;border-top:1px solid var(--line);font-size:15px;line-height:1.45}
+.portfolio-list li:first-child{border-top:0;padding-top:0}
+.portfolio-list strong{color:var(--navy);font-weight:700}
+.portfolio-list span{grid-column:1;color:var(--muted)}
+.portfolio-src{grid-row:1/span 2;align-self:start;color:var(--steel);text-decoration:none;font-size:13px}
+.portfolio-src:hover{color:var(--blue)}
 .partner-group + .partner-group{margin-top:40px}
 .partner-group__label{text-align:center;margin:0 0 20px}
 .partner-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:clamp(28px,5vw,64px)}
