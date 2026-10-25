@@ -43,12 +43,6 @@
   to = "/assets/img/favicon-32.png"
   status = 200
 
-# Pretty route for the unlisted 83 Palm concept page (flat file convention).
-[[redirects]]
-  from = "/explore/83-palm"
-  to = "/explore-83-palm.html"
-  status = 200
-
 # Pretty routes for pages whose canonical omits .html.
 [[redirects]]
   from = "/thank-you"
