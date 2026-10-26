@@ -94,8 +94,8 @@ const header = (overHero = false) => `<a class="skip-link" href="#main">Skip to 
   <div class="wrap site-header__inner">
     <nav class="primary-nav primary-nav--left" aria-label="Primary">${navList(NAV.slice(0, 3))}</nav>
     <a class="site-brand" href="index.html" rel="home" aria-label="Startup Ventura home">
-      <img class="brand-mark brand-mark--color" src="${A}/img/logo-mark-112.png" height="36" alt="Startup Ventura">
-      <img class="brand-mark brand-mark--white" src="${A}/img/logo-mark-white-112.png" height="36" alt="" aria-hidden="true">
+      <img class="brand-mark brand-mark--color" src="${A}/img/logo-mark-112.png" width="140" height="112" alt="Startup Ventura">
+      <img class="brand-mark brand-mark--white" src="${A}/img/logo-mark-white-112.png" width="140" height="112" alt="" aria-hidden="true">
     </a>
     <div class="nav-right">
       <div class="primary-nav primary-nav--right">${navList(NAV.slice(3))}</div>
@@ -182,6 +182,9 @@ const ORG_SCHEMA = {
     'https://www.linkedin.com/company/startup-ventura',
     'https://www.instagram.com/startup_ventura/',
     'https://www.facebook.com/startupventura/',
+    'https://www.youtube.com/@startupventura',
+    'https://app.candid.org/profile/16385291/startup-ventura-39-2204612',
+    'https://www.guidestar.org/profile/39-2204612',
   ],
 };
 
@@ -788,7 +791,7 @@ page('program.html', {
     <p>Ventura County raises talented, ambitious people and then loses them to San Francisco and Los Angeles, because building a high-growth company here has meant doing it alone. Startup Ventura exists to change that. Our programming gives local founders the mentorship, capital connections, and community they would otherwise leave town to find, at no cost to founders: no tuition and no equity. Funding comes from donors, community partners, and the $49,500 the City of Ventura approved through its Economic Development department.</p>
     <p>The program runs in two stages. The <a href="workshops.html">workshop series</a> is the open front door: free, practical sessions on starting and growing a business, with the first dates being finalized now. The <a href="accelerator.html">12-week accelerator</a> is the flagship: Plug and Play&rsquo;s first formal accelerator program in Ventura County and the launch point for its expanded Southern California focus, launching Spring 2027 with mentorship from operators who have built and scaled real companies, weekly Lunch &amp; Learns, investor introductions, and a Demo Day in front of invited investors. Founders leave with sharper companies, warmer capital paths, and a community that wants them to build here.</p>
     </div></div></section>
-    <section class="section section--pale"><div class="wrap"><div class="card-grid card-grid--2">${card('accelerator.html', 'Spring 2027', '12-Week Accelerator', 'The flagship: Plug and Play&rsquo;s 12-week accelerator with mentorship, capital connections, workshops, and a Demo Day.', 'Explore the accelerator')}${card('workshops.html', 'Pre-accelerator', 'Workshop Series', 'Free practical sessions on starting and growing a business. The on-ramp to the accelerator.', 'Explore the workshops')}</div></div></section>` +
+    <section class="section section--pale"><div class="wrap">${headC('Two stages', 'Workshops first, then the accelerator.')}<div class="card-grid card-grid--2">${card('accelerator.html', 'Spring 2027', '12-Week Accelerator', 'The flagship: Plug and Play&rsquo;s 12-week accelerator with mentorship, capital connections, workshops, and a Demo Day.', 'Explore the accelerator')}${card('workshops.html', 'Pre-accelerator', 'Workshop Series', 'Free practical sessions on starting and growing a business. The on-ramp to the accelerator.', 'Explore the workshops')}</div></div></section>` +
     ctaBand('Build it here. Join the first-access list.', 'founder'),
 });
 
@@ -896,7 +899,7 @@ page('resources.html', {
   canonical: `${SITE}/resources`,
   crumbsTrail: [['Home', 'index.html'], ['The Program', 'program.html'], ['Founder Resources', '']],
   body: pageHead('Founder Resources', 'Practical guides for building here.', 'Free, no-fluff guides written for Ventura County founders and small businesses. Each pairs with a session in our workshop series: read the essentials now, then go deeper in the room.') +
-    `<section class="section section--pale"><div class="wrap"><div class="card-grid card-grid--3">${guides.map((g) => card(g.file, 'Founder Guide', g.title, g.summary, 'Read the guide')).join('')}</div>
+    `<section class="section section--pale"><div class="wrap">${headC('The guides', 'Start with any of these.')}<div class="card-grid card-grid--3">${guides.map((g) => card(g.file, 'Founder Guide', g.title, g.summary, 'Read the guide')).join('')}</div>
     <p class="center muted" style="margin-top:30px">More guides publish as the workshop series runs. <a href="events.html">RSVP to a session</a> or <a href="contact.html">tell us what you want covered</a>.</p></div></section>` +
     ctaBand('Help keep founder education free.', 'none'),
 });
@@ -1495,7 +1498,7 @@ page('advisors.html', {
   desc: 'The advisors who help guide Startup Ventura.',
   canonical: `${SITE}/advisors`,
   body: pageHead('Advisory Board', 'Board of Advisors', 'Experienced advisors who lend their guidance, networks, and expertise as Startup Ventura builds Ventura County&rsquo;s accelerator.') +
-    `<section class="section section--pale"><div class="wrap"><div class="advisor-grid">${advisors.map((a) => `<article class="advisor-card">${a.photo ? `<div class="advisor-card__media"><img src="${A}/img/${a.photo}" width="200" height="200" alt="${a.n}"></div>` : `<div class="advisor-mono" aria-hidden="true">${initials(a.n)}</div>`}<h3 class="advisor-card__name">${a.n}</h3><p class="advisor-card__role">${a.role || 'Advisor'}</p>${a.bio ? `<p class="advisor-card__bio">${a.bio}</p>` : ''}</article>`).join('')}</div></div></section>` +
+    `<section class="section section--pale"><div class="wrap">${headC('Advisors', 'The people who advise us.')}<div class="advisor-grid">${advisors.map((a) => `<article class="advisor-card">${a.photo ? `<div class="advisor-card__media"><img src="${A}/img/${a.photo}" width="200" height="200" alt="${a.n}"></div>` : `<div class="advisor-mono" aria-hidden="true">${initials(a.n)}</div>`}<h3 class="advisor-card__name">${a.n}</h3><p class="advisor-card__role">${a.role || 'Advisor'}</p>${a.bio ? `<p class="advisor-card__bio">${a.bio}</p>` : ''}</article>`).join('')}</div></div></section>` +
     ctaBand('Guiding what founders build here.', 'none'),
 });
 
@@ -1654,7 +1657,7 @@ page('invest.html', {
   canonical: `${SITE}/invest`,
   crumbsTrail: [['Home', 'index.html'], ['Invest', '']],
   body: pageHead('Investors', 'Back the founders building here.', 'Every cohort ends with a Demo Day in front of investors, and the companies on that stage are the whole point of the program. If you invest in early stage companies, or want to, this is where to start.') +
-    `<section class="section section--tight"><div class="wrap"><div class="card-grid card-grid--2">
+    `<section class="section section--tight"><div class="wrap">${headC('Two doors', 'Invest in the companies, or fund the program.')}<div class="card-grid card-grid--2">
       <div class="card"><div class="card__body"><p class="eyebrow">Invest in the companies</p><h3 class="card__title">You invest in founders, not in us.</h3><p class="card__text">Startup Ventura is a 501(c)(3). It has no shareholders and takes no equity in cohort companies. Investing means backing the independent companies that come through the accelerator, on terms you negotiate directly with those founders. Use the form below.</p></div></div>
       ${card('give.html', 'Support the program', 'Want to fund the accelerator itself?', 'That is a tax deductible gift or sponsorship, kept completely separate from investing. It keeps the program free for founders.', 'Go to Give')}
     </div></div></section>
@@ -1903,6 +1906,7 @@ funnelThanks('thanks-events.html', {
 page('404.html', {
   title: 'Page not found',
   robots: 'noindex',
+  desc: 'That page does not exist or has moved. Head back to the Startup Ventura homepage or contact us.',
   body: `<section class="section"><div class="wrap wrap--narrow" style="text-align:center;padding-block:8vh">
     <header class="section-head section-head--center"><p class="eyebrow">404</p>${waveRule}<h1 class="section-head__title display">This page drifted out with the tide.</h1></header>
     <p class="lede" style="margin-inline:auto">The page you are looking for does not exist or has moved. Head back to shore.</p>
