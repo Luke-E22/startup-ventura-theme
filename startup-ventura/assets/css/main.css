@@ -562,6 +562,7 @@ picture{display:contents}
 .testimonial__mark{position:absolute;top:6px;left:22px;font-family:var(--font-display);font-weight:900;font-size:84px;line-height:1;color:var(--coral);opacity:.18;pointer-events:none}
 .testimonial__quote{position:relative;font-family:var(--font-display);font-weight:800;letter-spacing:-.01em;font-size:clamp(17px,1.7vw,20px);line-height:1.4;color:var(--ink)}
 .testimonial__attr{margin-top:18px;font-family:var(--font-mono);font-weight:700;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--blue)}
+.testimonial__meta{display:block;margin-top:4px;font-weight:400;font-size:12px;letter-spacing:.04em;text-transform:none;color:var(--muted)}
 .testimonial--feature .testimonial__quote{font-size:clamp(19px,2vw,24px)}
 
 /* =========================================================================
