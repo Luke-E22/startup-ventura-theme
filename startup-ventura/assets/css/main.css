@@ -530,6 +530,8 @@ picture{display:contents}
 .partner{flex:0 0 160px;max-width:160px}
 .partner img{height:64px;width:100%;object-fit:contain;filter:grayscale(1);opacity:.7;transition:filter .25s,opacity .25s}
 .partner:hover img{filter:grayscale(0);opacity:1}
+/* Text wordmark for a partner whose logo file has not landed yet. */
+.partner--text{font-family:var(--font-display);font-weight:800;font-size:clamp(20px,2vw,24px);letter-spacing:-.01em;color:var(--navy);display:flex;align-items:center;justify-content:center;height:64px;text-align:center;opacity:.8}
 .partner-list{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
 .partner-list__item{display:grid;grid-template-columns:120px 1fr;gap:20px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:20px;box-shadow:var(--shadow-sm)}
 .partner-list__item img{height:56px;width:auto;object-fit:contain;filter:grayscale(1);opacity:.8;transition:filter .25s,opacity .25s}
