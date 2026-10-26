@@ -442,7 +442,7 @@ const partnerGroups = [
     ['City of Ventura', 'partners/city-of-ventura.png'],
     ['Ventura County Credit Union', 'partners/ventura-county-credit-union-2x.png'],
     ['Ventura Chamber of Commerce', 'partners/ventura-chamber-2x.webp'],
-    ['The Charitable Foundation', null],
+    ['The Charitable Foundation', 'partners/charitable-foundation.png'],
   ]],
   ['Educational Partners', [
     ['Ventura County Community College District', 'partners/ventura-community-college-2x.png'],
