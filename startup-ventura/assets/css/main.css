@@ -921,3 +921,18 @@ picture{display:contents}
 .donor-wall__name--l3{font-size:clamp(28px,4.4vw,44px);font-weight:800;letter-spacing:-.015em;color:var(--navy)}
 .donor-wall__name--l2{font-size:clamp(21px,3.1vw,30px);font-weight:700;color:var(--navy)}
 .donor-wall__name--l1{font-size:clamp(16px,2.1vw,20px);font-weight:600;color:var(--steel)}
+
+/* ---------- 2026-10 audit: spacing, rows, labels ---------- */
+.section--head{padding-bottom:0}
+.section--head .page-head{padding-bottom:clamp(8px,2vw,24px)}
+.section--head + .section{padding-top:clamp(36px,5vw,64px)}
+.card__body .eyebrow{margin-bottom:10px}
+.btn-row{display:flex;flex-wrap:wrap;gap:14px;justify-content:center}
+.event-row__date--tbd{color:var(--muted);text-transform:none;letter-spacing:0;font-size:13px;font-weight:400}
+.eco-reviewed{max-width:none;font-size:14px}
+.eco-ours{font-size:12px;letter-spacing:.06em}
+.cta-band .wave{height:46%}
+.give-hero__side .candid-seal img{width:130px}
+@media(max-width:940px){.card-grid--3,.card-grid--4{grid-template-columns:1fr 1fr}}
+@media(max-width:640px){.event-row{grid-template-columns:1fr auto;grid-template-areas:"date tag" "body body"}.event-row__date{grid-area:date}.event-tag{grid-area:tag;justify-self:end}.event-row>div{grid-area:body}}
+@media(max-width:480px){.breadcrumbs li:last-child span{display:inline-block;max-width:60vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:bottom}}
