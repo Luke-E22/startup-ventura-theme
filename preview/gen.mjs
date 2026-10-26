@@ -396,9 +396,9 @@ ${body.includes('data-netlify') ? NF_SCRIPT : ''}
 // shared content
 const tiers = [
   ['Catalyst', '$1,000', false, ['Name on the website donor wall', 'Recognition at the annual benefit', 'Listing in the annual impact report']],
-  ['Principal', '$5,000', false, ['Everything in Catalyst, plus:', 'Name and logo on the donor wall', 'Invitation to Demo Day']],
+  ['Principal', '$5,000', false, ['Everything in Catalyst, plus:', 'Logo added to your donor wall listing', 'Invitation to Demo Day']],
   ['Visionary', '$10,000', false, ['Everything in Principal, plus:', 'Logo on Demo Day signage', 'Reserved seating and recognition at the annual benefit', 'Quarterly program updates', 'Invitation to the founder and mentor mixer']],
-  ['Legacy', '$25,000', true, ['Everything in Visionary, plus:', 'Presenting recognition for the inaugural Spring 2027 cohort', 'Premier logo placement on the homepage and donor wall', 'A recognition moment and reserved table at the annual benefit', 'A private dinner with the founder cohort and board', 'First look at Demo Day and warm introductions to founders']],
+  ['Legacy', '$25,000', true, ['Everything in Visionary, plus:', 'Presenting recognition for the inaugural Spring 2027 cohort', 'Premier logo placement on the homepage and donor wall', 'A recognition moment and reserved table at the annual benefit', 'A private dinner with the founder cohort and board', 'Reserved seats at Demo Day']],
 ];
 const tierGrid = () => `<div class="tier-grid">${tiers.map(([n, a, legacy, bs]) => `<article class="tier${legacy ? ' tier--legacy' : ''}">${legacy ? '<span class="tier__ribbon">Presents the inaugural cohort</span>' : ''}<h3 class="tier__name">${n}</h3><p class="tier__price">${a}</p><ul class="tier__list">${bs.map(b => `<li class="${b.startsWith('Everything') ? 'tier__incl' : ''}">${b}</li>`).join('')}</ul><div class="tier__cta">${give('tier-' + n.toLowerCase(), 'btn--full' + (legacy ? ' btn--lg' : ''), '')}</div></article>`).join('')}</div>`;
 
@@ -1090,17 +1090,12 @@ const donors = {
 };
 page('donor-wall.html', {
   title: 'Donor Wall', crumbsTrail: [['Home', 'index.html'], ['Donor Wall', '']],
-  desc: "The donors and community partners funding Startup Ventura's inaugural Spring 2027 cohort. Founder's Circle recognition and founding supporters.",
+  desc: "The donors and community partners funding Startup Ventura's inaugural Spring 2027 cohort, listed in one place.",
   canonical: `${SITE}/donor-wall`,
-  body: pageHead('Donor Wall', 'The people funding what founders build here.', 'Startup Ventura is powered by donors and partners who back Ventura County founders. This wall recognizes the Founder&rsquo;s Circle and the community partners behind the inaugural Spring 2027 cohort.') +
+  body: pageHead('Donor Wall', 'The people funding what founders build here.', 'Startup Ventura is powered by donors and partners who back Ventura County founders. Every donor is listed here, in one place, behind the inaugural Spring 2027 cohort.') +
     `<section class="section section--tight"><div class="wrap">${MEAD_QUOTE}</div></section>
-    <section class="section section--pale"><div class="wrap">${head("Founder's Circle", 'The donors launching the first cohort.', 'Recognition scales with the gift, highest tier first. Each tier includes everything below it.')}<div class="donor-ladder">${[...tiers].reverse().map(([n, a], i, arr) => {
-      const names = donors[n] || [];
-      const lvl = arr.length - i; // 4 = Legacy (top, grandest) … 1 = Catalyst
-      return `<div class="donor-rank donor-rank--l${lvl}"><p class="donor-rank__tier"><span class="donor-rank__label">${n}</span> <span class="donor-rank__amount">${a}+</span></p>${names.length ? `<ul class="donor-rank__donors">${names.map((x) => `<li>${x}</li>`).join('')}</ul>` : `<p class="donor-rank__invite"><a href="give.html">Be the first at this level &rarr;</a></p>`}</div>`;
-    }).join('')}</div></div></section>
-    <section class="section"><div class="wrap">${head('Founding Supporters', 'The partners who got this started.', 'Public and community partners whose early support launched Startup Ventura.')}<ul class="donor-partners">${donors.partners.map((p) => `<li>${p}</li>`).join('')}</ul></div></section>
-    <section class="section section--pale section--tight"><div class="wrap">${head('Thank You', 'To every donor who backs Ventura County&rsquo;s founders.')}${donors.all.length ? `<ul class="donor-all">${donors.all.map((n) => `<li>${n}</li>`).join(' ')}</ul>` : `<p class="donor-all__empty">Every donor&rsquo;s name is listed here, at every level. <a href="give.html">Yours belongs on this wall &rarr;</a></p>`}</div></section>` +
+    <section class="section section--pale"><div class="wrap">${headC('Our donors', 'Every gift, every name.')}${donors.all.length ? `<ul class="donor-wall-list">${donors.all.map((n) => `<li class="donor-wall__name donor-wall__name--l${donors.Legacy.includes(n) || donors.Visionary.includes(n) ? 4 : donors.Principal.includes(n) ? 3 : donors.Catalyst.includes(n) ? 2 : 1}">${n}</li>`).join('')}</ul>` : `<p class="donor-all__empty center">Every donor&rsquo;s name is listed here. <a href="give.html">Yours belongs on this wall</a>.</p>`}<p class="center" style="margin-top:36px"><a class="btn btn--outline" href="give.html">Join the Founder&rsquo;s Circle</a></p></div></section>
+    <section class="section"><div class="wrap">${head('Founding Supporters', 'The partners who got this started.', 'Public and community partners whose early support launched Startup Ventura.')}<ul class="donor-partners">${donors.partners.map((p) => `<li>${p}</li>`).join('')}</ul></div></section>` +
     ctaBand('Put your name behind Ventura County&rsquo;s founders.', 'none'),
 });
 
