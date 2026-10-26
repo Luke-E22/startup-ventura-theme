@@ -510,3 +510,25 @@
 	})();
 
 })();
+
+/* §15 News archive filter (news.html): All / Announcements / Press and media.
+   Progressive: without JS every card shows. */
+(function () {
+	var bar = document.querySelector('.news-filter');
+	if (!bar) return;
+	var btns = Array.prototype.slice.call(bar.querySelectorAll('[data-filter]'));
+	var cards = Array.prototype.slice.call(document.querySelectorAll('.post-grid--news .post-card[data-kind]'));
+	function apply(key) {
+		btns.forEach(function (b) {
+			var on = b.getAttribute('data-filter') === key;
+			b.classList.toggle('is-active', on);
+			b.setAttribute('aria-pressed', on ? 'true' : 'false');
+		});
+		cards.forEach(function (c) {
+			c.classList.toggle('is-hidden', key !== 'all' && c.getAttribute('data-kind') !== key);
+		});
+	}
+	btns.forEach(function (b) {
+		b.addEventListener('click', function () { apply(b.getAttribute('data-filter')); });
+	});
+})();

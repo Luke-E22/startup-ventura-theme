@@ -387,7 +387,7 @@ ${crumbsTrail ? crumbs(crumbsTrail) : ''}
 ${body}
 ${footer()}
 ${(robots || '').includes('noindex') || /^(404|thank-you|connected|thanks-)/.test(file) ? '' : giModal(file)}
-<script src="${A}/js/main.js?v=43"></script>
+<script src="${A}/js/main.js?v=44"></script>
 ${body.includes('data-netlify') ? NF_SCRIPT : ''}
 </body></html>`;
   fs.writeFileSync(path.join(OUT, file), html);
@@ -1203,11 +1203,17 @@ page('contact.html', {
 
 // NEWS — archive + one clickable article page per post (newest first)
 
+// Archive cards: the newest post renders as a full-width featured card and a
+// filter bar splits announcements from press and media appearances.
+const MEDIA_POSTS = new Set(['news-conejo-valley-visionaries.html', 'news-pacific-coast-business-times.html', 'news-our-ventura-tv.html', 'news-the-hustle.html', 'news-launch-press.html', 'news-joe-knows-ventura.html']);
+const postKind = (p) => MEDIA_POSTS.has(p.file) ? 'media' : 'announcement';
+const newsCard = (p, featured = false) => `<article class="post-card${featured ? ' post-card--featured' : ''}" data-kind="${postKind(p)}"><a href="${p.file}" tabindex="-1" aria-hidden="true">${pic(p.img, { cls: 'post-card__thumb', alt: '', sizes: featured ? '(max-width:760px) 92vw, 560px' : '(max-width:640px) 92vw, 360px' })}</a><div class="post-card__body"><p class="post-card__date">${featured ? 'Latest &middot; ' : ''}${p.date}</p><h2 class="post-card__title"><a href="${p.file}">${p.title}</a></h2><p class="post-card__excerpt">${p.excerpt}</p><a class="post-card__more" href="${p.file}">Read more &rarr;</a></div></article>`;
 page('news.html', {
   title: 'News', crumbsTrail: [['Home', 'index.html'], ['News', '']],
   body: `<section class="section"><div class="wrap"><header class="page-head"><p class="eyebrow">News &amp; Updates</p>${waveRule}<h1 class="display">News &amp; Updates</h1></header>
   <div class="news-signup"><div class="news-signup__copy"><h2 class="news-signup__title">Stay up to date with events and announcements</h2><p class="muted">Get Startup Ventura news, events, and cohort updates in your inbox.</p></div><div class="news-signup__form">${form('newsletter', 'Subscribe', false, false)}</div></div>
-  <div class="post-grid">${newsPosts.filter(p => !p.archived).map(p => `<article class="post-card"><a href="${p.file}" tabindex="-1" aria-hidden="true">${pic(p.img, { cls: 'post-card__thumb', alt: '', sizes: '(max-width:640px) 92vw, 360px' })}</a><div class="post-card__body"><p class="post-card__date">${p.date}</p><h2 class="post-card__title"><a href="${p.file}">${p.title}</a></h2><p class="post-card__excerpt">${p.excerpt}</p><a class="post-card__more" href="${p.file}">Read more &rarr;</a></div></article>`).join('')}</div></div></section>` +
+  <div class="news-filter" role="group" aria-label="Filter news"><button type="button" class="news-filter__btn is-active" data-filter="all" aria-pressed="true">All</button><button type="button" class="news-filter__btn" data-filter="announcement" aria-pressed="false">Announcements</button><button type="button" class="news-filter__btn" data-filter="media" aria-pressed="false">Press and media</button></div>
+  <div class="post-grid post-grid--news">${newsPosts.filter(p => !p.archived).map((p, i) => newsCard(p, i === 0)).join('')}</div></div></section>` +
     ctaBand('Help fund the inaugural cohort.', 'none'),
 });
 

@@ -936,3 +936,13 @@ picture{display:contents}
 @media(max-width:940px){.card-grid--3,.card-grid--4{grid-template-columns:1fr 1fr}}
 @media(max-width:640px){.event-row{grid-template-columns:1fr auto;grid-template-areas:"date tag" "body body"}.event-row__date{grid-area:date}.event-tag{grid-area:tag;justify-self:end}.event-row>div{grid-area:body}}
 @media(max-width:480px){.breadcrumbs li:last-child span{display:inline-block;max-width:60vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:bottom}}
+/* News archive: featured first card and the announcement / media filter. */
+.news-filter{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 26px}
+.news-filter__btn{font-family:var(--font-mono);font-weight:700;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;padding:9px 16px;border-radius:999px;border:1.5px solid var(--blue);background:transparent;color:var(--blue);cursor:pointer}
+.news-filter__btn.is-active,.news-filter__btn:hover{background:var(--blue);color:#fff}
+.post-card.is-hidden{display:none}
+.post-card--featured{grid-column:1/-1;display:grid;grid-template-columns:1.15fr 1fr}
+.post-card--featured .post-card__thumb{height:100%;min-height:280px;aspect-ratio:auto}
+.post-card--featured .post-card__body{padding:32px;justify-content:center}
+.post-card--featured .post-card__title{font-size:clamp(22px,2.6vw,30px)}
+@media(max-width:760px){.post-card--featured{grid-template-columns:1fr}.post-card--featured .post-card__thumb{aspect-ratio:16/10;min-height:0}}
