@@ -82,6 +82,7 @@ p{max-width:72ch}
 .muted{color:var(--muted)}
 .eyebrow{font-family:var(--font-mono);font-weight:700;font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--blue);max-width:none}
 .cta-note{max-width:none}
+.give-note{color:var(--muted)}
 .news-signup{background:var(--sky-pale);border-radius:18px;padding:clamp(22px,3vw,34px);margin-bottom:40px;display:grid;gap:18px}
 @media(min-width:780px){.news-signup{grid-template-columns:1fr minmax(300px,380px);align-items:center;gap:32px}}
 .news-signup__title{font-family:var(--font-display);font-weight:800;letter-spacing:-.01em;font-size:clamp(19px,2.3vw,26px);color:var(--ink);margin:0 0 6px}
@@ -101,6 +102,10 @@ p{max-width:72ch}
 .section--paper{background:var(--paper)}
 .section--navy{background:var(--navy-deep);color:#eaf2f8}
 .section--navy .eyebrow{color:var(--coral-light)}
+/* Muted text on the navy band: #5A7180 on #1B2D37 is about 2.8:1, so these
+   lift to #cfe0ea (about 10:1) and the trust icons use sky. */
+.section--navy .lede,.section--navy .trust li,.section--navy .give-note,.section--navy .muted{color:#cfe0ea}
+.section--navy .trust svg{color:var(--sky)}
 .section--navy h1,.section--navy h2,.section--navy h3{color:#fff}
 .section--tight{padding-block:clamp(40px,5vw,64px)}
 .section + .section{position:relative}
@@ -422,7 +427,7 @@ p{max-width:72ch}
    ========================================================================= */
 .steps{display:grid;gap:18px;counter-reset:step}
 .step{display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:start;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:24px 28px;box-shadow:var(--shadow-sm)}
-.step__num{font-family:var(--font-mono);font-weight:700;font-size:clamp(28px,3vw,40px);color:var(--sky);line-height:1}
+.step__num{font-family:var(--font-mono);font-weight:700;font-size:clamp(28px,3vw,40px);color:var(--steel);line-height:1}
 .step__title{font-size:1.25rem;margin-bottom:6px}
 .step__body{color:var(--muted)}
 
@@ -579,6 +584,8 @@ picture{display:contents}
 .cta-band__title .coral{color:var(--coral-light)}
 .cta-band__actions{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
 .cta-band__note{font-family:var(--font-mono);font-size:13px;letter-spacing:.06em;color:#9fb6c6}
+/* The band eyebrow inherited --blue (#30609C) on navy-deep, about 2.2:1. */
+.cta-band .eyebrow{color:#9fb6c6}
 
 /* =========================================================================
    BREADCRUMBS

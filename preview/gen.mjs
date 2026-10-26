@@ -31,7 +31,7 @@ ${band('M0,240 C300,195 560,275 840,230 C1080,190 1260,260 1440,225 L1440,320 L0
 const waveDivider = `<div class="wave-divider" aria-hidden="true"><svg viewBox="0 0 1440 70" preserveAspectRatio="none" width="100%" height="64"><path d="M0,32 C300,6 560,56 840,33 C1080,14 1260,50 1440,30 L1440,70 L0,70 Z" fill="#78B4D8" opacity=".20"></path><path d="M0,42 C300,16 560,64 840,42 C1080,22 1260,56 1440,38 L1440,70 L0,70 Z" fill="#5484A8" opacity=".18"></path><path class="crest-path" d="M0,32 C300,6 560,56 840,33 C1080,14 1260,50 1440,30" fill="none" stroke="#FF8A80" stroke-width="2.5" vector-effect="non-scaling-stroke"></path></svg></div>`;
 
 const give = (loc, cls = '', note = '') =>
-  `<a class="btn btn--give${cls ? ' ' + cls : ''}" href="${ZEFFY}" target="_blank" rel="noopener" data-cta="give" data-cta-location="${loc}">Give</a>${note ? `<p class="cta-note give-note" style="color:var(--muted)">${note}</p>` : ''}`;
+  `<a class="btn btn--give${cls ? ' ' + cls : ''}" href="${ZEFFY}" target="_blank" rel="noopener" data-cta="give" data-cta-location="${loc}">Give</a>${note ? `<p class="cta-note give-note">${note}</p>` : ''}`;
 const apply = (label = 'Get notified', cls = 'btn--outline') => `<a class="btn ${cls}" href="contact.html#notify" data-cta="apply">Get notified</a>`;
 const partnerBtn = (label = 'Partner with us', cls = 'btn--outline') => `<a class="btn ${cls}" href="partner.html" data-cta="partner">${label}</a>`;
 const candidSeal = (cls = '') => `<a class="candid-seal ${cls}" aria-label="Startup Ventura on Candid: 2026 Platinum Seal of Transparency" href="https://app.candid.org/profile/16385291/startup-ventura-39-2204612/?pkId=266ecad1-f625-40ab-acfb-c736d5b97833" target="_blank" rel="noopener"><img src="${A}/img/candid-platinum-seal-badge.png" alt="Candid 2026 Platinum Seal of Transparency" width="150" height="150" loading="lazy"></a>`;
@@ -366,7 +366,7 @@ ${overHero ? `<link rel="preload" as="image" type="image/webp" imagesrcset="${A}
 <link rel="icon" href="${A}/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="${A}/img/favicon.png" sizes="any" type="image/png">
 <link rel="apple-touch-icon" href="${A}/img/favicon-180.png">
-<link rel="stylesheet" href="${A}/css/main.css?v=53">
+<link rel="stylesheet" href="${A}/css/main.css?v=54">
 ${analyticsHead()}</head>
 <body class="${overHero ? 'home' : ''}">
 ${analyticsBody()}
@@ -1014,7 +1014,7 @@ page('ecosystem.html', {
     <p style="margin-top:36px" class="eco-reviewed">Missing an organization that belongs here? <a href="mailto:info@startupventura.com?subject=Ecosystem%20guide%20suggestion">Suggest an addition</a> and we will review it.</p>
     </div></section>` +
     ecoPlugIn +
-    `<section class="section"><div class="wrap">${headC('Building Here?', 'This is what Startup Ventura is for.', 'A free accelerator, a workshop series, and a community built to keep Ventura County founders home.')}<div class="center" style="margin-top:8px">${apply('Get notified', 'btn--outline btn--lg')} <a class="btn btn--ghost btn--lg" href="program.html">Explore the program</a></div></div></section>`,
+    `<section class="section"><div class="wrap">${headC('Building Here?', 'This is what Startup Ventura is for.', 'A free accelerator, a workshop series, and a community built to keep Ventura County founders home.')}<div class="center" style="margin-top:8px">${apply('Get notified', 'btn--outline btn--lg')} <a class="btn btn--blue btn--lg" href="program.html">Explore the program</a></div></div></section>`,
 });
 
 page('why-ventura-county.html', {
