@@ -228,7 +228,11 @@ const fmtEventDate = (iso) => {
   return d.getUTCFullYear() === new Date().getUTCFullYear() ? label : `${label}, ${d.getUTCFullYear()}`;
 };
 const eventCutoff = new Date(Date.now() - 864e5).toISOString().slice(0, 10); // yesterday
+// Events held off the site for now (2026-10-26, per Luke): matched by title, so a
+// Notion refetch at build time cannot republish them. Delete the pattern to restore.
+const HIDDEN_EVENTS = [/annual benefit/i];
 const workshopEvents = JSON.parse(fs.readFileSync(EVENTS_JSON, 'utf8'))
+  .filter((e) => !HIDDEN_EVENTS.some((re) => re.test(e.title || '')))
   .filter((e) => !e.date || e.date.slice(0, 10) >= eventCutoff)
   .sort((a, b) => (a.date || '9999').localeCompare(b.date || '9999'))
   .map((e) => ({ iso: e.date ? e.date.slice(0, 10) : '', date: e.date ? fmtEventDate(e.date) : 'TBD', tag: e.tag, title: e.title, desc: e.desc || '' }));
@@ -1701,9 +1705,9 @@ page('workshop.html', {
 page('events.html', {
   title: 'Events: Workshops & Community', crumbsTrail: [['Home', 'index.html'], ['Events', '']],
   robots: SHOW_EVENTS_NAV ? undefined : 'noindex',
-  desc: 'Startup Ventura events for Ventura County small businesses and founders: the free workshop series, Demo Day, and the Annual Benefit. RSVP and subscribe to the calendar.',
+  desc: 'Startup Ventura events for Ventura County small businesses and founders: the free workshop series and Demo Day. RSVP and subscribe to the calendar.',
   canonical: `${SITE}/events`,
-  body: pageHead('Events', 'Be in the room.', 'Free workshops for Ventura County small businesses and founders, with dates being finalized now. Plus Lunch &amp; Learns, Demo Day, and our Annual Benefit. Get on the list and every invitation lands in your inbox.', true) +
+  body: pageHead('Events', 'Be in the room.', 'Free workshops for Ventura County small businesses and founders, with dates being finalized now. Plus Lunch &amp; Learns and Demo Day. Get on the list and every invitation lands in your inbox.', true) +
     `<section class="section"><div class="wrap wrap--narrow">${head('The schedule', 'The workshop series and beyond.', 'Practical, no-fluff sessions on starting and growing a business, free to attend. Dates are being finalized; invitations go out by email first.')}
     ${workshopEvents.length ? `<ol class="event-list">${workshopEvents.map((e, i) => `<li class="event-row">${e.iso ? `<span class="event-row__date">${esc(e.date)}</span>` : '<span class="event-row__date event-row__date--tbd">Date coming</span>'}<div>
       <h3 class="event-row__title">${esc(e.title)}</h3>
@@ -1715,7 +1719,6 @@ page('events.html', {
     <section class="section section--pale"><div class="wrap"><div class="contact-layout">
     <div>${head('Get invited', 'Every event, first.')}<div style="margin-top:28px">${form('events', 'Get event invites', false, false, { redirect: '/thanks-events' })}</div></div>
     <aside class="contact-aside">
-      <div class="contact-card"><h3>The last one</h3><p>Our first Annual Benefit drew 75 supporters, 5 keynote speakers, and raised $17K in one night for the inaugural cohort.</p></div>
       <div class="contact-aside__block"><h3>What is coming</h3><p>The workshop series above, weekly Lunch &amp; Learns during the cohort, and a Demo Day in front of invited investors.</p></div>
       <div class="contact-aside__block"><h3>Questions?</h3><p><a href="mailto:info@startupventura.com">info@startupventura.com</a></p></div>
     </aside>
