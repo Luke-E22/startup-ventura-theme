@@ -33,6 +33,7 @@ function refine(form, interest, out) {
     else if (v.includes('sponsorship')) { out.interest.push('Partnership / sponsorship'); out.relationship.push('Prospect'); out.topics = ['Partnership']; }
     else if (v.includes('mentoring')) { out.interest.push('Mentoring'); out.topics = ['Mentoring']; }
     else if (v.includes('investor')) { out.relationship.push('Connector'); out.topics = ['Intro']; }
+    else if (v.includes('cities') || v.includes('county') || v.includes('public agencies')) { out.interest.push('Partnership / sponsorship'); out.relationship.push('Government'); out.topics = ['Partnership']; }
   }
   if (form === 'connect' && v.includes('corporate')) { out.interest = ['Partnership / sponsorship']; out.topics = ['Partnership']; }
   if (form === 'connect' && v.includes('exploring')) { out.interest = []; out.relationship = ['Prospect']; }
