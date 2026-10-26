@@ -38,6 +38,10 @@ function refine(form, interest, out) {
   }
   if (form === 'connect' && v.includes('corporate')) { out.interest = ['Partnership / sponsorship']; out.topics = ['Partnership']; }
   if (form === 'connect' && v.includes('exploring')) { out.interest = []; out.relationship = ['Prospect']; }
+  if (form === 'soft-landing') {
+    if (v.includes('founder')) { out.interest = ['Applying as a founder']; out.topics = ['Mission']; }
+    else if (v.includes('economic development')) { out.relationship.push('Government'); }
+  }
   if (form === 'invest' && (v.includes('mentor') || v.includes('judge'))) { out.interest = ['Mentoring']; out.relationship = ['Mentor']; out.topics = ['Mentoring']; }
 }
 

@@ -115,6 +115,7 @@ p{max-width:72ch}
 .skip-link{position:absolute;left:-999px;top:0;z-index:10050;background:#fff;color:var(--navy);padding:12px 18px;border-radius:0 0 10px 0;font-weight:600;box-shadow:var(--shadow-md)}
 .skip-link:focus{left:0}
 .center{text-align:center}
+p.center{margin-inline:auto}
 .stack > * + *{margin-top:1rem}
 
 /* ---------- buttons ---------- */
@@ -342,7 +343,7 @@ p{max-width:72ch}
 .tier__list li.tier__incl{padding-left:0;font-weight:600;color:var(--ink);list-style:none}
 .tier__list li.tier__incl::before{display:none}
 .tier__cta{margin-top:22px}
-.tier__cta .btn{width:100%}
+.tier__cta .btn{width:100%;white-space:nowrap;padding-inline:14px}
 
 /* Donor wall (/donor-wall) — names come from sv_donors(); tiers mirror the Give page. */
 /* FAQ accordion. */
@@ -866,7 +867,7 @@ picture{display:contents}
 .section--navy + .section::after,
 .wave-divider + .section--pale::after{
   content:"";position:absolute;left:0;right:0;top:0;
-  height:clamp(38px,4.5vw,66px);transform:translateY(-99.5%);
+  height:clamp(38px,4.5vw,66px);transform:translateY(calc(-100% + 1px));
   background-color:var(--seam-color);
   -webkit-mask:var(--seam-mask) no-repeat;mask:var(--seam-mask) no-repeat;
   -webkit-mask-size:100% 100%;mask-size:100% 100%;
@@ -933,7 +934,7 @@ picture{display:contents}
 .eco-ours{font-size:12px;letter-spacing:.06em}
 .cta-band .wave{height:46%}
 .give-hero__side .candid-seal img{width:130px}
-@media(max-width:940px){.card-grid--3,.card-grid--4{grid-template-columns:1fr 1fr}}
+@media (min-width:621px) and (max-width:940px){.card-grid--3,.card-grid--4{grid-template-columns:1fr 1fr}}
 @media(max-width:640px){.event-row{grid-template-columns:1fr auto;grid-template-areas:"date tag" "body body"}.event-row__date{grid-area:date}.event-tag{grid-area:tag;justify-self:end}.event-row>div{grid-area:body}}
 @media(max-width:480px){.breadcrumbs li:last-child span{display:inline-block;max-width:60vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:bottom}}
 /* News archive: featured first card and the announcement / media filter. */

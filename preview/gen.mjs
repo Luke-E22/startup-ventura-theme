@@ -118,10 +118,10 @@ const BAND_NOTE_FOUNDER = 'Free for founders: no tuition, no fees, no equity.';
 // 'contact' put the reader's own action first (white) with Give as the coral secondary.
 const ctaBand = (heading, secondary = 'none', note) => {
   const founderFirst = secondary === 'founder' || secondary === 'contact';
-  const own = secondary === 'founder' ? apply('Get first access', 'btn--light btn--lg') : secondary === 'contact' ? '<a class="btn btn--light btn--lg" href="contact.html">Ask us</a>' : '';
+  const own = secondary === 'founder' ? apply('Get first access', 'btn--light btn--lg') : secondary === 'contact' ? '<a class="btn btn--light btn--lg" href="contact.html" data-cta="contact" data-cta-location="band">Ask us</a>' : '';
   const actions = founderFirst
     ? `${own}${give('band')}`
-    : `${give('band', 'btn--lg')}${secondary === 'apply' ? apply('Get first access', 'btn--ghost') : secondary === 'partner' ? partnerBtn('Partner with us', 'btn--ghost') : secondary === 'session' ? '<a class="btn btn--ghost" href="#session">Request a working session</a>' : ''}`;
+    : `${give('band', 'btn--lg')}${secondary === 'apply' ? apply('Get first access', 'btn--ghost') : secondary === 'partner' ? partnerBtn('Partner with us', 'btn--ghost') : secondary === 'session' ? '<a class="btn btn--ghost" href="#session" data-cta="session" data-cta-location="band">Request a working session</a>' : ''}`;
   const n = note || (secondary === 'founder' ? BAND_NOTE_FOUNDER : BAND_NOTE_GIVE);
   return `<section class="section cta-band">${waveFull}
   <div class="wrap cta-band__inner"><p class="eyebrow">${founderFirst ? 'Next step' : 'The Ask'}</p>${waveRule}<h2 class="cta-band__title">${heading}</h2>
@@ -403,7 +403,7 @@ const tiers = [
   ['Visionary', '$10,000', false, ['Everything in Principal, plus:', 'Logo on Demo Day signage', 'Reserved seating and recognition at the annual benefit', 'Quarterly program updates', 'Invitation to the founder and mentor mixer']],
   ['Legacy', '$25,000', true, ['Everything in Visionary, plus:', 'Presenting recognition for the inaugural Spring 2027 cohort', 'Premier logo placement on the homepage and donor wall', 'A recognition moment and reserved table at the annual benefit', 'A private dinner with the founder cohort and board', 'Reserved seats at Demo Day']],
 ];
-const tierGrid = () => `<div class="tier-grid">${tiers.map(([n, a, legacy, bs]) => `<article class="tier${legacy ? ' tier--legacy' : ''}">${legacy ? '<span class="tier__ribbon">Presents the inaugural cohort</span>' : ''}<h3 class="tier__name">${n}</h3><p class="tier__price">${a}</p><ul class="tier__list">${bs.map(b => `<li class="${b.startsWith('Everything') ? 'tier__incl' : ''}">${b}</li>`).join('')}</ul><div class="tier__cta">${give('tier-' + n.toLowerCase(), 'btn--full' + (legacy ? ' btn--lg' : ''), '', 'Give ' + a)}</div></article>`).join('')}</div>`;
+const tierGrid = () => `<div class="tier-grid">${tiers.map(([n, a, legacy, bs]) => `<article class="tier${legacy ? ' tier--legacy' : ''}">${legacy ? '<span class="tier__ribbon">Presents the inaugural cohort</span>' : ''}<h3 class="tier__name">${n}</h3><p class="tier__price">${a}</p><ul class="tier__list">${bs.map(b => `<li class="${b.startsWith('Everything') ? 'tier__incl' : ''}">${b}</li>`).join('')}</ul><div class="tier__cta">${give('tier-' + n.toLowerCase(), 'btn--full', '', 'Give ' + a)}</div></article>`).join('')}</div>`;
 
 const board = [
   { n: 'Luke Erickson', r: 'Founder and Executive Director', p: 'team/luke-erickson.jpg', pos: 'center 22%', li: 'https://www.linkedin.com/in/luke-erickson/', ig: 'https://www.instagram.com/luke_erickson/', site: 'https://lukeerickson.com',
@@ -919,7 +919,7 @@ guides.forEach((g) => page(g.file, {
   },
   body: pageHead('Founder Guide', g.title, g.lede, true) +
     `<section class="section"><div class="wrap wrap--narrow"><div class="entry-content">${g.body}</div>
-    <div class="contact-card" style="margin-top:38px"><h3>Go deeper in person</h3><p>This guide pairs with &ldquo;${g.workshopTitle},&rdquo; a free Startup Ventura workshop. Dates are being finalized now; RSVP and your invitation arrives the moment it is set.</p><p style="margin-top:14px"><a class="btn btn--blue" href="events.html">RSVP free</a>&nbsp;&nbsp;<a class="btn btn--outline" href="resources.html">More guides</a></p></div>
+    <div class="contact-card" style="margin-top:38px"><h3>Go deeper in person</h3><p>This guide pairs with &ldquo;${g.workshopTitle},&rdquo; a free Startup Ventura workshop. Dates are being finalized now; RSVP and your invitation arrives the moment it is set.</p><p style="margin-top:14px"><a class="btn btn--blue" href="events.html">RSVP free</a> <a class="btn btn--outline" href="resources.html">More guides</a></p></div>
     </div></section>` +
     ctaBand('Help keep founder education free.', 'none'),
 }));
@@ -1100,7 +1100,7 @@ page('donor-wall.html', {
   canonical: `${SITE}/donor-wall`,
   body: pageHead('Donor Wall', 'The people funding what founders build here.', 'Startup Ventura is powered by donors and partners who back Ventura County founders. Every donor behind the inaugural Spring 2027 cohort is listed here, in one place.') +
     `<section class="section section--tight"><div class="wrap">${MEAD_QUOTE}</div></section>
-    <section class="section section--pale"><div class="wrap">${headC('Our donors', 'Every gift, every name.')}${donors.all.length ? `<ul class="donor-wall-list">${donors.all.map((n) => `<li class="donor-wall__name donor-wall__name--l${donors.Legacy.includes(n) || donors.Visionary.includes(n) ? 4 : donors.Principal.includes(n) ? 3 : donors.Catalyst.includes(n) ? 2 : 1}">${n}</li>`).join('')}</ul>` : `<p class="donor-all__empty center">Every donor&rsquo;s name is listed here. <a href="give.html">Yours belongs on this wall</a>.</p>`}<p class="center" style="margin-top:36px"><a class="btn btn--outline" href="give.html">Join the Founder&rsquo;s Circle</a></p></div></section>
+    <section class="section section--pale"><div class="wrap">${headC('Our donors', 'Every gift, every name.')}${donors.all.length ? `<ul class="donor-wall-list">${donors.all.map((n) => `<li class="donor-wall__name donor-wall__name--l${donors.Legacy.includes(n) || donors.Visionary.includes(n) ? 4 : donors.Principal.includes(n) ? 3 : donors.Catalyst.includes(n) ? 2 : 1}">${n}</li>`).join('')}</ul>` : `<p class="donor-all__empty center">Every donor&rsquo;s name is listed here. <a href="give.html">Yours belongs on this wall</a>.</p>`}<div class="btn-row" style="margin-top:36px"><a class="btn btn--outline" href="give.html">Join the Founder&rsquo;s Circle</a></div></div></section>
     <section class="section"><div class="wrap">${head('Founding Supporters', 'The partners who got this started.', 'Public and community partners whose early support launched Startup Ventura.')}<ul class="donor-partners">${donors.partners.map((p) => `<li>${p}</li>`).join('')}</ul></div></section>` +
     ctaBand('Put your name behind Ventura County&rsquo;s founders.', 'none'),
 });
@@ -1137,7 +1137,7 @@ page('partner.html', {
 page('partner-cities-county.html', {
   title: 'For Cities & County', crumbsTrail: [['Home', 'index.html'], ['Partner', 'partner.html'], ['For Cities & County', '']],
   desc: 'Startup Ventura asks Ventura County cities and the County to fund reserved accelerator seats for their founders and reports the outcomes once a year. Public money in, partners at the table, governance, and the case for the county.',
-  body: pageHead('For Cities &amp; County', 'Fund seats for your founders. Get the outcomes reported back.', 'Startup Ventura asks Ventura County cities and the County to fund reserved accelerator seats for founders from their jurisdiction, then reports what those founders build. The City of Ventura was the first public partner.') +
+  body: pageHead('For Cities &amp; County', 'Fund seats for your founders. Get the outcomes reported back.', 'Startup Ventura asks Ventura County cities and the County to fund reserved accelerator seats for founders from their jurisdiction, then reports what those founders build. The City of Ventura was the first public partner.', true) +
     `<section class="section section--pale"><div class="wrap wrap--narrow">${head('The ask', 'Fund reserved cohort seats for founders from your jurisdiction.')}<div class="entry-content" style="margin-top:0">
     <p>The first public partner is in place. In 2025 the City of Ventura approved $49,500 for Startup Ventura through its Economic Development department.</p>
     <p>What a partnership includes:</p>
@@ -1829,7 +1829,7 @@ page('connected.html', {
     <h1 class="display">Big change starts with a conversation.</h1>
     <p class="lede" style="margin-inline:auto">The kind between people who are ready to make a difference. You just started one. A real member of our team will reach out within a day or two to set up time with our founder, Luke Erickson.</p>
     <div style="margin-top:34px">${MEAD_QUOTE}</div>
-    <div class="center" style="margin-top:30px"><a class="btn btn--blue" href="index.html">See what we are building</a>&nbsp;&nbsp;<a class="btn btn--outline" href="impact.html">Explore the impact</a></div>
+    <div class="btn-row" style="margin-top:30px"><a class="btn btn--blue" href="index.html">See what we are building</a><a class="btn btn--outline" href="impact.html">Explore the impact</a></div>
     <p class="muted" style="margin-top:34px;font-size:14px;max-width:60ch;margin-inline:auto">Prefer email? Reach us anytime at <a href="mailto:info@startupventura.com">info@startupventura.com</a>.</p>
     <button id="sv-confetti-again" class="thankyou__again" type="button">Celebrate again &#127881;</button>
   </div></section>
@@ -1850,7 +1850,7 @@ const funnelThanks = (file, o) => page(file, {
     <h1 class="display">${o.h1}</h1>
     <p class="lede" style="margin-inline:auto">${o.lede}</p>
     ${o.quote ? `<div style="margin-top:34px">${MEAD_QUOTE}</div>` : ''}${o.extra || ''}
-    <div class="center" style="margin-top:30px"><a class="btn btn--blue" href="${o.primary[1]}">${o.primary[0]}</a>&nbsp;&nbsp;<a class="btn btn--outline" href="${o.secondary[1]}">${o.secondary[0]}</a></div>
+    <div class="btn-row" style="margin-top:30px"><a class="btn btn--blue" href="${o.primary[1]}">${o.primary[0]}</a><a class="btn btn--outline" href="${o.secondary[1]}">${o.secondary[0]}</a></div>
     <p class="muted" style="margin-top:34px;font-size:14px;max-width:60ch;margin-inline:auto">Prefer email? Reach us anytime at <a href="mailto:info@startupventura.com">info@startupventura.com</a>.</p>
     <button id="sv-confetti-again" class="thankyou__again" type="button">Celebrate again &#127881;</button>
   </div></section>
