@@ -721,7 +721,7 @@ const newsPosts = [
       '<em>Update, October 2026: the program is an accelerator, and the inaugural cohort is scheduled for Spring 2027.</em>',
       'Conversations throughout the night centered on Ventura’s entrepreneurial potential, and the role local leaders will play in shaping a thriving startup ecosystem.',
       'A massive thank-you to our sponsors: Ventura Chamber of Commerce, Ventura County Credit Union, and Santa Cruz Market.',
-      'And we’re grateful to Doug and Randy for opening their beautiful space for the evening.',
+      'And we are grateful to Doug and Randy for opening their beautiful space for the evening.',
     ],
     extra: `<div class="entry-gallery">${[1, 2, 3, 4, 5, 6].map(n => `<img src="${A}/img/event/benefit-0${n}.jpg" alt="Startup Ventura Annual Benefit photo ${n}" loading="lazy">`).join('')}</div>`,
   },
@@ -1403,7 +1403,7 @@ const roles = [
     title: 'Student Internship',
     meta: 'Internship &middot; Part-time, flexible &middot; Ventura County',
     teaser: 'Get real, resume-ready experience helping build a startup accelerator from the ground up.',
-    full: `${svJobAbout}<h4>About the role</h4><p>This is a flexible, learn-by-doing internship shaped around your interests and where we need help. You will work alongside a small team building a startup accelerator from the ground up, and get real exposure to nonprofit operations, live events, and Ventura County&rsquo;s founder community.</p><h4>What you might do</h4><ul><li>Support event planning and day-of logistics for workshops, Lunch &amp; Learns, and Demo Day</li><li>Help with founder, funder, and sponsor research</li><li>Pitch in on marketing, social media, and content</li><li>Keep our CRM and records organized</li><li>Take on whatever the week needs, with real ownership</li></ul><h4>Who it&rsquo;s for</h4><p>Students and early-career people in or near Ventura County who want hands-on experience and a local network. Apply below and tell us what you are studying, your availability, and how you would like to help.</p>`,
+    full: `${svJobAbout}<h4>About the role</h4><p>This is a flexible, learn-by-doing internship shaped around your interests and where we need help. You will work alongside a small team building a startup accelerator from the ground up, and get real exposure to nonprofit operations, live events, and Ventura County&rsquo;s founder community.</p><h4>What you might do</h4><ul><li>Support event planning and day-of logistics for workshops, Lunch &amp; Learns, and Demo Day</li><li>Help with founder, funder, and sponsor research</li><li>Pitch in on marketing, social media, and content</li><li>Keep our CRM and records organized</li><li>Take on whatever the week needs, with real ownership</li></ul><h4>Who it is for</h4><p>Students and early-career people in or near Ventura County who want hands-on experience and a local network. Apply below and tell us what you are studying, your availability, and how you would like to help.</p>`,
   },
 ];
 // JobPosting structured data per role (Google for Jobs + AI job search).
