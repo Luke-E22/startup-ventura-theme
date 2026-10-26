@@ -586,7 +586,7 @@ const newsPosts = [
   {
     file: 'news-nsf-ate.html', crumb: 'NSF ATE Application',
     title: 'VCCCD and Startup Ventura Apply for an NSF Grant of Up to $3 Million',
-    date: 'October 1, 2026', img: `${A}/img/news/nsf-ate-lockup.jpg`,
+    date: 'October 1, 2026', img: `${A}/img/news/nsf-ate-grid.jpg`,
     alt: 'Logos of Startup Ventura, the Ventura County Community College District, gener8tor, and the National Science Foundation',
     excerpt: 'The Ventura County Community College District and Startup Ventura have applied for a National Science Foundation grant of up to $3 million to train technicians and build entrepreneurial skills on real industry problems.',
     paras: [
