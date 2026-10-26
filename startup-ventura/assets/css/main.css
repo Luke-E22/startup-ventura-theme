@@ -911,3 +911,6 @@ picture{display:contents}
 .facts__item{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;box-shadow:var(--shadow-sm)}
 .facts__k{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);font-weight:700;margin:0 0 8px}
 .facts__v{font-weight:600;color:var(--ink);font-size:15.5px;line-height:1.45;margin:0}
+/* White button for the reader's own action on dark bands (founder and contact modes). */
+.btn--light{background:#fff;color:var(--navy);border-color:#fff}
+.btn--light:hover{background:var(--sky-pale);color:var(--navy);transform:translateY(-2px)}

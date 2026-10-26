@@ -32,7 +32,7 @@ const waveDivider = `<div class="wave-divider" aria-hidden="true"><svg viewBox="
 
 const give = (loc, cls = '', note = '') =>
   `<a class="btn btn--give${cls ? ' ' + cls : ''}" href="${ZEFFY}" target="_blank" rel="noopener" data-cta="give" data-cta-location="${loc}">Give</a>${note ? `<p class="cta-note give-note">${note}</p>` : ''}`;
-const apply = (label = 'Get notified', cls = 'btn--outline') => `<a class="btn ${cls}" href="contact.html#notify" data-cta="apply">Get notified</a>`;
+const apply = (label = 'Get first access', cls = 'btn--outline') => `<a class="btn ${cls}" href="apply.html" data-cta="apply">${label}</a>`;
 const partnerBtn = (label = 'Partner with us', cls = 'btn--outline') => `<a class="btn ${cls}" href="partner.html" data-cta="partner">${label}</a>`;
 const candidSeal = (cls = '') => `<a class="candid-seal ${cls}" aria-label="Startup Ventura on Candid: 2026 Platinum Seal of Transparency" href="https://app.candid.org/profile/16385291/startup-ventura-39-2204612/?pkId=266ecad1-f625-40ab-acfb-c736d5b97833" target="_blank" rel="noopener"><img src="${A}/img/candid-platinum-seal-badge.png" alt="Candid 2026 Platinum Seal of Transparency" width="150" height="150" loading="lazy"></a>`;
 // Ventura Chamber of Commerce membership badge: static "Proud member of" lockup
@@ -112,10 +112,22 @@ const header = (overHero = false) => `<a class="skip-link" href="#main">Skip to 
 </div>
 <main id="main" class="site-main">`;
 
-const ctaBand = (heading, secondary = 'none', note = 'Funds the inaugural Spring 2027 cohort. EIN 39-2204612.') => `<section class="section cta-band">${waveFull}
-  <div class="wrap cta-band__inner"><p class="eyebrow">The Ask</p>${waveRule}<h2 class="cta-band__title">${heading}</h2>
-  <div class="cta-band__actions">${give('band', 'btn--lg')}${secondary === 'apply' ? apply('Apply to the cohort', 'btn--ghost') : secondary === 'partner' ? partnerBtn('Partner with us', 'btn--ghost') : secondary === 'session' ? '<a class="btn btn--ghost" href="#session">Request a working session</a>' : ''}</div>
-  <p class="cta-band__note">${note}</p></div></section>`;
+const BAND_NOTE_GIVE = 'Funds the inaugural Spring 2027 cohort. EIN 39-2204612.';
+const BAND_NOTE_FOUNDER = 'Free for founders: no tuition, no fees, no equity.';
+// secondary: 'none' | 'apply' | 'partner' | 'session' put Give first. 'founder' and
+// 'contact' put the reader's own action first (white) with Give as the coral secondary.
+const ctaBand = (heading, secondary = 'none', note) => {
+  const founderFirst = secondary === 'founder' || secondary === 'contact';
+  const own = secondary === 'founder' ? apply('Get first access', 'btn--light btn--lg') : secondary === 'contact' ? '<a class="btn btn--light btn--lg" href="contact.html">Ask us</a>' : '';
+  const actions = founderFirst
+    ? `${own}${give('band')}`
+    : `${give('band', 'btn--lg')}${secondary === 'apply' ? apply('Get first access', 'btn--ghost') : secondary === 'partner' ? partnerBtn('Partner with us', 'btn--ghost') : secondary === 'session' ? '<a class="btn btn--ghost" href="#session">Request a working session</a>' : ''}`;
+  const n = note || (secondary === 'founder' ? BAND_NOTE_FOUNDER : BAND_NOTE_GIVE);
+  return `<section class="section cta-band">${waveFull}
+  <div class="wrap cta-band__inner"><p class="eyebrow">${founderFirst ? 'Next step' : 'The Ask'}</p>${waveRule}<h2 class="cta-band__title">${heading}</h2>
+  <div class="cta-band__actions">${actions}</div>
+  <p class="cta-band__note">${n}</p></div></section>`;
+};
 
 const footer = () => `</main>
 <footer class="site-footer">
@@ -749,9 +761,9 @@ const newsPosts = [
 page('index.html', {
   title: 'Home', overHero: true,
   body: `<section class="hero">${pic(`${A}/img/hero.jpg`, { cls: 'hero-bg-img', w: 1600, h: 1060, alt: 'Ventura, California', sizes: '100vw', eager: true })}<div class="hero-scrim"></div>
-  <div class="hero-inner"><p class="eyebrow">Ventura County &middot; A 501(c)(3) Startup Accelerator</p><h1 class="display">Great founders grow up <span class="coral">here.</span></h1><p class="sub">Startup Ventura backs local founders with the mentorship, capital connections, and community to build high-growth companies right here in Ventura County.</p><div class="cta-row">${give('hero')}${apply('Apply', 'btn--ghost')}</div><p class="cta-note">Funds the inaugural Spring 2027 cohort.</p></div>${waveFull}</section>
+  <div class="hero-inner"><p class="eyebrow">Ventura County &middot; A 501(c)(3) Startup Accelerator</p><h1 class="display">Great founders grow up <span class="coral">here.</span></h1><p class="sub">Startup Ventura backs local founders with the mentorship, capital connections, and community to build high-growth companies right here in Ventura County.</p><div class="cta-row">${give('hero')}${apply('Get first access', 'btn--ghost')}</div><p class="cta-note">Funds the inaugural Spring 2027 cohort.</p></div>${waveFull}</section>
   <section class="section mission-strip"><div class="wrap"><p class="eyebrow" style="color:var(--coral-light)">Our mission</p>${waveRule}<p class="mission">To keep Ventura County the best place in the world to live by fueling entrepreneurship, building high-growth companies, and transforming our region into a recognized hub of innovation that creates lasting economic success.</p></div></section>
-  <section class="section section--pale grain"><div class="wrap">${head('The Program', 'The on-ramp founders need.', 'Everything entrepreneurs would leave town to find: a true accelerator with a pathway to raising venture capital.')}<div class="card-grid card-grid--2">${card('accelerator.html', 'Spring 2027 · S27', '12-Week Accelerator', 'Plug and Play&rsquo;s 12-week accelerator program: mentorship, capital connections, hands-on workshops, and a Demo Day.', 'Explore the accelerator')}${card('workshops.html', 'Pre-accelerator', 'Workshop Series', 'A workshop series that readies earlier-stage founders and feeds the pipeline.', 'Explore the workshops')}</div><div class="center" style="margin-top:32px">${apply('Apply to the cohort', 'btn--outline btn--lg')}</div></div></section>
+  <section class="section section--pale grain"><div class="wrap">${head('The Program', 'The on-ramp founders need.', 'Everything entrepreneurs would leave town to find: a true accelerator with a pathway to raising venture capital.')}<div class="card-grid card-grid--2">${card('accelerator.html', 'Spring 2027 · S27', '12-Week Accelerator', 'Plug and Play&rsquo;s 12-week accelerator program: mentorship, capital connections, hands-on workshops, and a Demo Day.', 'Explore the accelerator')}${card('workshops.html', 'Pre-accelerator', 'Workshop Series', 'A workshop series that readies earlier-stage founders and feeds the pipeline.', 'Explore the workshops')}</div><div class="center" style="margin-top:32px">${apply('Get first access', 'btn--outline btn--lg')}</div></div></section>
   <section class="section"><div class="wrap"><header class="section-head section-head--center"><p class="eyebrow">News &amp; Events</p>${waveRule}<h2 class="section-head__title display">What is happening right now.</h2></header>
   <div class="post-grid">${newsPosts.filter((p) => !p.archived).slice(0, 6).map((p) => `<article class="post-card"><a href="${p.file}" tabindex="-1" aria-hidden="true">${pic(p.img, { cls: 'post-card__thumb', alt: '', sizes: '(max-width:640px) 92vw, 360px' })}</a><div class="post-card__body"><p class="post-card__date">${p.date}</p><h2 class="post-card__title"><a href="${p.file}">${p.title}</a></h2><p class="post-card__excerpt">${p.excerpt}</p><a class="post-card__more" href="${p.file}">Read more &rarr;</a></div></article>`).join('')}</div>
   <div class="center" style="margin-top:30px"><a class="btn btn--blue" href="events.html">See the workshop schedule</a>&nbsp;&nbsp;<a class="btn btn--outline" href="news.html">All news</a></div>
@@ -773,7 +785,7 @@ page('program.html', {
     <p>The program runs in two stages. The <a href="workshops.html">workshop series</a> is the open front door: free, practical sessions on starting and growing a business, with the first dates being finalized now. The <a href="accelerator.html">12-week accelerator</a> is the flagship: Plug and Play&rsquo;s first formal accelerator program in Ventura County and the launch point for its expanded Southern California focus, launching Spring 2027 with mentorship from operators who have built and scaled real companies, weekly Lunch &amp; Learns, investor introductions, and a Demo Day in front of 25+ investors. Founders leave with sharper companies, warmer capital paths, and a community that wants them to build here.</p>
     </div></div></section>
     <section class="section section--pale"><div class="wrap"><div class="card-grid card-grid--2">${card('accelerator.html', 'Spring 2027 · S27', '12-Week Accelerator', 'The flagship: Plug and Play&rsquo;s 12-week accelerator with mentorship, capital connections, workshops, and a Demo Day.', 'Explore the accelerator')}${card('workshops.html', 'Pre-accelerator', 'Workshop Series', 'Free practical sessions on starting and growing a business. The on-ramp to the accelerator.', 'Explore the workshops')}</div></div></section>` +
-    ctaBand('Help us launch Ventura County&rsquo;s first founder cohort.', 'apply'),
+    ctaBand('Build it here. Join the first-access list.', 'founder'),
 });
 
 // ACCELERATOR
@@ -786,7 +798,7 @@ page('accelerator.html', {
     <section class="section section--pale"><div class="wrap wrap--narrow">${head('Program partner', 'What Plug and Play adds.')}<div class="entry-content" style="margin-top:0"><p>Startup Ventura runs the accelerator in an official partnership with Plug and Play. It is Plug and Play&rsquo;s first formal accelerator program in Ventura County and the launch point for its expanded Southern California focus.</p><p>Plug and Play operates 60+ locations across five continents, works with 550+ Fortune 1000 corporate partners, accelerates 2,500+ startups a year, and made 250+ investments with 33 exits in 2025 (Plug and Play announcements, January 29 and March 26, 2026).</p></div></div></section>
     <section class="section"><div class="wrap">${head('How we select', 'We pick founders, not decks.')}<p class="lede measure">What we care about most: the quality of the founder. A great founder with an early idea beats a polished deck and a mediocre team.</p><div class="steps"><div class="step"><div class="step__num">01</div><div class="step__content"><h3 class="step__title">Application</h3><p class="step__body">We weight the founder over the idea.</p></div></div><div class="step"><div class="step__num">02</div><div class="step__content"><h3 class="step__title">Screening Call</h3><p class="step__body">We listen for clarity, drive, and commitment.</p></div></div><div class="step"><div class="step__num">03</div><div class="step__content"><h3 class="step__title">Founder Deep-Dive</h3><p class="step__body">The core interview, where founder quality shows.</p></div></div></div></div></section>
     <section class="section section--pale" id="notify"><div class="wrap wrap--narrow">${head('Applications', 'Applications open ahead of Spring 2027.', 'Join the first-access list and you will hear the moment the window opens. Until then, come to the free workshop series and read the Founder Resources guides: founders who work through the series are first in line.')}<div style="margin-top:8px"><a class="btn btn--blue btn--lg" href="apply.html" data-cta="apply">Get first access</a> <a class="btn btn--outline btn--lg" href="workshops.html">See the workshops</a> <a class="btn btn--outline btn--lg" href="resources.html">Founder Resources</a></div></div></section>` +
-    ctaBand('Help us launch Startup Ventura&rsquo;s inaugural founder cohort.', 'apply'),
+    ctaBand('Build it here. Join the first-access list.', 'founder'),
 });
 
 // WORKSHOPS
@@ -801,7 +813,7 @@ page('workshops.html', {
     <ol class="event-list">${workshopEvents.filter((e) => e.tag !== 'Community').map((e) => `<li class="event-row"><span class="event-row__date">${esc(e.date)}</span><div><h3 class="event-row__title">${esc(e.title)}</h3>${e.desc ? `<p class="event-row__desc">${esc(e.desc)}</p>` : ''}</div>${e.tag ? `<span class="event-tag">${esc(e.tag)}</span>` : ''}</li>`).join('')}</ol>
     <div class="center" style="margin-top:28px"><a class="btn btn--blue" href="workshop.html" data-cta="apply" data-cta-location="workshops">Save a seat</a></div>
     </div></section>` +
-    ctaBand('Help keep founder programming free.', 'apply'),
+    ctaBand('Come to a workshop. Then build the company here.', 'founder'),
 });
 
 // FOUNDER RESOURCES — evergreen guides, one per workshop topic. Original
@@ -1024,7 +1036,7 @@ page('ecosystem.html', {
     <p style="margin-top:36px" class="eco-reviewed">Missing an organization that belongs here? <a href="mailto:info@startupventura.com?subject=Ecosystem%20guide%20suggestion">Suggest an addition</a> and we will review it.</p>
     </div></section>` +
     ecoPlugIn +
-    `<section class="section"><div class="wrap">${headC('Building Here?', 'This is what Startup Ventura is for.', 'A free accelerator, a workshop series, and a community built to keep Ventura County founders home.')}<div class="center" style="margin-top:8px">${apply('Get notified', 'btn--outline btn--lg')} <a class="btn btn--blue btn--lg" href="program.html">Explore the program</a></div></div></section>`,
+    `<section class="section"><div class="wrap">${headC('Building Here?', 'This is what Startup Ventura is for.', 'A free accelerator, a workshop series, and a community built to keep Ventura County founders home.')}<div class="center" style="margin-top:8px">${apply('Get first access', 'btn--outline btn--lg')} <a class="btn btn--blue btn--lg" href="program.html">Explore the program</a></div></div></section>`,
 });
 
 page('why-ventura-county.html', {
@@ -1188,7 +1200,7 @@ page('contact.html', {
     </aside>
   </div></div></section>
   <section class="section section--pale" id="notify"><div class="wrap wrap--narrow">${head('Applications', 'Get notified when S27 applications open.', 'Drop your email and we will tell you the moment the cohort opens.')}${form('notify', 'Notify me', false, false)}</div></section>` +
-    ctaBand('Give Ventura County&rsquo;s founders a reason to stay.', 'apply'),
+    ctaBand('Give Ventura County&rsquo;s founders a reason to stay.', 'none'),
 });
 
 // NEWS — archive + one clickable article page per post (newest first)
@@ -1461,7 +1473,7 @@ page('faq.html', {
   jsonld: faqSchema,
   body: pageHead('FAQ', 'Frequently asked questions', 'Quick answers about Startup Ventura, the accelerator, and how to get involved.') +
     `<section class="section section--pale"><div class="wrap wrap--narrow"><div class="faq">${faqs.map(([q, a]) => `<details class="faq__item"><summary class="faq__q">${q}</summary><div class="faq__a"><p>${a}</p></div></details>`).join('')}</div></div></section>` +
-    ctaBand('Still have a question? We&rsquo;d love to hear from you.', 'none'),
+    ctaBand('Still have a question? Ask us.', 'contact'),
 });
 
 // BOARD OF ADVISORS — unlisted for now (noindex, no nav/footer/sitemap link).
@@ -1530,7 +1542,7 @@ page('apply.html', {
       <div class="contact-aside__block"><h3>Questions?</h3><p><a href="mailto:info@startupventura.com">info@startupventura.com</a></p></div>
     </aside>
   </div></div></section>` +
-    ctaBand('Know someone who backs founders? Send them here.', 'none'),
+    ctaBand('Know a founder who should be on this list? Send them here.', 'founder'),
 });
 
 // MENTORS → /mentor (form 'mentor' → /thanks-mentor → mentor_lead)
