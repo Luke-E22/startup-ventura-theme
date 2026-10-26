@@ -30,8 +30,8 @@ ${band('M0,240 C300,195 560,275 840,230 C1080,190 1260,260 1440,225 L1440,320 L0
 </div>`;
 const waveDivider = `<div class="wave-divider" aria-hidden="true"><svg viewBox="0 0 1440 70" preserveAspectRatio="none" width="100%" height="64"><path d="M0,32 C300,6 560,56 840,33 C1080,14 1260,50 1440,30 L1440,70 L0,70 Z" fill="#78B4D8" opacity=".20"></path><path d="M0,42 C300,16 560,64 840,42 C1080,22 1260,56 1440,38 L1440,70 L0,70 Z" fill="#5484A8" opacity=".18"></path><path class="crest-path" d="M0,32 C300,6 560,56 840,33 C1080,14 1260,50 1440,30" fill="none" stroke="#FF8A80" stroke-width="2.5" vector-effect="non-scaling-stroke"></path></svg></div>`;
 
-const give = (loc, cls = '', note = '') =>
-  `<a class="btn btn--give${cls ? ' ' + cls : ''}" href="${ZEFFY}" target="_blank" rel="noopener" data-cta="give" data-cta-location="${loc}">Give</a>${note ? `<p class="cta-note give-note">${note}</p>` : ''}`;
+const give = (loc, cls = '', note = '', label = 'Give') =>
+  `<a class="btn btn--give${cls ? ' ' + cls : ''}" href="${ZEFFY}" target="_blank" rel="noopener" data-cta="give" data-cta-location="${loc}">${label}</a>${note ? `<p class="cta-note give-note">${note}</p>` : ''}`;
 const apply = (label = 'Get first access', cls = 'btn--outline') => `<a class="btn ${cls}" href="apply.html" data-cta="apply">${label}</a>`;
 const partnerBtn = (label = 'Partner with us', cls = 'btn--outline') => `<a class="btn ${cls}" href="partner.html" data-cta="partner">${label}</a>`;
 const candidSeal = (cls = '') => `<a class="candid-seal ${cls}" aria-label="Startup Ventura on Candid: 2026 Platinum Seal of Transparency" href="https://app.candid.org/profile/16385291/startup-ventura-39-2204612/?pkId=266ecad1-f625-40ab-acfb-c736d5b97833" target="_blank" rel="noopener"><img src="${A}/img/candid-platinum-seal-badge.png" alt="Candid 2026 Platinum Seal of Transparency" width="150" height="150" loading="lazy"></a>`;
@@ -400,7 +400,7 @@ const tiers = [
   ['Visionary', '$10,000', false, ['Everything in Principal, plus:', 'Logo on Demo Day signage', 'Reserved seating and recognition at the annual benefit', 'Quarterly program updates', 'Invitation to the founder and mentor mixer']],
   ['Legacy', '$25,000', true, ['Everything in Visionary, plus:', 'Presenting recognition for the inaugural Spring 2027 cohort', 'Premier logo placement on the homepage and donor wall', 'A recognition moment and reserved table at the annual benefit', 'A private dinner with the founder cohort and board', 'Reserved seats at Demo Day']],
 ];
-const tierGrid = () => `<div class="tier-grid">${tiers.map(([n, a, legacy, bs]) => `<article class="tier${legacy ? ' tier--legacy' : ''}">${legacy ? '<span class="tier__ribbon">Presents the inaugural cohort</span>' : ''}<h3 class="tier__name">${n}</h3><p class="tier__price">${a}</p><ul class="tier__list">${bs.map(b => `<li class="${b.startsWith('Everything') ? 'tier__incl' : ''}">${b}</li>`).join('')}</ul><div class="tier__cta">${give('tier-' + n.toLowerCase(), 'btn--full' + (legacy ? ' btn--lg' : ''), '')}</div></article>`).join('')}</div>`;
+const tierGrid = () => `<div class="tier-grid">${tiers.map(([n, a, legacy, bs]) => `<article class="tier${legacy ? ' tier--legacy' : ''}">${legacy ? '<span class="tier__ribbon">Presents the inaugural cohort</span>' : ''}<h3 class="tier__name">${n}</h3><p class="tier__price">${a}</p><ul class="tier__list">${bs.map(b => `<li class="${b.startsWith('Everything') ? 'tier__incl' : ''}">${b}</li>`).join('')}</ul><div class="tier__cta">${give('tier-' + n.toLowerCase(), 'btn--full' + (legacy ? ' btn--lg' : ''), '', 'Give ' + a)}</div></article>`).join('')}</div>`;
 
 const board = [
   { n: 'Luke Erickson', r: 'Founder and Executive Director', p: 'team/luke-erickson.jpg', pos: 'center 22%', li: 'https://www.linkedin.com/in/luke-erickson/', ig: 'https://www.instagram.com/luke_erickson/', site: 'https://lukeerickson.com',
@@ -503,7 +503,7 @@ ${msg ? `<div class="field${full}"><label for="${id('message')}">${msgLabel}${op
 // Delegated submit handler for every Netlify form on a page (injected by page()).
 const NF_SCRIPT = `<script>document.addEventListener('submit',function(e){var f=e.target;if(!f||!f.querySelector||!f.querySelector('input[name="form-name"]'))return;e.preventDefault();var s=f.querySelector('.form__status');var b=f.querySelector('button[type=submit]');if(b)b.disabled=true;fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(new FormData(f)).toString()}).then(function(r){if(!r.ok)throw new Error(r.status);var tr=function(){try{if(window.dataLayer){dataLayer.push({event:'form_submit',form_name:f.getAttribute('name')});}if(window.gtag){gtag('event','form_submit',{form_name:f.getAttribute('name')});}}catch(err){}};var rd=f.getAttribute('data-redirect');if(rd){tr();window.location.href=rd;return;}if(s){s.className=s.className.replace(' is-err','')+' is-ok';s.textContent=f.getAttribute('data-success')||'Thanks, we got it.';}f.reset();tr();}).catch(function(){if(s){s.className=s.className.replace(' is-ok','')+' is-err';s.textContent='Something went wrong. Please email info@startupventura.com and we will take care of it.';}}).finally(function(){if(b)b.disabled=false;});});</script>`;
 
-const pageHead = (e, h, lede) => `<section class="section"><div class="wrap"><header class="page-head"><p class="eyebrow">${e}</p>${waveRule}<h1 class="display">${h}</h1><p class="lede">${lede}</p></header></div></section>`;
+const pageHead = (e, h, lede, narrow = false) => `<section class="section section--head"><div class="wrap${narrow ? ' wrap--narrow' : ''}"><header class="page-head"><p class="eyebrow">${e}</p>${waveRule}<h1 class="display">${h}</h1><p class="lede">${lede}</p></header></div></section>`;
 const card = (href, eyebrow, title, text, link) => `<a class="card card--link" href="${href}"><div class="card__body">${eyebrow ? `<p class="eyebrow">${eyebrow}</p>` : ''}<h3 class="card__title">${title}</h3><p class="card__text">${text}</p><span class="card__link">${link}</span></div></a>`;
 
 // News data lives above the pages: the homepage "News & Events" section and
@@ -764,10 +764,10 @@ page('index.html', {
   body: `<section class="hero">${pic(`${A}/img/hero.jpg`, { cls: 'hero-bg-img', w: 1600, h: 1060, alt: 'Ventura, California', sizes: '100vw', eager: true })}<div class="hero-scrim"></div>
   <div class="hero-inner"><p class="eyebrow">Ventura County &middot; A 501(c)(3) Startup Accelerator</p><h1 class="display">Great founders grow up <span class="coral">here.</span></h1><p class="sub">Startup Ventura backs local founders with the mentorship, capital connections, and community to build high-growth companies right here in Ventura County.</p><div class="cta-row">${give('hero')}${apply('Get first access', 'btn--ghost')}</div><p class="cta-note">Funds the inaugural Spring 2027 cohort.</p></div>${waveFull}</section>
   <section class="section mission-strip"><div class="wrap"><p class="eyebrow" style="color:var(--coral-light)">Our mission</p>${waveRule}<p class="mission">To keep Ventura County the best place in the world to live by fueling entrepreneurship, building high-growth companies, and transforming our region into a recognized hub of innovation that creates lasting economic success.</p></div></section>
-  <section class="section section--pale grain"><div class="wrap">${head('The Program', 'The on-ramp founders need.', 'Everything entrepreneurs would leave town to find: a true accelerator with a pathway to raising venture capital.')}<div class="card-grid card-grid--2">${card('accelerator.html', 'Spring 2027 · S27', '12-Week Accelerator', 'Plug and Play&rsquo;s 12-week accelerator program: mentorship, capital connections, hands-on workshops, and a Demo Day.', 'Explore the accelerator')}${card('workshops.html', 'Pre-accelerator', 'Workshop Series', 'A workshop series that readies earlier-stage founders and feeds the pipeline.', 'Explore the workshops')}</div><div class="center" style="margin-top:32px">${apply('Get first access', 'btn--outline btn--lg')}</div></div></section>
+  <section class="section section--pale grain"><div class="wrap">${head('The Program', 'The on-ramp founders need.', 'Everything entrepreneurs would leave town to find: a true accelerator with a pathway to raising venture capital.')}<div class="card-grid card-grid--2">${card('accelerator.html', 'Spring 2027', '12-Week Accelerator', 'Plug and Play&rsquo;s 12-week accelerator program: mentorship, capital connections, hands-on workshops, and a Demo Day.', 'Explore the accelerator')}${card('workshops.html', 'Pre-accelerator', 'Workshop Series', 'A workshop series that readies earlier-stage founders and feeds the pipeline.', 'Explore the workshops')}</div><div class="center" style="margin-top:32px">${apply('Get first access', 'btn--outline btn--lg')}</div></div></section>
   <section class="section"><div class="wrap"><header class="section-head section-head--center"><p class="eyebrow">News &amp; Events</p>${waveRule}<h2 class="section-head__title display">What is happening right now.</h2></header>
   <div class="post-grid">${newsPosts.filter((p) => !p.archived).slice(0, 6).map((p) => `<article class="post-card"><a href="${p.file}" tabindex="-1" aria-hidden="true">${pic(p.img, { cls: 'post-card__thumb', alt: '', sizes: '(max-width:640px) 92vw, 360px' })}</a><div class="post-card__body"><p class="post-card__date">${p.date}</p><h2 class="post-card__title"><a href="${p.file}">${p.title}</a></h2><p class="post-card__excerpt">${p.excerpt}</p><a class="post-card__more" href="${p.file}">Read more &rarr;</a></div></article>`).join('')}</div>
-  <div class="center" style="margin-top:30px"><a class="btn btn--blue" href="events.html">See the workshop schedule</a>&nbsp;&nbsp;<a class="btn btn--outline" href="news.html">All news</a></div>
+  <div class="btn-row" style="margin-top:30px"><a class="btn btn--blue" href="events.html">See the workshop schedule</a><a class="btn btn--outline" href="news.html">All news</a></div>
   </div></section>
   <section class="section"><div class="wrap"><header class="section-head section-head--center"><p class="eyebrow">In the room</p>${waveRule}<h2 class="section-head__title display">What people are saying.</h2></header>${testimonialGrid()}</div></section>
   <section class="section section--pale section--tight"><div class="wrap"><header class="section-head section-head--center"><p class="eyebrow">Backed by the community</p>${waveRule}<h2 class="section-head__title display">Partners &amp; supporters.</h2></header>${partnerRow()}</div></section>
@@ -780,12 +780,12 @@ page('index.html', {
 // PROGRAM
 page('program.html', {
   title: 'The Program', crumbsTrail: [['Home', 'index.html'], ['The Program', '']],
-  body: pageHead('The Program', 'The on-ramp founders need.', 'Everything entrepreneurs would leave town to find: a true accelerator with a pathway to raising venture capital.') +
+  body: pageHead('The Program', 'The on-ramp founders need.', 'Everything entrepreneurs would leave town to find: a true accelerator with a pathway to raising venture capital.', true) +
     `<section class="section"><div class="wrap wrap--narrow"><div class="entry-content">
     <p>Ventura County raises talented, ambitious people and then loses them to San Francisco and Los Angeles, because building a high-growth company here has meant doing it alone. Startup Ventura exists to change that. Our programming gives local founders the mentorship, capital connections, and community they would otherwise leave town to find, at no cost to founders: no tuition and no equity. Funding comes from donors, community partners, and the $49,500 the City of Ventura approved through its Economic Development department.</p>
     <p>The program runs in two stages. The <a href="workshops.html">workshop series</a> is the open front door: free, practical sessions on starting and growing a business, with the first dates being finalized now. The <a href="accelerator.html">12-week accelerator</a> is the flagship: Plug and Play&rsquo;s first formal accelerator program in Ventura County and the launch point for its expanded Southern California focus, launching Spring 2027 with mentorship from operators who have built and scaled real companies, weekly Lunch &amp; Learns, investor introductions, and a Demo Day in front of invited investors. Founders leave with sharper companies, warmer capital paths, and a community that wants them to build here.</p>
     </div></div></section>
-    <section class="section section--pale"><div class="wrap"><div class="card-grid card-grid--2">${card('accelerator.html', 'Spring 2027 · S27', '12-Week Accelerator', 'The flagship: Plug and Play&rsquo;s 12-week accelerator with mentorship, capital connections, workshops, and a Demo Day.', 'Explore the accelerator')}${card('workshops.html', 'Pre-accelerator', 'Workshop Series', 'Free practical sessions on starting and growing a business. The on-ramp to the accelerator.', 'Explore the workshops')}</div></div></section>` +
+    <section class="section section--pale"><div class="wrap"><div class="card-grid card-grid--2">${card('accelerator.html', 'Spring 2027', '12-Week Accelerator', 'The flagship: Plug and Play&rsquo;s 12-week accelerator with mentorship, capital connections, workshops, and a Demo Day.', 'Explore the accelerator')}${card('workshops.html', 'Pre-accelerator', 'Workshop Series', 'Free practical sessions on starting and growing a business. The on-ramp to the accelerator.', 'Explore the workshops')}</div></div></section>` +
     ctaBand('Build it here. Join the first-access list.', 'founder'),
 });
 
@@ -798,20 +798,20 @@ page('accelerator.html', {
     <section class="section"><div class="wrap">${head('What you get', 'Twelve weeks built to move you forward.')}<div class="card-grid card-grid--4"><div class="card"><div class="card__body"><h3 class="card__title">Mentorship</h3><p class="card__text">Operators and founders who have built and scaled real companies.</p></div></div><div class="card"><div class="card__body"><h3 class="card__title">Capital connections</h3><p class="card__text">Investor introductions and warm paths to a check.</p></div></div><div class="card"><div class="card__body"><h3 class="card__title">Weekly Lunch &amp; Learns</h3><p class="card__text">Working sessions with operators on the problems in front of you this week.</p></div></div><div class="card"><div class="card__body"><h3 class="card__title">A Demo Day</h3><p class="card__text">A stage in front of invited investors, partners, and the community.</p></div></div></div></div></section>
     <section class="section section--pale"><div class="wrap wrap--narrow">${head('Program partner', 'What Plug and Play adds.')}<div class="entry-content" style="margin-top:0"><p>Startup Ventura runs the accelerator in an official partnership with Plug and Play. It is Plug and Play&rsquo;s first formal accelerator program in Ventura County and the launch point for its expanded Southern California focus.</p><p>Plug and Play operates 60+ locations across five continents, works with 550+ Fortune 1000 corporate partners, accelerates 2,500+ startups a year, and made 250+ investments with 33 exits in 2025 (Plug and Play announcements, January 29 and March 26, 2026).</p></div></div></section>
     <section class="section"><div class="wrap">${head('How we select', 'We pick founders, not decks.')}<p class="lede measure">What we care about most: the quality of the founder. A great founder with an early idea beats a polished deck and a mediocre team.</p><div class="steps"><div class="step"><div class="step__num">01</div><div class="step__content"><h3 class="step__title">Application</h3><p class="step__body">We weight the founder over the idea.</p></div></div><div class="step"><div class="step__num">02</div><div class="step__content"><h3 class="step__title">Screening Call</h3><p class="step__body">We listen for clarity, drive, and commitment.</p></div></div><div class="step"><div class="step__num">03</div><div class="step__content"><h3 class="step__title">Founder Deep-Dive</h3><p class="step__body">The core interview, where founder quality shows.</p></div></div></div></div></section>
-    <section class="section section--pale" id="notify"><div class="wrap wrap--narrow">${head('Applications', 'Applications open ahead of Spring 2027.', 'Join the first-access list and you will hear the moment the window opens. Until then, come to the free workshop series and read the Founder Resources guides: founders who work through the series are first in line.')}<div style="margin-top:8px"><a class="btn btn--blue btn--lg" href="apply.html" data-cta="apply">Get first access</a> <a class="btn btn--outline btn--lg" href="workshops.html">See the workshops</a> <a class="btn btn--outline btn--lg" href="resources.html">Founder Resources</a></div></div></section>` +
+    <section class="section section--pale" id="notify"><div class="wrap wrap--narrow">${head('Applications', 'Applications open ahead of Spring 2027.', 'Join the first-access list and you will hear the moment the window opens. Until then, come to the free workshop series and read the Founder Resources guides: founders who work through the series are first in line.')}<div class="btn-row" style="margin-top:8px;justify-content:flex-start"><a class="btn btn--blue btn--lg" href="apply.html" data-cta="apply">Get first access</a><a class="btn btn--outline btn--lg" href="workshops.html">See the workshops</a><a class="btn btn--outline btn--lg" href="resources.html">Founder Resources</a></div></div></section>` +
     ctaBand('Build it here. Join the first-access list.', 'founder'),
 });
 
 // WORKSHOPS
 page('workshops.html', {
   title: 'Workshop Series', crumbsTrail: [['Home', 'index.html'], ['The Program', 'program.html'], ['Workshop Series', '']],
-  body: pageHead('Workshop Series', 'The on-ramp to the accelerator.', 'Free, practical workshops for Ventura County small businesses and early-stage founders. No pitch deck required, no cost to attend, and a straight line into the accelerator when you are ready.') +
+  body: pageHead('Workshop Series', 'The on-ramp to the accelerator.', 'Free, practical workshops for Ventura County small businesses and early-stage founders. No pitch deck required, no cost to attend, and a straight line into the accelerator when you are ready.', true) +
     `<section class="section section--pale"><div class="wrap wrap--narrow"><div class="entry-content">
     <p>The workshop series is where Startup Ventura programming begins. Session dates are being finalized now. Each is a practical, no-fluff session on one part of starting and growing a company, taught for Ventura County. Come with an idea, a side project, or a business that is already running; every session stands on its own, so you can attend one or work through the whole series.</p>
     <p>Workshops are free to attend, paid for by donors, community partners, and the $49,500 the City of Ventura approved for the program. Seats are limited and invitations go out by email first. The series is also the front door to everything else we do: founders who work through it are first in line when applications open for the Spring 2027 accelerator cohort, which adds mentorship from experienced operators, capital connections, weekly Lunch &amp; Learns, and a Demo Day in front of invited investors.</p>
     </div></div></section>
     <section class="section"><div class="wrap wrap--narrow">${head('The lineup', 'Ten sessions. Dates announced soon.', 'RSVP below and your invitation lands in your inbox the moment each date is set.')}
-    <ol class="event-list">${workshopEvents.filter((e) => e.tag !== 'Community').map((e) => `<li class="event-row"><span class="event-row__date">${esc(e.date)}</span><div><h3 class="event-row__title">${esc(e.title)}</h3>${e.desc ? `<p class="event-row__desc">${esc(e.desc)}</p>` : ''}</div>${e.tag ? `<span class="event-tag">${esc(e.tag)}</span>` : ''}</li>`).join('')}</ol>
+    <ol class="event-list">${workshopEvents.filter((e) => e.tag !== 'Community').map((e) => `<li class="event-row">${e.iso ? `<span class="event-row__date">${esc(e.date)}</span>` : '<span class="event-row__date event-row__date--tbd">Date coming</span>'}<div><h3 class="event-row__title">${esc(e.title)}</h3>${e.desc ? `<p class="event-row__desc">${esc(e.desc)}</p>` : ''}</div>${e.tag ? `<span class="event-tag">${esc(e.tag)}</span>` : ''}</li>`).join('')}</ol>
     <div class="center" style="margin-top:28px"><a class="btn btn--blue" href="workshop.html" data-cta="apply" data-cta-location="workshops">Save a seat</a></div>
     </div></section>` +
     ctaBand('Come to a workshop. Then build the company here.', 'founder'),
@@ -910,7 +910,7 @@ guides.forEach((g) => page(g.file, {
     publisher: { '@type': 'Organization', name: 'Startup Ventura', logo: { '@type': 'ImageObject', url: `${SITE}/assets/img/logo-mark.png` } },
     mainEntityOfPage: { '@type': 'WebPage', '@id': `${SITE}/${g.file}` },
   },
-  body: pageHead('Founder Guide', g.title, g.lede) +
+  body: pageHead('Founder Guide', g.title, g.lede, true) +
     `<section class="section"><div class="wrap wrap--narrow"><div class="entry-content">${g.body}</div>
     <div class="contact-card" style="margin-top:38px"><h3>Go deeper in person</h3><p>This guide pairs with &ldquo;${g.workshopTitle},&rdquo; a free Startup Ventura workshop. Dates are being finalized now; RSVP and your invitation arrives the moment it is set.</p><p style="margin-top:14px"><a class="btn btn--blue" href="events.html">RSVP free</a>&nbsp;&nbsp;<a class="btn btn--outline" href="resources.html">More guides</a></p></div>
     </div></section>` +
@@ -1027,7 +1027,7 @@ page('ecosystem.html', {
   jsonld: ecoJsonld,
   crumbsTrail: [['Home', 'index.html'], ['Ecosystem Guide', '']],
   body: pageHead('The Guide', 'The Ventura County Startup Ecosystem', 'A living guide for founders building in Ventura County: who is here, how it all connects, and where to start.') +
-    `<section class="section" style="padding-top:0"><div class="wrap"><p class="eco-reviewed">Last reviewed: ${ECO_REVIEWED} &middot; Reviewed twice a year &middot; <a href="mailto:info@startupventura.com?subject=Ecosystem%20guide%20suggestion">Suggest an addition</a></p></div></section>` +
+    `<section class="section" style="padding-top:0"><div class="wrap"><p class="eco-reviewed">Last reviewed: ${ECO_REVIEWED} &middot; Reviewed twice a year &middot; <a href="#directory">Jump to the directory</a> &middot; <a href="mailto:info@startupventura.com?subject=Ecosystem%20guide%20suggestion">Suggest an addition</a></p></div></section>` +
     ecoHistory +
     `<section class="section" id="directory"><div class="wrap">${head('The Ecosystem Today', 'Who is here, and what they do.', 'Every organization below is real, active, and verified as of the review date above. Filter by category, or link straight to a section.')}
     <div id="eco-directory">
@@ -1037,7 +1037,7 @@ page('ecosystem.html', {
     <p style="margin-top:36px" class="eco-reviewed">Missing an organization that belongs here? <a href="mailto:info@startupventura.com?subject=Ecosystem%20guide%20suggestion">Suggest an addition</a> and we will review it.</p>
     </div></section>` +
     ecoPlugIn +
-    `<section class="section"><div class="wrap">${headC('Building Here?', 'This is what Startup Ventura is for.', 'A free accelerator, a workshop series, and a community built to keep Ventura County founders home.')}<div class="center" style="margin-top:8px">${apply('Get first access', 'btn--outline btn--lg')} <a class="btn btn--blue btn--lg" href="program.html">Explore the program</a></div></div></section>`,
+    `<section class="section"><div class="wrap">${headC('Building Here?', 'This is what Startup Ventura is for.', 'A free accelerator, a workshop series, and a community built to keep Ventura County founders home.')}<div class="btn-row" style="margin-top:8px">${apply('Get first access', 'btn--outline btn--lg')}<a class="btn btn--blue btn--lg" href="program.html">Explore the program</a></div></div></section>`,
 });
 
 page('why-ventura-county.html', {
@@ -1066,10 +1066,8 @@ page('impact.html', {
 // GIVE
 page('give.html', {
   title: 'Give', crumbsTrail: [['Home', 'index.html'], ['Give', '']],
-  body: `<section class="section section--navy"><div class="wrap"><div class="give-hero"><div class="give-hero__copy"><h1 class="display">Fund Startup Ventura's inaugural founder cohort.</h1><p class="lede">A gift funds local founders and the program that backs them, delivered in Ventura County for Ventura County founders.</p>${give('give-hero', 'btn--lg', 'Secure payment via Zeffy.')}</div><ul class="trust"><li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span>Secure payment</span></li><li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>501(c)(3) nonprofit</span></li><li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>EIN 39-2204612</span></li></ul></div></div></section>
-  <section class="section"><div class="wrap">${MEAD_QUOTE}</div></section>
-  <section class="section section--tight"><div class="wrap">${head("Founder's Circle", 'Lead the inaugural cohort.', 'Recognition tiers for the founders and partners who launch Spring 2027. Each tier includes everything below it.')}${tierGrid()}<p class="measure" style="margin-top:36px;margin-inline:auto"><strong>What we report to donors.</strong> Founders served, companies launched, jobs created, and follow-on capital raised, published once a year starting with the Spring 2027 cohort. Your gift sits alongside $49,500 approved by the City of Ventura and a $10,000 grant from The Foundation of Ventura County Credit Union. Startup Ventura is a 501(c)(3) public charity founded in 2025. EIN 39-2204612.</p><p class="center muted" style="margin-top:20px">To discuss a Founder&rsquo;s Circle or corporate gift, email <a href="mailto:sponsor@startupventura.com">sponsor@startupventura.com</a>.</p></div></section>
-  <section class="section section--tight"><div class="wrap">${candidSeal('give-seal')}<p class="muted measure">Gifts are tax-deductible to the extent allowed by law. EIN 39-2204612.</p></div></section>` +
+  body: `<section class="section section--navy"><div class="wrap"><div class="give-hero"><div class="give-hero__copy"><h1 class="display">Fund Startup Ventura's inaugural founder cohort.</h1><p class="lede">A gift funds local founders and the program that backs them, delivered in Ventura County for Ventura County founders.</p>${give('give-hero', 'btn--lg', 'Secure payment via Zeffy.')}</div><div class="give-hero__side"><ul class="trust"><li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span>Secure payment</span></li><li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>501(c)(3) nonprofit</span></li><li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>EIN 39-2204612</span></li></ul><div style="margin-top:26px">${candidSeal('give-seal')}</div></div></div></div></section>
+  <section class="section section--tight"><div class="wrap">${head("Founder's Circle", 'Lead the inaugural cohort.', 'Recognition tiers for the founders and partners who launch Spring 2027. Each tier includes everything below it.')}${tierGrid()}<p class="measure" style="margin-top:36px;margin-inline:auto"><strong>What we report to donors.</strong> Founders served, companies launched, jobs created, and follow-on capital raised, published once a year starting with the Spring 2027 cohort. Your gift sits alongside $49,500 approved by the City of Ventura and a $10,000 grant from The Foundation of Ventura County Credit Union. Startup Ventura is a 501(c)(3) public charity founded in 2025. EIN 39-2204612. Gifts are tax-deductible to the extent allowed by law.</p><p class="center muted" style="margin-top:20px">To discuss a Founder&rsquo;s Circle or corporate gift, email <a href="mailto:sponsor@startupventura.com">sponsor@startupventura.com</a>.</p></div></section>` +
     ctaBand('Back the founders who will build the Spring 2027 cohort.', 'none'),
 });
 
@@ -1117,7 +1115,7 @@ if (!ARCHIVE_83_PALM) page('explore-83-palm.html', {
 // PARTNER
 page('partner.html', {
   title: 'Partner', crumbsTrail: [['Home', 'index.html'], ['Partner', '']],
-  body: pageHead('Partner', 'Partner with us to grow talent here.', 'Cities, county offices, foundations, and companies all have a stake in keeping Ventura County&rsquo;s founders building here.') +
+  body: pageHead('Partner', 'Partner with us to grow talent here.', 'Cities, county offices, foundations, and companies all have a stake in keeping Ventura County&rsquo;s founders building here.', true) +
     `<section class="section"><div class="wrap wrap--narrow"><div class="entry-content">
     <p>Partnership takes different forms depending on who you are. Cities and county offices invest in economic development outcomes: keeping founders, jobs, and the tax base local, the way the City of Ventura did when it approved $49,500 through its Economic Development department. Foundations and corporate partners fund and sponsor the programming itself, from the free workshop series to the Spring 2027 accelerator cohort, with recognition through our Founder&rsquo;s Circle levels. Either way, a partnership converts directly into programming for Ventura County founders: our team is small by design, and the accelerator charges founders nothing.</p>
     <p class="muted">Startup Ventura is a 501(c)(3) public charity founded in 2025. EIN 39-2204612. Candid Platinum Seal of Transparency, 2026. Partnerships and sponsorship: <a href="mailto:sponsor@startupventura.com">sponsor@startupventura.com</a>. Cities and the County: <a href="mailto:luke@startupventura.com">luke@startupventura.com</a>.</p>
@@ -1351,7 +1349,7 @@ page('terms.html', {
 
 page('press.html', {
   title: 'Press & Media Kit', crumbsTrail: [['Home', 'index.html'], ['Press', '']],
-  body: pageHead('Press', 'Press &amp; media kit', 'Everything you need to cover Startup Ventura. For interviews or more information, contact us any time.') +
+  body: pageHead('Press', 'Press &amp; media kit', 'Everything you need to cover Startup Ventura. For interviews or more information, contact us any time.', true) +
     `<section class="section"><div class="wrap wrap--narrow"><div class="entry-content"><h2>About Startup Ventura</h2><p>Startup Ventura is a 501(c)(3) nonprofit startup accelerator in Ventura County, California. We back local founders with the mentorship, capital connections, and community to build high-growth companies, and to keep that talent and those jobs in Ventura County. Our inaugural Spring 2027 cohort is now being funded.</p><h2>Quick facts</h2><ul><li>501(c)(3) public charity, founded 2025. EIN 39-2204612.</li><li>Candid Platinum Seal of Transparency, 2026.</li><li>Ventura County, California.</li><li>Founder and Executive Director: Luke Erickson.</li><li>Program: a 12-week accelerator run in official partnership with Plug and Play. It is Plug and Play&rsquo;s first formal accelerator program in Ventura County and the launch point for its expanded Southern California focus. No tuition, no fees, no equity.</li><li>Inaugural cohort: Spring 2027.</li><li>Also: a free founder workshop series and a Demo Day.</li><li>Public funding: City of Ventura, Economic Development, $49,500 approved.</li><li>Board: Luke Erickson; Brent-Stig Kraus; Brian Gonzalez; Sean Herwaldt.</li><li>Mission: &ldquo;Keep Ventura County the best place in the world to live by fueling entrepreneurship, building high-growth companies, and transforming the region into a recognized hub of innovation that creates lasting economic success.&rdquo;</li></ul><h2>Coverage</h2><ul><li><a href="news-pacific-coast-business-times.html">Pacific Coast Business Times</a>, &ldquo;Ventura pushes the accelerator pedal,&rdquo; October 2, 2026.</li><li><a href="news-our-ventura-tv.html">Our Ventura TV, Channel 6</a>, September 30, 2026.</li><li><a href="news-visionary-podcast.html">Conejo Valley Visionaries podcast</a>, October 15, 2026.</li><li><a href="news-the-hustle.html">The Hustle podcast</a>, September 25, 2026.</li><li><a href="news-launch-press.html">Launch announcement</a> carried by Yahoo Finance, Business Insider, and the Associated Press, August 31, 2026.</li></ul><h2>Logos</h2><p><a href="${A}/img/logo.png" download>Download logo (color)</a><br><a href="${A}/img/logo-white.png" download>Download logo (white)</a></p><h2>Leadership</h2><p>Led by operators behind companies like Curri and SevenRooms. Read more on our <a href="about.html">About page</a>.</p><h2>Press contact</h2><p>Email <a href="mailto:info@startupventura.com">info@startupventura.com</a>, or use our <a href="contact.html">contact form</a> and choose "Press."</p></div></div></section>`,
 });
 
@@ -1427,11 +1425,11 @@ const jobPostingSchema = (r) => {
   return obj;
 };
 page('careers.html', {
-  title: 'Careers',
+  title: 'Careers', crumbsTrail: [['Home', 'index.html'], ['Careers', '']],
   desc: 'Join the team building Ventura County’s startup accelerator. Open roles plus ways to mentor founders and volunteer your skills.',
   canonical: `${SITE}/careers`,
   jsonld: roles.filter(r => !r.archived).map(jobPostingSchema),
-  body: pageHead('Careers', 'Help build what founders build here.', 'Startup Ventura is a small team with outsized ambition for Ventura County. If you want your work to keep talent, jobs, and companies in the region, we would love to meet you.') +
+  body: pageHead('Careers', 'Help build what founders build here.', 'Startup Ventura is a small team with outsized ambition for Ventura County. If you want your work to keep talent, jobs, and companies in the region, we would love to meet you.', true) +
     `<section class="section section--pale"><div class="wrap wrap--narrow">${head('Open roles', 'We are hiring.', 'Click a role to read the full description. Do not see your exact fit? Apply below and tell us how you would help.')}<div class="roles">${roles.filter(r => !r.archived).map((r) => `<article class="role"><details class="role__d"><summary class="role__summary"><div class="role__head"><h3 class="role__title">${r.title}</h3><p class="role__meta">${r.meta}</p><p class="role__desc">${r.teaser}</p></div><span class="role__toggle" aria-hidden="true">Details</span></summary><div class="role__full">${r.full}</div></details><div class="role__actions"><a class="btn btn--outline role__apply" href="#apply" data-role="${r.title}">Apply for this role &darr;</a></div></article>`).join('')}</div></div></section>
     <section class="section" id="apply"><div class="wrap wrap--narrow">${head('Apply', 'Tell us about you.')}${form('careers', 'Submit application', false, true, { interest: [...roles.filter(r => !r.archived).map(r => r.title), 'General interest'], interestLabel: 'Role you are applying for', linkLabel: 'LinkedIn or resume link', msgLabel: 'Why you, and how you would help', twoCol: true })}</div></section>
     <section class="section section--pale"><div class="wrap wrap--narrow">${headC('Mentor & volunteer', 'Lend your skills to a founder.', 'Not looking for a job, but want to help? Our founders grow fastest with operators, experts, and mentors in their corner. Whether you can give an hour or an ongoing commitment, we would love to hear what you bring.')}<div class="center"><a class="btn btn--blue" href="contact.html">Get in touch to mentor or volunteer</a></div></div></section>` +
@@ -1464,10 +1462,10 @@ const faqSchema = {
   mainEntity: faqs.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })),
 };
 page('faq.html', {
-  title: 'FAQ',
+  title: 'FAQ', crumbsTrail: [['Home', 'index.html'], ['FAQ', '']],
   canonical: `${SITE}/faq`,
   jsonld: faqSchema,
-  body: pageHead('FAQ', 'Frequently asked questions', 'Quick answers about Startup Ventura, the accelerator, and how to get involved.') +
+  body: pageHead('FAQ', 'Frequently asked questions', 'Quick answers about Startup Ventura, the accelerator, and how to get involved.', true) +
     `<section class="section section--pale"><div class="wrap wrap--narrow"><div class="faq">${faqs.map(([q, a]) => `<details class="faq__item"><summary class="faq__q">${q}</summary><div class="faq__a"><p>${a}</p></div></details>`).join('')}</div></div></section>` +
     ctaBand('Still have a question? Ask us.', 'contact'),
 });
@@ -1498,7 +1496,7 @@ page('advisors.html', {
 // the meeting and makes the direct ask). Give stays available as the closing
 // band for ready-now donors. Not in the nav, footer, or sitemap.
 page('connect.html', {
-  title: 'Talk With Our Founder',
+  title: 'Talk With Our Founder', crumbsTrail: [['Home', 'index.html'], ['Talk with our founder', '']],
   robots: 'noindex',
   desc: 'Book a conversation with Startup Ventura founder Luke Erickson. See the plan for Ventura County\'s startup accelerator, then decide where you fit.',
   canonical: `${SITE}/connect`,
@@ -1524,7 +1522,7 @@ page('connect.html', {
 
 // FOUNDERS → /apply (form 'apply' → /thanks-apply → founder_lead)
 page('apply.html', {
-  title: 'Founders: Get First Access',
+  title: 'Founders: Get First Access', crumbsTrail: [['Home', 'index.html'], ['The Program', 'program.html'], ['Founders', '']],
   robots: 'noindex',
   desc: 'Get first access when applications open for Startup Ventura\'s Spring 2027 accelerator cohort. Free for founders: no tuition, no equity.',
   canonical: `${SITE}/apply`,
@@ -1543,7 +1541,7 @@ page('apply.html', {
 
 // MENTORS → /mentor (form 'mentor' → /thanks-mentor → mentor_lead)
 page('mentor.html', {
-  title: 'Mentor a Founder',
+  title: 'Mentor a Founder', crumbsTrail: [['Home', 'index.html'], ['About', 'about.html'], ['Mentor', '']],
   robots: 'noindex',
   desc: 'Mentor Ventura County founders through Startup Ventura. An hour of your experience can change a company\'s trajectory.',
   canonical: `${SITE}/mentor`,
@@ -1687,17 +1685,17 @@ page('workshop.html', {
 // Full events page: fall workshop schedule + calendar subscribe + invite list.
 // Hidden until SHOW_EVENTS_NAV flips: no nav tab, noindex, out of sitemap.
 page('events.html', {
-  title: 'Events: Workshops & Community',
+  title: 'Events: Workshops & Community', crumbsTrail: [['Home', 'index.html'], ['Events', '']],
   robots: SHOW_EVENTS_NAV ? undefined : 'noindex',
   desc: 'Startup Ventura events for Ventura County small businesses and founders: the free workshop series, Demo Day, and the Annual Benefit. RSVP and subscribe to the calendar.',
   canonical: `${SITE}/events`,
-  body: pageHead('Events', 'Be in the room.', 'Free workshops for Ventura County small businesses and founders, with dates being finalized now. Plus Lunch &amp; Learns, Demo Day, and our Annual Benefit. Get on the list and every invitation lands in your inbox.') +
+  body: pageHead('Events', 'Be in the room.', 'Free workshops for Ventura County small businesses and founders, with dates being finalized now. Plus Lunch &amp; Learns, Demo Day, and our Annual Benefit. Get on the list and every invitation lands in your inbox.', true) +
     `<section class="section"><div class="wrap wrap--narrow">${head('The schedule', 'The workshop series and beyond.', 'Practical, no-fluff sessions on starting and growing a business, free to attend. Dates are being finalized; invitations go out by email first.')}
-    ${workshopEvents.length ? `<ol class="event-list">${workshopEvents.map((e, i) => `<li class="event-row"><span class="event-row__date">${esc(e.date)}</span><div>
+    ${workshopEvents.length ? `<ol class="event-list">${workshopEvents.map((e, i) => `<li class="event-row">${e.iso ? `<span class="event-row__date">${esc(e.date)}</span>` : '<span class="event-row__date event-row__date--tbd">Date coming</span>'}<div>
       <h3 class="event-row__title">${esc(e.title)}</h3>
       ${e.desc ? `<p class="event-row__desc">${esc(e.desc)}</p>` : ''}
       ${e.iso ? `<p class="event-row__add">Add to calendar: <a href="${gcalAddUrl(e)}" target="_blank" rel="noopener">Google</a> &middot; <a href="${icsFile(e)}">Apple / Outlook</a></p>` : ''}
-      ${NOTION_RSVP_FORM_URL ? `<p><a class="event-rsvp__link" data-rsvp-open href="${NOTION_RSVP_FORM_URL}" target="_blank" rel="noopener">RSVP</a></p>` : `<details class="event-rsvp"><summary>RSVP</summary><div class="event-rsvp__form">${form('rsvp', 'RSVP', false, false, { idSuffix: i, hidden: { event: `${e.title} | ${e.iso}` } })}</div></details>`}
+      ${!e.iso ? '' : NOTION_RSVP_FORM_URL ? `<p><a class="event-rsvp__link" data-rsvp-open href="${NOTION_RSVP_FORM_URL}" target="_blank" rel="noopener">RSVP</a></p>` : `<details class="event-rsvp"><summary>RSVP</summary><div class="event-rsvp__form">${form('rsvp', 'RSVP', false, false, { idSuffix: i, hidden: { event: `${e.title} | ${e.iso}` } })}</div></details>`}
     </div>${e.tag ? `<span class="event-tag">${esc(e.tag)}</span>` : ''}</li>`).join('')}</ol>` : `<p class="muted" style="margin-top:12px">The next series is being scheduled now. Get on the list below and you will hear first.</p>`}
     ${EVENTS_CAL_URL ? `<div class="center" style="margin-top:30px"><a class="btn btn--blue" href="${EVENTS_CAL_URL}" target="_blank" rel="noopener">Subscribe to the events calendar</a></div><p class="center muted" style="margin-top:10px;font-size:14px">Adds the series to your Google Calendar, updates included.</p>` : ''}</div></section>
     <section class="section section--pale"><div class="wrap"><div class="contact-layout">
@@ -1794,7 +1792,7 @@ page('thank-you.html', {
     <p class="eyebrow">Thank You</p>${waveRule}
     <h1 class="display">You just helped a founder build here.</h1>
     <p class="lede" style="margin-inline:auto">Your gift goes straight to the inaugural Spring 2027 cohort &mdash; the mentorship, capital connections, and community that keep Ventura County&rsquo;s best founders building at home. We could not do this without you.</p>
-    <div class="center" style="margin-top:30px"><a class="btn btn--blue" href="index.html">Back to home</a>&nbsp;&nbsp;<a class="btn btn--outline" href="donor-wall.html">See the donor wall</a></div>
+    <div class="btn-row" style="margin-top:30px"><a class="btn btn--blue" href="index.html">Back to home</a><a class="btn btn--outline" href="donor-wall.html">See the donor wall</a></div>
     <p class="muted" style="margin-top:34px;font-size:14px;max-width:60ch;margin-inline:auto">A receipt is on its way to your inbox from Zeffy. Startup Ventura is a 501(c)(3) nonprofit (EIN 39-2204612); your donation is tax-deductible to the extent allowed by law.</p>
     <button id="sv-confetti-again" class="thankyou__again" type="button">Celebrate again &#127881;</button>
   </div></section>
@@ -1898,7 +1896,7 @@ page('404.html', {
   body: `<section class="section"><div class="wrap wrap--narrow" style="text-align:center;padding-block:8vh">
     <header class="section-head section-head--center"><p class="eyebrow">404</p>${waveRule}<h1 class="section-head__title display">This page drifted out with the tide.</h1></header>
     <p class="lede" style="margin-inline:auto">The page you are looking for does not exist or has moved. Head back to shore.</p>
-    <div class="center" style="margin-top:28px"><a class="btn btn--blue" href="index.html">Back to the homepage</a>&nbsp;&nbsp;<a class="btn btn--outline" href="contact.html">Contact us</a></div>
+    <div class="btn-row" style="margin-top:28px"><a class="btn btn--blue" href="index.html">Back to the homepage</a><a class="btn btn--outline" href="contact.html">Contact us</a></div>
   </div></section>`,
 });
 
