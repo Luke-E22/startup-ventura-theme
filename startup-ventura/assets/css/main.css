@@ -905,3 +905,9 @@ picture{display:contents}
   .hero .wave .band1,.hero .wave .band2{animation:none}
   .btn--give.is-shine::after{display:none}
 }
+
+/* Facts strip (accelerator): the five answers a founder arrives with. */
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:18px;margin:0}
+.facts__item{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;box-shadow:var(--shadow-sm)}
+.facts__k{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);font-weight:700;margin:0 0 8px}
+.facts__v{font-weight:600;color:var(--ink);font-size:15.5px;line-height:1.45;margin:0}
