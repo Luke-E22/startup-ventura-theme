@@ -114,7 +114,7 @@ const header = (overHero = false) => `<a class="skip-link" href="#main">Skip to 
 
 const ctaBand = (heading, secondary = 'none', note = 'Funds the inaugural Spring 2027 cohort. EIN 39-2204612.') => `<section class="section cta-band">${waveFull}
   <div class="wrap cta-band__inner"><p class="eyebrow">The Ask</p>${waveRule}<h2 class="cta-band__title">${heading}</h2>
-  <div class="cta-band__actions">${give('band', 'btn--lg')}${secondary === 'apply' ? apply('Apply to the cohort', 'btn--ghost') : secondary === 'partner' ? partnerBtn('Partner with us', 'btn--ghost') : ''}</div>
+  <div class="cta-band__actions">${give('band', 'btn--lg')}${secondary === 'apply' ? apply('Apply to the cohort', 'btn--ghost') : secondary === 'partner' ? partnerBtn('Partner with us', 'btn--ghost') : secondary === 'session' ? '<a class="btn btn--ghost" href="#session">Request a working session</a>' : ''}</div>
   <p class="cta-band__note">${note}</p></div></section>`;
 
 const footer = () => `</main>
@@ -1119,10 +1119,33 @@ page('partner.html', {
 // PARTNER - CITIES & COUNTY
 page('partner-cities-county.html', {
   title: 'For Cities & County', crumbsTrail: [['Home', 'index.html'], ['Partner', 'partner.html'], ['For Cities & County', '']],
-  body: pageHead('For Cities &amp; County', 'Keep talent and the tax base local.', 'Position Startup Ventura as your execution partner for economic development.') +
-    `<section class="section section--pale section--tight"><div class="wrap"><p class="lede">The math is local.</p><div style="margin-top:24px">${proofStrip()}</div></div></section>
-    <section class="section"><div class="wrap wrap--narrow">${head('Request a meeting', 'Start the conversation.')}${form('partner-government', 'Request a meeting', true)}</div></section>` +
-    ctaBand('Build the local innovation economy with us.', 'partner'),
+  desc: 'Startup Ventura asks Ventura County cities and the County to fund reserved accelerator seats for their founders and reports the outcomes once a year. Public money in, partners at the table, governance, and the case for the county.',
+  body: pageHead('For Cities &amp; County', 'Fund seats for your founders. Get the outcomes reported back.', 'Startup Ventura asks Ventura County cities and the County to fund reserved accelerator seats for founders from their jurisdiction, then reports what those founders build. The City of Ventura set the model.') +
+    `<section class="section section--pale"><div class="wrap wrap--narrow">${head('The ask', 'Fund reserved cohort seats for founders from your jurisdiction.')}<div class="entry-content" style="margin-top:0">
+    <p>The model exists. In 2025 the City of Ventura approved $49,500 for Startup Ventura through its Economic Development department, the first public partner behind the program.</p>
+    <p>What a partnership includes:</p>
+    <ul><li>Reserved cohort seats for founders based in your city or district.</li><li>A written outcomes report on the founders you funded, once a year.</li><li>Recognition as a public partner on this site and in program materials.</li></ul>
+    <p>Amounts and terms are set per agency. <a href="#session">Request a working session</a> and we will bring the numbers for your jurisdiction.</p>
+    </div></div></section>
+    <section class="section"><div class="wrap wrap--narrow">${head('What you will be able to measure', 'Five numbers, reported once a year.')}<div class="entry-content" style="margin-top:0">
+    <p>Startup Ventura will report these numbers for every cohort, starting with the Spring 2027 cohort:</p>
+    <ul><li>Founders served, by city of residence or company address.</li><li>Companies launched or incorporated in Ventura County.</li><li>Jobs created at cohort companies, counted at graduation and at 12 months.</li><li>Follow-on capital raised by cohort companies.</li><li>Founders who remain in Ventura County after the program.</li></ul>
+    <p>Reports go to each public partner and are posted on the <a href="impact.html">Impact page</a>.</p>
+    </div></div></section>
+    <section class="section section--pale"><div class="wrap wrap--narrow">${head('Public dollars in, and what they stand alongside', 'Every figure here carries a status word.')}<div class="entry-content" style="margin-top:0">
+    <p><strong>Public money in.</strong> City of Ventura, Economic Development: $49,500 approved.</p>
+    <p><strong>Private and philanthropic money alongside it.</strong> The Foundation of Ventura County Credit Union: $10,000 grant, October 2026. Annual Benefit, November 2025: $17,000 raised from 75 supporters. Individual gifts through the Founder&rsquo;s Circle.</p>
+    <p><strong>Applied for, not awarded.</strong> National Science Foundation, Advanced Technological Education: a grant of up to $3 million for the Community Colleges of Ventura County Venture Creation Initiative. The Ventura County Community College District is the lead applicant and Startup Ventura is a subawardee. Awards have not been announced.</p>
+    <p><strong>Program delivery.</strong> The accelerator runs in an official partnership with Plug and Play. It is Plug and Play&rsquo;s first formal accelerator program in Ventura County and the launch point for its expanded Southern California focus.</p>
+    </div></div></section>
+    <section class="section"><div class="wrap">${headC('Who is already at the table', 'Partners and the board.')}${partnerRow()}<div class="entry-content" style="margin-top:40px;max-width:72ch;margin-inline:auto"><p><strong>Board of directors.</strong> Luke Erickson, Founder and Executive Director. Brent-Stig Kraus, senior revenue executive and former Chief Revenue Officer of SevenRooms, acquired by DoorDash. Brian Gonzalez, Co-Founder and CTO of Curri, a Y Combinator company backed by Bessemer Venture Partners. Sean Herwaldt, Director at Curri and former Global Supply Manager at SpaceX. <a href="about.html#board">Full bios</a>.</p><p>Startup Ventura is a member of the Ventura Chamber of Commerce, one of its supporting partners.</p></div></div></section>
+    <section class="section section--pale"><div class="wrap"><div class="card-grid card-grid--2">
+    <div class="card"><div class="card__body"><p class="eyebrow">Governance and transparency</p><h3 class="card__title">A 501(c)(3) public charity, founded 2025.</h3><p class="card__text">EIN 39-2204612. Candid Platinum Seal of Transparency, 2026: our <a href="https://app.candid.org/profile/16385291/startup-ventura-39-2204612" target="_blank" rel="noopener">Candid profile</a> lists the board, programs, and metrics. A board of directors governs the organization. Founder and Executive Director: Luke Erickson.</p></div></div>
+    <div class="card"><div class="card__body"><p class="eyebrow">Why this is low risk</p><h3 class="card__title">No equity. No tuition. Reported outcomes.</h3><p class="card__text">The program format is Plug and Play&rsquo;s standard 12-week accelerator. Startup Ventura takes no equity in any company and charges founders nothing. Outcomes are reported to every public partner once a year. The board has operating experience at SevenRooms, Curri, and SpaceX.</p></div></div>
+    </div></div></section>
+    <section class="section"><div class="wrap">${head('Proof this county can do it', 'Ventura County has built global companies before.')}<div style="margin-top:24px">${proofStrip()}</div><div class="entry-content" style="margin-top:36px;max-width:72ch"><p><strong>Regional assets.</strong> The Port of Hueneme is the only commercial deep water port between Los Angeles and San Francisco (portofhueneme.org). Naval Base Ventura County has more than 19,000 military and civilian personnel. Agriculture is a $2.4 billion industry (County of Ventura, 2025 Crop and Livestock Report). Amgen&rsquo;s global headquarters is in Thousand Oaks. Office rents run roughly a third below the Los Angeles average (NAI Capital, Q4 2025; CommercialCafe, 2025).</p><p><a class="card__link" href="why-ventura-county.html">Read the full case for Ventura County</a></p></div></div></section>
+    <section class="section section--pale" id="session"><div class="wrap wrap--narrow">${head('Talk to the person who runs it', 'Request a working session.', 'Luke Erickson, Founder and Executive Director: <a href="mailto:luke@startupventura.com">luke@startupventura.com</a>. General inquiries: <a href="mailto:info@startupventura.com">info@startupventura.com</a>.')}${form('partner-government', 'Request a working session', true, true, { phone: true, twoCol: true, interestLabel: 'What you need', interest: ['Staff report brief', 'Council or Board presentation', 'Partnership terms', 'A workshop in our city', 'Other'], msgLabel: 'Anything we should know', msgOptional: true })}</div></section>` +
+    ctaBand('Keep the founders, the jobs, and the tax base local.', 'session', 'Figures current as of October 2026. Pending applications are listed as applied for.'),
 });
 
 // PARTNER - FOUNDATIONS
