@@ -81,6 +81,12 @@
   to = "/thanks-invest.html"
   status = 200
 
+# Soft-landing page for founders and partner organizations outside the U.S.
+[[redirects]]
+  from = "/soft-landing"
+  to = "/soft-landing.html"
+  status = 200
+
 # Board of Directors interest form (organic, linked from About) + its thanks page.
 [[redirects]]
   from = "/board-interest"

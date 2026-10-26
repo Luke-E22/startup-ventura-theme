@@ -22,6 +22,7 @@ export const FORMS = {
   careers:             { label: 'Job application',         interest: [],                          relationship: [],                 topics: ['Operations'] },
   newsletter:          { label: 'Newsletter signup',       interest: [],                          relationship: [],                 topics: ['Mission'] },
   'partner-foundations': { label: 'Foundation partnership', interest: ['Partnership / sponsorship'], relationship: ['Prospect'],    topics: ['Partnership'] },
+  'soft-landing':        { label: 'Soft landing inquiry',    interest: ['Partnership / sponsorship'], relationship: ['Prospect'],       topics: ['Partnership'] },
   'partner-government':  { label: 'Government partnership', interest: ['Partnership / sponsorship'], relationship: ['Prospect', 'Government'], topics: ['Partnership'] },
 };
 
