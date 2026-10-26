@@ -236,6 +236,10 @@ const workshopEvents = JSON.parse(fs.readFileSync(EVENTS_JSON, 'utf8'))
   .filter((e) => !e.date || e.date.slice(0, 10) >= eventCutoff)
   .sort((a, b) => (a.date || '9999').localeCompare(b.date || '9999'))
   .map((e) => ({ iso: e.date ? e.date.slice(0, 10) : '', date: e.date ? fmtEventDate(e.date) : 'TBD', tag: e.tag, title: e.title, desc: e.desc || '' }));
+// Shown without a date or venue (2026-10-26, per Luke): the Annual Benefit moves to
+// December with RSVP to follow. Remove this line and the HIDDEN_EVENTS pattern once
+// the Notion row carries the real date.
+workshopEvents.unshift({ iso: '', date: 'December 2026', when: 'December 2026', tag: 'Community', title: 'Startup Ventura Annual Benefit', desc: 'RSVP coming soon.' });
 
 // Per-event "add to calendar": a Google Calendar template link plus a static
 // .ics file (Apple/Outlook), one per event, generated alongside the pages.
@@ -825,7 +829,7 @@ page('workshops.html', {
     <p>Workshops are free to attend, paid for by donors, community partners, and the $49,500 the City of Ventura approved for the program. Seats are limited and invitations go out by email first. The series is also the front door to everything else we do: founders who work through it are first in line when applications open for the Spring 2027 accelerator cohort, which adds mentorship from experienced operators, capital connections, weekly Lunch &amp; Learns, and a Demo Day in front of invited investors.</p>
     </div></div></section>
     <section class="section"><div class="wrap wrap--narrow">${head('The lineup', 'Ten sessions. Dates announced soon.', 'RSVP below and your invitation lands in your inbox the moment each date is set.')}
-    <ol class="event-list">${workshopEvents.filter((e) => e.tag !== 'Community').map((e) => `<li class="event-row">${e.iso ? `<span class="event-row__date">${esc(e.date)}</span>` : '<span class="event-row__date event-row__date--tbd">Date coming</span>'}<div><h3 class="event-row__title">${esc(e.title)}</h3>${e.desc ? `<p class="event-row__desc">${esc(e.desc)}</p>` : ''}</div>${e.tag ? `<span class="event-tag">${esc(e.tag)}</span>` : ''}</li>`).join('')}</ol>
+    <ol class="event-list">${workshopEvents.filter((e) => e.tag !== 'Community').map((e) => `<li class="event-row">${e.iso ? `<span class="event-row__date">${esc(e.date)}</span>` : `<span class="event-row__date${e.when ? '' : ' event-row__date--tbd'}">${esc(e.when || 'Date coming')}</span>`}<div><h3 class="event-row__title">${esc(e.title)}</h3>${e.desc ? `<p class="event-row__desc">${esc(e.desc)}</p>` : ''}</div>${e.tag ? `<span class="event-tag">${esc(e.tag)}</span>` : ''}</li>`).join('')}</ol>
     <div class="center" style="margin-top:28px"><a class="btn btn--blue" href="workshop.html" data-cta="apply" data-cta-location="workshops">Save a seat</a></div>
     </div></section>` +
     ctaBand('Come to a workshop. Then build the company here.', 'founder'),
@@ -1707,7 +1711,7 @@ page('events.html', {
   canonical: `${SITE}/events`,
   body: pageHead('Events', 'Be in the room.', 'Free workshops for Ventura County small businesses and founders, with dates being finalized now. Plus Lunch &amp; Learns and Demo Day. Get on the list and every invitation lands in your inbox.', true) +
     `<section class="section"><div class="wrap wrap--narrow">${head('The schedule', 'The workshop series and beyond.', 'Practical, no-fluff sessions on starting and growing a business, free to attend. Dates are being finalized; invitations go out by email first.')}
-    ${workshopEvents.length ? `<ol class="event-list">${workshopEvents.map((e, i) => `<li class="event-row">${e.iso ? `<span class="event-row__date">${esc(e.date)}</span>` : '<span class="event-row__date event-row__date--tbd">Date coming</span>'}<div>
+    ${workshopEvents.length ? `<ol class="event-list">${workshopEvents.map((e, i) => `<li class="event-row">${e.iso ? `<span class="event-row__date">${esc(e.date)}</span>` : `<span class="event-row__date${e.when ? '' : ' event-row__date--tbd'}">${esc(e.when || 'Date coming')}</span>`}<div>
       <h3 class="event-row__title">${esc(e.title)}</h3>
       ${e.desc ? `<p class="event-row__desc">${esc(e.desc)}</p>` : ''}
       ${e.iso ? `<p class="event-row__add">Add to calendar: <a href="${gcalAddUrl(e)}" target="_blank" rel="noopener">Google</a> &middot; <a href="${icsFile(e)}">Apple / Outlook</a></p>` : ''}
