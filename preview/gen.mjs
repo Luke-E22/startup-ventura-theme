@@ -452,7 +452,7 @@ const partnerGroups = [
     ['CSU Channel Islands', 'partners/csu-channel-islands.png'],
     ['Ventura Unified School District', 'partners/ventura-unified.png'],
     ['Oak Park Unified School District', 'partners/oak-park-unified.png'],
-    ['California Lutheran University', null],
+    ['California Lutheran University', 'partners/cal-lutheran.png'],
   ]],
   ['Workforce &amp; Industry Partners', [
     ['Workforce Development Board of Ventura County', 'partners/wdb-ventura-county.png'],
