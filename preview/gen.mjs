@@ -442,7 +442,7 @@ const partnerGroups = [
     ['City of Ventura', 'partners/city-of-ventura.png'],
     ['Ventura County Credit Union', 'partners/ventura-county-credit-union-2x.png'],
     ['Ventura Chamber of Commerce', 'partners/ventura-chamber-2x.webp'],
-    ['Chatible Foundation', null],
+    ['The Charitable Foundation', null],
   ]],
   ['Educational Partners', [
     ['Ventura County Community College District', 'partners/ventura-community-college-2x.png'],
@@ -458,10 +458,10 @@ const partnerGroups = [
     ['Workforce Development Board of Ventura County', 'partners/wdb-ventura-county.png'],
     ['Curri', 'partners/curri.png'],
   ]],
-  // Program partner. Logo file pending; a text wordmark renders until it lands.
+  // Program partners.
   ['Program Partners', [
-    ['Plug and Play', null],
-    ['gener8tor', null],
+    ['Plug and Play', 'partners/plug-and-play.png'],
+    ['gener8tor', 'partners/gener8tor.png'],
   ]],
 ];
 const partnerRow = () => partnerGroups.map(([label, items]) => `<div class="partner-group"><p class="eyebrow partner-group__label">${label}</p><div class="partner-row">${items.map(([n, logo]) => logo ? `<div class="partner"><img src="${A}/img/${logo}" height="64" loading="lazy" decoding="async" alt="${n}"></div>` : `<div class="partner partner--text">${n}</div>`).join('')}</div></div>`).join('');
