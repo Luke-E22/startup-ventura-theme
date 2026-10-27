@@ -959,19 +959,10 @@ picture{display:contents}
 .btn--primary{background:var(--coral);color:#fff;font-size:19px;font-weight:800;box-shadow:0 8px 22px -8px rgba(234,90,61,.8)}
 .btn--primary:hover{background:var(--coral-deep);color:#fff;transform:translateY(-2px);box-shadow:0 12px 28px -8px rgba(214,78,51,.9)}
 .header-cta .btn--primary{min-height:42px;padding:9px 20px;font-size:17px}
-.header-cta__give{font-family:var(--font-body);font-weight:600;font-size:15px;color:var(--navy);text-decoration:none;padding:10px 12px;border-radius:8px;white-space:nowrap}
-.header-cta__give:hover{color:var(--coral-deep);background:rgba(48,96,156,.07)}
-.site-header--over-hero .header-cta__give{color:#fff}
-.site-header--over-hero .header-cta__give:hover{background:rgba(255,255,255,.14);color:#fff}
-.site-header.is-scrolled .header-cta__give{color:var(--navy)}
 .mobile-menu a.btn--primary{background:var(--coral);text-align:center;padding:16px 24px;font-size:19px}
-/* With FAQ in the bar the desktop nav overflows below about 1080px, so the hamburger
-   takes over there (the rest of the 940px layout rules are unchanged). Apply stays
-   visible beside the hamburger at every width; Give moves into the sheet. */
-@media (max-width:1080px){.site-header__inner{display:flex;justify-content:space-between}.site-brand{margin-inline:0}.primary-nav{display:none}.menu-toggle{display:inline-flex}.header-cta__give{display:none}}
 @media (max-width:620px){.header-cta .btn--primary{min-height:38px;padding:8px 14px;font-size:15px}}
-/* Between 1081 and 1240px the full bar fits only with tighter link spacing. */
-@media (min-width:1081px) and (max-width:1240px){.primary-nav > ul{gap:6px}.primary-nav a{padding:10px 8px;font-size:14.5px}.header-cta__give{padding:10px 8px}.header-cta .btn--primary{padding:9px 16px;font-size:16px}.site-brand{margin-inline:12px}}
+/* Between 941 and 1240px the full bar fits only with tighter link spacing. */
+@media (min-width:941px) and (max-width:1240px){.primary-nav > ul{gap:6px}.primary-nav a{padding:10px 8px;font-size:14.5px}.header-cta .btn--primary{padding:9px 16px;font-size:16px}.site-brand{margin-inline:12px}}
 
 /* ---------- status bar: one line above the header on every page ---------- */
 :root{--status-h:38px}
