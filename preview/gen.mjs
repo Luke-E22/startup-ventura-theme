@@ -1556,13 +1556,14 @@ page('apply.html', {
   robots: 'noindex',
   desc: 'Get first access when applications open for Startup Ventura\'s Spring 2027 accelerator cohort. Free for founders: no tuition, no equity.',
   canonical: `${SITE}/apply`,
-  body: pageHead('Founders', 'Build it here. Not somewhere else.', 'Our inaugural accelerator cohort launches Spring 2027: free for founders, no tuition, no equity, with mentorship, capital connections, and a Demo Day in front of invited investors. Tell us what you are building and you go to the front of the line when applications open.') +
+  body: pageHead('Founders', 'Build it here. Not somewhere else.', 'Our inaugural accelerator cohort launches Spring 2027: free for founders, no tuition, no equity, with mentorship, capital connections, and a Demo Day in front of invited investors. Tell us what you are building and we will send you the application link the day applications open.') +
     `<section class="section section--pale"><div class="wrap"><div class="contact-layout">
     <div>${head('First access', 'Tell us what you are building.')}<div style="margin-top:28px">${form('apply', 'Get first access', false, true, { twoCol: true, interest: ['Idea stage', 'Building, pre-revenue', 'Revenue, growing', 'Not sure yet'], interestLabel: 'Where are you today?', msgLabel: 'What are you building? A sentence or two is perfect.', linkLabel: 'Company or LinkedIn link', redirect: '/thanks-apply' })}</div></div>
     <aside class="contact-aside">
       <div class="contact-card"><h3>What the accelerator includes</h3><p>Mentorship from operators who have built and scaled, capital connections, weekly Lunch &amp; Learns, and a Demo Day in front of invited investors.</p></div>
       <div class="contact-aside__block"><h3>What it costs you</h3><p>Nothing. No tuition and no equity. Donors, community partners, and the City of Ventura, which approved $49,500 for the program, pay for it because they want founders building here.</p></div>
-      <div class="contact-aside__block"><h3>The path</h3><p>The founder workshop series runs first as the on-ramp, then applications open in January 2027 for the Spring 2027 cohort. This list hears everything first.</p></div>
+      <div class="contact-aside__block"><h3>How to apply</h3><p>Through the application portal when it opens in January 2027. Applications close in late February 2027. Until then, the first-access list is the way in: we send the link the day applications open.</p></div>
+      <div class="contact-aside__block"><h3>The format</h3><p>Hybrid: one in-person day a week in Ventura County, the rest remote. Plan on 8 to 12 hours a week. Five to ten companies per cohort.</p></div>
       <div class="contact-aside__block"><h3>Questions?</h3><p><a href="mailto:info@startupventura.com">info@startupventura.com</a></p></div>
     </aside>
   </div></div></section>` +
@@ -1873,10 +1874,10 @@ const funnelThanks = (file, o) => page(file, {
 });
 
 funnelThanks('thanks-apply.html', {
-  title: 'You Are on the Inside Track', eyebrow: 'First Access', event: 'founder_lead',
-  desc: 'You have first access when applications open for Startup Ventura\'s Spring 2027 accelerator cohort.',
-  h1: 'Front of the line.',
-  lede: 'You have first access when applications open for the Spring 2027 cohort. We read every submission, and we will reach out as timing and fit line up. Until then: keep building.',
+  title: 'You Are on the List', eyebrow: 'First Access', event: 'founder_lead',
+  desc: 'You are on the first-access list for Startup Ventura\'s Spring 2027 accelerator cohort.',
+  h1: 'You are on the list.',
+  lede: 'We will send you the application link the day applications open for the Spring 2027 cohort. We read every submission. Until then: keep building.',
   primary: ['See the program', 'program.html'], secondary: ['Meet the board', 'about.html'],
 });
 funnelThanks('thanks-mentor.html', {
