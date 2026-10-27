@@ -26,6 +26,7 @@
 	(function header() {
 		var hdr = $('.site-header');
 		if (!hdr) { return; }
+		var bar = $('.status-bar');
 		// rAF-throttled so the classList write happens once per frame instead of
 		// on every scroll event (PSI flagged this handler for forced reflow).
 		var ticking = false;
@@ -33,7 +34,11 @@
 			if (ticking) { return; }
 			ticking = true;
 			requestAnimationFrame(function () {
-				hdr.classList.toggle('is-scrolled', window.pageYOffset > 40);
+				var y = window.pageYOffset;
+				hdr.classList.toggle('is-scrolled', y > 40);
+				// The status bar above the header is in normal flow; keep the fixed
+				// header pinned to its bottom edge until the bar has scrolled away.
+				if (bar) { hdr.style.top = Math.max(0, bar.offsetHeight - y) + 'px'; }
 				ticking = false;
 			});
 		};

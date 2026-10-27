@@ -95,7 +95,20 @@ const navList = (items = NAV) => `<ul class="sv-menu">${items.map(i => i.childre
   ? `<li class="menu-item menu-item-has-children"><a href="${i.href}">${i.label}</a><ul class="sub-menu">${i.children.map(c => `<li class="menu-item"><a href="${c[1]}">${c[0]}</a></li>`).join('')}</ul></li>`
   : `<li class="menu-item"><a href="${i.href}">${i.label}</a></li>`).join('')}</ul>`;
 
+// Site-wide status bar: one line above the header on every page, generated once
+// so it cannot drift. Move STATUS_PHASE along as the cycle turns: 'first-access'
+// (now) -> 'open' (the portal is live) -> 'closed'. A close day is shown only
+// once it is confirmed; until then the copy says late February.
+const STATUS_PHASE = 'first-access';
+const STATUS = {
+  'first-access': { href: 'apply.html', long: 'Applications for the Spring 2027 cohort open January 2027 &middot; Join the first-access list &rarr;', short: 'Applications open January 2027 &middot; First access &rarr;' },
+  open: { href: 'apply.html', long: 'Applications open &middot; Close late February 2027 &middot; Apply &rarr;', short: 'Applications open &middot; Apply by late February &rarr;' },
+  closed: { href: 'apply.html', long: 'Applications closed for Spring 2027 &middot; Get notified for the next cohort &rarr;', short: 'Applications closed &middot; Next cohort updates &rarr;' },
+}[STATUS_PHASE];
+const statusBar = () => `<div class="status-bar" data-status="${STATUS_PHASE}"><div class="wrap"><a class="status-bar__link" href="${STATUS.href}" data-cta="apply" data-cta-location="status-bar"><span class="status-bar__long">${STATUS.long}</span><span class="status-bar__short">${STATUS.short}</span></a></div></div>`;
+
 const header = (overHero = false) => `<a class="skip-link" href="#main">Skip to content</a>
+${statusBar()}
 <header class="site-header${overHero ? ' site-header--over-hero' : ''}">
   <div class="wrap site-header__inner">
     <nav class="primary-nav primary-nav--left" aria-label="Primary">${navList(NAV.slice(0, 3))}</nav>
