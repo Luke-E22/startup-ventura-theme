@@ -342,11 +342,10 @@ const seoHead = ({ title, desc, canonical, ogType = 'website', ogImage, jsonld, 
 };
 
 // ---------------------------------------------------------------------------
-// "Get involved" entry modal. Ships hidden in the markup of every indexable
-// page; main.js (section 13) reveals it once per visit (sessionStorage) and
-// handles focus trap, scroll lock, and dismissal. Ad-funnel landers (noindex),
-// thank-you pages, and the 404 never get it: those pages are single-purpose
-// and an interstitial there would fight the conversion they exist for.
+// "Get involved" modal. Opens only when a visitor clicks a [data-gi-open]
+// trigger (the homepage hero button); it never opens on page load (changed
+// 2026-10-27). main.js (section 13) handles focus trap, scroll lock, and
+// dismissal. The markup ships only on indexable pages that carry a trigger.
 // A card pointing at the page it is on is dropped (no self-links).
 const GET_INVOLVED = [
   { href: 'apply.html', title: 'Apply as a Founder', desc: 'Join our Spring 2027 cohort',
@@ -397,7 +396,7 @@ ${header(overHero)}
 ${crumbsTrail ? crumbs(crumbsTrail) : ''}
 ${body}
 ${footer()}
-${(robots || '').includes('noindex') || /^(404|thank-you|connected|thanks-)/.test(file) ? '' : giModal(file)}
+${(robots || '').includes('noindex') || /^(404|thank-you|connected|thanks-)/.test(file) || !body.includes('data-gi-open') ? '' : giModal(file)}
 <script src="${A}/js/main.js?v=44"></script>
 ${body.includes('data-netlify') ? NF_SCRIPT : ''}
 </body></html>`;
