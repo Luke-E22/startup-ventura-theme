@@ -76,15 +76,21 @@ const pic = (src, { cls = '', w, h, style = '', alt = '', sizes = '100vw', eager
 // (right half, before Contact) AND lifts the noindex on events.html so it
 // enters the sitemap. Until then the page is live but unlisted.
 const SHOW_EVENTS_NAV = true; // flipped 2026-07-21: events tab live, page indexable
+// Top bar (2026-10-27): Program, FAQ, Impact | logo | Partner, About, Events, News,
+// then Give as a text link and Apply as the pinned coral button. Contact lives in
+// the footer "Get in touch" column and on every closing band.
 const NAV = [
   { label: 'Program', href: 'program.html', children: [['12-Week Accelerator', 'accelerator.html'], ['Workshop Series', 'workshops.html'], ['Founder Resources', 'resources.html']] },
+  { label: 'FAQ', href: 'faq.html' },
   { label: 'Impact', href: 'impact.html' },
   { label: 'Partner', href: 'partner.html', children: [['For Cities &amp; County', 'partner-cities-county.html'], ['For Foundations', 'partner-foundations.html']] },
   { label: 'About', href: 'about.html', children: [['Board of Directors', 'about.html#board'], ['Join the Board', 'board-interest.html'], ['Leadership', 'lukeerickson.html'], ['Why Ventura County', 'why-ventura-county.html'], ['Ecosystem Guide', 'ecosystem.html']] },
   ...(SHOW_EVENTS_NAV ? [{ label: 'Events', href: 'events.html' }] : []),
-  { label: 'Contact', href: 'contact.html' },
   { label: 'News', href: 'news.html' },
 ];
+// Mobile sheet: FAQ and Apply follow the Program group; Apply repeats as the
+// full-width button at the bottom and Give stays as a text row.
+const MOBILE_NAV = [NAV[0], NAV[1], { label: 'Apply', href: 'apply.html' }, ...NAV.slice(2)];
 const navList = (items = NAV) => `<ul class="sv-menu">${items.map(i => i.children
   ? `<li class="menu-item menu-item-has-children"><a href="${i.href}">${i.label}</a><ul class="sub-menu">${i.children.map(c => `<li class="menu-item"><a href="${c[1]}">${c[0]}</a></li>`).join('')}</ul></li>`
   : `<li class="menu-item"><a href="${i.href}">${i.label}</a></li>`).join('')}</ul>`;
@@ -99,7 +105,7 @@ const header = (overHero = false) => `<a class="skip-link" href="#main">Skip to 
     </a>
     <div class="nav-right">
       <div class="primary-nav primary-nav--right">${navList(NAV.slice(3))}</div>
-      <div class="header-cta">${give('header')}
+      <div class="header-cta"><a class="header-cta__give" href="${ZEFFY}" target="_blank" rel="noopener" data-cta="give" data-cta-location="header">Give</a>${apply('Apply', 'btn--primary header-cta__apply')}
         <button class="menu-toggle" type="button" aria-controls="sv-mobile-menu" aria-expanded="false"><span class="sr-only">Menu</span><span class="bar"></span><span class="bar"></span><span class="bar"></span></button>
       </div>
     </div>
@@ -107,8 +113,8 @@ const header = (overHero = false) => `<a class="skip-link" href="#main">Skip to 
 </header>
 <div class="mobile-menu" id="sv-mobile-menu">
   <button class="mobile-menu__close" type="button" aria-label="Close menu">&times;</button>
-  <nav aria-label="Mobile">${navList()}</nav>
-  ${give('mobile-menu', 'btn--lg btn--full')}
+  <nav aria-label="Mobile">${navList(MOBILE_NAV)}<ul class="sv-menu"><li class="menu-item"><a href="${ZEFFY}" target="_blank" rel="noopener" data-cta="give" data-cta-location="mobile-menu">Give</a></li></ul></nav>
+  ${apply('Apply', 'btn--primary btn--lg btn--full')}
 </div>
 <main id="main" class="site-main">`;
 
@@ -139,8 +145,8 @@ const footer = () => `</main>
       <a href="https://www.facebook.com/startupventura/" aria-label="Facebook" rel="noopener" target="_blank"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.9h2.54V9.85c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.44 2.9h-2.34V22c4.78-.76 8.44-4.92 8.44-9.94Z"/></svg></a>
       <a href="https://www.instagram.com/startup_ventura/" aria-label="Instagram" rel="noopener" target="_blank"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.2c3.2 0 3.6 0 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s0 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58 0-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.21 15.58 2.2 15.2 2.2 12s0-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.21 8.8 2.2 12 2.2zm0 1.98c-3.15 0-3.5.01-4.74.07-1.14.05-1.76.24-2.17.4-.55.22-.94.47-1.35.88-.41.41-.66.8-.88 1.35-.16.41-.35 1.03-.4 2.17-.06 1.24-.07 1.59-.07 4.74s.01 3.5.07 4.74c.05 1.14.24 1.76.4 2.17.22.55.47.94.88 1.35.41.41.8.66 1.35.88.41.16 1.03.35 2.17.4 1.24.06 1.59.07 4.74.07s3.5-.01 4.74-.07c1.14-.05 1.76-.24 2.17-.4.55-.22.94-.47 1.35-.88.41-.41.66-.8.88-1.35.16-.41.35-1.03.4-2.17.06-1.24.07-1.59.07-4.74s-.01-3.5-.07-4.74c-.05-1.14-.24-1.76-.4-2.17a3.6 3.6 0 0 0-.88-1.35 3.6 3.6 0 0 0-1.35-.88c-.41-.16-1.03-.35-2.17-.4-1.24-.06-1.59-.07-4.74-.07zm0 3.37a4.45 4.45 0 1 1 0 8.9 4.45 4.45 0 0 1 0-8.9zm0 7.34a2.89 2.89 0 1 0 0-5.78 2.89 2.89 0 0 0 0 5.78zm5.66-7.57a1.04 1.04 0 1 1-2.08 0 1.04 1.04 0 0 1 2.08 0z"/></svg></a>
     </div></div>
-    <div class="footer-col"><p class="footer-col__title">Explore</p><ul><li><a href="program.html">The Program</a></li><li><a href="why-ventura-county.html">Why Ventura County</a></li><li><a href="ecosystem.html">Ecosystem Guide</a></li><li><a href="impact.html">Impact</a></li><li><a href="give.html">Give</a></li><li><a href="partner.html">Partner</a></li><li><a href="invest.html">Invest</a></li><li><a href="soft-landing.html">Soft Landing</a></li><li><a href="about.html">About</a></li><li><a href="news.html">News</a></li><li><a href="resources.html">Founder Resources</a></li><li><a href="contact.html">Contact</a></li><li><a href="faq.html">FAQ</a></li><li><a href="donor-wall.html">Donor Wall</a></li><li class="footer-hiring"><a href="careers.html">Join our team <span class="sep">|</span> Careers</a></li></ul></div>
-    <div class="footer-col"><p class="footer-col__title">Get in touch</p><ul><li><a href="mailto:info@startupventura.com">info@startupventura.com</a></li><li><a href="mailto:sponsor@startupventura.com">sponsor@startupventura.com</a></li><li><a href="press.html">Press &amp; media kit</a></li></ul></div>
+    <div class="footer-col"><p class="footer-col__title">Explore</p><ul><li><a href="program.html">The Program</a></li><li><a href="why-ventura-county.html">Why Ventura County</a></li><li><a href="ecosystem.html">Ecosystem Guide</a></li><li><a href="impact.html">Impact</a></li><li><a href="give.html">Give</a></li><li><a href="partner.html">Partner</a></li><li><a href="invest.html">Invest</a></li><li><a href="soft-landing.html">Soft Landing</a></li><li><a href="about.html">About</a></li><li><a href="news.html">News</a></li><li><a href="resources.html">Founder Resources</a></li><li><a href="faq.html">FAQ</a></li><li><a href="donor-wall.html">Donor Wall</a></li><li class="footer-hiring"><a href="careers.html">Join our team <span class="sep">|</span> Careers</a></li></ul></div>
+    <div class="footer-col"><p class="footer-col__title">Get in touch</p><ul><li><a href="contact.html">Contact us</a></li><li><a href="mailto:info@startupventura.com">info@startupventura.com</a></li><li><a href="mailto:sponsor@startupventura.com">sponsor@startupventura.com</a></li><li><a href="press.html">Press &amp; media kit</a></li></ul></div>
   </div><div class="footer-legal"><span>Startup Ventura is a 501(c)(3) nonprofit. EIN 39-2204612. Gifts are tax-deductible to the extent allowed by law.</span><span>&copy; 2026 Startup Ventura</span><span class="footer-legal__links"><a href="privacy.html">Privacy</a> &middot; <a href="terms.html">Terms</a></span><span class="footer-legal__credit">Website by <a href="https://lukeerickson.com" target="_blank" rel="noopener">Luke Erickson</a></span></div></div>
 </footer>`;
 
