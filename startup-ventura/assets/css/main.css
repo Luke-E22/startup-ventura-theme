@@ -985,3 +985,6 @@ picture{display:contents}
 /* The fixed header rests under the bar; main.js slides it to the top as the bar
    scrolls away (this is also the no-JS resting position). */
 .site-header{top:var(--status-h)}
+/* Home hero and mission strip (2026-10-27): the mission sentence that left the hero. */
+.mission-strip__sub{margin:18px auto 0;max-width:62ch;color:#cfe0ea;font-size:clamp(15px,1.5vw,18px);line-height:1.55}
+.hero .btn--primary{min-height:48px}
