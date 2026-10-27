@@ -980,6 +980,11 @@ picture{display:contents}
 .status-bar__link{color:#fff;text-decoration:none;padding:9px 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
 .status-bar__link:hover{color:var(--sky);text-decoration:underline;text-underline-offset:3px}
 .status-bar__link:focus-visible{outline:2px solid #fff;outline-offset:-2px}
+/* body padding-top reserves the fixed header slot on inner pages, which pushed the
+   in-flow bar down behind the header. Pull the bar up to the top edge and re-reserve
+   the header slot beneath it; the home page has no body padding (hero under header). */
+.status-bar{margin-top:calc(-1 * var(--header-h));margin-bottom:var(--header-h)}
+body.home .status-bar{margin-top:0;margin-bottom:0}
 .status-bar__short{display:none}
 @media (max-width:600px){.status-bar__long{display:none}.status-bar__short{display:inline}.status-bar{font-size:11.5px;letter-spacing:0}.status-bar .wrap{padding-inline:12px}}
 /* The fixed header rests under the bar; main.js slides it to the top as the bar
