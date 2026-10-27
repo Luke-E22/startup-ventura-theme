@@ -533,3 +533,25 @@
 		b.addEventListener('click', function () { apply(b.getAttribute('data-filter')); });
 	});
 })();
+
+/* §16 Mentor wall filter (mentors.html): All / Board / Advisors / Mentors / Speakers.
+   Progressive: without JS every card shows. */
+(function () {
+	var bar = document.querySelector('.mentor-filter');
+	if (!bar) return;
+	var btns = Array.prototype.slice.call(bar.querySelectorAll('[data-filter]'));
+	var cards = Array.prototype.slice.call(document.querySelectorAll('.mentor-grid .mentor-card[data-role]'));
+	function apply(key) {
+		btns.forEach(function (b) {
+			var on = b.getAttribute('data-filter') === key;
+			b.classList.toggle('is-active', on);
+			b.setAttribute('aria-pressed', on ? 'true' : 'false');
+		});
+		cards.forEach(function (c) {
+			c.classList.toggle('is-hidden', key !== 'all' && c.getAttribute('data-role') !== key);
+		});
+	}
+	btns.forEach(function (b) {
+		b.addEventListener('click', function () { apply(b.getAttribute('data-filter')); });
+	});
+})();

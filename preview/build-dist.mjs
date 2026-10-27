@@ -28,6 +28,14 @@ try {
   console.warn('events: fetch step crashed — continuing with the committed snapshot.');
 }
 
+// 0b. Refresh the mentor wall from Notion (same fail-soft rule; headshots land in
+//     the assets tree before step 3 copies it).
+try {
+  execSync(`node ${JSON.stringify(path.join(root, 'scripts', 'fetch-mentors.mjs'))}`, { stdio: 'inherit', cwd: root });
+} catch (err) {
+  console.warn('mentors: fetch step crashed — continuing with the committed snapshot.');
+}
+
 // 1. Regenerate the static pages so dist/ is never stale against the theme.
 execSync(`node ${JSON.stringify(GEN)}`, { stdio: 'inherit', cwd: root });
 

@@ -1012,3 +1012,19 @@ picture{display:contents}
 .newsletter .form__status.is-ok{background:rgba(255,255,255,.1);color:#fff;border-color:rgba(255,255,255,.25)}
 .newsletter .form__status.is-err{background:#fcece8;color:#a23116}
 @media (min-width:760px){.newsletter__inner{grid-template-columns:1.1fr 1fr;gap:48px}.newsletter__fields{grid-template-columns:1.2fr 1fr auto;align-items:end}.newsletter .btn{width:auto}}
+/* ---------- mentor wall (mentors.html and the homepage strip) ---------- */
+.mentor-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.mentor-card{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow-sm);padding:22px 20px;text-align:center}
+.mentor-card__media{width:120px;height:120px;margin:0 auto 14px;border-radius:999px;overflow:hidden;background:var(--sky-pale)}
+.mentor-card__media img{width:100%;height:100%;object-fit:cover}
+.mentor-card__initials{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:var(--navy);color:#fff;font-family:var(--font-display);font-weight:800;font-size:34px}
+.mentor-card__name{font-size:1.1rem}
+.mentor-card__name a{color:inherit;text-decoration:none}
+.mentor-card__name a:hover{color:var(--blue);text-decoration:underline}
+.mentor-card__cred{color:var(--muted);font-size:14.5px;line-height:1.45;margin:4px auto 0;max-width:26ch}
+.mentor-card__tags{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:12px;max-width:none}
+.mentor-tag{font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--blue);border:1px solid var(--line);border-radius:999px;padding:4px 10px}
+.mentor-card.is-hidden{display:none}
+.card__title a{color:inherit}
+@media (max-width:1024px){.mentor-grid{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:620px){.mentor-grid{grid-template-columns:repeat(2,1fr);gap:14px}.mentor-card{padding:18px 12px}.mentor-card__media{width:96px;height:96px}}

@@ -64,6 +64,12 @@
   to = "/resources.html"
   status = 200
 
+# Mentor wall (noindex until it launches; the generator decides).
+[[redirects]]
+  from = "/mentors"
+  to = "/mentors.html"
+  status = 200
+
 # Evergreen Ventura County startup ecosystem guide (backlink magnet; clean URL).
 [[redirects]]
   from = "/ecosystem"
