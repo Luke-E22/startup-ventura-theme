@@ -1226,8 +1226,7 @@ page('contact.html', {
       <div class="contact-aside__block"><h3>Area</h3><p>Serving all of Ventura County, California.</p></div>
       <div class="contact-card"><h3>What happens next</h3><p>We read every message. Expect a reply from a real member of the Startup Ventura team, usually within a few days.</p></div>
     </aside>
-  </div></div></section>
-  <section class="section section--pale" id="notify"><div class="wrap wrap--narrow">${head('Applications', 'Get notified when Spring 2027 applications open.', 'Drop your email and we will tell you the moment the cohort opens.')}${form('notify', 'Notify me', false, false)}</div></section>` +
+  </div></div></section>` +
     ctaBand('Give Ventura County&rsquo;s founders a reason to stay.', 'none'),
 });
 
