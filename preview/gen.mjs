@@ -382,7 +382,7 @@ const seoHead = ({ title, desc, canonical, ogType = 'website', ogImage, jsonld, 
 // dismissal. The markup ships only on indexable pages that carry a trigger.
 // A card pointing at the page it is on is dropped (no self-links).
 const GET_INVOLVED = [
-  { href: 'apply.html', title: 'Apply as a Founder', desc: 'Join our Spring 2027 cohort',
+  { href: 'apply.html', title: 'Apply as a Founder', desc: 'Applications open January 2027',
     icon: '<path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>' },
   { href: 'give.html', title: 'Support Our Cause', desc: 'Fuel the next generation of Ventura County startups',
     icon: '<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>' },
@@ -540,7 +540,7 @@ const FORM_SUCCESS = {
   'partner-foundations': 'Thanks, we will be in touch about sponsorship.',
   careers: 'Thanks for applying. We review every application and will reach out if there is a fit.',
   connect: 'Thanks. A real person will reach out within a day or two to find a time that works.',
-  apply: 'You are in. When applications open for the Spring 2027 cohort, you will hear from us first.',
+  apply: 'You are on the list. We will email you the application link the day applications open.',
   mentor: 'Thank you. We will reach out to match your expertise with our founders.',
   workshop: 'Seat saved. You will get the first invitation when the next workshop is scheduled.',
   events: 'You are on the list. Every event invitation will land in your inbox.',
@@ -1607,22 +1607,48 @@ page('connect.html', {
 // funnels are honest first-access lists until the real thing opens.
 
 // FOUNDERS → /apply (form 'apply' → /thanks-apply → founder_lead)
+// Rebuilt 2026-10-27: the application window leads (H1 plus a dated timeline),
+// the first-access list is defined as "we email the link the day applications
+// open" and nothing more, then who can apply, how we select, and the Applying
+// FAQ reused from faq-data.mjs so the copy lives in one place.
+const faqPick = (...qs) => qs.map((q) => {
+  const hit = faqAll.find(([k]) => k === q);
+  if (!hit) throw new Error(`faqPick: no FAQ item "${q}"`);
+  return `<details class="faq__item"><summary class="faq__q">${hit[0]}</summary><div class="faq__a"><p>${hit[1]}</p></div></details>`;
+}).join('');
+const applyTimeline = [
+  ['Today', 'Join the first-access list below. The free <a href="workshops.html">workshop series</a> and <a href="resources.html">Founder Resources</a> stay open to anyone.'],
+  ['January 2027', 'Applications open. We email the link to everyone on the list that day.'],
+  ['Late February 2027', 'Applications close. One application per team.'],
+  ['After you apply', 'A screening call, then a founder deep-dive. Decisions take four to six weeks from a complete application.'],
+  ['Spring 2027', 'The 12 weeks begin and end with Demo Day in Ventura, roughly June or July 2027.'],
+];
 page('apply.html', {
-  title: 'Founders: Get First Access', crumbsTrail: [['Home', 'index.html'], ['The Program', 'program.html'], ['Founders', '']],
+  title: 'Apply: Applications Open January 2027', crumbsTrail: [['Home', 'index.html'], ['The Program', 'program.html'], ['Apply', '']],
   robots: 'noindex',
-  desc: 'Get first access when applications open for Startup Ventura\'s Spring 2027 accelerator cohort. Free for founders: no tuition, no equity.',
+  desc: 'Applications for Startup Ventura\'s Spring 2027 accelerator cohort open January 2027 and close late February 2027. Join the first-access list and we will email you the application link the day applications open. Free: no tuition, no fees, no equity.',
   canonical: `${SITE}/apply`,
-  body: pageHead('Founders', 'Build it here. Not somewhere else.', 'Our inaugural accelerator cohort launches Spring 2027: free for founders, no tuition, no equity, with mentorship, capital connections, and a Demo Day in front of invited investors. Tell us what you are building and we will send you the application link the day applications open.') +
-    `<section class="section section--pale"><div class="wrap"><div class="contact-layout">
-    <div>${head('First access', 'Tell us what you are building.')}<div style="margin-top:28px">${form('apply', 'Get first access', false, true, { twoCol: true, interest: ['Idea stage', 'Building, pre-revenue', 'Revenue, growing', 'Not sure yet'], interestLabel: 'Where are you today?', msgLabel: 'What are you building? A sentence or two is perfect.', linkLabel: 'Company or LinkedIn link', redirect: '/thanks-apply' })}</div></div>
+  body: pageHead('Founders &middot; Spring 2027 cohort', 'Applications open January 2027.', 'The window closes late February 2027. Join the first-access list and we will email you the application link the day applications open. That is all the list does: it is not an application and it has no bearing on selection. The 12-week accelerator is free: no tuition, no fees, no equity.') +
+    `<section class="section section--tight" style="padding-top:0"><div class="wrap"><dl class="facts">${applyTimeline.map(([k, v]) => `<div class="facts__item"><dt class="facts__k">${k}</dt><dd class="facts__v">${v}</dd></div>`).join('')}</dl><div class="center" style="margin-top:28px"><a class="btn btn--blue btn--lg" href="#first-access">Join the first-access list</a></div></div></section>
+    <section class="section section--pale" id="first-access"><div class="wrap"><div class="contact-layout">
+    <div>${head('First-access list', 'Get the link the day applications open.', 'Tell us what you are building. In January 2027 we email you the application link. Joining is not an application and has no bearing on selection.')}<div style="margin-top:28px">${form('apply', 'Get first access', false, true, { twoCol: true, interest: ['Idea stage', 'Building, pre-revenue', 'Revenue, growing', 'Not sure yet'], interestLabel: 'Where are you today?', msgLabel: 'What are you building? A sentence or two is perfect.', linkLabel: 'Company or LinkedIn link', redirect: '/thanks-apply' })}</div></div>
     <aside class="contact-aside">
-      <div class="contact-card"><h3>What the accelerator includes</h3><p>Mentorship from operators who have built and scaled, capital connections, weekly Lunch &amp; Learns, and a Demo Day in front of invited investors.</p></div>
-      <div class="contact-aside__block"><h3>What it costs you</h3><p>Nothing. No tuition and no equity. Donors, community partners, and the City of Ventura, which approved $49,500 for the program, pay for it because they want founders building here.</p></div>
-      <div class="contact-aside__block"><h3>How to apply</h3><p>Through the application portal when it opens in January 2027. Applications close in late February 2027. Until then, the first-access list is the way in: we send the link the day applications open.</p></div>
-      <div class="contact-aside__block"><h3>The format</h3><p>Hybrid: one in-person day a week in Ventura County, the rest remote. Plan on 8 to 12 hours a week. Five to ten companies per cohort.</p></div>
-      <div class="contact-aside__block"><h3>Questions?</h3><p><a href="mailto:info@startupventura.com">info@startupventura.com</a></p></div>
+      <div class="contact-card"><h3>What you are applying to</h3><p>A 12-week accelerator for Ventura County founders, Spring 2027, run in official partnership with Plug and Play. Mentorship from operators who have built and scaled companies, weekly Lunch &amp; Learns, warm introductions to investors, and a Demo Day in front of invited investors. 5 to 10 companies per cohort. We do not invest; we introduce you to investors who do.</p></div>
+      <div class="contact-aside__block"><h3>What it asks of you</h3><p>Hybrid: one in-person day a week in Ventura County, the rest remote. Plan on 8 to 12 hours a week for the 12 weeks. Show up for office hours and mentor meetings, and present at Demo Day.</p></div>
+      <div class="contact-aside__block"><h3>What it costs</h3><p>Nothing. No tuition, no fees. No equity, no IP. You own your company. Donors, community partners, and the City of Ventura, which approved $49,500 for the program, pay for it because they want founders building here.</p></div>
+      <div class="contact-aside__block"><h3>Questions?</h3><p>Email <a href="mailto:info@startupventura.com">info@startupventura.com</a> or read the <a href="faq.html#applying">FAQ</a>.</p></div>
     </aside>
-  </div></div></section>` +
+  </div></div></section>
+    <section class="section"><div class="wrap">${head('Who can apply', 'Founders building here.', 'Early-stage founders based in or building in Ventura County, from idea stage to early revenue. Apply as the founder or a co-founder.')}<div class="eco-list">
+      <div class="eco-item"><h3>Stage: idea to early revenue</h3><p>You do not need to be incorporated to apply. Accepted companies should be incorporated by kickoff.</p></div>
+      <div class="eco-item"><h3>Place: Ventura County</h3><p>Based here, or committed to building here: base the company in the county and attend the weekly in-person day. Founders moving from out of the area or from outside the United States should read the <a href="soft-landing.html">soft-landing page</a> first.</p></div>
+      <div class="eco-item"><h3>Time: 8 to 12 hours a week</h3><p>That covers the in-person day, office hours, mentor meetings, and work on your company between sessions, for 12 weeks. Students and founders with a full-time job can apply, case by case. Tell us in your application how you will make the time.</p></div>
+      <div class="eco-item"><h3>Team: two or more preferred</h3><p>We prefer two or more founders with complementary skills. Strong solo founders should still apply; we decide case by case.</p></div>
+      <div class="eco-item"><h3>Sector: any</h3><p>We expect the first cohort to include biotech, defense, and AI and software companies, and we read every application on the strength of the founder.</p></div>
+      <div class="eco-item"><h3>Prior funding: case by case</h3><p>If you have already raised money, apply anyway. We review those case by case if the company is still early.</p></div>
+    </div></div></section>
+    <section class="section section--pale grain"><div class="wrap">${head('After you apply', 'We pick founders, not decks.')}<p class="lede measure">What we care about most: the quality of the founder. A great founder with an early idea beats a polished deck and a mediocre team.</p><div class="steps"><div class="step"><div class="step__num">01</div><div class="step__content"><h3 class="step__title">Application</h3><p class="step__body">We weight the founder over the idea.</p></div></div><div class="step"><div class="step__num">02</div><div class="step__content"><h3 class="step__title">Screening Call</h3><p class="step__body">We listen for clarity, drive, and commitment.</p></div></div><div class="step"><div class="step__num">03</div><div class="step__content"><h3 class="step__title">Founder Deep-Dive</h3><p class="step__body">The core interview, where founder quality shows.</p></div></div></div><div class="entry-content" style="margin-top:28px;max-width:72ch"><p>We look for commitment to building in Ventura County, clarity about the problem and the customer, how fast you have executed so far, and how you take feedback. We prefer two or more founders with complementary skills. Traction helps, but it is not required.</p><p>Every applicant hears back. Decisions take four to six weeks from a complete application. The start date is announced with decisions. The first-access list and the workshop series have no bearing on selection.</p><p>Need to add something after you submit? Email <a href="mailto:info@startupventura.com">info@startupventura.com</a> with your company name in the subject line. Founders who are not accepted are welcome to apply to a later cohort.</p></div></div></section>
+    <section class="section"><div class="wrap wrap--narrow">${head('Common questions', 'Before you apply.')}<div class="faq" style="margin-top:24px">${faqPick('Does it cost anything to apply?', 'Do I need to attend the workshop series before applying?', 'I have two ideas. Which should I apply with?', 'Can I update my application after submitting?', 'Can I get feedback if I am not accepted?', 'Can I reapply?', 'What is Demo Day?', 'What happens after Demo Day?')}</div><div class="btn-row" style="margin-top:28px;justify-content:flex-start"><a class="btn btn--blue btn--lg" href="#first-access">Join the first-access list</a><a class="btn btn--outline btn--lg" href="faq.html#applying">All questions</a></div></div></section>` +
     ctaBand('Not ready to apply? Fund the founders who are.', 'none'),
 });
 
@@ -1933,8 +1959,8 @@ funnelThanks('thanks-apply.html', {
   title: 'You Are on the List', eyebrow: 'First Access', event: 'founder_lead',
   desc: 'You are on the first-access list for Startup Ventura\'s Spring 2027 accelerator cohort.',
   h1: 'You are on the list.',
-  lede: 'We will send you the application link the day applications open for the Spring 2027 cohort. We read every submission. Until then: keep building.',
-  primary: ['See the program', 'program.html'], secondary: ['Meet the board', 'about.html'],
+  lede: 'Applications for the Spring 2027 cohort open January 2027 and close late February 2027. We will email you the application link the day they open. That is all the list does. Until then: keep building.',
+  primary: ['See the program', 'accelerator.html'], secondary: ['Read the FAQ', 'faq.html#applying'],
 });
 funnelThanks('thanks-mentor.html', {
   title: 'Welcome, Mentor', eyebrow: 'Welcome', event: 'mentor_lead', quote: true,
