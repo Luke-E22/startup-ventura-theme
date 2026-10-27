@@ -843,10 +843,10 @@ page('accelerator.html', {
 // WORKSHOPS
 page('workshops.html', {
   title: 'Workshop Series', crumbsTrail: [['Home', 'index.html'], ['The Program', 'program.html'], ['Workshop Series', '']],
-  body: pageHead('Workshop Series', 'The on-ramp to the accelerator.', 'Free, practical workshops for Ventura County small businesses and early-stage founders. No pitch deck required, no cost to attend, and a straight line into the accelerator when you are ready.', true) +
+  body: pageHead('Workshop Series', 'The on-ramp to the accelerator.', 'Free, practical workshops for Ventura County small businesses and early-stage founders. No pitch deck required, no cost to attend, and open to anyone, whether or not you ever apply to the accelerator.', true) +
     `<section class="section section--pale"><div class="wrap wrap--narrow"><div class="entry-content">
     <p>The workshop series is where Startup Ventura programming begins. Session dates are being finalized now. Each is a practical, no-fluff session on one part of starting and growing a company, taught for Ventura County. Come with an idea, a side project, or a business that is already running; every session stands on its own, so you can attend one or work through the whole series.</p>
-    <p>Workshops are free to attend, paid for by donors, community partners, and the $49,500 the City of Ventura approved for the program. Seats are limited and invitations go out by email first. The series is also the front door to everything else we do: founders who work through it are first in line when applications open for the Spring 2027 accelerator cohort, which adds mentorship from experienced operators, capital connections, weekly Lunch &amp; Learns, and a Demo Day in front of invited investors.</p>
+    <p>Workshops are free to attend, paid for by donors, community partners, and the $49,500 the City of Ventura approved for the program. Seats are limited and invitations go out by email first. The series is separate from the accelerator and has no bearing on selection. Many founders use it to get ready for the Spring 2027 accelerator cohort, which adds mentorship from experienced operators, capital connections, weekly Lunch &amp; Learns, and a Demo Day in front of invited investors.</p>
     </div></div></section>
     <section class="section"><div class="wrap wrap--narrow">${head('The lineup', 'Ten sessions. Dates announced soon.', 'RSVP below and your invitation lands in your inbox the moment each date is set.')}
     <ol class="event-list">${workshopEvents.filter((e) => e.tag !== 'Community').map((e) => `<li class="event-row">${e.iso ? `<span class="event-row__date">${esc(e.date)}</span>` : `<span class="event-row__date${e.when ? '' : ' event-row__date--tbd'}">${esc(e.when || 'Date coming')}</span>`}<div><h3 class="event-row__title">${esc(e.title)}</h3>${e.desc ? `<p class="event-row__desc">${esc(e.desc)}</p>` : ''}</div>${e.tag ? `<span class="event-tag">${esc(e.tag)}</span>` : ''}</li>`).join('')}</ol>
@@ -1056,7 +1056,7 @@ const ecoPlugIn = `<section class="section section--pale"><div class="wrap">${he
 ${card('https://edcsbdc.org/', 'Step 1', 'Book free advising', 'The Small Business Development Center offers no cost one on one advising for Ventura County businesses, funded by the SBA.', 'Visit the SBDC')}
 ${card('events.html', 'Step 2', 'Show up to one thing', 'Our events calendar lists free workshops and community events where the county&rsquo;s builders actually meet.', 'See upcoming events')}
 ${card('ecosystem.html#coworking', 'Step 3', 'Work near other builders', 'Day passes at the coworking spaces in the directory cost less than lunch, and the person at the next desk is the point.', 'Find a space')}
-${card('contact.html#notify', 'Step 4', 'Raise your hand', 'Get first access when Startup Ventura&rsquo;s accelerator applications open, and join the free workshop series before then.', 'Get notified')}
+${card('apply.html', 'Step 4', 'Raise your hand', 'Join the first-access list for Startup Ventura&rsquo;s accelerator, and come to the free workshop series before then.', 'Get first access')}
 </div></div></section>`;
 page('ecosystem.html', {
   title: 'Ventura County Startup Ecosystem: The Founder&rsquo;s Guide',
