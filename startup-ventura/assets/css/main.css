@@ -994,3 +994,21 @@ picture{display:contents}
 .faq-cat + .faq-cat{margin-top:46px}
 .faq-cat__title{font-size:clamp(22px,2.6vw,30px);margin-bottom:16px}
 .faq-chips .eco-pill:hover{background:var(--navy);border-color:var(--navy);color:#fff}
+/* ---------- newsletter block: Start Local Stay Local (every page, above the footer) ---------- */
+.newsletter{background:var(--navy);color:#fff;padding-block:clamp(40px,5vw,64px);position:relative;border-top:1px solid rgba(255,255,255,.08)}
+.newsletter__inner{display:grid;gap:28px;align-items:center}
+.newsletter .eyebrow{color:var(--coral-light)}
+.newsletter__title{font-family:var(--font-display);font-weight:800;letter-spacing:-.015em;line-height:1.12;font-size:clamp(22px,2.6vw,32px);color:#fff;margin-top:10px;max-width:22ch}
+.newsletter__line{color:#cfe0ea;font-size:15.5px;margin-top:10px;max-width:48ch}
+.newsletter__fields{display:grid;gap:12px}
+.newsletter .field{display:grid;gap:6px}
+.newsletter label{font-size:13px;font-weight:600;color:#cfe0ea}
+.newsletter .req{color:var(--coral-light)}
+.newsletter input,.newsletter select{font-family:var(--font-body);font-size:16px;padding:12px 14px;border:1px solid rgba(255,255,255,.2);border-radius:var(--r-sm);background:#fff;color:var(--ink);width:100%;min-height:48px}
+.newsletter input:focus,.newsletter select:focus{outline:none;border-color:var(--sky);box-shadow:0 0 0 3px rgba(120,180,216,.45)}
+.newsletter__submit{align-self:end}
+.newsletter .btn{width:100%;min-height:48px;font-size:16px}
+.newsletter .form__status{margin-top:4px}
+.newsletter .form__status.is-ok{background:rgba(255,255,255,.1);color:#fff;border-color:rgba(255,255,255,.25)}
+.newsletter .form__status.is-err{background:#fcece8;color:#a23116}
+@media (min-width:760px){.newsletter__inner{grid-template-columns:1.1fr 1fr;gap:48px}.newsletter__fields{grid-template-columns:1.2fr 1fr auto;align-items:end}.newsletter .btn{width:auto}}

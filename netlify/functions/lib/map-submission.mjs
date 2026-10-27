@@ -43,6 +43,13 @@ function refine(form, interest, out) {
     else if (v.includes('economic development')) { out.relationship.push('Government'); }
   }
   if (form === 'invest' && (v.includes('mentor') || v.includes('judge'))) { out.interest = ['Mentoring']; out.relationship = ['Mentor']; out.topics = ['Mentoring']; }
+  // Newsletter "I am a" select (optional; blank leaves the email-only mapping as is).
+  if (form === 'newsletter') {
+    if (v.includes('founder')) { out.interest = ['Applying as a founder']; }
+    else if (v.includes('investor')) { out.relationship = ['Connector']; out.topics = ['Intro']; }
+    else if (v.includes('partner') || v.includes('sponsor')) { out.interest = ['Partnership / sponsorship']; out.relationship = ['Prospect']; out.topics = ['Partnership']; }
+    else if (v.includes('supporter')) { out.interest = ['Donating']; }
+  }
 }
 
 const SKIP = new Set(['form-name', 'bot-field', 'ip', 'user_agent', 'referrer', 'g-recaptcha-response']);
@@ -65,6 +72,7 @@ export function mapSubmission(payload) {
   out.date = (payload.created_at || new Date().toISOString()).slice(0, 10);
 
   const detail = (d.interest || '').trim();
+  out.detail = detail || null;
   out.summary = `Website: ${spec.label}${detail ? ` (${detail})` : ''}`;
 
   // Notes keep everything the person typed so nothing is lost in mapping.

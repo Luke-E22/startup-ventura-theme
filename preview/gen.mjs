@@ -390,6 +390,22 @@ const giModal = (file) => `<div class="gi-modal" id="sv-gi-modal" role="dialog" 
   </div>
 </div>`;
 
+// "Start Local Stay Local": the monthly newsletter block, rendered on every page
+// between the last section and the footer. It reuses the existing Netlify form
+// name "newsletter" (one submissions bucket, one Zapier or function route to
+// Klaviyo) and adds an optional "I am a" select so Klaviyo and the CRM can segment
+// from day one. Hidden on noindex landers, the contact and apply pages, thanks
+// pages and the 404 so it never sits beside another form.
+const NEWSLETTER_HIDE = /^(apply|contact|404|thank-you|connected|thanks-)/;
+const newsletterBlock = () => `<section class="newsletter" id="newsletter" aria-labelledby="nl-heading"><div class="wrap newsletter__inner">
+  <div class="newsletter__copy"><p class="eyebrow">Start Local Stay Local</p><h2 class="newsletter__title" id="nl-heading">One email a month from Ventura County&rsquo;s founders.</h2><p class="newsletter__line">News, events, and what founders are building here. No spam, unsubscribe any time.</p></div>
+  <form class="newsletter__form" name="newsletter" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" data-success="You are on the list. First issue lands next month.">
+<input type="hidden" name="form-name" value="newsletter">
+<p class="nf-hp" hidden aria-hidden="true"><label>Do not fill this out if you are human: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+<div class="newsletter__fields"><div class="field"><label for="nl-email">Email <span class="req">*</span></label><input id="nl-email" name="email" type="email" autocomplete="email" required></div><div class="field"><label for="nl-interest">I am a</label><select id="nl-interest" name="interest"><option value="">Choose one</option><option>Founder</option><option>Investor</option><option>Partner or sponsor</option><option>Supporter</option><option>Just curious</option></select></div><div class="newsletter__submit"><button class="btn btn--primary" type="submit">Subscribe</button></div></div>
+<p class="form__status" role="status" aria-live="polite"></p></form>
+</div></section>`;
+
 const page = (file, { title, overHero = false, body, crumbsTrail, desc, canonical, ogType = 'website', ogImage, jsonld, robots, article }) => {
   const fullTitle = `${title} — Startup Ventura`;
   // Every page gets a canonical: the home root, an explicit pretty route, or its real .html URL.
@@ -399,6 +415,7 @@ const page = (file, { title, overHero = false, body, crumbsTrail, desc, canonica
   // Organization schema on every page + any page-specific JSON-LD (Person, Article, JobPosting, FAQPage).
   const allJsonld = [ORG_SCHEMA].concat(jsonld ? [].concat(jsonld) : []);
   const seo = seoHead({ title: fullTitle, desc: metaDesc, canonical: canon, ogType, ogImage, jsonld: allJsonld, robots, article });
+  const newsletter = (robots || '').includes('noindex') || NEWSLETTER_HIDE.test(file) ? '' : newsletterBlock();
   const html = `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>${fullTitle}</title>
 ${seo}<link rel="preload" href="${A}/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="${A}/fonts/hanken-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -415,10 +432,11 @@ ${analyticsBody()}
 ${header(overHero)}
 ${crumbsTrail ? crumbs(crumbsTrail) : ''}
 ${body}
+${newsletter}
 ${footer()}
 ${(robots || '').includes('noindex') || /^(404|thank-you|connected|thanks-)/.test(file) || !body.includes('data-gi-open') ? '' : giModal(file)}
 <script src="${A}/js/main.js?v=44"></script>
-${body.includes('data-netlify') ? NF_SCRIPT : ''}
+${(body + newsletter).includes('data-netlify') ? NF_SCRIPT : ''}
 </body></html>`;
   fs.writeFileSync(path.join(OUT, file), html);
 };
@@ -1240,7 +1258,6 @@ const newsCard = (p, featured = false) => `<article class="post-card${featured ?
 page('news.html', {
   title: 'News', crumbsTrail: [['Home', 'index.html'], ['News', '']],
   body: `<section class="section"><div class="wrap"><header class="page-head"><p class="eyebrow">News &amp; Updates</p>${waveRule}<h1 class="display">News &amp; Updates</h1></header>
-  <div class="news-signup"><div class="news-signup__copy"><h2 class="news-signup__title">Stay up to date with events and announcements</h2><p class="muted">Get Startup Ventura news, events, and cohort updates in your inbox.</p></div><div class="news-signup__form">${form('newsletter', 'Subscribe', false, false)}</div></div>
   <div class="news-filter" role="group" aria-label="Filter news"><button type="button" class="news-filter__btn is-active" data-filter="all" aria-pressed="true">All</button><button type="button" class="news-filter__btn" data-filter="announcement" aria-pressed="false">Announcements</button><button type="button" class="news-filter__btn" data-filter="media" aria-pressed="false">Press and media</button></div>
   <div class="post-grid post-grid--news">${newsPosts.filter(p => !p.archived).map((p, i) => newsCard(p, i === 0)).join('')}</div></div></section>` +
     ctaBand('Help fund the inaugural cohort.', 'none'),
