@@ -5,6 +5,7 @@
 // of truth. Run: node preview/gen.mjs
 import fs from 'fs';
 import path from 'path';
+import { FAQ_CATEGORIES, faqPlain } from './faq-data.mjs';
 
 const OUT = path.join(path.dirname(new URL(import.meta.url).pathname), 'site');
 // Clean first so removed/renamed pages never linger as stale files (which
@@ -1475,36 +1476,26 @@ page('careers.html', {
     ctaBand('Build the thing that builds Ventura County&rsquo;s founders.', 'none'),
 });
 
-// FAQ — plain, quotable answers to the questions people (and AI answer engines)
-// actually ask, plus FAQPage structured data.
-const faqs = [
-  ['What is Startup Ventura?', 'Startup Ventura is a 501(c)(3) nonprofit startup accelerator in Ventura County, California. It backs early-stage founders with mentorship, capital connections, and community so they can build high-growth companies at home instead of leaving for San Francisco or Los Angeles.'],
-  ['Is the accelerator free for founders?', 'Yes. Startup Ventura’s accelerator and workshops are free for founders, with no tuition and no equity taken. The program is funded by donors and community partners.'],
-  ['Who can apply, and when does the first cohort start?', 'Early-stage founders based in or building in Ventura County. The inaugural cohort is planned for Spring 2027, backed by $49,500 approved by the City of Ventura. Applications open in January 2027. Join the <a href="apply.html">first-access list</a> and you will hear first.'],
-  ['What does Plug and Play do in the program?', 'Startup Ventura runs the accelerator in an official partnership with Plug and Play. It is Plug and Play’s first formal accelerator program in Ventura County and the launch point for its expanded Southern California focus. Plug and Play operates 60+ locations across five continents and accelerates 2,500+ startups a year (Plug and Play announcements, January 29 and March 26, 2026).'],
-  ['How long is the accelerator, and where does it run?', 'Twelve weeks, in Plug and Play’s standard accelerator format, in Ventura County. The start date and venue for the Spring 2027 cohort will be posted on the accelerator page when they are set.'],
-  ['How are founders selected?', 'Three steps: a written application, a screening call, and a founder deep-dive interview. We weigh the founder over the deck.'],
-  ['What can I do before applications open?', 'Attend the free <a href="workshops.html">workshop series</a>, read the <a href="resources.html">Founder Resources</a> guides, and join the <a href="apply.html">first-access list</a>.'],
-  ['Where is Startup Ventura located?', 'Startup Ventura serves founders across Ventura County, California.'],
-  ['Is my donation tax-deductible?', 'Yes. Startup Ventura is a 501(c)(3) nonprofit (EIN 39-2204612), so donations are tax-deductible to the extent allowed by law. Gifts fund the inaugural cohort and the program that backs local founders.'],
-  ['Who runs Startup Ventura?', 'Startup Ventura was founded by Luke Erickson, who serves as Executive Director. It is guided by a board of operators and civic leaders, including people behind companies like Curri and SevenRooms.'],
-  ['How can a city or the County partner with Startup Ventura?', 'Fund reserved cohort seats for founders from your jurisdiction and receive a written outcomes report once a year. The City of Ventura approved $49,500 through its Economic Development department in 2025. See the <a href="partner-cities-county.html">For Cities and County page</a>.'],
-  ['What outcomes do you report, and how often?', 'Founders served, companies launched in Ventura County, jobs created at graduation and at 12 months, follow-on capital raised, and founders who remain in the county. Reported once a year to every public partner and posted on the <a href="impact.html">Impact page</a>, starting with the Spring 2027 cohort.'],
-  ['Is Startup Ventura a registered nonprofit?', 'Yes. Startup Ventura is a 501(c)(3) public charity founded in 2025. EIN 39-2204612. It holds Candid’s 2026 Platinum Seal of Transparency.'],
-  ['Who is already funding or partnering?', 'City of Ventura, Ventura County Credit Union, Ventura Chamber of Commerce, the Ventura County Community College District and its three colleges, CSU Channel Islands, Ventura Unified and Oak Park Unified school districts, the Workforce Development Board of Ventura County, Curri, and Plug and Play as program partner.'],
-  ['How can I get involved?', 'You can donate to fund the cohort, partner or sponsor as a business or foundation, mentor a founder or volunteer your skills, apply as a founder, or join the team through an open role. See the Give, Partner, and Careers pages.'],
-];
+// FAQ (2026-10-27): 41 questions in six categories, copy in preview/faq-data.mjs.
+// Chips are plain anchors (no JS, no search box); FAQPage JSON-LD and llms.txt
+// carry the plain-text answers.
+const faqAll = FAQ_CATEGORIES.flatMap((c) => c.items);
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
-  mainEntity: faqs.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a.replace(/<[^>]+>/g, '') } })),
+  mainEntity: faqAll.map(([q, a]) => ({ '@type': 'Question', name: faqPlain(q), acceptedAnswer: { '@type': 'Answer', text: faqPlain(a) } })),
 };
 page('faq.html', {
   title: 'FAQ', crumbsTrail: [['Home', 'index.html'], ['FAQ', '']],
   canonical: `${SITE}/faq`,
+  desc: 'Answers about Startup Ventura, the free 12-week accelerator for Ventura County founders: who can apply, when applications open, how selection works, the hybrid format, Demo Day, and how to give or partner.',
   jsonld: faqSchema,
-  body: pageHead('FAQ', 'Frequently asked questions', 'Quick answers about Startup Ventura, the accelerator, and how to get involved.', true) +
-    `<section class="section section--pale"><div class="wrap wrap--narrow"><div class="faq">${faqs.map(([q, a]) => `<details class="faq__item"><summary class="faq__q">${q}</summary><div class="faq__a"><p>${a}</p></div></details>`).join('')}</div></div></section>` +
+  body: pageHead('FAQ', 'Frequently asked questions', 'Plain answers about Startup Ventura, applying, the program, and how to get involved. Pick a category or read straight through.', true) +
+    `<section class="section section--pale"><div class="wrap wrap--narrow">
+    <nav class="faq-chips" aria-label="FAQ categories">${FAQ_CATEGORIES.map((c) => `<a class="eco-pill" href="#${c.id}">${c.label}</a>`).join('')}</nav>
+    ${FAQ_CATEGORIES.map((c) => `<section class="faq-cat" id="${c.id}"><h2 class="faq-cat__title">${c.title}</h2><div class="faq">${c.items.map(([q, a]) => `<details class="faq__item"><summary class="faq__q">${q}</summary><div class="faq__a"><p>${a}</p></div></details>`).join('')}</div></section>`).join('')}
+    <p class="muted" style="margin-top:36px">Did not find your question? <a href="contact.html">Ask a question</a> and we will answer it and add it here.</p>
+    </div></section>` +
     ctaBand('Still have a question? Ask us.', 'contact'),
 });
 
@@ -1976,8 +1967,11 @@ Startup Ventura was founded in 2025 by Luke Erickson, who serves as Executive Di
 - Type: 501(c)(3) nonprofit startup accelerator (EIN 39-2204612)
 - Location: Ventura County, California
 - Founded: 2025 by Luke Erickson (Executive Director)
-- Program: a free 12-week accelerator run in official partnership with Plug and Play. It is Plug and Play's first formal accelerator program in Ventura County and the launch point for its expanded Southern California focus. Plus a pre-accelerator workshop series; mentorship, capital connections, and a Demo Day with investors
-- Inaugural cohort: Spring 2027; applications open January 2027. $49,500 approved by the City of Ventura through its Economic Development department
+- Program: a free 12-week accelerator run in official partnership with Plug and Play. It is Plug and Play's first formal accelerator program in Ventura County and the launch point for its expanded Southern California focus. Plus a free workshop series that is separate from the accelerator; mentorship, capital connections, and a Demo Day with invited investors
+- Format: hybrid, one in-person day a week in Ventura County and the rest remote; 8 to 12 hours a week; cohort of 5 to 10 companies; sessions rotate across the county at partner venues
+- Inaugural cohort: Spring 2027; applications open January 2027 and close late February 2027; decisions in 4 to 6 weeks; Demo Day at the end of the 12 weeks, roughly June or July 2027, in Ventura. $49,500 approved by the City of Ventura through its Economic Development department
+- Selection: founder first, team weighted (commitment to building in Ventura County, clarity on the problem and customer, speed of execution, coachability); two or more founders with complementary skills preferred; traction a plus, not required; out-of-area founders accepted if they base the company in the county
+- Funding for founders: Startup Ventura does not invest or take equity; it introduces founders to investors and hosts Demo Day
 - Contact: info@startupventura.com
 
 ## Main pages
@@ -1994,6 +1988,9 @@ Startup Ventura was founded in 2025 by Luke Erickson, who serves as Executive Di
 - [FAQ](${SITE}/faq): common questions answered
 - [News](${SITE}/news): announcements and updates
 - [Contact](${SITE}/contact): get in touch
+
+## Frequently asked questions
+${FAQ_CATEGORIES.map((c) => `### ${c.title}\n${c.items.map(([q, a]) => `- ${faqPlain(q)} ${faqPlain(a)}`).join('\n')}`).join('\n\n')}
 `;
 fs.writeFileSync(path.join(OUT, 'llms.txt'), llmsTxt);
 

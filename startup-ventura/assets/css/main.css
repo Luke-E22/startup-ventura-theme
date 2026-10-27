@@ -988,3 +988,9 @@ picture{display:contents}
 /* Home hero and mission strip (2026-10-27): the mission sentence that left the hero. */
 .mission-strip__sub{margin:18px auto 0;max-width:62ch;color:#cfe0ea;font-size:clamp(15px,1.5vw,18px);line-height:1.55}
 .hero .btn--primary{min-height:48px}
+/* FAQ (2026-10-27): category chips (plain anchors) and category blocks. */
+.faq-chips{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 30px}
+.faq-cat{scroll-margin-top:calc(var(--header-h) + 24px)}
+.faq-cat + .faq-cat{margin-top:46px}
+.faq-cat__title{font-size:clamp(22px,2.6vw,30px);margin-bottom:16px}
+.faq-chips .eco-pill:hover{background:var(--navy);border-color:var(--navy);color:#fff}
