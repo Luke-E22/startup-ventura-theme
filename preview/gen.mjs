@@ -438,7 +438,7 @@ ${overHero ? `<link rel="preload" as="image" type="image/webp" imagesrcset="${A}
 <link rel="icon" href="${A}/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="${A}/img/favicon.png" sizes="any" type="image/png">
 <link rel="apple-touch-icon" href="${A}/img/favicon-180.png">
-<link rel="stylesheet" href="${A}/css/main.css?v=54">
+<link rel="stylesheet" href="${A}/css/main.css?v=55">
 ${analyticsHead()}</head>
 <body class="${overHero ? 'home' : ''}">
 ${analyticsBody()}
@@ -448,7 +448,7 @@ ${body}
 ${newsletter}
 ${footer()}
 ${(robots || '').includes('noindex') || /^(404|thank-you|connected|thanks-)/.test(file) || !body.includes('data-gi-open') ? '' : giModal(file)}
-<script src="${A}/js/main.js?v=44"></script>
+<script src="${A}/js/main.js?v=45"></script>
 ${(body + newsletter).includes('data-netlify') ? NF_SCRIPT : ''}
 </body></html>`;
   fs.writeFileSync(path.join(OUT, file), html);
