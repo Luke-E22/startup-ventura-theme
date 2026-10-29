@@ -103,8 +103,14 @@ const NAV = [
   { label: 'News', href: 'news.html' },
 ];
 // Mobile sheet: FAQ and Apply follow the Program group; Apply repeats as the
-// full-width button at the bottom. Give and Events left the header on 2026-10-27;
-// the footer keeps both and every closing band still offers Give.
+// full-width button at the bottom. Events left the header on 2026-10-27 (footer
+// Explore links it). Give stays in the header and the mobile sheet until
+// HEADER_GIVE_UNTIL, per Luke (2026-10-28): the year-end giving season, before
+// applications open in January. The first build after that moment drops it (the
+// nightly rebuild runs at 5 to 6 AM Pacific); the footer and every closing band
+// keep offering Give. Move the date to extend it, or set it in the past to drop it now.
+const HEADER_GIVE_UNTIL = '2027-01-01T00:00:00-08:00';
+const SHOW_HEADER_GIVE = Date.now() < Date.parse(HEADER_GIVE_UNTIL);
 const MOBILE_NAV = [NAV[0], NAV[1], { label: 'Apply', href: 'apply.html' }, ...NAV.slice(2)];
 const navList = (items = NAV) => `<ul class="sv-menu">${items.map(i => i.children
   ? `<li class="menu-item menu-item-has-children"><a href="${i.href}">${i.label}</a><ul class="sub-menu">${i.children.map(c => `<li class="menu-item"><a href="${c[1]}">${c[0]}</a></li>`).join('')}</ul></li>`
@@ -133,7 +139,7 @@ ${statusBar()}
     </a>
     <div class="nav-right">
       <div class="primary-nav primary-nav--right">${navList(NAV.slice(3))}</div>
-      <div class="header-cta">${apply('Apply', 'btn--primary header-cta__apply')}
+      <div class="header-cta">${SHOW_HEADER_GIVE ? `<a class="header-cta__give" href="${ZEFFY}" target="_blank" rel="noopener" data-cta="give" data-cta-location="header">Give</a>` : ''}${apply('Apply', 'btn--primary header-cta__apply')}
         <button class="menu-toggle" type="button" aria-controls="sv-mobile-menu" aria-expanded="false"><span class="sr-only">Menu</span><span class="bar"></span><span class="bar"></span><span class="bar"></span></button>
       </div>
     </div>
@@ -141,7 +147,7 @@ ${statusBar()}
 </header>
 <div class="mobile-menu" id="sv-mobile-menu">
   <button class="mobile-menu__close" type="button" aria-label="Close menu">&times;</button>
-  <nav aria-label="Mobile">${navList(MOBILE_NAV)}</nav>
+  <nav aria-label="Mobile">${navList(MOBILE_NAV)}${SHOW_HEADER_GIVE ? `<ul class="sv-menu"><li class="menu-item"><a href="${ZEFFY}" target="_blank" rel="noopener" data-cta="give" data-cta-location="mobile-menu">Give</a></li></ul>` : ''}</nav>
   ${apply('Apply', 'btn--primary btn--lg btn--full')}
 </div>
 <main id="main" class="site-main">`;
@@ -447,7 +453,7 @@ ${overHero ? `<link rel="preload" as="image" type="image/webp" imagesrcset="${A}
 <link rel="icon" href="${A}/img/favicon.png" sizes="any" type="image/png">
 <link rel="apple-touch-icon" href="${A}/img/favicon-180.png">
 <link rel="alternate" type="application/rss+xml" title="Startup Ventura News" href="${SITE}/feed.xml">
-<link rel="stylesheet" href="${A}/css/main.css?v=58">
+<link rel="stylesheet" href="${A}/css/main.css?v=59">
 ${analyticsHead()}</head>
 <body class="${overHero ? 'home' : ''}">
 ${analyticsBody()}
