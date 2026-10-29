@@ -28,6 +28,14 @@ try {
   console.warn('events: fetch step crashed — continuing with the committed snapshot.');
 }
 
+// 0b. Refresh the mentor wall from Notion (same fail-soft rule; headshots land in
+//     the assets tree before step 3 copies it).
+try {
+  execSync(`node ${JSON.stringify(path.join(root, 'scripts', 'fetch-mentors.mjs'))}`, { stdio: 'inherit', cwd: root });
+} catch (err) {
+  console.warn('mentors: fetch step crashed — continuing with the committed snapshot.');
+}
+
 // 1. Regenerate the static pages so dist/ is never stale against the theme.
 execSync(`node ${JSON.stringify(GEN)}`, { stdio: 'inherit', cwd: root });
 
@@ -71,7 +79,7 @@ for (const name of fs.readdirSync(SITE)) {
 
 // 5. Sanity check: no page may still point outside dist/.
 const leaked = fs.readdirSync(DIST)
-  .filter((f) => f.endsWith('.html'))
+  .filter((f) => f.endsWith('.html') || f.endsWith('.xml'))
   .filter((f) => fs.readFileSync(path.join(DIST, f), 'utf8').includes('startup-ventura/assets'));
 if (leaked.length) {
   console.error('ERROR: pages still reference the shared asset path:', leaked.join(', '));

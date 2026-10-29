@@ -82,6 +82,7 @@ p{max-width:72ch}
 .muted{color:var(--muted)}
 .eyebrow{font-family:var(--font-mono);font-weight:700;font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--blue);max-width:none}
 .cta-note{max-width:none}
+.give-note{color:var(--muted)}
 .news-signup{background:var(--sky-pale);border-radius:18px;padding:clamp(22px,3vw,34px);margin-bottom:40px;display:grid;gap:18px}
 @media(min-width:780px){.news-signup{grid-template-columns:1fr minmax(300px,380px);align-items:center;gap:32px}}
 .news-signup__title{font-family:var(--font-display);font-weight:800;letter-spacing:-.01em;font-size:clamp(19px,2.3vw,26px);color:var(--ink);margin:0 0 6px}
@@ -101,6 +102,10 @@ p{max-width:72ch}
 .section--paper{background:var(--paper)}
 .section--navy{background:var(--navy-deep);color:#eaf2f8}
 .section--navy .eyebrow{color:var(--coral-light)}
+/* Muted text on the navy band: #5A7180 on #1B2D37 is about 2.8:1, so these
+   lift to #cfe0ea (about 10:1) and the trust icons use sky. */
+.section--navy .lede,.section--navy .trust li,.section--navy .give-note,.section--navy .muted{color:#cfe0ea}
+.section--navy .trust svg{color:var(--sky)}
 .section--navy h1,.section--navy h2,.section--navy h3{color:#fff}
 .section--tight{padding-block:clamp(40px,5vw,64px)}
 .section + .section{position:relative}
@@ -110,6 +115,7 @@ p{max-width:72ch}
 .skip-link{position:absolute;left:-999px;top:0;z-index:10050;background:#fff;color:var(--navy);padding:12px 18px;border-radius:0 0 10px 0;font-weight:600;box-shadow:var(--shadow-md)}
 .skip-link:focus{left:0}
 .center{text-align:center}
+p.center{margin-inline:auto}
 .stack > * + *{margin-top:1rem}
 
 /* ---------- buttons ---------- */
@@ -317,6 +323,10 @@ p{max-width:72ch}
 .stat-strip__num{font-family:var(--font-mono);font-weight:700;font-size:clamp(28px,4vw,44px);line-height:1;color:var(--coral-deep);letter-spacing:-.01em}
 .section--navy .stat-strip__num{color:var(--coral-light)}
 .stat-strip__label{margin-top:10px;font-size:14px;color:var(--muted);line-height:1.4}
+.stat-strip__eyebrow{font-family:var(--font-mono);font-weight:700;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);margin:0 0 12px;max-width:none}
+.stat-strip__src{margin-top:12px;font-family:var(--font-mono);font-size:11.5px;letter-spacing:.02em;color:var(--muted);max-width:none}
+.stat-strip--proof .stat-strip__item{text-align:left;padding:22px}
+.stat-strip--proof .stat-strip__num{font-size:clamp(26px,3.2vw,38px)}
 .section--navy .stat-strip__label{color:#cfe0ea}
 
 /* =========================================================================
@@ -333,7 +343,7 @@ p{max-width:72ch}
 .tier__list li.tier__incl{padding-left:0;font-weight:600;color:var(--ink);list-style:none}
 .tier__list li.tier__incl::before{display:none}
 .tier__cta{margin-top:22px}
-.tier__cta .btn{width:100%}
+.tier__cta .btn{width:100%;white-space:nowrap;padding-inline:14px}
 
 /* Donor wall (/donor-wall) — names come from sv_donors(); tiers mirror the Give page. */
 /* FAQ accordion. */
@@ -422,7 +432,7 @@ p{max-width:72ch}
    ========================================================================= */
 .steps{display:grid;gap:18px;counter-reset:step}
 .step{display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:start;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:24px 28px;box-shadow:var(--shadow-sm)}
-.step__num{font-family:var(--font-mono);font-weight:700;font-size:clamp(28px,3vw,40px);color:var(--sky);line-height:1}
+.step__num{font-family:var(--font-mono);font-weight:700;font-size:clamp(28px,3vw,40px);color:var(--steel);line-height:1}
 .step__title{font-size:1.25rem;margin-bottom:6px}
 .step__body{color:var(--muted)}
 
@@ -525,6 +535,8 @@ picture{display:contents}
 .partner{flex:0 0 160px;max-width:160px}
 .partner img{height:64px;width:100%;object-fit:contain;filter:grayscale(1);opacity:.7;transition:filter .25s,opacity .25s}
 .partner:hover img{filter:grayscale(0);opacity:1}
+/* Text wordmark for a partner whose logo file has not landed yet. */
+.partner--text{font-family:var(--font-display);font-weight:800;font-size:clamp(20px,2vw,24px);letter-spacing:-.01em;color:var(--navy);display:flex;align-items:center;justify-content:center;height:64px;text-align:center;opacity:.8}
 .partner-list{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
 .partner-list__item{display:grid;grid-template-columns:120px 1fr;gap:20px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:20px;box-shadow:var(--shadow-sm)}
 .partner-list__item img{height:56px;width:auto;object-fit:contain;filter:grayscale(1);opacity:.8;transition:filter .25s,opacity .25s}
@@ -555,6 +567,7 @@ picture{display:contents}
 .testimonial__mark{position:absolute;top:6px;left:22px;font-family:var(--font-display);font-weight:900;font-size:84px;line-height:1;color:var(--coral);opacity:.18;pointer-events:none}
 .testimonial__quote{position:relative;font-family:var(--font-display);font-weight:800;letter-spacing:-.01em;font-size:clamp(17px,1.7vw,20px);line-height:1.4;color:var(--ink)}
 .testimonial__attr{margin-top:18px;font-family:var(--font-mono);font-weight:700;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--blue)}
+.testimonial__meta{display:block;margin-top:4px;font-weight:400;font-size:12px;letter-spacing:.04em;text-transform:none;color:var(--muted)}
 .testimonial--feature .testimonial__quote{font-size:clamp(19px,2vw,24px)}
 
 /* =========================================================================
@@ -579,6 +592,8 @@ picture{display:contents}
 .cta-band__title .coral{color:var(--coral-light)}
 .cta-band__actions{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
 .cta-band__note{font-family:var(--font-mono);font-size:13px;letter-spacing:.06em;color:#9fb6c6}
+/* The band eyebrow inherited --blue (#30609C) on navy-deep, about 2.2:1. */
+.cta-band .eyebrow{color:#9fb6c6}
 
 /* =========================================================================
    BREADCRUMBS
@@ -852,7 +867,7 @@ picture{display:contents}
 .section--navy + .section::after,
 .wave-divider + .section--pale::after{
   content:"";position:absolute;left:0;right:0;top:0;
-  height:clamp(38px,4.5vw,66px);transform:translateY(-99.5%);
+  height:clamp(38px,4.5vw,66px);transform:translateY(calc(-100% + 1px));
   background-color:var(--seam-color);
   -webkit-mask:var(--seam-mask) no-repeat;mask:var(--seam-mask) no-repeat;
   -webkit-mask-size:100% 100%;mask-size:100% 100%;
@@ -891,3 +906,135 @@ picture{display:contents}
   .hero .wave .band1,.hero .wave .band2{animation:none}
   .btn--give.is-shine::after{display:none}
 }
+
+/* Facts strip (accelerator): the five answers a founder arrives with. */
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:18px;margin:0}
+.facts__item{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;box-shadow:var(--shadow-sm)}
+.facts__k{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);font-weight:700;margin:0 0 8px}
+.facts__v{font-weight:600;color:var(--ink);font-size:15.5px;line-height:1.45;margin:0}
+/* White button for the reader's own action on dark bands (founder and contact modes). */
+.btn--light{background:#fff;color:var(--navy);border-color:#fff}
+.btn--light:hover{background:var(--sky-pale);color:var(--navy);transform:translateY(-2px)}
+/* Donor wall: one list, type size by giving level, no tier labels or amounts. */
+.donor-wall-list{list-style:none;display:flex;flex-wrap:wrap;justify-content:center;align-items:baseline;gap:.25em 1.1em;max-width:980px;margin:8px auto 0;padding:0;text-align:center;font-family:var(--font-display);color:var(--ink);line-height:1.15}
+.donor-wall__name{white-space:nowrap}
+.donor-wall__name--l4{font-size:clamp(34px,5.4vw,54px);font-weight:800;letter-spacing:-.015em;color:var(--navy)}
+.donor-wall__name--l3{font-size:clamp(28px,4.4vw,44px);font-weight:800;letter-spacing:-.015em;color:var(--navy)}
+.donor-wall__name--l2{font-size:clamp(21px,3.1vw,30px);font-weight:700;color:var(--navy)}
+.donor-wall__name--l1{font-size:clamp(16px,2.1vw,20px);font-weight:600;color:var(--steel)}
+
+/* ---------- 2026-10 audit: spacing, rows, labels ---------- */
+.section--head{padding-bottom:0}
+.section--head .page-head{padding-bottom:clamp(8px,2vw,24px)}
+.section--head + .section{padding-top:clamp(36px,5vw,64px)}
+.card__body .eyebrow{margin-bottom:10px}
+.btn-row{display:flex;flex-wrap:wrap;gap:14px;justify-content:center}
+.event-row__date--tbd{color:var(--muted);text-transform:none;letter-spacing:0;font-size:13px;font-weight:400}
+.eco-reviewed{max-width:none;font-size:14px}
+.eco-ours{font-size:12px;letter-spacing:.06em}
+.cta-band .wave{height:46%}
+.give-hero__side .candid-seal img{width:130px}
+@media (min-width:621px) and (max-width:940px){.card-grid--3,.card-grid--4{grid-template-columns:1fr 1fr}}
+@media(max-width:640px){.event-row{grid-template-columns:1fr auto;grid-template-areas:"date tag" "body body"}.event-row__date{grid-area:date}.event-tag{grid-area:tag;justify-self:end}.event-row>div{grid-area:body}}
+@media(max-width:480px){.breadcrumbs li:last-child span{display:inline-block;max-width:60vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:bottom}}
+/* News archive: featured first card and the announcement / media filter. */
+.news-filter{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 26px}
+.news-filter__btn{font-family:var(--font-mono);font-weight:700;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;padding:9px 16px;border-radius:999px;border:1.5px solid var(--blue);background:transparent;color:var(--blue);cursor:pointer}
+.news-filter__btn.is-active,.news-filter__btn:hover{background:var(--blue);color:#fff}
+/* News page: filter chips left, RSS feed link right (wraps under on phones). */
+.news-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 20px;margin:0 0 26px}
+.news-bar .news-filter{margin:0}
+.news-feed{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-mono);font-weight:700;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--blue);text-decoration:none;padding:9px 2px}
+.news-feed svg{width:16px;height:16px;flex:0 0 auto}
+.news-feed:hover{color:var(--coral-deep);text-decoration:underline;text-underline-offset:3px}
+.post-card.is-hidden{display:none}
+.post-card--featured{grid-column:1/-1;display:grid;grid-template-columns:1.15fr 1fr}
+.post-card--featured .post-card__thumb{height:100%;min-height:280px;aspect-ratio:auto}
+.post-card--featured .post-card__body{padding:32px;justify-content:center}
+.post-card--featured .post-card__title{font-size:clamp(22px,2.6vw,30px)}
+@media(max-width:760px){.post-card--featured{grid-template-columns:1fr}.post-card--featured .post-card__thumb{aspect-ratio:16/10;min-height:0}}
+/* Stat-strip labels and source lines sit on a tinted card (#ebf1f6): #5A7180 is 4.48:1, #46606E is about 6:1. */
+.stat-strip__label,.stat-strip__src{color:#46606E}
+.stakes__src{display:block;margin-top:6px;font-family:var(--font-mono);font-size:11.5px;letter-spacing:.04em;color:var(--muted)}
+.stat-strip--proof .stat-strip__label{font-size:15px;color:var(--ink)}
+.partner--text{font-size:clamp(15px,1.35vw,18px);line-height:1.15}
+
+/* ---------- 2026-10-27 build brief: top bar ---------- */
+/* Apply is the pinned coral button; Give is a text link beside it (coral stays
+   the Give color on bands and on the Give page). */
+.btn--primary{background:var(--coral);color:#fff;font-size:19px;font-weight:800;box-shadow:0 8px 22px -8px rgba(234,90,61,.8)}
+.btn--primary:hover{background:var(--coral-deep);color:#fff;transform:translateY(-2px);box-shadow:0 12px 28px -8px rgba(214,78,51,.9)}
+.header-cta .btn--primary{min-height:42px;padding:9px 20px;font-size:17px}
+.mobile-menu a.btn--primary{background:var(--coral);text-align:center;padding:16px 24px;font-size:19px}
+/* Give text link beside Apply (shown until HEADER_GIVE_UNTIL in gen.mjs). Below the
+   940px hamburger breakpoint it moves into the mobile sheet. */
+.header-cta__give{font-family:var(--font-body);font-weight:600;font-size:15px;color:var(--navy);text-decoration:none;padding:10px 12px;border-radius:8px;white-space:nowrap}
+.header-cta__give:hover{color:var(--coral-deep);background:rgba(48,96,156,.07)}
+.site-header--over-hero .header-cta__give{color:#fff}
+.site-header--over-hero .header-cta__give:hover{background:rgba(255,255,255,.14);color:#fff}
+.site-header.is-scrolled .header-cta__give{color:var(--navy)}
+@media (max-width:940px){.header-cta__give{display:none}}
+@media (max-width:620px){.header-cta .btn--primary{min-height:38px;padding:8px 14px;font-size:15px}}
+/* Between 941 and 1240px the full bar fits only with tighter link spacing. */
+@media (min-width:941px) and (max-width:1240px){.primary-nav > ul{gap:6px}.primary-nav a{padding:10px 8px;font-size:14.5px}.header-cta__give{padding:10px 8px}.header-cta .btn--primary{padding:9px 16px;font-size:16px}.site-brand{margin-inline:12px}}
+
+/* ---------- status bar: one line above the header on every page ---------- */
+:root{--status-h:38px}
+.status-bar{position:relative;z-index:1001;background:var(--navy);color:#fff;min-height:var(--status-h);display:flex;align-items:center;font-family:var(--font-mono);font-size:12.5px;letter-spacing:.03em;line-height:1.25;text-align:center}
+.status-bar .wrap{display:flex;justify-content:center;min-width:0}
+.status-bar__link{color:#fff;text-decoration:none;padding:9px 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.status-bar__link:hover{color:var(--sky);text-decoration:underline;text-underline-offset:3px}
+.status-bar__link:focus-visible{outline:2px solid #fff;outline-offset:-2px}
+/* body padding-top reserves the fixed header slot on inner pages, which pushed the
+   in-flow bar down behind the header. Pull the bar up to the top edge and re-reserve
+   the header slot beneath it; the home page has no body padding (hero under header). */
+.status-bar{margin-top:calc(-1 * var(--header-h));margin-bottom:var(--header-h)}
+body.home .status-bar{margin-top:0;margin-bottom:0}
+.status-bar__short{display:none}
+@media (max-width:600px){.status-bar__long{display:none}.status-bar__short{display:inline}.status-bar{font-size:11.5px;letter-spacing:0}.status-bar .wrap{padding-inline:12px}}
+/* The fixed header rests under the bar; main.js slides it to the top as the bar
+   scrolls away (this is also the no-JS resting position). */
+.site-header{top:var(--status-h)}
+/* Home hero and mission strip (2026-10-27): the mission sentence that left the hero. */
+.mission-strip__sub{margin:18px auto 0;max-width:62ch;color:#cfe0ea;font-size:clamp(15px,1.5vw,18px);line-height:1.55}
+.hero .btn--primary{min-height:48px}
+/* FAQ (2026-10-27): category chips (plain anchors) and category blocks. */
+.faq-chips{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 30px}
+.faq-cat{scroll-margin-top:calc(var(--header-h) + 24px)}
+.faq-cat + .faq-cat{margin-top:46px}
+.faq-cat__title{font-size:clamp(22px,2.6vw,30px);margin-bottom:16px}
+.faq-chips .eco-pill:hover{background:var(--navy);border-color:var(--navy);color:#fff}
+/* ---------- newsletter block: Start Local Stay Local (every page, above the footer) ---------- */
+.newsletter{background:var(--navy);color:#fff;padding-block:clamp(40px,5vw,64px);position:relative;border-top:1px solid rgba(255,255,255,.08)}
+.newsletter__inner{display:grid;gap:28px;align-items:center}
+.newsletter .eyebrow{color:var(--coral-light)}
+.newsletter__title{font-family:var(--font-display);font-weight:800;letter-spacing:-.015em;line-height:1.12;font-size:clamp(22px,2.6vw,32px);color:#fff;margin-top:10px;max-width:22ch}
+.newsletter__line{color:#cfe0ea;font-size:15.5px;margin-top:10px;max-width:48ch}
+.newsletter__fields{display:grid;gap:12px}
+.newsletter .field{display:grid;gap:6px}
+.newsletter label{font-size:13px;font-weight:600;color:#cfe0ea}
+.newsletter .req{color:var(--coral-light)}
+.newsletter input,.newsletter select{font-family:var(--font-body);font-size:16px;padding:12px 14px;border:1px solid rgba(255,255,255,.2);border-radius:var(--r-sm);background:#fff;color:var(--ink);width:100%;min-height:48px}
+.newsletter input:focus,.newsletter select:focus{outline:none;border-color:var(--sky);box-shadow:0 0 0 3px rgba(120,180,216,.45)}
+.newsletter__submit{align-self:end}
+.newsletter .btn{width:100%;min-height:48px;font-size:16px}
+.newsletter .form__status{margin-top:4px}
+.newsletter .form__status.is-ok{background:rgba(255,255,255,.1);color:#fff;border-color:rgba(255,255,255,.25)}
+.newsletter .form__status.is-err{background:#fcece8;color:#a23116}
+@media (min-width:760px){.newsletter__inner{grid-template-columns:1.1fr 1fr;gap:48px}.newsletter__fields{grid-template-columns:1.2fr 1fr auto;align-items:end}.newsletter .btn{width:auto}}
+/* ---------- mentor wall (mentors.html and the homepage strip) ---------- */
+.mentor-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.mentor-card{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow-sm);padding:22px 20px;text-align:center}
+.mentor-card__media{width:120px;height:120px;margin:0 auto 14px;border-radius:999px;overflow:hidden;background:var(--sky-pale)}
+.mentor-card__media img{width:100%;height:100%;object-fit:cover}
+.mentor-card__initials{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:var(--navy);color:#fff;font-family:var(--font-display);font-weight:800;font-size:34px}
+.mentor-card__name{font-size:1.1rem}
+.mentor-card__name a{color:inherit;text-decoration:none}
+.mentor-card__name a:hover{color:var(--blue);text-decoration:underline}
+.mentor-card__cred{color:var(--muted);font-size:14.5px;line-height:1.45;margin:4px auto 0;max-width:26ch}
+.mentor-card__tags{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:12px;max-width:none}
+.mentor-tag{font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--blue);border:1px solid var(--line);border-radius:999px;padding:4px 10px}
+.mentor-card.is-hidden{display:none}
+.card__title a{color:inherit}
+@media (max-width:1024px){.mentor-grid{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:620px){.mentor-grid{grid-template-columns:repeat(2,1fr);gap:14px}.mentor-card{padding:18px 12px}.mentor-card__media{width:96px;height:96px}}

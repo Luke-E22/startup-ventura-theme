@@ -22,6 +22,7 @@ export const FORMS = {
   careers:             { label: 'Job application',         interest: [],                          relationship: [],                 topics: ['Operations'] },
   newsletter:          { label: 'Newsletter signup',       interest: [],                          relationship: [],                 topics: ['Mission'] },
   'partner-foundations': { label: 'Foundation partnership', interest: ['Partnership / sponsorship'], relationship: ['Prospect'],    topics: ['Partnership'] },
+  'soft-landing':        { label: 'Soft landing inquiry',    interest: ['Partnership / sponsorship'], relationship: ['Prospect'],       topics: ['Partnership'] },
   'partner-government':  { label: 'Government partnership', interest: ['Partnership / sponsorship'], relationship: ['Prospect', 'Government'], topics: ['Partnership'] },
 };
 
@@ -33,10 +34,22 @@ function refine(form, interest, out) {
     else if (v.includes('sponsorship')) { out.interest.push('Partnership / sponsorship'); out.relationship.push('Prospect'); out.topics = ['Partnership']; }
     else if (v.includes('mentoring')) { out.interest.push('Mentoring'); out.topics = ['Mentoring']; }
     else if (v.includes('investor')) { out.relationship.push('Connector'); out.topics = ['Intro']; }
+    else if (v.includes('cities') || v.includes('county') || v.includes('public agencies')) { out.interest.push('Partnership / sponsorship'); out.relationship.push('Government'); out.topics = ['Partnership']; }
   }
   if (form === 'connect' && v.includes('corporate')) { out.interest = ['Partnership / sponsorship']; out.topics = ['Partnership']; }
   if (form === 'connect' && v.includes('exploring')) { out.interest = []; out.relationship = ['Prospect']; }
+  if (form === 'soft-landing') {
+    if (v.includes('founder')) { out.interest = ['Applying as a founder']; out.topics = ['Mission']; }
+    else if (v.includes('economic development')) { out.relationship.push('Government'); }
+  }
   if (form === 'invest' && (v.includes('mentor') || v.includes('judge'))) { out.interest = ['Mentoring']; out.relationship = ['Mentor']; out.topics = ['Mentoring']; }
+  // Newsletter "I am a" select (optional; blank leaves the email-only mapping as is).
+  if (form === 'newsletter') {
+    if (v.includes('founder')) { out.interest = ['Applying as a founder']; }
+    else if (v.includes('investor')) { out.relationship = ['Connector']; out.topics = ['Intro']; }
+    else if (v.includes('partner') || v.includes('sponsor')) { out.interest = ['Partnership / sponsorship']; out.relationship = ['Prospect']; out.topics = ['Partnership']; }
+    else if (v.includes('supporter')) { out.interest = ['Donating']; }
+  }
 }
 
 const SKIP = new Set(['form-name', 'bot-field', 'ip', 'user_agent', 'referrer', 'g-recaptcha-response']);
@@ -59,6 +72,7 @@ export function mapSubmission(payload) {
   out.date = (payload.created_at || new Date().toISOString()).slice(0, 10);
 
   const detail = (d.interest || '').trim();
+  out.detail = detail || null;
   out.summary = `Website: ${spec.label}${detail ? ` (${detail})` : ''}`;
 
   // Notes keep everything the person typed so nothing is lost in mapping.

@@ -26,6 +26,14 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
+# Documents (the cities and County brief PDF) keep stable URLs that people paste
+# into staff reports and emails, and they get revised in place, so they must
+# revalidate rather than inherit the one-year immutable cache above.
+[[headers]]
+  for = "/assets/docs/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
 [[headers]]
   for = "/*.html"
   [headers.values]
@@ -36,11 +44,61 @@
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
 
+# News RSS feed. Served as plain XML (application/rss+xml makes most browsers
+# download the file instead of showing it), with an open CORS header so RSS
+# widgets on partner sites can fetch it from the browser, and revalidated on
+# every request so a new post shows up right after the deploy.
+[[headers]]
+  for = "/feed.xml"
+  [headers.values]
+    Content-Type = "application/xml; charset=utf-8"
+    Access-Control-Allow-Origin = "*"
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/feed"
+  [headers.values]
+    Content-Type = "application/xml; charset=utf-8"
+    Access-Control-Allow-Origin = "*"
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/rss"
+  [headers.values]
+    Content-Type = "application/xml; charset=utf-8"
+    Access-Control-Allow-Origin = "*"
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/rss.xml"
+  [headers.values]
+    Content-Type = "application/xml; charset=utf-8"
+    Access-Control-Allow-Origin = "*"
+    Cache-Control = "public, max-age=0, must-revalidate"
+
 # Default /favicon.ico request (crawlers, old clients) → the real icon, so it
 # never 404s. Modern browsers use the <link rel="icon"> tags instead.
 [[redirects]]
   from = "/favicon.ico"
   to = "/assets/img/favicon-32.png"
+  status = 200
+
+# Common feed addresses people and tools try first. They serve the feed directly
+# (200, not 301) because a browser-side fetch fails CORS on a redirect response;
+# each alias also gets the CORS header block above. Hand out /feed.xml itself.
+[[redirects]]
+  from = "/feed"
+  to = "/feed.xml"
+  status = 200
+
+[[redirects]]
+  from = "/rss"
+  to = "/feed.xml"
+  status = 200
+
+[[redirects]]
+  from = "/rss.xml"
+  to = "/feed.xml"
   status = 200
 
 # Pretty routes for pages whose canonical omits .html.
@@ -64,6 +122,12 @@
   to = "/resources.html"
   status = 200
 
+# Mentor wall (noindex until it launches; the generator decides).
+[[redirects]]
+  from = "/mentors"
+  to = "/mentors.html"
+  status = 200
+
 # Evergreen Ventura County startup ecosystem guide (backlink magnet; clean URL).
 [[redirects]]
   from = "/ecosystem"
@@ -79,6 +143,12 @@
 [[redirects]]
   from = "/thanks-invest"
   to = "/thanks-invest.html"
+  status = 200
+
+# Soft-landing page for founders and partner organizations outside the U.S.
+[[redirects]]
+  from = "/soft-landing"
+  to = "/soft-landing.html"
   status = 200
 
 # Board of Directors interest form (organic, linked from About) + its thanks page.
