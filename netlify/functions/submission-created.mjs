@@ -76,6 +76,41 @@ function interactionProperties(m, personId) {
   return props;
 }
 
+// Optional direct Klaviyo route for the newsletter (no Zapier, no on-page Klaviyo
+// script): set KLAVIYO_PRIVATE_KEY and KLAVIYO_LIST_ID in the Netlify environment
+// and every "newsletter" submission is subscribed to that list with the "I am a"
+// answer stored as the profile property "interest". Without the two variables
+// this step is skipped and a Zapier zap (Netlify form submission -> Klaviyo
+// "Add subscriber to list") can carry the same data instead.
+// The subscribe endpoint accepts only email and consent, so the interest property
+// is written first with a profile upsert (Klaviyo's create-then-subscribe flow);
+// if that upsert fails the subscription still goes through. Klaviyo retires an API
+// revision two years after release: move KLAVIYO_REVISION forward before 2028-10.
+// Functions read environment variables at deploy time, so redeploy after setting them.
+const KLAVIYO_REVISION = '2026-10-15';
+async function klaviyoSubscribe(m) {
+  const key = process.env.KLAVIYO_PRIVATE_KEY;
+  const list = process.env.KLAVIYO_LIST_ID;
+  if (!key || !list || m.form !== 'newsletter' || !m.email) return 'skipped';
+  const headers = { Authorization: `Klaviyo-API-Key ${key}`, revision: KLAVIYO_REVISION, 'Content-Type': 'application/vnd.api+json', Accept: 'application/vnd.api+json' };
+  if (m.detail) {
+    const up = await fetch('https://a.klaviyo.com/api/profile-import', {
+      method: 'POST', headers,
+      body: JSON.stringify({ data: { type: 'profile', attributes: { email: m.email, properties: { interest: m.detail } } } }),
+    });
+    if (up.status !== 200 && up.status !== 201) console.error(`submission-created: Klaviyo profile upsert ${up.status} for ${m.email}; subscribing without the interest property: ${(await up.text()).slice(0, 200)}`);
+  }
+  const res = await fetch('https://a.klaviyo.com/api/profile-subscription-bulk-create-jobs', {
+    method: 'POST', headers,
+    body: JSON.stringify({ data: { type: 'profile-subscription-bulk-create-job', attributes: {
+      custom_source: 'Website: newsletter',
+      profiles: { data: [{ type: 'profile', attributes: { email: m.email, subscriptions: { email: { marketing: { consent: 'SUBSCRIBED' } } } } }] },
+    }, relationships: { list: { data: { type: 'list', id: list } } } } }),
+  });
+  if (res.status !== 202) throw new Error(`Klaviyo ${res.status}: ${(await res.text()).slice(0, 200)}`);
+  return 'subscribed';
+}
+
 export const handler = async (event) => {
   const token = process.env.NOTION_TOKEN;
   let payload;
@@ -85,7 +120,11 @@ export const handler = async (event) => {
   }
   const m = mapSubmission(payload);
   if (!m) { console.log(`submission-created: no mapping for form "${payload?.form_name}" (ignored)`); return { statusCode: 200, body: 'ignored' }; }
-  if (!token) { console.error('submission-created: NOTION_TOKEN missing; submission NOT synced:', m.summary); return { statusCode: 200, body: 'no token' }; }
+  // Klaviyo runs on its own so a problem on one side never blocks the other.
+  const klaviyo = klaviyoSubscribe(m)
+    .then((r) => { if (r === 'subscribed') console.log(`submission-created: Klaviyo subscribed ${m.email} (${m.detail || 'no interest'})`); return r; })
+    .catch((err) => { console.error(`submission-created: Klaviyo FAILED for ${m.email}: ${err.message}`); return 'klaviyo failed'; });
+  if (!token) { console.error('submission-created: NOTION_TOKEN missing; submission NOT synced:', m.summary); await klaviyo; return { statusCode: 200, body: 'no token' }; }
   try {
     const existing = await findPersonByEmail(token, m.email);
     let personId;
@@ -98,10 +137,12 @@ export const handler = async (event) => {
     }
     await notion(token, '/pages', 'POST', { parent: { database_id: INTERACTIONS_DB }, properties: interactionProperties(m, personId) });
     console.log(`submission-created: synced "${m.summary}" -> person ${personId} (${existing ? 'existing' : 'new'})`);
+    await klaviyo;
     return { statusCode: 200, body: 'synced' };
   } catch (err) {
     // Netlify keeps the submission regardless; this log is the recovery trail.
     console.error(`submission-created: FAILED for "${m.summary}" (${m.email}): ${err.message}`);
+    await klaviyo;
     return { statusCode: 200, body: 'sync failed' };
   }
 };
