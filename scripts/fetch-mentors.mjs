@@ -16,6 +16,7 @@
 //
 // Testing without Notion: node scripts/fetch-mentors.mjs --fixture rows.json
 // (rows in the simplified shape below; the same Consent + Published filter applies).
+import { createHash } from 'node:crypto';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -91,13 +92,13 @@ async function headshot(row, slug) {
   } else {
     return null;
   }
+  // The file name carries a short content hash: /assets/* is served with a one-year
+  // immutable cache, so a replaced headshot must get a new URL to show up.
   fs.mkdirSync(IMG_DIR, { recursive: true });
-  if (sharp) {
-    await sharp(buf).rotate().resize(400, 400, { fit: 'cover', position: 'top' }).webp({ quality: 82 }).toFile(path.join(IMG_DIR, `${slug}.webp`));
-    return `mentors/${slug}.webp`;
-  }
-  fs.writeFileSync(path.join(IMG_DIR, `${slug}.${ext}`), buf);
-  return `mentors/${slug}.${ext}`;
+  if (sharp) { buf = await sharp(buf).rotate().resize(400, 400, { fit: 'cover', position: 'top' }).webp({ quality: 82 }).toBuffer(); ext = 'webp'; }
+  const name = `${slug}-${createHash('sha1').update(buf).digest('hex').slice(0, 8)}.${ext}`;
+  fs.writeFileSync(path.join(IMG_DIR, name), buf);
+  return `mentors/${name}`;
 }
 
 try {

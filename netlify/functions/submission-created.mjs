@@ -82,16 +82,29 @@ function interactionProperties(m, personId) {
 // answer stored as the profile property "interest". Without the two variables
 // this step is skipped and a Zapier zap (Netlify form submission -> Klaviyo
 // "Add subscriber to list") can carry the same data instead.
+// The subscribe endpoint accepts only email and consent, so the interest property
+// is written first with a profile upsert (Klaviyo's create-then-subscribe flow);
+// if that upsert fails the subscription still goes through. Klaviyo retires an API
+// revision two years after release: move KLAVIYO_REVISION forward before 2028-10.
+// Functions read environment variables at deploy time, so redeploy after setting them.
+const KLAVIYO_REVISION = '2026-10-15';
 async function klaviyoSubscribe(m) {
   const key = process.env.KLAVIYO_PRIVATE_KEY;
   const list = process.env.KLAVIYO_LIST_ID;
   if (!key || !list || m.form !== 'newsletter' || !m.email) return 'skipped';
+  const headers = { Authorization: `Klaviyo-API-Key ${key}`, revision: KLAVIYO_REVISION, 'Content-Type': 'application/vnd.api+json', Accept: 'application/vnd.api+json' };
+  if (m.detail) {
+    const up = await fetch('https://a.klaviyo.com/api/profile-import', {
+      method: 'POST', headers,
+      body: JSON.stringify({ data: { type: 'profile', attributes: { email: m.email, properties: { interest: m.detail } } } }),
+    });
+    if (up.status !== 200 && up.status !== 201) console.error(`submission-created: Klaviyo profile upsert ${up.status} for ${m.email}; subscribing without the interest property: ${(await up.text()).slice(0, 200)}`);
+  }
   const res = await fetch('https://a.klaviyo.com/api/profile-subscription-bulk-create-jobs', {
-    method: 'POST',
-    headers: { Authorization: `Klaviyo-API-Key ${key}`, revision: '2024-10-15', 'Content-Type': 'application/vnd.api+json', Accept: 'application/vnd.api+json' },
+    method: 'POST', headers,
     body: JSON.stringify({ data: { type: 'profile-subscription-bulk-create-job', attributes: {
       custom_source: 'Website: newsletter',
-      profiles: { data: [{ type: 'profile', attributes: { email: m.email, subscriptions: { email: { marketing: { consent: 'SUBSCRIBED' } } }, properties: m.detail ? { interest: m.detail } : {} } }] },
+      profiles: { data: [{ type: 'profile', attributes: { email: m.email, subscriptions: { email: { marketing: { consent: 'SUBSCRIBED' } } } } }] },
     }, relationships: { list: { data: { type: 'list', id: list } } } } }),
   });
   if (res.status !== 202) throw new Error(`Klaviyo ${res.status}: ${(await res.text()).slice(0, 200)}`);

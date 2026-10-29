@@ -555,3 +555,13 @@
 		b.addEventListener('click', function () { apply(b.getAttribute('data-filter')); });
 	});
 })();
+
+/* ---------------------------------------------------------------------
+ * 17. Old "get notified" links. contact.html#notify held the founder list until
+ * 2026-10-27; links to it in past emails and posts now land on the first-access
+ * form on the Apply page instead of the top of the contact form.
+ * ------------------------------------------------------------------- */
+(function notifyRedirect() {
+	if (location.hash !== '#notify' || !/\/contact(\.html)?$/.test(location.pathname)) { return; }
+	location.replace('apply.html#first-access');
+})();

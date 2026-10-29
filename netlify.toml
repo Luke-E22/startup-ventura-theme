@@ -26,6 +26,14 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
+# Documents (the cities and County brief PDF) keep stable URLs that people paste
+# into staff reports and emails, and they get revised in place, so they must
+# revalidate rather than inherit the one-year immutable cache above.
+[[headers]]
+  for = "/assets/docs/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
 [[headers]]
   for = "/*.html"
   [headers.values]
