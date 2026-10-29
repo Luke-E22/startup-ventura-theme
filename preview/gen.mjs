@@ -1925,7 +1925,7 @@ page('thank-you.html', {
   <section class="section thankyou"><div class="wrap wrap--narrow" style="text-align:center;position:relative;z-index:2">
     <p class="eyebrow">Thank You</p>${waveRule}
     <h1 class="display">You just helped a founder build here.</h1>
-    <p class="lede" style="margin-inline:auto">Your gift goes straight to the inaugural Spring 2027 cohort &mdash; the mentorship, capital connections, and community that keep Ventura County&rsquo;s best founders building at home. We could not do this without you.</p>
+    <p class="lede" style="margin-inline:auto">Your gift goes straight to the inaugural Spring 2027 cohort: the mentorship, capital connections, and community that keep Ventura County&rsquo;s best founders building at home. We could not do this without you.</p>
     <div class="btn-row" style="margin-top:30px"><a class="btn btn--blue" href="index.html">Back to home</a><a class="btn btn--outline" href="donor-wall.html">See the donor wall</a></div>
     <p class="muted" style="margin-top:34px;font-size:14px;max-width:60ch;margin-inline:auto">A receipt is on its way to your inbox from Zeffy. Startup Ventura is a 501(c)(3) nonprofit (EIN 39-2204612); your donation is tax-deductible to the extent allowed by law.</p>
     <button id="sv-confetti-again" class="thankyou__again" type="button">Celebrate again &#127881;</button>
