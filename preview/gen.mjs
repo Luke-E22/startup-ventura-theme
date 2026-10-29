@@ -183,13 +183,20 @@ const crumbs = (trail) => `<nav class="breadcrumbs wrap" aria-label="Breadcrumb"
 // Production origin for absolute SEO URLs (canonical, Open Graph, JSON-LD).
 const SITE = 'https://startupventura.com';
 
-// News post dates are authored as human strings ('July 8, 2026'); article:published_time
-// and schema datePublished need ISO 8601. Anchor to 9am Pacific so the calendar date is
-// unambiguous across time zones.
+// News post dates are authored as human strings ('July 8, 2026'); article:published_time,
+// schema datePublished and the RSS feed need ISO 8601. Anchor to 9am Pacific so the calendar
+// date is unambiguous across time zones. Strict since 2026-10-28: a month it cannot read or
+// an impossible day stops the build (it used to fall back to January without a word).
 const MONTHS = { January: '01', February: '02', March: '03', April: '04', May: '05', June: '06', July: '07', August: '08', September: '09', October: '10', November: '11', December: '12' };
+const MONTH_KEYS = Object.fromEntries(Object.entries(MONTHS).flatMap(([k, v]) => [[k.toLowerCase(), v], [k.slice(0, 3).toLowerCase(), v]]).concat([['sept', '09']]));
 const isoDate = (human) => {
-  const m = String(human).match(/([A-Za-z]+)\s+(\d{1,2}),\s*(\d{4})/);
-  return m ? `${m[3]}-${MONTHS[m[1]] || '01'}-${m[2].padStart(2, '0')}T09:00:00-07:00` : '';
+  const m = String(human).trim().match(/^([A-Za-z]+)\.?\s+(\d{1,2}),?\s+(\d{4})$/);
+  if (!m) throw new Error(`news date "${human}" is not in the form "October 15, 2026"`);
+  const mm = MONTH_KEYS[m[1].toLowerCase()];
+  if (!mm) throw new Error(`news date "${human}" has a month gen.mjs cannot read; use the full month name, for example "October 15, 2026"`);
+  const d = new Date(Date.UTC(+m[3], +mm - 1, +m[2]));
+  if (d.getUTCMonth() !== +mm - 1 || d.getUTCDate() !== +m[2]) throw new Error(`news date "${human}" is not a real calendar date`);
+  return `${m[3]}-${mm}-${m[2].padStart(2, '0')}T09:00:00-07:00`;
 };
 
 // Organization entity — emitted on every page so search + AI engines have a
