@@ -446,7 +446,8 @@ ${overHero ? `<link rel="preload" as="image" type="image/webp" imagesrcset="${A}
 <link rel="icon" href="${A}/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="${A}/img/favicon.png" sizes="any" type="image/png">
 <link rel="apple-touch-icon" href="${A}/img/favicon-180.png">
-<link rel="stylesheet" href="${A}/css/main.css?v=57">
+<link rel="alternate" type="application/rss+xml" title="Startup Ventura News" href="${SITE}/feed.xml">
+<link rel="stylesheet" href="${A}/css/main.css?v=58">
 ${analyticsHead()}</head>
 <body class="${overHero ? 'home' : ''}">
 ${analyticsBody()}
@@ -587,7 +588,11 @@ const pageHead = (e, h, lede, narrow = false) => `<section class="section sectio
 const card = (href, eyebrow, title, text, link) => `<a class="card card--link" href="${href}"><div class="card__body">${eyebrow ? `<p class="eyebrow">${eyebrow}</p>` : ''}<h3 class="card__title">${title}</h3><p class="card__text">${text}</p><span class="card__link">${link}</span></div></a>`;
 
 // News data lives above the pages: the homepage "News & Events" section and
-// the News pages both render from it.
+// the News pages both render from it, and so does /feed.xml (RSS). A new post
+// needs a published time as well as its display date, for example
+//   date: 'November 4, 2026', published: '2026-11-04T10:30:00-08:00',
+// set to when it goes live (Pacific offset: -07:00 in summer, -08:00 in winter).
+// The build stops with a clear message if a post dated 2026-10-28 or later lacks it.
 const newsPosts = [
   {
     file: 'news-conejo-valley-visionaries.html', crumb: 'Conejo Valley Visionaries',
@@ -1289,7 +1294,7 @@ const newsCard = (p, featured = false) => `<article class="post-card${featured ?
 page('news.html', {
   title: 'News', crumbsTrail: [['Home', 'index.html'], ['News', '']],
   body: `<section class="section"><div class="wrap"><header class="page-head"><p class="eyebrow">News &amp; Updates</p>${waveRule}<h1 class="display">News &amp; Updates</h1></header>
-  <div class="news-filter" role="group" aria-label="Filter news"><button type="button" class="news-filter__btn is-active" data-filter="all" aria-pressed="true">All</button><button type="button" class="news-filter__btn" data-filter="announcement" aria-pressed="false">Announcements</button><button type="button" class="news-filter__btn" data-filter="media" aria-pressed="false">Press and media</button></div>
+  <div class="news-bar"><div class="news-filter" role="group" aria-label="Filter news"><button type="button" class="news-filter__btn is-active" data-filter="all" aria-pressed="true">All</button><button type="button" class="news-filter__btn" data-filter="announcement" aria-pressed="false">Announcements</button><button type="button" class="news-filter__btn" data-filter="media" aria-pressed="false">Press and media</button></div><a class="news-feed" href="feed.xml" type="application/rss+xml"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1.6" fill="currentColor" stroke="none"/></svg>RSS feed</a></div>
   <div class="post-grid post-grid--news">${newsPosts.filter(p => !p.archived).map((p, i) => newsCard(p, i === 0)).join('')}</div></div></section>` +
     ctaBand('Help fund the inaugural cohort.', 'none'),
 });
@@ -1437,7 +1442,7 @@ page('terms.html', {
 page('press.html', {
   title: 'Press & Media Kit', crumbsTrail: [['Home', 'index.html'], ['Press', '']],
   body: pageHead('Press', 'Press &amp; media kit', 'Everything you need to cover Startup Ventura. For interviews or more information, contact us any time.', true) +
-    `<section class="section"><div class="wrap wrap--narrow"><div class="entry-content"><h2>About Startup Ventura</h2><p>Startup Ventura is a 501(c)(3) nonprofit startup accelerator in Ventura County, California. We back local founders with the mentorship, capital connections, and community to build high-growth companies, and to keep that talent and those jobs in Ventura County. Our inaugural Spring 2027 cohort is now being funded.</p><h2>Quick facts</h2><ul><li>501(c)(3) public charity, founded 2025. EIN 39-2204612.</li><li>Candid Platinum Seal of Transparency, 2026.</li><li>Ventura County, California.</li><li>Founder and Executive Director: Luke Erickson.</li><li>Program: a 12-week accelerator run in official partnership with Plug and Play. It is Plug and Play&rsquo;s first formal accelerator program in Ventura County and the launch point for its expanded Southern California focus. No tuition, no fees, no equity.</li><li>Inaugural cohort: Spring 2027. Five to ten companies.</li><li>Format: hybrid, one in-person day a week in Ventura County, the rest remote. Applications open January 2027 and close late February 2027.</li><li>Also: a free founder workshop series and a Demo Day.</li><li>Public funding: City of Ventura, Economic Development, $49,500 approved.</li><li>Board: Luke Erickson; Brent-Stig Kraus; Brian Gonzalez; Sean Herwaldt.</li><li>Mission: &ldquo;Keep Ventura County the best place in the world to live by fueling entrepreneurship, building high-growth companies, and transforming the region into a recognized hub of innovation that creates lasting economic success.&rdquo;</li></ul><h2>Coverage</h2><ul><li><a href="news-pacific-coast-business-times.html">Pacific Coast Business Times</a>, &ldquo;Ventura pushes the accelerator pedal,&rdquo; October 2, 2026.</li><li><a href="news-our-ventura-tv.html">Our Ventura TV, Channel 6</a>, September 30, 2026.</li><li><a href="news-conejo-valley-visionaries.html">Conejo Valley Visionaries podcast</a>, October 15, 2026.</li><li><a href="news-the-hustle.html">The Hustle podcast</a>, September 25, 2026.</li><li><a href="news-launch-press.html">Launch announcement</a> carried by Yahoo Finance, Business Insider, and the Associated Press, August 31, 2026.</li></ul><h2>Downloads</h2><p><a href="${A}/img/logo.png" download>Logo (color)</a><br><a href="${A}/img/logo-white.png" download>Logo (white)</a><br><a href="${A}/docs/startup-ventura-brief-cities-county.pdf" download>One-page brief for cities and the County (PDF)</a></p><h2>Leadership</h2><p>Led by operators behind companies like Curri and SevenRooms. Read more on our <a href="about.html">About page</a>.</p><h2>Press contact</h2><p>Email <a href="mailto:info@startupventura.com">info@startupventura.com</a>, or use our <a href="contact.html">contact form</a> and choose "Press."</p></div></div></section>`,
+    `<section class="section"><div class="wrap wrap--narrow"><div class="entry-content"><h2>About Startup Ventura</h2><p>Startup Ventura is a 501(c)(3) nonprofit startup accelerator in Ventura County, California. We back local founders with the mentorship, capital connections, and community to build high-growth companies, and to keep that talent and those jobs in Ventura County. Our inaugural Spring 2027 cohort is now being funded.</p><h2>Quick facts</h2><ul><li>501(c)(3) public charity, founded 2025. EIN 39-2204612.</li><li>Candid Platinum Seal of Transparency, 2026.</li><li>Ventura County, California.</li><li>Founder and Executive Director: Luke Erickson.</li><li>Program: a 12-week accelerator run in official partnership with Plug and Play. It is Plug and Play&rsquo;s first formal accelerator program in Ventura County and the launch point for its expanded Southern California focus. No tuition, no fees, no equity.</li><li>Inaugural cohort: Spring 2027. Five to ten companies.</li><li>Format: hybrid, one in-person day a week in Ventura County, the rest remote. Applications open January 2027 and close late February 2027.</li><li>Also: a free founder workshop series and a Demo Day.</li><li>Public funding: City of Ventura, Economic Development, $49,500 approved.</li><li>Board: Luke Erickson; Brent-Stig Kraus; Brian Gonzalez; Sean Herwaldt.</li><li>Mission: &ldquo;Keep Ventura County the best place in the world to live by fueling entrepreneurship, building high-growth companies, and transforming the region into a recognized hub of innovation that creates lasting economic success.&rdquo;</li></ul><h2>Coverage</h2><ul><li><a href="news-pacific-coast-business-times.html">Pacific Coast Business Times</a>, &ldquo;Ventura pushes the accelerator pedal,&rdquo; October 2, 2026.</li><li><a href="news-our-ventura-tv.html">Our Ventura TV, Channel 6</a>, September 30, 2026.</li><li><a href="news-conejo-valley-visionaries.html">Conejo Valley Visionaries podcast</a>, October 15, 2026.</li><li><a href="news-the-hustle.html">The Hustle podcast</a>, September 25, 2026.</li><li><a href="news-launch-press.html">Launch announcement</a> carried by Yahoo Finance, Business Insider, and the Associated Press, August 31, 2026.</li></ul><h2>Downloads</h2><p><a href="${A}/img/logo.png" download>Logo (color)</a><br><a href="${A}/img/logo-white.png" download>Logo (white)</a><br><a href="${A}/docs/startup-ventura-brief-cities-county.pdf" download>One-page brief for cities and the County (PDF)</a><br><a href="feed.xml" type="application/rss+xml">News feed (RSS), for your site or feed reader</a></p><h2>Leadership</h2><p>Led by operators behind companies like Curri and SevenRooms. Read more on our <a href="about.html">About page</a>.</p><h2>Press contact</h2><p>Email <a href="mailto:info@startupventura.com">info@startupventura.com</a>, or use our <a href="contact.html">contact form</a> and choose "Press."</p></div></div></section>`,
 });
 
 // CAREERS — open roles with expandable descriptions + an application form,
@@ -2051,6 +2056,182 @@ const sitemapUrls = PAGE_MANIFEST
 fs.writeFileSync(path.join(OUT, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemapUrls}\n</urlset>\n`);
 fs.writeFileSync(path.join(OUT, 'robots.txt'), `User-agent: *\nAllow: /\nDisallow: /explore-83-palm.html\nDisallow: /explore/83-palm\nDisallow: /advisors.html\nDisallow: /advisors\n\nSitemap: ${SITE}/sitemap.xml\n`);
 
+// feed.xml: RSS 2.0 news feed (added 2026-10-28) so partner sites, feed readers
+// and automations can carry Startup Ventura news. Built from newsPosts after every
+// page exists, so item links match each page's real canonical. Items carry the
+// full article with absolute links, email-safe images (the -760 variant with a
+// width attribute capped at 600 px and no fixed height, so a client that shrinks
+// images keeps the aspect ratio; no inline style, which readers strip), Media RSS fields, and a link back to the original. Video
+// embeds become plain links because most RSS consumers strip iframes. netlify.toml
+// serves it as XML with an open CORS header so RSS widgets on other domains can
+// fetch it; /feed, /rss and /rss.xml serve the same file.
+//
+// pubDate: posts dated on or after FEED_LAUNCH must set `published` (the real go-live
+// time, ISO 8601 with offset, for example '2026-11-04T10:30:00-08:00'). RSS-to-email
+// tools only send items whose pubDate falls inside their window, so a stamp that
+// predates the deploy can be skipped for good. Older posts keep a fixed 9 AM Pacific
+// stamp on their display date; posts sharing a date step back one minute each in
+// array order, a set that is now frozen, so their stamps never move.
+const FEED_URL = `${SITE}/feed.xml`;
+const FEED_TITLE = 'Startup Ventura News';
+const FEED_LAUNCH = '2026-10-28';
+const HTML_ENTITIES = {
+  amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ',
+  rsquo: '’', lsquo: '‘', rdquo: '”', ldquo: '“', laquo: '«', raquo: '»',
+  middot: '·', bull: '•', ndash: '–', mdash: '—', hellip: '…',
+  rarr: '→', larr: '←', nearr: '↗', copy: '©', reg: '®', trade: '™',
+  deg: '°', times: '×', sect: '§', para: '¶', euro: '€', pound: '£', cent: '¢',
+  frac12: '½', frac14: '¼', frac34: '¾', sup1: '¹', sup2: '²', sup3: '³',
+  aacute: 'á', eacute: 'é', iacute: 'í', oacute: 'ó', uacute: 'ú',
+  Aacute: 'Á', Eacute: 'É', Iacute: 'Í', Oacute: 'Ó', Uacute: 'Ú',
+  agrave: 'à', egrave: 'è', ntilde: 'ñ', Ntilde: 'Ñ', ccedil: 'ç', Ccedil: 'Ç',
+  auml: 'ä', ouml: 'ö', uuml: 'ü', Auml: 'Ä', Ouml: 'Ö', Uuml: 'Ü',
+};
+// Plain text for <title>/<description>: strip tags, decode entities (XML knows only
+// five), and fail the build on an unknown entity rather than ship an invalid feed.
+const feedText = (html, where) => String(html).replace(/<[^>]+>/g, '').replace(/&(#x[0-9a-f]+|#\d+|[a-z][a-z0-9]*);/gi, (m, e) => {
+  if (e[0] === '#') return String.fromCodePoint(e[1].toLowerCase() === 'x' ? parseInt(e.slice(2), 16) : parseInt(e.slice(1), 10));
+  if (Object.prototype.hasOwnProperty.call(HTML_ENTITIES, e)) return HTML_ENTITIES[e];
+  throw new Error(`feed.xml: unknown HTML entity ${m} in ${where}; add it to HTML_ENTITIES in gen.mjs`);
+}).replace(/\s+/g, ' ').trim();
+const xmlEsc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+const cdata = (s) => `<![CDATA[${String(s).replace(/]]>/g, ']]]]><![CDATA[>')}]]>`;
+const canonOf = (file) => (PAGE_MANIFEST.find((m) => m.file === file) || {}).canonical || `${SITE}/${file}`;
+// Pixel size from the file header (JPEG, PNG, WebP), so feed images can carry
+// width/height. Email clients such as Outlook ignore CSS max-width and need them.
+const imgSize = (file) => {
+  const b = fs.readFileSync(file);
+  if (b.readUInt32BE(0) === 0x89504e47) return { w: b.readUInt32BE(16), h: b.readUInt32BE(20) };
+  if (b.toString('ascii', 0, 4) === 'RIFF' && b.toString('ascii', 8, 12) === 'WEBP') {
+    const kind = b.toString('ascii', 12, 16);
+    if (kind === 'VP8X') return { w: 1 + b.readUIntLE(24, 3), h: 1 + b.readUIntLE(27, 3) };
+    if (kind === 'VP8L') { const n = b.readUInt32LE(21); return { w: 1 + (n & 0x3fff), h: 1 + ((n >> 14) & 0x3fff) }; }
+    if (kind === 'VP8 ') return { w: b.readUInt16LE(26) & 0x3fff, h: b.readUInt16LE(28) & 0x3fff };
+  }
+  if (b[0] === 0xff && b[1] === 0xd8) {
+    for (let i = 2; i < b.length - 9;) {
+      if (b[i] !== 0xff) { i++; continue; }
+      const marker = b[i + 1];
+      if (marker >= 0xc0 && marker <= 0xcf && ![0xc4, 0xc8, 0xcc].includes(marker)) return { w: b.readUInt16BE(i + 7), h: b.readUInt16BE(i + 5) };
+      i += 2 + b.readUInt16BE(i + 2);
+    }
+  }
+  throw new Error(`feed.xml: cannot read the pixel size of ${file}`);
+};
+const IMG_TYPES = { jpg: 'image/jpeg', jpeg: 'image/jpeg', png: 'image/png', webp: 'image/webp', gif: 'image/gif' };
+const ASSET_DIR = path.join(OUT, A);
+// A site image for the feed: the -760 JPEG variant when one exists (an original is
+// often 1600 px wide and several hundred KB), with its real size and byte length.
+const feedImage = (absUrl) => {
+  const rel = absUrl.replace(`${SITE}/assets/`, '').replace(/[?#].*$/, '');
+  const variant = rel.replace(/\.(jpe?g)$/i, '-760.$1');
+  const use = variant !== rel && fs.existsSync(path.join(ASSET_DIR, variant)) ? variant : rel;
+  const file = path.join(ASSET_DIR, use);
+  const type = IMG_TYPES[use.split('.').pop().toLowerCase()];
+  if (!type) throw new Error(`feed.xml: unknown image type for ${use}`);
+  return { url: `${SITE}/assets/${use}`, type, bytes: fs.statSync(file).size, ...imgSize(file) };
+};
+const fit600 = ({ w, h }) => (w > 600 ? { w: 600, h: Math.round((h * 600) / w) } : { w, h });
+const embedLink = (tag) => {
+  const src = ((tag.match(/\ssrc="([^"]+)"/) || [])[1] || '').replace(/&amp;/g, '&');
+  const title = (tag.match(/\stitle="([^"]+)"/) || [])[1];
+  const yt = src.match(/youtube(?:-nocookie)?\.com\/embed\/([\w-]+)/);
+  const ytList = src.match(/[?&]list=([\w-]+)/);
+  const sp = src.match(/open\.spotify\.com\/embed\/(episode|show|track|album|playlist)\/(\w+)/);
+  const vm = src.match(/player\.vimeo\.com\/video\/(\d+)/);
+  let href = src; let label = 'Open the embedded media';
+  if (yt && yt[1] === 'videoseries' && ytList) { href = `https://www.youtube.com/playlist?list=${ytList[1]}`; label = 'Watch the playlist on YouTube'; }
+  else if (yt) { href = `https://www.youtube.com/watch?v=${yt[1]}`; label = 'Watch on YouTube'; }
+  else if (sp) { href = `https://open.spotify.com/${sp[1]}/${sp[2]}`; label = /\/video(\b|\?|$)/.test(src) ? 'Watch on Spotify' : 'Listen on Spotify'; }
+  else if (vm) { href = `https://vimeo.com/${vm[1]}`; label = 'Watch on Vimeo'; }
+  return `<a href="${href.replace(/&/g, '&amp;')}">${title ? `${label}: ${title}` : label}</a>`;
+};
+const feedHtml = (html, itemUrl) => html
+  .split(A).join(`${SITE}/assets`)
+  .replace(/<iframe\b[^>]*>\s*<\/iframe>/gi, embedLink)
+  .replace(/\s(href|src)="([^"]+)"/g, (m, attr, u) => {
+    if (/^(https?:|mailto:|tel:|data:|\/\/)/i.test(u)) return m;
+    if (u.startsWith('#')) return ` ${attr}="${itemUrl}${u}"`;
+    const [file, hash] = u.split('#');
+    return ` ${attr}="${canonOf(file)}${hash ? `#${hash}` : ''}"`;
+  })
+  .replace(/<img\b[^>]*>/gi, (tag) => {
+    const src = (tag.match(/\ssrc="([^"]+)"/) || [])[1] || '';
+    if (!src.startsWith(`${SITE}/assets/`)) return tag;
+    const im = feedImage(src);
+    const alt = (tag.match(/\salt="([^"]*)"/) || [])[1] || '';
+    return `<img src="${im.url}" width="${fit600(im).w}" alt="${alt}">`;
+  });
+const PUBLISHED_RE = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2})?(Z|[+-]\d{2}:\d{2})$/;
+const BUILD_TIME = Date.now();
+const legacySeen = {};
+const feedItems = newsPosts.filter((p) => !p.archived)
+  .map((p, i) => {
+    const stamp = isoDate(p.date);
+    let t;
+    if (p.published) {
+      if (!PUBLISHED_RE.test(p.published)) throw new Error(`feed.xml: ${p.file} published "${p.published}" must be ISO 8601 with an offset, for example 2026-11-04T10:30:00-08:00`);
+      t = Date.parse(p.published);
+      if (t > BUILD_TIME + 10 * 60000) throw new Error(`feed.xml: ${p.file} published "${p.published}" is in the future; use the time the post goes live`);
+    } else {
+      if (stamp.slice(0, 10) >= FEED_LAUNCH) throw new Error(`feed.xml: ${p.file} is dated ${p.date} and needs a published time, for example published: '${stamp.slice(0, 10)}T10:30:00-07:00' (the time it goes live, Pacific)`);
+      const base = Date.parse(stamp);
+      const k = legacySeen[base] = (legacySeen[base] ?? -1) + 1;
+      t = base - k * 60000;
+    }
+    return { p, i, t };
+  })
+  .sort((a, b) => b.t - a.t || a.i - b.i)
+  .map(({ p, t }) => {
+    const when = new Date(t).toUTCString();
+    const url = canonOf(p.file);
+    const hero = feedImage(`${SITE}/assets/img/${p.img.replace(/^.*\/img\//, '')}`);
+    const full = Array.isArray(p.paras) && p.paras.length > 0;
+    const body = full
+      ? `${p.paras.map((t) => `<p>${t}</p>`).join('')}${p.extra || ''}<p>Originally published on <a href="${url}">startupventura.com</a>.</p>`
+      : `<p>${p.excerpt}</p><p><a href="${url}">Read the full post on startupventura.com</a>.</p>`;
+    const content = `<p><img src="${hero.url}" width="${fit600(hero).w}" alt="${p.alt || ''}"></p>${feedHtml(body, url)}`;
+    const leak = content.match(/startup-ventura\/assets|\s(?:href|src)="(?!https?:|mailto:|tel:)[^"]*"/);
+    if (leak) throw new Error(`feed.xml: ${p.file} still has a relative path in its content: ${leak[0]}`);
+    return { when, xml: `  <item>
+    <title>${xmlEsc(feedText(p.title, p.file))}</title>
+    <link>${xmlEsc(url)}</link>
+    <guid isPermaLink="true">${xmlEsc(url)}</guid>
+    <pubDate>${when}</pubDate>
+    <dc:creator>Startup Ventura</dc:creator>
+    <category>${postKind(p) === 'media' ? 'Press and media' : 'Announcements'}</category>
+    <description>${xmlEsc(feedText(p.excerpt, p.file))}</description>
+    <content:encoded>${cdata(content)}</content:encoded>
+    <enclosure url="${xmlEsc(hero.url)}" length="${hero.bytes}" type="${hero.type}"/>
+    <media:content url="${xmlEsc(hero.url)}" medium="image" type="${hero.type}" width="${hero.w}" height="${hero.h}"/>
+    <media:thumbnail url="${xmlEsc(hero.url)}" width="${hero.w}" height="${hero.h}"/>
+  </item>` };
+  });
+const newsCanon = canonOf('news.html');
+const feedLogo = feedImage(`${SITE}/assets/img/logo-mark-112.png`);
+if (feedLogo.w > 144 || feedLogo.h > 400) throw new Error('feed.xml: the channel image must be at most 144 x 400 px (RSS 2.0)');
+fs.writeFileSync(path.join(OUT, 'feed.xml'), `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:media="http://search.yahoo.com/mrss/">
+<channel>
+  <title>${FEED_TITLE}</title>
+  <link>${newsCanon}</link>
+  <description>News and updates from Startup Ventura, a 501(c)(3) nonprofit startup accelerator backing local founders in Ventura County.</description>
+  <language>en-us</language>
+  <managingEditor>info@startupventura.com (Startup Ventura)</managingEditor>
+  <lastBuildDate>${feedItems.length ? feedItems[0].when : new Date(0).toUTCString()}</lastBuildDate>
+  <atom:link href="${FEED_URL}" rel="self" type="application/rss+xml"/>
+  <image>
+    <url>${feedLogo.url}</url>
+    <title>${FEED_TITLE}</title>
+    <link>${newsCanon}</link>
+    <width>${feedLogo.w}</width>
+    <height>${feedLogo.h}</height>
+  </image>
+${feedItems.map((it) => it.xml).join('\n')}
+</channel>
+</rss>
+`);
+
 // llms.txt — a curated markdown map of the site for AI crawlers/answer engines.
 const llmsTxt = `# Startup Ventura
 
@@ -2082,6 +2263,7 @@ Startup Ventura was founded in 2025 by Luke Erickson, who serves as Executive Di
 - [Careers](${SITE}/careers): open roles and how to apply
 - [FAQ](${SITE}/faq): common questions answered
 - [News](${SITE}/news): announcements and updates
+- [News feed (RSS)](${SITE}/feed.xml): every news post as RSS 2.0, full text
 - [Contact](${SITE}/contact): get in touch
 
 ## Frequently asked questions
@@ -2089,4 +2271,4 @@ ${FAQ_CATEGORIES.map((c) => `### ${c.title}\n${c.items.map(([q, a]) => `- ${faqP
 `;
 fs.writeFileSync(path.join(OUT, 'llms.txt'), llmsTxt);
 
-console.log('Generated', fs.readdirSync(OUT).length, 'files into preview/site/ (incl. sitemap.xml + robots.txt)');
+console.log('Generated', fs.readdirSync(OUT).length, 'files into preview/site/ (incl. sitemap.xml, robots.txt, feed.xml)');

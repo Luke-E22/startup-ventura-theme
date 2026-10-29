@@ -79,7 +79,7 @@ for (const name of fs.readdirSync(SITE)) {
 
 // 5. Sanity check: no page may still point outside dist/.
 const leaked = fs.readdirSync(DIST)
-  .filter((f) => f.endsWith('.html'))
+  .filter((f) => f.endsWith('.html') || f.endsWith('.xml'))
   .filter((f) => fs.readFileSync(path.join(DIST, f), 'utf8').includes('startup-ventura/assets'));
 if (leaked.length) {
   console.error('ERROR: pages still reference the shared asset path:', leaked.join(', '));

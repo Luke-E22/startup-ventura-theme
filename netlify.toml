@@ -36,11 +36,61 @@
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
 
+# News RSS feed. Served as plain XML (application/rss+xml makes most browsers
+# download the file instead of showing it), with an open CORS header so RSS
+# widgets on partner sites can fetch it from the browser, and revalidated on
+# every request so a new post shows up right after the deploy.
+[[headers]]
+  for = "/feed.xml"
+  [headers.values]
+    Content-Type = "application/xml; charset=utf-8"
+    Access-Control-Allow-Origin = "*"
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/feed"
+  [headers.values]
+    Content-Type = "application/xml; charset=utf-8"
+    Access-Control-Allow-Origin = "*"
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/rss"
+  [headers.values]
+    Content-Type = "application/xml; charset=utf-8"
+    Access-Control-Allow-Origin = "*"
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/rss.xml"
+  [headers.values]
+    Content-Type = "application/xml; charset=utf-8"
+    Access-Control-Allow-Origin = "*"
+    Cache-Control = "public, max-age=0, must-revalidate"
+
 # Default /favicon.ico request (crawlers, old clients) → the real icon, so it
 # never 404s. Modern browsers use the <link rel="icon"> tags instead.
 [[redirects]]
   from = "/favicon.ico"
   to = "/assets/img/favicon-32.png"
+  status = 200
+
+# Common feed addresses people and tools try first. They serve the feed directly
+# (200, not 301) because a browser-side fetch fails CORS on a redirect response;
+# each alias also gets the CORS header block above. Hand out /feed.xml itself.
+[[redirects]]
+  from = "/feed"
+  to = "/feed.xml"
+  status = 200
+
+[[redirects]]
+  from = "/rss"
+  to = "/feed.xml"
+  status = 200
+
+[[redirects]]
+  from = "/rss.xml"
+  to = "/feed.xml"
   status = 200
 
 # Pretty routes for pages whose canonical omits .html.

@@ -941,6 +941,12 @@ picture{display:contents}
 .news-filter{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 26px}
 .news-filter__btn{font-family:var(--font-mono);font-weight:700;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;padding:9px 16px;border-radius:999px;border:1.5px solid var(--blue);background:transparent;color:var(--blue);cursor:pointer}
 .news-filter__btn.is-active,.news-filter__btn:hover{background:var(--blue);color:#fff}
+/* News page: filter chips left, RSS feed link right (wraps under on phones). */
+.news-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 20px;margin:0 0 26px}
+.news-bar .news-filter{margin:0}
+.news-feed{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-mono);font-weight:700;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--blue);text-decoration:none;padding:9px 2px}
+.news-feed svg{width:16px;height:16px;flex:0 0 auto}
+.news-feed:hover{color:var(--coral-deep);text-decoration:underline;text-underline-offset:3px}
 .post-card.is-hidden{display:none}
 .post-card--featured{grid-column:1/-1;display:grid;grid-template-columns:1.15fr 1fr}
 .post-card--featured .post-card__thumb{height:100%;min-height:280px;aspect-ratio:auto}
