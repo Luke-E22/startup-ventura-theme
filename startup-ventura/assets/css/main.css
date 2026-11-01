@@ -276,6 +276,7 @@ p.center{margin-inline:auto}
 .mission-strip{background:var(--navy);color:#fff;text-align:center;padding-block:clamp(44px,6vw,68px)}
 .mission-strip .mission{font-family:var(--font-display);font-weight:800;letter-spacing:-.015em;line-height:1.2;font-size:clamp(22px,3vw,36px);max-width:58rem;margin-inline:auto}
 .mission-strip .mission .coral{color:var(--coral-light)}
+.mission-strip .eyebrow{color:var(--coral-light)}
 .mission-strip .wave-rule{margin-inline:auto}
 
 .card-grid{display:grid;gap:24px}
