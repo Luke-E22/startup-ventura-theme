@@ -9,6 +9,7 @@
 // page (People + Interactions inherit it) and the Insert/Update content
 // capabilities. Fails loud in the function log; never throws back at Netlify,
 // so a Notion outage can never break form submission itself.
+import { isSignedSubmission } from './lib/turnstile.mjs';
 import { mapSubmission, FORMS } from './lib/map-submission.mjs';
 
 const NOTION = 'https://api.notion.com/v1';
@@ -120,6 +121,12 @@ export const handler = async (event) => {
   }
   const m = mapSubmission(payload);
   if (!m) { console.log(`submission-created: no mapping for form "${payload?.form_name}" (ignored)`); return { statusCode: 200, body: 'ignored' }; }
+  // Only entries that came through submit.mjs (Turnstile checked) carry a valid
+  // signature; a direct POST to Netlify Forms stays in the inbox but is not synced.
+  if (!isSignedSubmission(m.form, m.email, payload.data && payload.data['sv-verified'])) {
+    console.warn(`submission-created: ${m.form}: unverified submission (no valid signature); not synced`);
+    return { statusCode: 200, body: 'ignored' };
+  }
   // Klaviyo runs on its own so a problem on one side never blocks the other.
   const klaviyo = klaviyoSubscribe(m)
     .then((r) => { if (r === 'subscribed') console.log(`submission-created: Klaviyo subscribed ${m.email} (${m.detail || 'no interest'})`); return r; })

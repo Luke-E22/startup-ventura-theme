@@ -16,6 +16,12 @@ const TYPES = {
 
 http.createServer((req, res) => {
   let urlPath = decodeURIComponent(req.url.split('?')[0]);
+  // Local stand-in for the Netlify submit function: accept the post, store nothing.
+  if (req.method === 'POST' && urlPath === '/.netlify/functions/submit') {
+    req.resume();
+    res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+    return res.end('{"ok":true,"preview":true}');
+  }
   if (urlPath === '/') urlPath = '/preview/home.html';
   const filePath = path.join(ROOT, path.normalize(urlPath));
   if (!filePath.startsWith(ROOT)) { res.writeHead(403); return res.end('Forbidden'); }
