@@ -475,11 +475,11 @@ const giModal = (file) => `<div class="gi-modal" id="sv-gi-modal" role="dialog" 
 const NEWSLETTER_HIDE = /^(apply|contact|404|thank-you|connected|thanks-)/;
 const newsletterBlock = () => `<section class="newsletter" id="newsletter" aria-labelledby="nl-heading"><div class="wrap newsletter__inner">
   <div class="newsletter__copy"><p class="eyebrow">${seasonMark()}Start Local Stay Local</p><h2 class="newsletter__title" id="nl-heading">One email a month from Ventura County&rsquo;s founders.</h2><p class="newsletter__line">News, events, and what founders are building here. No spam, unsubscribe any time.</p></div>
-  <form class="newsletter__form" name="newsletter" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" data-success="You are on the list. First issue lands next month.">
+  <form class="newsletter__form" name="newsletter" method="POST" data-netlify="true" data-netlify-honeypot="website" data-success="You are on the list. First issue lands next month.">
 <input type="hidden" name="form-name" value="newsletter">
-<p class="nf-hp" hidden aria-hidden="true"><label>Do not fill this out if you are human: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+${FORM_GUARD_FIELDS}
 <div class="newsletter__fields"><div class="field"><label for="nl-email">Email <span class="req">*</span></label><input id="nl-email" name="email" type="email" autocomplete="email" required></div><div class="field"><label for="nl-interest">I am a</label><select id="nl-interest" name="interest"><option value="">Choose one</option><option>Founder</option><option>Investor</option><option>Partner or sponsor</option><option>Supporter</option><option>Just curious</option></select></div><div class="newsletter__submit"><button class="btn btn--primary" type="submit">Subscribe</button></div></div>
-<p class="form__status" role="status" aria-live="polite"></p></form>
+${TURNSTILE_SITE_KEY ? `<div class="newsletter__turnstile">${turnstileWidget('dark')}</div>` : ''}<p class="form__status" role="status" aria-live="polite"></p></form>
 </div></section>`;
 
 const page = (file, { title, overHero = false, body, crumbsTrail, desc, canonical, ogType = 'website', ogImage, jsonld, robots, article }) => {
@@ -502,7 +502,7 @@ ${overHero ? `<link rel="preload" as="image" type="image/webp" imagesrcset="${A}
 <link rel="icon" href="${A}/img/favicon.png" sizes="any" type="image/png">
 <link rel="apple-touch-icon" href="${A}/img/favicon-180.png">
 <link rel="alternate" type="application/rss+xml" title="Startup Ventura News" href="${SITE}/feed.xml">
-<link rel="stylesheet" href="${A}/css/main.css?v=60">
+<link rel="stylesheet" href="${A}/css/main.css?v=61">
 ${SEASON ? `<link rel="stylesheet" href="${A}/css/seasonal.css?v=${SEASONAL_VERSION}">\n` : ''}${analyticsHead()}</head>
 <body class="${overHero ? 'home' : ''}"${SEASON ? ` data-season="${SEASON}"` : ''}>
 ${analyticsBody()}
@@ -513,7 +513,7 @@ ${newsletter}
 ${footer()}
 ${(robots || '').includes('noindex') || /^(404|thank-you|connected|thanks-)/.test(file) || !body.includes('data-gi-open') ? '' : giModal(file)}
 <script src="${A}/js/main.js?v=46"></script>${SEASON ? `\n<script src="${A}/js/seasonal.js?v=${SEASONAL_VERSION}" defer></script>` : ''}
-${(body + newsletter).includes('data-netlify') ? NF_SCRIPT : ''}
+${(body + newsletter).includes('data-netlify') ? NF_SCRIPT + (TURNSTILE_SITE_KEY ? '\n' + TURNSTILE_SCRIPT : '') : ''}
 </body></html>`;
   fs.writeFileSync(path.join(OUT, file), html);
 };
@@ -623,10 +623,10 @@ const form = (type, submit, org = false, msg = true, opts = {}) => {
   // idSuffix keeps ids unique when the same form appears multiple times on one
   // page (e.g. the per-event rsvp forms); hidden adds fixed name/value inputs.
   const id = (f) => `${type}${opts.idSuffix != null ? `-${opts.idSuffix}` : ''}-${f}`;
-  return `<form class="form${two ? ' form--grid' : ''}" name="${type}" method="POST" data-netlify="true" data-netlify-honeypot="bot-field"${opts.redirect ? ` action="${opts.redirect}" data-redirect="${opts.redirect}"` : ''} data-success="${FORM_SUCCESS[type] || 'Thanks, we got it.'}">
+  return `<form class="form${two ? ' form--grid' : ''}" name="${type}" method="POST" data-netlify="true" data-netlify-honeypot="website"${opts.redirect ? ` action="${opts.redirect}" data-redirect="${opts.redirect}"` : ''} data-success="${FORM_SUCCESS[type] || 'Thanks, we got it.'}">
 <input type="hidden" name="form-name" value="${type}">
 ${opts.hidden ? Object.entries(opts.hidden).map(([k, v]) => `<input type="hidden" name="${esc(k)}" value="${esc(v)}">`).join('\n') : ''}
-<p class="nf-hp" hidden aria-hidden="true"><label>Do not fill this out if you are human: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+${FORM_GUARD_FIELDS}
 ${(type !== 'notify' && type !== 'newsletter') ? `<div class="field"><label for="${id('name')}">Name <span class="req">*</span></label><input id="${id('name')}" name="name" type="text" autocomplete="name" required></div>` : ''}
 ${org ? `<div class="field${full}"><label for="${id('org')}">Organization <span class="req">*</span></label><input id="${id('org')}" name="organization" type="text" autocomplete="organization" required></div>` : ''}
 <div class="field"><label for="${id('email')}">Email <span class="req">*</span></label><input id="${id('email')}" name="email" type="email" autocomplete="email" required></div>
@@ -634,10 +634,24 @@ ${phone ? `<div class="field"><label for="${id('phone')}">Phone</label><input id
 ${interest ? `<div class="field"><label for="${id('interest')}">${interestLabel}</label><select id="${id('interest')}" name="interest">${interest.map(o => `<option>${o}</option>`).join('')}</select></div>` : ''}
 ${linkLabel ? `<div class="field"><label for="${id('link')}">${linkLabel}</label><input id="${id('link')}" name="link" type="url" placeholder="https://" autocomplete="url"></div>` : ''}
 ${msg ? `<div class="field${full}"><label for="${id('message')}">${msgLabel}${opts.msgOptional ? '' : ' <span class="req">*</span>'}</label><textarea id="${id('message')}" name="message" rows="6"${opts.msgOptional ? '' : ' required'}></textarea></div>` : ''}
-<div class="form__submit${full}"><button class="btn btn--blue" type="submit">${submit}</button></div><p class="form__status${full}" role="status" aria-live="polite"></p></form>`;
+${TURNSTILE_SITE_KEY ? `<div class="field${full} form__turnstile">${turnstileWidget()}</div>` : ''}<div class="form__submit${full}"><button class="btn btn--blue" type="submit">${submit}</button></div><p class="form__status${full}" role="status" aria-live="polite"></p></form>`;
 };
+// Cloudflare Turnstile (added 2026-11-01). The site key is baked into the pages at
+// build time; the secret stays in the Netlify environment for
+// netlify/functions/submit.mjs, which verifies the token before a submission reaches
+// Netlify Forms. With no site key the widget is not rendered and the function skips
+// the check (local preview); the build logs one warning. Managed mode widget for
+// startupventura.com and www.startupventura.com, separate from the VCIF site's.
+const TURNSTILE_SITE_KEY = process.env.TURNSTILE_SITE_KEY || process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || '';
+if (!TURNSTILE_SITE_KEY) console.warn('turnstile: TURNSTILE_SITE_KEY is not set, so the forms are unprotected. Fine for local preview only.');
+const TURNSTILE_SCRIPT = '<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>';
+// The widget sits above the submit button; Turnstile adds the hidden cf-turnstile-response input itself.
+const turnstileWidget = (theme = 'light') => TURNSTILE_SITE_KEY ? `<div class="cf-turnstile sv-turnstile" data-sitekey="${TURNSTILE_SITE_KEY}" data-theme="${theme}" data-size="flexible"></div>` : '';
+// Every form carries the honeypot (website: real people never see it) and a hidden
+// sv-verified field that submit.mjs fills with a signature once the token checks out.
+const FORM_GUARD_FIELDS = '<p class="nf-hp" hidden aria-hidden="true"><label>Do not fill this out if you are human: <input name="website" tabindex="-1" autocomplete="off"></label></p>\n<input type="hidden" name="sv-verified" value="">';
 // Delegated submit handler for every Netlify form on a page (injected by page()).
-const NF_SCRIPT = `<script>document.addEventListener('submit',function(e){var f=e.target;if(!f||!f.querySelector||!f.querySelector('input[name="form-name"]'))return;e.preventDefault();var s=f.querySelector('.form__status');var b=f.querySelector('button[type=submit]');if(b)b.disabled=true;fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(new FormData(f)).toString()}).then(function(r){if(!r.ok)throw new Error(r.status);var tr=function(){try{if(window.dataLayer){dataLayer.push({event:'form_submit',form_name:f.getAttribute('name')});}if(window.gtag){gtag('event','form_submit',{form_name:f.getAttribute('name')});}}catch(err){}};var rd=f.getAttribute('data-redirect');if(rd){tr();window.location.href=rd;return;}if(s){s.className=s.className.replace(' is-err','')+' is-ok';s.textContent=f.getAttribute('data-success')||'Thanks, we got it.';}f.reset();tr();}).catch(function(){if(s){s.className=s.className.replace(' is-ok','')+' is-err';s.textContent='Something went wrong. Please email info@startupventura.com and we will take care of it.';}}).finally(function(){if(b)b.disabled=false;});});</script>`;
+const NF_SCRIPT = `<script>document.addEventListener('submit',function(e){var f=e.target;if(!f||!f.querySelector||!f.querySelector('input[name="form-name"]'))return;e.preventDefault();var s=f.querySelector('.form__status');var b=f.querySelector('button[type=submit]');if(b)b.disabled=true;var w=f.querySelector('.cf-turnstile');var rw=function(){try{if(w&&window.turnstile){window.turnstile.reset(w);}}catch(err){}};fetch('/.netlify/functions/submit',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(new FormData(f)).toString()}).then(function(r){return r.json().catch(function(){return {};}).then(function(d){if(!r.ok){var e=new Error(r.status);e.message=d&&d.error?d.error:'';throw e;}});}).then(function(){var tr=function(){try{if(window.dataLayer){dataLayer.push({event:'form_submit',form_name:f.getAttribute('name')});}if(window.gtag){gtag('event','form_submit',{form_name:f.getAttribute('name')});}}catch(err){}};var rd=f.getAttribute('data-redirect');if(rd){tr();window.location.href=rd;return;}if(s){s.className=s.className.replace(' is-err','')+' is-ok';s.textContent=f.getAttribute('data-success')||'Thanks, we got it.';}f.reset();rw();tr();}).catch(function(err){rw();if(s){s.className=s.className.replace(' is-ok','')+' is-err';s.textContent=(err&&err.message)||'Something went wrong. Please email info@startupventura.com and we will take care of it.';}}).finally(function(){if(b)b.disabled=false;});});</script>`;
 
 const pageHead = (e, h, lede, narrow = false) => `<section class="section section--head"><div class="wrap${narrow ? ' wrap--narrow' : ''}"><header class="page-head"><p class="eyebrow">${e}</p>${waveRule}<h1 class="display">${h}</h1><p class="lede">${lede}</p></header></div></section>`;
 const card = (href, eyebrow, title, text, link) => `<a class="card card--link" href="${href}"><div class="card__body">${eyebrow ? `<p class="eyebrow">${eyebrow}</p>` : ''}<h3 class="card__title">${title}</h3><p class="card__text">${text}</p><span class="card__link">${link}</span></div></a>`;

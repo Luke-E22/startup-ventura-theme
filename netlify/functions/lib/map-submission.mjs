@@ -52,7 +52,7 @@ function refine(form, interest, out) {
   }
 }
 
-const SKIP = new Set(['form-name', 'bot-field', 'ip', 'user_agent', 'referrer', 'g-recaptcha-response']);
+const SKIP = new Set(['form-name', 'bot-field', 'website', 'sv-verified', 'cf-turnstile-response', 'ip', 'user_agent', 'referrer', 'g-recaptcha-response']);
 
 export function mapSubmission(payload) {
   if (!payload || !payload.form_name) return null;

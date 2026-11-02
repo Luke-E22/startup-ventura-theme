@@ -1039,3 +1039,8 @@ body.home .status-bar{margin-top:0;margin-bottom:0}
 .card__title a{color:inherit}
 @media (max-width:1024px){.mentor-grid{grid-template-columns:repeat(3,1fr)}}
 @media (max-width:620px){.mentor-grid{grid-template-columns:repeat(2,1fr);gap:14px}.mentor-card{padding:18px 12px}.mentor-card__media{width:96px;height:96px}}
+
+/* ---------- Cloudflare Turnstile widget (2026-11-01): sits above every submit button ---------- */
+.form__turnstile{margin-top:4px}
+.sv-turnstile{min-height:65px}
+.newsletter__turnstile{margin-top:14px}
