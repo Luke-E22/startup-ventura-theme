@@ -111,6 +111,55 @@ const NAV = [
 // keep offering Give. Move the date to extend it, or set it in the past to drop it now.
 const HEADER_GIVE_UNTIL = '2027-01-01T00:00:00-08:00';
 const SHOW_HEADER_GIVE = Date.now() < Date.parse(HEADER_GIVE_UNTIL);
+
+// Seasonal accents (added 2026-11-01). The build date, in Pacific time, picks the
+// season; the nightly production rebuild turns a season on the first morning of
+// its window and off the morning after it ends. Everything seasonal lives in
+// assets/css/seasonal.css and assets/js/seasonal.js, linked only while a season is
+// active, and in the SEASONAL copy below, so the plain site is untouched the rest
+// of the year. Preview a season at any date with SEASON=christmas node preview/gen.mjs
+// (SEASON=none forces the plain site). To stop a season early, move its 'to' date.
+const SEASONS = [
+  { key: 'thanksgiving', from: '2026-11-01', to: '2026-11-29' },
+  { key: 'christmas', from: '2026-11-30', to: '2026-12-31' },
+];
+const pacificToday = () => new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Los_Angeles', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
+const SEASON = process.env.SEASON !== undefined
+  ? (SEASONS.some((s) => s.key === process.env.SEASON) ? process.env.SEASON : '')
+  : (SEASONS.find((s) => pacificToday() >= s.from && pacificToday() <= s.to) || { key: '' }).key;
+const SEASONAL_VERSION = 1; // bump when seasonal.css or seasonal.js changes
+
+// Seasonal copy and marks, emitted only while SEASON is set. Marks are line drawings in
+// the wave rule's own stroke style: a harvest leaf and an oak sprig for November, a fir
+// and a snowflake for December, plus the string of lights on the closing bands.
+const SEASON_MARK = {
+  thanksgiving: '<span class="season-mark" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 13.5C2.5 7 7 2.5 13.5 2.5C13.5 9 9 13.5 2.5 13.5Z"/><path d="M2.5 13.5L9.5 6.5"/></svg></span>',
+  christmas: '<span class="season-mark" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2.5V14.5"/><path d="M8 6L5 8.5M8 6L11 8.5"/><path d="M8 9.5L4.5 12.5M8 9.5L11.5 12.5"/></svg></span>',
+};
+const SEASON_WAVE_PATH = 'M1 17C9 13 15 21 23 17C31 13 37 21 45 17C53 13 59 21 63 17';
+const SEASON_MOTIF = { // 64 x 22: the brand wave with a sun on the horizon (November) or a snowflake above it (December)
+  thanksgiving: `<svg class="sv-motif" width="64" height="22" viewBox="0 0 64 22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M24.5 11.5A7.5 7.5 0 0 1 39.5 11.5"/><path d="${SEASON_WAVE_PATH}"/></svg>`,
+  christmas: `<svg class="sv-motif" width="64" height="26" viewBox="0 0 64 26" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><g stroke-width="1.6"><path d="M32.0 17.5L32.0 1.5M38.9 13.5L25.1 5.5M38.9 5.5L25.1 13.5"/><path d="M34.2 2.5L32.0 4.7L29.8 2.5M27.0 4.1L27.8 7.1L24.8 7.9M24.8 11.1L27.8 11.9L27.0 14.9M29.8 16.5L32.0 14.3L34.2 16.5M37.0 14.9L36.2 11.9L39.2 11.1M39.2 7.9L36.2 7.1L37.0 4.1"/></g><path d="M1 21C9 17 15 25 23 21C31 17 37 25 45 21C53 17 59 25 63 21" stroke-width="2"/></svg>`,
+};
+const SEASON_FOOT = {
+  thanksgiving: { svg: '<svg width="28" height="24" viewBox="0 0 28 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21C8 17 13 12 25 4"/><path d="M11 14C6.5 11.5 6.5 6.5 9 4.5C12.5 6.5 13 11 11 14Z"/><path d="M17 9.5C22 9 26 12.5 25 17C20.5 17.5 17.5 14 17 9.5Z"/></svg>', text: 'Happy Thanksgiving from Startup Ventura' },
+  christmas: { svg: '<svg width="24" height="24" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2.5V14.5"/><path d="M8 6L5 8.5M8 6L11 8.5"/><path d="M8 9.5L4.5 12.5M8 9.5L11.5 12.5"/></svg>', text: 'Happy holidays from Startup Ventura' },
+};
+const SEASON_NOTE = { // postscript under the mission statement on the home page
+  thanksgiving: { eyebrow: 'A season of thanks', text: 'To the founders, mentors, partners, and donors who build here: thank you.' },
+  christmas: { eyebrow: 'Year-end giving', text: 'A gift made by December 31 counts toward this tax year, to the extent allowed by law. It funds the Spring 2027 cohort. <a href="give.html" data-cta="give" data-cta-location="season-note">Make a year-end gift</a>.' },
+};
+const SEASON_GIVE = { // Give page hero, December only
+  eyebrow: 'Year-end giving',
+  line: 'Give by December 31 and your gift counts toward this tax year, to the extent allowed by law.',
+};
+const BAND_NOTE_YEAR_END = 'Gifts made by December 31 count toward this tax year, to the extent allowed by law. EIN 39-2204612.';
+const LIGHT_DELAYS = ['0s', '-1.1s', '-2.7s', '-0.6s', '-3.9s', '-2.1s', '-1.5s', '-3.3s', '-0.3s', '-2.4s', '-4.2s', '-1.8s', '-0.9s', '-3.6s', '-2.9s', '-1.3s'];
+// 24 swags of 96px cover a 2304px band; bulbs cycle gold, coral-light, sky.
+const seasonLights = () => SEASON === 'christmas' ? `<svg class="sv-lights" height="34" aria-hidden="true">${Array.from({ length: 24 }, (_, i) => `<g transform="translate(${i * 96} 0)" style="--d:${LIGHT_DELAYS[i % LIGHT_DELAYS.length]}"><path d="M0 6Q48 30 96 6"/><circle cx="24" cy="19.5" r="3.5" fill="#E3BE6A"/><circle cx="48" cy="22.5" r="3.5" fill="#FF8A80"/><circle cx="72" cy="19.5" r="3.5" fill="#78B4D8"/></g>`).join('')}</svg>` : '';
+const seasonMark = () => SEASON ? SEASON_MARK[SEASON] : '';
+const seasonFoot = () => SEASON ? `<p class="season-foot">${SEASON_FOOT[SEASON].svg}<span>${SEASON_FOOT[SEASON].text}</span></p>` : '';
+const seasonNote = () => SEASON ? `<div class="season-note">${SEASON_MOTIF[SEASON]}<p class="eyebrow">${SEASON_NOTE[SEASON].eyebrow}</p><p class="season-note__text">${SEASON_NOTE[SEASON].text}</p></div>` : '';
 const MOBILE_NAV = [NAV[0], NAV[1], { label: 'Apply', href: 'apply.html' }, ...NAV.slice(2)];
 const navList = (items = NAV) => `<ul class="sv-menu">${items.map(i => i.children
   ? `<li class="menu-item menu-item-has-children"><a href="${i.href}">${i.label}</a><ul class="sub-menu">${i.children.map(c => `<li class="menu-item"><a href="${c[1]}">${c[0]}</a></li>`).join('')}</ul></li>`
@@ -162,9 +211,9 @@ const ctaBand = (heading, secondary = 'none', note) => {
   const actions = founderFirst
     ? `${own}${give('band')}`
     : `${give('band', 'btn--lg')}${secondary === 'apply' ? apply('Get first access', 'btn--ghost') : secondary === 'partner' ? partnerBtn('Partner with us', 'btn--ghost') : secondary === 'session' ? '<a class="btn btn--ghost" href="#session" data-cta="session" data-cta-location="band">Request a working session</a>' : ''}`;
-  const n = note || (secondary === 'founder' ? BAND_NOTE_FOUNDER : BAND_NOTE_GIVE);
-  return `<section class="section cta-band">${waveFull}
-  <div class="wrap cta-band__inner"><p class="eyebrow">${founderFirst ? 'Next step' : 'The Ask'}</p>${waveRule}<h2 class="cta-band__title">${heading}</h2>
+  const n = note || (secondary === 'founder' ? BAND_NOTE_FOUNDER : SEASON === 'christmas' ? BAND_NOTE_YEAR_END : BAND_NOTE_GIVE);
+  return `<section class="section cta-band">${waveFull}${seasonLights()}
+  <div class="wrap cta-band__inner"><p class="eyebrow">${founderFirst ? 'Next step' : SEASON === 'christmas' ? 'Year-end giving' : 'The Ask'}</p>${waveRule}<h2 class="cta-band__title">${heading}</h2>
   <div class="cta-band__actions">${actions}</div>
   <p class="cta-band__note">${n}</p></div></section>`;
 };
@@ -172,7 +221,7 @@ const ctaBand = (heading, secondary = 'none', note) => {
 const footer = () => `</main>
 <footer class="site-footer">
   <div class="wave-footer" aria-hidden="true"><svg viewBox="0 0 1440 70" preserveAspectRatio="none" width="100%" height="70"><path d="M0,40 C300,5 560,70 840,42 C1080,18 1260,60 1440,38 L1440,0 L0,0 Z" fill="currentColor"></path></svg></div>
-  <div class="wrap"><div class="footer-grid">
+  <div class="wrap">${seasonFoot()}<div class="footer-grid">
     <div class="footer-brand"><img src="${A}/img/logo-white.png" width="280" height="91" alt="Startup Ventura"><p>A 501(c)(3) nonprofit startup accelerator backing local founders in Ventura County.</p>${candidSeal('footer-seal')}${chamberBadge()}
     <div class="footer-social">
       <a href="https://www.linkedin.com/company/startup-ventura" aria-label="LinkedIn" rel="noopener" target="_blank"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5A2.5 2.5 0 1 1 0 3.5a2.5 2.5 0 0 1 4.98 0zM.3 8h4.4v13H.3V8zm7.5 0h4.2v1.8h.06c.58-1.05 2-2.16 4.12-2.16 4.4 0 5.22 2.9 5.22 6.67V21h-4.4v-5.92c0-1.41-.03-3.23-1.97-3.23-1.97 0-2.27 1.54-2.27 3.13V21h-4.4V8z"/></svg></a>
@@ -425,7 +474,7 @@ const giModal = (file) => `<div class="gi-modal" id="sv-gi-modal" role="dialog" 
 // pages and the 404 so it never sits beside another form.
 const NEWSLETTER_HIDE = /^(apply|contact|404|thank-you|connected|thanks-)/;
 const newsletterBlock = () => `<section class="newsletter" id="newsletter" aria-labelledby="nl-heading"><div class="wrap newsletter__inner">
-  <div class="newsletter__copy"><p class="eyebrow">Start Local Stay Local</p><h2 class="newsletter__title" id="nl-heading">One email a month from Ventura County&rsquo;s founders.</h2><p class="newsletter__line">News, events, and what founders are building here. No spam, unsubscribe any time.</p></div>
+  <div class="newsletter__copy"><p class="eyebrow">${seasonMark()}Start Local Stay Local</p><h2 class="newsletter__title" id="nl-heading">One email a month from Ventura County&rsquo;s founders.</h2><p class="newsletter__line">News, events, and what founders are building here. No spam, unsubscribe any time.</p></div>
   <form class="newsletter__form" name="newsletter" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" data-success="You are on the list. First issue lands next month.">
 <input type="hidden" name="form-name" value="newsletter">
 <p class="nf-hp" hidden aria-hidden="true"><label>Do not fill this out if you are human: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
@@ -453,9 +502,9 @@ ${overHero ? `<link rel="preload" as="image" type="image/webp" imagesrcset="${A}
 <link rel="icon" href="${A}/img/favicon.png" sizes="any" type="image/png">
 <link rel="apple-touch-icon" href="${A}/img/favicon-180.png">
 <link rel="alternate" type="application/rss+xml" title="Startup Ventura News" href="${SITE}/feed.xml">
-<link rel="stylesheet" href="${A}/css/main.css?v=59">
-${analyticsHead()}</head>
-<body class="${overHero ? 'home' : ''}">
+<link rel="stylesheet" href="${A}/css/main.css?v=60">
+${SEASON ? `<link rel="stylesheet" href="${A}/css/seasonal.css?v=${SEASONAL_VERSION}">\n` : ''}${analyticsHead()}</head>
+<body class="${overHero ? 'home' : ''}"${SEASON ? ` data-season="${SEASON}"` : ''}>
 ${analyticsBody()}
 ${header(overHero)}
 ${crumbsTrail ? crumbs(crumbsTrail) : ''}
@@ -463,7 +512,7 @@ ${body}
 ${newsletter}
 ${footer()}
 ${(robots || '').includes('noindex') || /^(404|thank-you|connected|thanks-)/.test(file) || !body.includes('data-gi-open') ? '' : giModal(file)}
-<script src="${A}/js/main.js?v=46"></script>
+<script src="${A}/js/main.js?v=46"></script>${SEASON ? `\n<script src="${A}/js/seasonal.js?v=${SEASONAL_VERSION}" defer></script>` : ''}
 ${(body + newsletter).includes('data-netlify') ? NF_SCRIPT : ''}
 </body></html>`;
   fs.writeFileSync(path.join(OUT, file), html);
@@ -860,7 +909,7 @@ page('index.html', {
   title: 'Home', overHero: true,
   body: `<section class="hero">${pic(`${A}/img/hero.jpg`, { cls: 'hero-bg-img', w: 1600, h: 1060, alt: 'Ventura, California', sizes: '100vw', eager: true })}<div class="hero-scrim"></div>
   <div class="hero-inner"><p class="eyebrow">Spring 2027 cohort &middot; Applications open January 2027</p><h1 class="display">Great founders grow up <span class="coral">here.</span></h1><p class="sub">A 12-week accelerator for Ventura County founders. Free, no equity. One in-person day a week, the rest remote.</p><div class="cta-row">${apply('Apply', 'btn--primary')}<a class="btn btn--ghost" href="contact.html" data-gi-open data-cta="get-involved" data-cta-location="hero">Get involved</a></div></div>${waveFull}</section>
-  <section class="section mission-strip"><div class="wrap"><p class="eyebrow" style="color:var(--coral-light)">Our mission</p>${waveRule}<p class="mission">To keep Ventura County the best place in the world to live by fueling entrepreneurship, building high-growth companies, and transforming our region into a recognized hub of innovation that creates lasting economic success.</p><p class="mission-strip__sub">Startup Ventura backs local founders with the mentorship, capital connections, and community to build high-growth companies right here in Ventura County.</p></div></section>
+  <section class="section mission-strip"><div class="wrap"><p class="eyebrow">Our mission</p>${waveRule}<p class="mission">To keep Ventura County the best place in the world to live by fueling entrepreneurship, building high-growth companies, and transforming our region into a recognized hub of innovation that creates lasting economic success.</p><p class="mission-strip__sub">Startup Ventura backs local founders with the mentorship, capital connections, and community to build high-growth companies right here in Ventura County.</p>${seasonNote()}</div></section>
   <section class="section section--pale grain"><div class="wrap">${head('The Program', 'The on-ramp founders need.', 'Everything entrepreneurs would leave town to find: a true accelerator with a pathway to raising venture capital.')}<div class="card-grid card-grid--2">${card('accelerator.html', 'Spring 2027', '12-Week Accelerator', 'A 12-week accelerator program: mentorship, capital connections, hands-on workshops, and a Demo Day.', 'Explore the accelerator')}${card('workshops.html', 'Pre-accelerator', 'Workshop Series', 'A workshop series that readies earlier-stage founders and feeds the pipeline.', 'Explore the workshops')}</div><div class="center" style="margin-top:32px">${apply('Application information', 'btn--outline btn--lg')}</div></div></section>
   <section class="section"><div class="wrap"><header class="section-head section-head--center"><p class="eyebrow">News &amp; Events</p>${waveRule}<h2 class="section-head__title display">What is happening right now.</h2></header>
   <div class="post-grid">${newsPosts.filter((p) => !p.archived).slice(0, 6).map((p) => `<article class="post-card"><a href="${p.file}" tabindex="-1" aria-hidden="true">${pic(p.img, { cls: 'post-card__thumb', alt: '', sizes: '(max-width:640px) 92vw, 360px' })}</a><div class="post-card__body"><p class="post-card__date">${p.date}</p><h2 class="post-card__title"><a href="${p.file}">${p.title}</a></h2><p class="post-card__excerpt">${p.excerpt}</p><a class="post-card__more" href="${p.file}">Read more &rarr;</a></div></article>`).join('')}</div>
@@ -1165,7 +1214,7 @@ page('impact.html', {
 // GIVE
 page('give.html', {
   title: 'Give', crumbsTrail: [['Home', 'index.html'], ['Give', '']],
-  body: `<section class="section section--navy"><div class="wrap"><div class="give-hero"><div class="give-hero__copy"><h1 class="display">Fund Startup Ventura's inaugural founder cohort.</h1><p class="lede">A gift funds local founders and the program that backs them, run here in Ventura County.</p>${give('give-hero', 'btn--lg', 'Secure payment via Zeffy.')}</div><div class="give-hero__side"><ul class="trust"><li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span>Secure payment</span></li><li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>501(c)(3) nonprofit</span></li><li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>EIN 39-2204612</span></li></ul><div style="margin-top:26px">${candidSeal('give-seal')}</div></div></div></div></section>
+  body: `<section class="section section--navy"><div class="wrap"><div class="give-hero"><div class="give-hero__copy">${SEASON === 'christmas' ? `<p class="eyebrow season-eyebrow">${SEASON_GIVE.eyebrow}</p>${waveRule}` : ''}<h1 class="display">Fund Startup Ventura's inaugural founder cohort.</h1><p class="lede">A gift funds local founders and the program that backs them, run here in Ventura County.</p>${SEASON === 'christmas' ? `<p class="season-line">${SEASON_GIVE.line}</p>` : ''}${give('give-hero', 'btn--lg', 'Secure payment via Zeffy.')}</div><div class="give-hero__side"><ul class="trust"><li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span>Secure payment</span></li><li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>501(c)(3) nonprofit</span></li><li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>EIN 39-2204612</span></li></ul><div style="margin-top:26px">${candidSeal('give-seal')}</div></div></div></div></section>
   <section class="section section--tight"><div class="wrap">${head("Founder's Circle", 'Lead the inaugural cohort.', 'Recognition tiers for the founders and partners who launch Spring 2027. Each tier includes everything below it.')}${tierGrid()}<p class="measure" style="margin-top:36px;margin-inline:auto"><strong>What we report to donors.</strong> Founders served, companies launched, jobs created, follow-on capital raised, and founders who remain in Ventura County, published once a year starting with the Spring 2027 cohort. Your gift sits alongside $49,500 approved by the City of Ventura and a $10,000 grant from The Foundation of Ventura County Credit Union. Startup Ventura is a 501(c)(3) public charity founded in 2025. EIN 39-2204612. Gifts are tax-deductible to the extent allowed by law.</p><p class="center muted" style="margin-top:20px">To discuss a Founder&rsquo;s Circle or corporate gift, email <a href="mailto:sponsor@startupventura.com">sponsor@startupventura.com</a>.</p></div></section>` +
     ctaBand('Back the founders who will build the Spring 2027 cohort.', 'none'),
 });
@@ -2277,4 +2326,4 @@ ${FAQ_CATEGORIES.map((c) => `### ${c.title}\n${c.items.map(([q, a]) => `- ${faqP
 `;
 fs.writeFileSync(path.join(OUT, 'llms.txt'), llmsTxt);
 
-console.log('Generated', fs.readdirSync(OUT).length, 'files into preview/site/ (incl. sitemap.xml, robots.txt, feed.xml)');
+console.log('Generated', fs.readdirSync(OUT).length, 'files into preview/site/ (incl. sitemap.xml, robots.txt, feed.xml)', SEASON ? `| season: ${SEASON}` : '| no season');

@@ -1,0 +1,79 @@
+/* seasonal.css: linked by gen.mjs only while a season window is active (SEASONS in
+   preview/gen.mjs). Every rule is scoped under body[data-season], so the plain site is
+   untouched the rest of the year. Coral stays the action colour (Apply, Give, links, the
+   hero "here."). The season recolours the brand signature: eyebrows, wave rules, the hero
+   crest, the watermark behind the closing band, and a few small line-drawn marks.
+   Bump SEASONAL_VERSION in gen.mjs whenever this file or seasonal.js changes. */
+
+/* ---------- tokens ---------- */
+body[data-season="thanksgiving"]{--s-eyebrow:#7A4512;--s-rule:#A8780A;--s-dark:#E8A33C;--s-bar:#E09A3C;--s-band1:#C98A2B;--s-band2:#B5602C;--s-band3:#7A4512;--s-band4:#4A2E1E}
+body[data-season="christmas"]{--s-eyebrow:#1F5A3C;--s-rule:#2E7D54;--s-dark:#F2CC6B;--s-bar:#E8C170;--s-band1:#3E8F62;--s-band2:#256B47;--s-band3:#1F5A3C;--s-band4:#173F2C}
+
+/* ---------- light surfaces: eyebrow text and the wave rule under it ---------- */
+body[data-season] .eyebrow{color:var(--s-eyebrow)}
+body[data-season] .wave-rule{color:var(--s-rule)}
+
+/* ---------- dark surfaces: the season's gold takes the coral-light role ---------- */
+body[data-season] .hero .eyebrow,
+body[data-season] .mission-strip .eyebrow,
+body[data-season] .section--navy .eyebrow,
+body[data-season] .section-head--light .eyebrow,
+body[data-season] .newsletter .eyebrow,
+body[data-season] .error404-hero .eyebrow{color:var(--s-dark)}
+body[data-season] .cta-band .wave-rule,
+body[data-season] .mission-strip .wave-rule,
+body[data-season] .section--navy .wave-rule,
+body[data-season] .error404-hero .wave-rule{color:var(--s-dark)}
+/* the closing band's eyebrow is grey-blue, not coral; keep it */
+body[data-season] .cta-band .eyebrow{color:#9fb6c6}
+
+/* ---------- status bar: a hairline of the season along its bottom edge (inset, no height change) ---------- */
+body[data-season] .status-bar{box-shadow:inset 0 -2px 0 var(--s-bar)}
+
+/* ---------- home hero: only the crest line changes; the water stays blue ---------- */
+body[data-season] .hero .wave .crest path{stroke:var(--s-dark)}
+
+/* ---------- closing band: the watermark wave (opacity .18 in main.css) warms or greens ---------- */
+body[data-season] .cta-band .wave .band:nth-child(1) path{fill:var(--s-band1)}
+body[data-season] .cta-band .wave .band:nth-child(2) path{fill:var(--s-band2)}
+body[data-season] .cta-band .wave .band:nth-child(3) path{fill:var(--s-band3)}
+body[data-season] .cta-band .wave .band:nth-child(4) path{fill:var(--s-band4)}
+body[data-season] .cta-band .wave .crest path{stroke:var(--s-dark)}
+
+/* ---------- marks: a 14px line drawing inside the newsletter eyebrow's line box, no height change ---------- */
+body[data-season] .season-mark{display:inline-block;width:14px;height:14px;vertical-align:-2px;margin-right:9px;color:var(--s-dark)}
+body[data-season] .season-mark svg{display:block;width:100%;height:100%}
+
+/* ---------- mission postscript (home): motif, eyebrow, one short paragraph ---------- */
+body[data-season] .season-note{margin:34px auto 0;padding-top:26px;max-width:56ch;border-top:1px solid rgba(255,255,255,.14);display:grid;justify-items:center;gap:8px;text-align:center}
+body[data-season] .season-note .sv-motif{color:var(--s-dark);margin-bottom:2px;overflow:visible}
+body[data-season] .season-note__text{color:#fff;font-size:clamp(15px,1.4vw,17px);line-height:1.55;max-width:52ch}
+body[data-season] .season-note__text a{color:var(--s-dark);text-decoration:underline;text-underline-offset:3px;font-weight:600}
+body[data-season] .season-note__text a:hover{color:#fff}
+
+/* ---------- Give page hero (December): eyebrow above the H1, one line before the button ---------- */
+body[data-season] .give-hero__copy .season-eyebrow{margin-bottom:0}
+body[data-season] .give-hero__copy .wave-rule{margin:10px 0 18px}
+body[data-season] .season-line{font-family:var(--font-mono);font-size:13px;letter-spacing:.04em;line-height:1.5;color:var(--s-dark);margin:14px 0 2px;max-width:52ch}
+
+/* ---------- footer greeting ---------- */
+body[data-season] .season-foot{display:flex;align-items:center;justify-content:center;gap:12px;padding-top:30px;font-family:var(--font-mono);font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--s-dark);text-align:center}
+body[data-season] .season-foot svg{flex:0 0 auto}
+@media (max-width:480px){body[data-season] .season-foot{flex-direction:column;gap:8px}}
+
+/* ---------- December: a gold underline on the header Give link (inset, no layout change) ---------- */
+body[data-season="christmas"] .header-cta__give{box-shadow:inset 0 -2px 0 #8F6A18}
+body[data-season="christmas"] .site-header--over-hero:not(.is-scrolled) .header-cta__give{box-shadow:inset 0 -2px 0 #F2CC6B}
+
+/* ---------- December: a string of lights in the brand's own colours along the top of every closing band ---------- */
+body[data-season="christmas"] .sv-lights{position:absolute;top:0;left:0;width:100%;height:34px;overflow:hidden;pointer-events:none;z-index:1}
+body[data-season="christmas"] .sv-lights path{fill:none;stroke:rgba(207,224,234,.32);stroke-width:1.5}
+body[data-season="christmas"] .sv-lights circle{opacity:.6}
+/* the bulbs breathe only while seasonal.js marks the string live (on screen, motion allowed, within budget) */
+@media (prefers-reduced-motion:no-preference){
+  body[data-season="christmas"] .sv-lights.is-live circle{animation:sv-glow 4.8s ease-in-out infinite;animation-delay:var(--d,0s)}
+  body[data-season="christmas"] .sv-lights.is-live circle:nth-child(3){animation-delay:calc(var(--d,0s) - 1.6s)}
+  body[data-season="christmas"] .sv-lights.is-live circle:nth-child(4){animation-delay:calc(var(--d,0s) - 3.2s)}
+}
+@keyframes sv-glow{0%,100%{opacity:.5}50%{opacity:1}}
+@media (prefers-reduced-motion:reduce){body[data-season="christmas"] .sv-lights circle{animation:none!important;opacity:.85}}
