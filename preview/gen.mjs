@@ -478,8 +478,9 @@ const newsletterBlock = () => `<section class="newsletter" id="newsletter" aria-
   <form class="newsletter__form" name="newsletter" method="POST" data-netlify="true" data-netlify-honeypot="website" data-success="You are on the list. First issue lands next month.">
 <input type="hidden" name="form-name" value="newsletter">
 ${FORM_GUARD_FIELDS}
-<div class="newsletter__fields"><div class="field"><label for="nl-email">Email <span class="req">*</span></label><input id="nl-email" name="email" type="email" autocomplete="email" required></div><div class="field"><label for="nl-interest">I am a</label><select id="nl-interest" name="interest"><option value="">Choose one</option><option>Founder</option><option>Investor</option><option>Partner or sponsor</option><option>Supporter</option><option>Just curious</option></select></div><div class="newsletter__submit"><button class="btn btn--primary" type="submit">Subscribe</button></div></div>
-${TURNSTILE_SITE_KEY ? `<div class="newsletter__turnstile">${turnstileWidget('dark')}</div>` : ''}<p class="form__status" role="status" aria-live="polite"></p></form>
+<div class="newsletter__fields"><div class="field"><label for="nl-email">Email <span class="req">*</span></label><input id="nl-email" name="email" type="email" autocomplete="email" required></div><div class="field"><label for="nl-interest">I am a</label><select id="nl-interest" name="interest"><option value="">Choose one</option><option>Founder</option><option>Investor</option><option>Partner or sponsor</option><option>Supporter</option><option>Just curious</option></select></div></div>
+${TURNSTILE_SITE_KEY ? `<div class="newsletter__turnstile">${turnstileWidget('dark')}</div>` : ''}<div class="newsletter__submit"><button class="btn btn--primary" type="submit">Subscribe</button></div>
+<p class="form__status" role="status" aria-live="polite"></p></form>
 </div></section>`;
 
 const page = (file, { title, overHero = false, body, crumbsTrail, desc, canonical, ogType = 'website', ogImage, jsonld, robots, article }) => {

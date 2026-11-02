@@ -1017,12 +1017,12 @@ body.home .status-bar{margin-top:0;margin-bottom:0}
 .newsletter .req{color:var(--coral-light)}
 .newsletter input,.newsletter select{font-family:var(--font-body);font-size:16px;padding:12px 14px;border:1px solid rgba(255,255,255,.2);border-radius:var(--r-sm);background:#fff;color:var(--ink);width:100%;min-height:48px}
 .newsletter input:focus,.newsletter select:focus{outline:none;border-color:var(--sky);box-shadow:0 0 0 3px rgba(120,180,216,.45)}
-.newsletter__submit{align-self:end}
+.newsletter__submit{align-self:end;margin-top:14px}
 .newsletter .btn{width:100%;min-height:48px;font-size:16px}
 .newsletter .form__status{margin-top:4px}
 .newsletter .form__status.is-ok{background:rgba(255,255,255,.1);color:#fff;border-color:rgba(255,255,255,.25)}
 .newsletter .form__status.is-err{background:#fcece8;color:#a23116}
-@media (min-width:760px){.newsletter__inner{grid-template-columns:1.1fr 1fr;gap:48px}.newsletter__fields{grid-template-columns:1.2fr 1fr auto;align-items:end}.newsletter .btn{width:auto}}
+@media (min-width:760px){.newsletter__inner{grid-template-columns:1.1fr 1fr;gap:48px}.newsletter__fields{grid-template-columns:1.2fr 1fr;align-items:end}.newsletter .btn{width:auto}}
 /* ---------- mentor wall (mentors.html and the homepage strip) ---------- */
 .mentor-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
 .mentor-card{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow-sm);padding:22px 20px;text-align:center}
