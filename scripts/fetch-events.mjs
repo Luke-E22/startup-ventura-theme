@@ -47,7 +47,8 @@ try {
   if (!res.ok) throw new Error(`Notion API ${res.status}: ${(await res.text()).slice(0, 200)}`);
   const data = await res.json();
 
-  const events = (data.results || []).map((p) => ({
+  // Only Public events reach the website. Before the Audience property exists every row counts as Public.
+  const events = (data.results || []).filter((p) => !p.properties?.Audience || p.properties.Audience.select?.name === 'Public').map((p) => ({
     date: p.properties?.Date?.date?.start || '',
     tag: p.properties?.['Website Category']?.select?.name || '',
     title: (p.properties?.['Event Name']?.title || []).map((t) => t.plain_text).join('').trim(),
