@@ -290,51 +290,39 @@ canvas.hero-bg-img{display:block}
 @media (max-width:700px){.hero-shade{background:linear-gradient(color-mix(in srgb,var(--navy-deep) 56%,transparent),color-mix(in srgb,var(--navy-deep) 94%,transparent) calc(var(--hero-copy-top,96px) - 12px))}}
 /* keeps the transparent header readable over those brighter photos */
 .hero-cap{position:absolute;left:0;right:0;top:0;height:calc(var(--header-h) + 56px);z-index:3;pointer-events:none;background:linear-gradient(color-mix(in srgb,var(--navy-deep) 52%,transparent) 58%,transparent)}
-/* News slide: the latest post's picture, a tilted card beside the copy on wide screens. Its width is what the
-   heading leaves free; it sits above the row that holds the buttons and the index. */
-.hero-news__card{position:absolute;right:0;bottom:84px;width:clamp(240px,calc(100% - 9.6 * clamp(38px,6vw,76px)),440px);aspect-ratio:16/9;border-radius:var(--r-lg);overflow:hidden;transform:rotate(2.5deg);background:var(--navy);box-shadow:var(--shadow-lg),0 0 0 5px color-mix(in srgb,#fff 16%,transparent)}
+/* News slide: the latest post's picture, a tilted card riding the wave on wide screens */
+.hero-news__card{position:absolute;right:0;top:calc(100% - 132px);width:clamp(300px,30vw,440px);aspect-ratio:16/9;border-radius:var(--r-lg);overflow:hidden;transform:rotate(2.5deg);background:var(--navy);box-shadow:var(--shadow-lg),0 0 0 5px color-mix(in srgb,#fff 16%,transparent)}
 .hero-news__img{display:block;width:100%;height:100%;object-fit:cover}
 @media (max-width:999px){.hero-news__card{display:none}}
-/* controls: a quiet index in the site's label type, with nothing on the wave. Wide screens: the slide
-   names at the right edge, level with the buttons. Narrow screens: three short lines under the buttons. */
-.hero-nav{position:absolute;z-index:2;right:var(--gutter);bottom:0;height:48px;display:flex;align-items:center;gap:10px;white-space:nowrap}
+/* controls. Visitors change slides with the arrows (wide screens) or a swipe (touch). The slide list and the
+   pause button are not shown: they stay in the page for keyboards and screen readers, and appear as three
+   short lines under the buttons only while keyboard focus is in them. */
+.hero-nav{position:absolute;z-index:2;left:var(--gutter);top:100%;height:44px;display:flex;align-items:flex-start;white-space:nowrap}
 .hero-nav[hidden]{display:none}
-/* a soft shade behind the names, so they read over the bright side of a photo */
-.hero-nav::before{content:"";position:absolute;inset:-30px -48px -16px -64px;z-index:-1;pointer-events:none;background:radial-gradient(closest-side,color-mix(in srgb,var(--navy-deep) 62%,transparent),transparent)}
-.hero-tabs{display:flex;gap:24px}
-.hero-tab{position:relative;min-height:44px;padding:0;border:0;background:none;color:color-mix(in srgb,#fff 78%,var(--navy));font:700 12.5px/1 var(--font-mono);letter-spacing:.18em;margin-right:-.18em;text-transform:uppercase;cursor:pointer;text-shadow:0 1px 10px color-mix(in srgb,var(--navy-deep) 70%,transparent);transition:color .18s}
-/* the slide on screen: white, with a thin rule under it */
-.hero-tab::after{content:"";position:absolute;left:0;right:.18em;top:calc(50% + 12px);height:2px;background:#fff;transform:scaleX(0);transform-origin:left;transition:transform .25s var(--ease)}
-.hero-tab:hover,.hero-tab[aria-selected="true"]{color:#fff}
-.hero-tab[aria-selected="true"]::after{transform:scaleX(1)}
+.hero-nav:not(:focus-within){width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+.hero-tabs{display:flex}
+/* the names are for screen readers; what shows is one short line per slide */
+.hero-tab{position:relative;width:36px;min-height:44px;padding:0;border:0;background:none;font-size:0;color:transparent;cursor:pointer}
+.hero-tab::after{content:"";position:absolute;left:0;right:8px;top:8px;height:3px;border-radius:2px;background:color-mix(in srgb,#fff 45%,transparent)}
+.hero-tab[aria-selected="true"]::after{background:#fff}
 .hero-tab[aria-busy="true"]{cursor:progress}
 .hero-tab:focus-visible,.hero-pause:focus-visible,.hero-arrow:focus-visible{outline:2px solid #fff;outline-offset:4px;border-radius:4px}
-.hero-pause{display:grid;place-items:center;width:32px;height:44px;margin-left:6px;padding:0;border:0;background:none;color:color-mix(in srgb,#fff 78%,var(--navy));cursor:pointer;transition:color .18s}
-.hero-pause:hover{color:#fff}
-.hero-pause svg{width:15px;height:15px}
+.hero-pause{display:grid;place-items:start center;width:34px;height:44px;margin-left:2px;padding:3px 0 0;border:0;background:none;color:#fff;cursor:pointer}
+.hero-pause svg{width:13px;height:13px}
 .hero-pause__pause,.hero-pause.is-paused .hero-pause__play{display:grid}
 .hero-pause__play,.hero-pause.is-paused .hero-pause__pause{display:none}
 .hero-pause[hidden]{display:none}
-@media (max-width:699px){
-  .hero-nav{right:auto;left:var(--gutter);bottom:auto;top:100%;height:44px;align-items:flex-start;gap:0}
-  .hero-nav::before{display:none}
-  .hero-tabs{gap:0}
-  /* the names stay for screen readers; what shows is one short line per slide */
-  .hero-tab{width:36px;margin-right:0;font-size:0;letter-spacing:0;color:transparent;text-shadow:none}
-  .hero-tab:hover,.hero-tab[aria-selected="true"]{color:transparent}
-  .hero-tab::after{left:0;right:8px;top:8px;height:3px;border-radius:2px;transform:none;background:color-mix(in srgb,#fff 45%,transparent);transition:background .18s}
-  .hero-tab[aria-selected="true"]::after{transform:none;background:#fff}
-  .hero-pause{width:34px;height:44px;margin-left:2px;place-items:start center;padding-top:3px}
-  .hero-pause svg{width:13px;height:13px}
-}
-/* arrows: wide screens only, where they clear the copy; outlined like the ghost button */
+/* arrows: outlined like the ghost button, at the edges of the photo, clear of the copy */
 .hero-arrow{position:absolute;z-index:11;top:calc((100% - var(--wave-h) * 0.82 + var(--header-h)) / 2);width:44px;height:44px;margin-top:-22px;display:grid;place-items:center;padding:0;border:1.5px solid color-mix(in srgb,#fff 70%,transparent);border-radius:50%;background:color-mix(in srgb,var(--navy-deep) 28%,transparent);color:#fff;cursor:pointer;transition:background .18s,color .18s,border-color .18s}
 .hero-arrow:hover{background:#fff;border-color:#fff;color:var(--navy)}
 .hero-arrow svg{width:18px;height:18px}
 .hero-arrow--prev{left:18px}
 .hero-arrow--next{right:18px}
 .hero-arrow[hidden]{display:none}
-@media (max-width:1179px){.hero-arrow{display:none}}
+/* narrower desktop windows: smaller and tight to the edge, so they still clear the copy */
+@media (max-width:1179px){.hero-arrow{width:36px;height:36px;margin-top:-18px}.hero-arrow svg{width:15px;height:15px}.hero-arrow--prev{left:6px}.hero-arrow--next{right:6px}}
+/* tablets and phones: swipe */
+@media (max-width:940px){.hero-arrow{display:none}}
 .hero--slides{touch-action:pan-y pinch-zoom}
 
 /* =========================================================================
