@@ -807,7 +807,7 @@ const card = (href, eyebrow, title, text, link) => `<a class="card card--link" h
 // The build stops with a clear message if a post dated 2026-10-28 or later lacks it.
 const newsPosts = [
   {
-    // benefit: true keeps this post off the home hero's News slide while the event has its own slide there.
+    // benefit: true keeps this post off the home hero's News slide (see heroNewsPost).
     file: 'news-annual-benefit-2026.html', crumb: 'Annual Benefit', benefit: true,
     title: 'Join Us December 9 for the Startup Ventura Annual Benefit',
     date: 'November 13, 2026', published: '2026-11-13T01:00:00-08:00', img: `${A}/img/news/annual-benefit.jpg`,
@@ -1095,7 +1095,9 @@ const heroWords = (text) => heroPieces(text.split(' '));
 const HERO_FOUNDERS_SET = `${A}/img/hero-960.webp 960w, ${A}/img/hero-1600.webp 1600w`;
 const HERO_BENEFIT_SET = [640, 960, 1600, 2400].map((w) => `${BENEFIT.photo}-${w}.webp ${w}w`).join(', ');
 const heroLazy = (key, src, set, extra = '') => `<img hidden data-hero-photo="${key}" data-src="${src}" data-srcset="${set}" sizes="100vw" alt="" decoding="async"${extra}>`;
-const heroNewsPost = newsPosts.filter((p) => !p.archived)[0];
+// The latest post, passing over the Annual Benefit announcement: the event has a slide of its own until it
+// is over, and after that an invitation is old news.
+const heroNewsPost = newsPosts.filter((p) => !p.archived && !p.benefit)[0];
 const heroNewsImg = heroNewsPost.img.replace(/\.jpg(\?.*)?$/, '');
 // first: this slide is the one the page loads with.
 const HERO_SLIDES = [
