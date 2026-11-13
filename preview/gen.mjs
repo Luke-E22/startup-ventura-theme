@@ -7,6 +7,29 @@ import fs from 'fs';
 import path from 'path';
 import { FAQ_CATEGORIES, faqPlain } from './faq-data.mjs';
 
+// Home hero, Mentors tab. Off until mentor applications open and the photo is in.
+// To turn it on: run  node scripts/hero-mentor-images.mjs <photo>  (it saves the
+// photo as startup-ventura/assets/img/hero-mentor.jpg and builds the two WebP
+// sizes the hero loads), commit the three files, then set this to true.
+// The build stops here, before anything is written, if a file is missing.
+const HERO_MENTOR_TAB = false;
+const HERO_MENTOR_FILES = ['hero-mentor.jpg', 'hero-mentor-960.webp', 'hero-mentor-1600.webp'];
+if (HERO_MENTOR_TAB) {
+  const imgDir = path.join(path.dirname(new URL(import.meta.url).pathname), '..', 'startup-ventura', 'assets', 'img');
+  const missing = HERO_MENTOR_FILES.filter((name) => !fs.existsSync(path.join(imgDir, name)));
+  if (missing.length) {
+    console.error([
+      'Build stopped: HERO_MENTOR_TAB is true in preview/gen.mjs, but the Mentors hero photo is not ready.',
+      `Missing from startup-ventura/assets/img: ${missing.join(', ')}`,
+      missing.includes('hero-mentor.jpg')
+        ? 'To fix: node scripts/hero-mentor-images.mjs <path to the photo>   (saves hero-mentor.jpg and builds both WebP sizes)'
+        : 'To fix: node scripts/hero-mentor-images.mjs   (rebuilds the WebP sizes from hero-mentor.jpg)',
+      'Or set HERO_MENTOR_TAB back to false.',
+    ].join('\n'));
+    process.exit(1);
+  }
+}
+
 const OUT = path.join(path.dirname(new URL(import.meta.url).pathname), 'site');
 // Clean first so removed/renamed pages never linger as stale files (which
 // build-dist would otherwise copy into the deploy).
@@ -34,28 +57,40 @@ const MENTOR_WALL_LIVE = MENTORS.length >= MENTOR_WALL_MIN;
 // main.js still appends stored UTM params to any zeffy.com href.
 const ZEFFY = 'https://www.zeffy.com/donation-form/donate-to-startup-ventura';
 const waveRule = '<svg class="wave-rule" width="64" height="10" viewBox="0 0 64 10" fill="none" aria-hidden="true"><path d="M1 5C9 1 15 9 23 5C31 1 37 9 45 5C53 1 59 9 63 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
-const band = (d, f) => `<div class="band"><svg viewBox="0 0 1440 320" preserveAspectRatio="none"><path d="${d}" fill="${f}"/></svg></div>`;
+const band = (d, f, extra = '') => `<div class="band"><svg viewBox="0 0 1440 320" preserveAspectRatio="none"><path d="${d}" fill="${f}"/></svg>${extra}</div>`;
+const WAVE_BANDS = [
+  ['M0,90 C300,45 560,125 840,80 C1080,40 1260,110 1440,75 L1440,320 L0,320 Z', '#78B4D8'],
+  ['M0,140 C300,95 560,175 840,130 C1080,90 1260,160 1440,125 L1440,320 L0,320 Z', '#5484A8'],
+  ['M0,190 C300,145 560,225 840,180 C1080,140 1260,210 1440,175 L1440,320 L0,320 Z', '#316194'],
+  ['M0,240 C300,195 560,275 840,230 C1080,190 1260,260 1440,225 L1440,320 L0,320 Z', '#243C48'],
+];
+const waveCrest = '<div class="crest"><svg viewBox="0 0 1440 320" preserveAspectRatio="none"><path d="M0,90 C300,45 560,125 840,80 C1080,40 1260,110 1440,75" fill="none" stroke="#FF8A80" stroke-width="3" vector-effect="non-scaling-stroke"/></svg></div>';
 const waveFull = `<div class="wave" aria-hidden="true">
-${band('M0,90 C300,45 560,125 840,80 C1080,40 1260,110 1440,75 L1440,320 L0,320 Z', '#78B4D8')}
-${band('M0,140 C300,95 560,175 840,130 C1080,90 1260,160 1440,125 L1440,320 L0,320 Z', '#5484A8')}
-${band('M0,190 C300,145 560,225 840,180 C1080,140 1260,210 1440,175 L1440,320 L0,320 Z', '#316194')}
-${band('M0,240 C300,195 560,275 840,230 C1080,190 1260,260 1440,225 L1440,320 L0,320 Z', '#243C48')}
-<div class="crest"><svg viewBox="0 0 1440 320" preserveAspectRatio="none"><path d="M0,90 C300,45 560,125 840,80 C1080,40 1260,110 1440,75" fill="none" stroke="#FF8A80" stroke-width="3" vector-effect="non-scaling-stroke"/></svg></div>
+${WAVE_BANDS.map(([d, f]) => band(d, f)).join('\n')}
+${waveCrest}
+</div>`;
+// The home hero's wave when the hero has tabs: the same four bands and crest, with
+// a navy body hanging below the lowest band, so main.js section 19 can lift the
+// whole wave over the photo and drop it again (the wash between tabs).
+const heroWave = `<div class="wave hero-wash" aria-hidden="true">
+${WAVE_BANDS.map(([d, f], i) => band(d, f, i === WAVE_BANDS.length - 1 ? '<div class="hero-wash__body"></div>' : '')).join('\n')}
+${waveCrest}
 </div>`;
 const waveDivider = `<div class="wave-divider" aria-hidden="true"><svg viewBox="0 0 1440 70" preserveAspectRatio="none" width="100%" height="64"><path d="M0,32 C300,6 560,56 840,33 C1080,14 1260,50 1440,30 L1440,70 L0,70 Z" fill="#78B4D8" opacity=".20"></path><path d="M0,42 C300,16 560,64 840,42 C1080,22 1260,56 1440,38 L1440,70 L0,70 Z" fill="#5484A8" opacity=".18"></path><path class="crest-path" d="M0,32 C300,6 560,56 840,33 C1080,14 1260,50 1440,30" fill="none" stroke="#FF8A80" stroke-width="2.5" vector-effect="non-scaling-stroke"></path></svg></div>`;
 
 const give = (loc, cls = '', note = '', label = 'Give') =>
   `<a class="btn btn--give${cls ? ' ' + cls : ''}" href="${ZEFFY}" target="_blank" rel="noopener" data-cta="give" data-cta-location="${loc}">${label}</a>${note ? `<p class="cta-note give-note">${note}</p>` : ''}`;
-const apply = (label = 'Get first access', cls = 'btn--outline') => `<a class="btn ${cls}" href="apply.html" data-cta="apply">${label}</a>`;
+const apply = (label = 'Get first access', cls = 'btn--outline', loc = '') => `<a class="btn ${cls}" href="apply.html" data-cta="apply"${loc ? ` data-cta-location="${loc}"` : ''}>${label}</a>`;
 const partnerBtn = (label = 'Partner with us', cls = 'btn--outline') => `<a class="btn ${cls}" href="partner.html" data-cta="partner">${label}</a>`;
 
 // ---------------------------------------------------------------------------
 // Annual Benefit 2026 (added 2026-11-12): the event page (benefit.html), the
-// homepage banner and the site-wide pop-up. Every event fact lives in BENEFIT.
-// BENEFIT.end is the one date gate. Once it passes, the banner, the pop-up and
-// the RSVP modal wiring are no longer built, and the same timestamp is baked
-// into the pages (data-benefit-until) so they also switch off in the browser
-// between nightly rebuilds. The event page itself stays up.
+// header item, the home hero tab and the site-wide pop-up. Every event fact lives
+// in BENEFIT. BENEFIT.end is the one date gate. Once it passes, the header item,
+// the hero tab, the pop-up and the RSVP modal wiring are no longer built, and the
+// same timestamp is baked into the pages (data-benefit-until) so the tab, the
+// pop-up and the modal also switch off in the browser between nightly rebuilds.
+// The event page itself stays up.
 const BENEFIT = {
   name: 'Startup Ventura Annual Benefit',
   start: '2026-12-09T18:00:00-08:00',
@@ -78,36 +113,32 @@ const BENEFIT_END_MS = Date.parse(BENEFIT.end);
 const BENEFIT_BUILD_NOW = process.env.BENEFIT_NOW ? Date.parse(process.env.BENEFIT_NOW) : Date.now();
 const BENEFIT_LIVE = BENEFIT_BUILD_NOW < BENEFIT_END_MS;
 const BENEFIT_ADDRESS = `${BENEFIT.street}, ${BENEFIT.city}, ${BENEFIT.region} ${BENEFIT.zip}`;
+// Date strings for the home hero, read from BENEFIT so they cannot drift from it.
+const benefitFmt = (opts, iso = BENEFIT.start) => new Intl.DateTimeFormat('en-US', { timeZone: 'America/Los_Angeles', ...opts }).format(new Date(iso)).replace(/\s/g, ' ');
+const BENEFIT_DAY = benefitFmt({ weekday: 'long', month: 'long', day: 'numeric' }); // Wednesday, December 9
+const BENEFIT_DAY_SHORT = benefitFmt({ month: 'short', day: 'numeric' }); // Dec 9
+const BENEFIT_HOURS = `${benefitFmt({ hour: 'numeric' }).replace(/ [AP]M$/, '')} to ${benefitFmt({ hour: 'numeric' }, BENEFIT.end)}`; // 6 to 9 PM
+const BENEFIT_PLACE = `${BENEFIT.venue.replace(/ Rooftop$/, '')}, ${BENEFIT.city}`; // Transmission Brewing, Ventura
 // Responsive rooftop photo. lazySrc leaves src and srcset in data- attributes so
-// the pop-up downloads nothing until it opens (main.js section 18 swaps them in).
-const benefitPhoto = ({ cls = '', sizes = '100vw', eager = false, lazySrc = false, widths = [640, 960, 1600, 2400] } = {}) => {
+// nothing downloads until main.js asks for it: the pop-up when it opens (section
+// 18), the home hero once the page has loaded (section 19). attrs: extra attributes.
+const benefitPhoto = ({ cls = '', sizes = '100vw', eager = false, lazySrc = false, widths = [640, 960, 1600, 2400], attrs = '' } = {}) => {
   const set = widths.map((w) => `${BENEFIT.photo}-${w}.webp ${w}w`).join(', ');
   const c = cls ? ` class="${cls}"` : '';
-  if (lazySrc) return `<img${c} data-src="${BENEFIT.photo}-960.webp" data-srcset="${set}" sizes="${sizes}" width="1600" height="900" alt="${BENEFIT.alt}" decoding="async">`;
+  if (lazySrc) return `<img${c}${attrs ? ' ' + attrs : ''} data-src="${BENEFIT.photo}-960.webp" data-srcset="${set}" sizes="${sizes}" width="1600" height="900" alt="${BENEFIT.alt}" decoding="async">`;
   return `<picture><source type="image/webp" srcset="${set}" sizes="${sizes}"><img${c} src="${BENEFIT.photo}-1600.jpg" width="1600" height="900" alt="${BENEFIT.alt}"${eager ? ' fetchpriority="high"' : ' loading="lazy" decoding="async"'}></picture>`;
 };
 const benefitSticker = (cls = '') => `<p class="benefit-sticker${cls ? ' ' + cls : ''}"><span class="benefit-sticker__top">On us</span><span class="benefit-sticker__main">Free food</span><span class="benefit-sticker__main">+ open bar</span></p>`;
-// variant: 'page' (event page hero), 'tilt' (homepage banner), 'badge' (pop-up photo).
+// variant: 'page' (event page hero) or 'badge' (pop-up photo).
 const benefitDate = (variant) => `<div class="benefit-date benefit-date--${variant}"><p class="benefit-date__day">${variant === 'badge' ? 'Wed &middot; Dec' : 'Wednesday'}</p>${variant === 'badge' ? '' : '<p class="benefit-date__mon">Dec</p>'}<p class="benefit-date__num">09</p><p class="benefit-date__time">${variant === 'page' ? '6 to 9 PM &middot; 2026' : '6 to 9 PM'}</p></div>`;
-const benefitHeadline = (tag, id = '') => `<${tag} class="benefit-headline"${id ? ` id="${id}"` : ''}><span>Rooftop.</span> <span>Founders.</span> <span>Executives.</span> <span class="benefit-headline__news">Big news.</span></${tag}>`;
+// cls: the event page's stacked headline by default; the home hero passes its own type classes.
+const benefitHeadline = (tag, id = '', cls = 'benefit-headline') => `<${tag} class="${cls}"${id ? ` id="${id}"` : ''}><span>Rooftop.</span> <span>Founders.</span> <span>Executives.</span> <span class="benefit-headline__news">Big news.</span></${tag}>`;
 // RSVP button for everywhere except the event page: Zeffy's linked-button markup
 // (href = campaign page, zeffy-form-link = modal form). main.js section 18 opens
 // the modal form on click, creating Zeffy's iframe only then, so no page loads
 // Zeffy until someone asks for it (the reason the embed left the site in July).
 // With JavaScript off, or after the event ends, it is a plain link to the campaign.
 const benefitRsvp = (loc, cls = '') => `<a class="btn btn--blue${cls ? ' ' + cls : ''}" href="${BENEFIT.zeffyPage}" zeffy-form-link="${BENEFIT.zeffyModal}" data-zeffy-title="${BENEFIT.name}" data-benefit-until="${BENEFIT_END_MS}" data-cta="benefit-rsvp" data-cta-location="${loc}">RSVP now</a>`;
-// Homepage banner, directly below the hero. Not built after the event; the
-// inline script removes it in the browser if a cached or not-yet-rebuilt page
-// is opened after the end time.
-const benefitBanner = () => !BENEFIT_LIVE ? '' : `<section class="benefit-banner" aria-labelledby="benefit-banner-h" data-benefit-until="${BENEFIT_END_MS}">
-  ${benefitPhoto({ cls: 'benefit-banner__img' })}
-  <p class="benefit-pill benefit-banner__pill">You&rsquo;re invited</p>
-  <div class="benefit-banner__inner"><div class="benefit-banner__group">
-    ${benefitSticker('benefit-banner__sticker')}
-    <div class="benefit-card benefit-banner__card"><p class="eyebrow">Startup Ventura Annual Benefit</p>${benefitHeadline('h2', 'benefit-banner-h')}${waveRule}<p class="benefit-card__line">Transmission Brewing, Ventura</p><div class="benefit-card__actions">${benefitRsvp('home-banner')}<a class="btn btn--ghost" href="benefit.html" data-cta="benefit-details" data-cta-location="home-banner">Event details</a></div></div>
-    ${benefitDate('tilt')}
-  </div></div>
-</section><script>(function(){var s=document.currentScript.previousElementSibling;if(s&&Date.now()>=${BENEFIT_END_MS}){s.parentNode.removeChild(s);}})();</script>`;
 // Site-wide pop-up (main.js section 18 opens it about 5 seconds after load, once
 // per 14 days, never after the event). Not on the event page, the 404, the
 // thank-you pages or the paid-traffic landing page and its success page.
@@ -620,7 +651,7 @@ ${overHero ? `<link rel="preload" as="image" type="image/webp" imagesrcset="${A}
 <link rel="icon" href="${A}/img/favicon.png" sizes="any" type="image/png">
 <link rel="apple-touch-icon" href="${A}/img/favicon-180.png">
 <link rel="alternate" type="application/rss+xml" title="Startup Ventura News" href="${SITE}/feed.xml">
-<link rel="stylesheet" href="${A}/css/main.css?v=62">
+<link rel="stylesheet" href="${A}/css/main.css?v=63">
 ${SEASON ? `<link rel="stylesheet" href="${A}/css/seasonal.css?v=${SEASONAL_VERSION}">\n` : ''}${analyticsHead()}</head>
 <body class="${overHero ? 'home' : ''}"${SEASON ? ` data-season="${SEASON}"` : ''}>
 ${analyticsBody()}
@@ -631,7 +662,7 @@ ${newsletter}
 ${footer()}
 ${(robots || '').includes('noindex') || /^(404|thank-you|connected|thanks-)/.test(file) || !body.includes('data-gi-open') ? '' : giModal(file)}
 ${benefitPop(file)}
-<script src="${A}/js/main.js?v=47"></script>${SEASON ? `\n<script src="${A}/js/seasonal.js?v=${SEASONAL_VERSION}" defer></script>` : ''}
+<script src="${A}/js/main.js?v=48"></script>${SEASON ? `\n<script src="${A}/js/seasonal.js?v=${SEASONAL_VERSION}" defer></script>` : ''}
 ${(body + newsletter).includes('data-netlify') ? NF_SCRIPT + (TURNSTILE_SITE_KEY ? '\n' + TURNSTILE_SCRIPT : '') : ''}
 </body></html>`;
   fs.writeFileSync(path.join(OUT, file), html);
@@ -1037,12 +1068,48 @@ const mentorStrip = () => `<section class="section"><div class="wrap">${headC('W
 
 /* ---------------- pages ---------------- */
 
+// HOME HERO. One panel per tab: Founders (always there, and the page's only H1),
+// the Annual Benefit while BENEFIT_LIVE, and Mentors behind HERO_MENTOR_TAB (top
+// of this file). With a single tab the hero is the plain hero: no tab list, no
+// extra photos, the stock wave. With two or more, main.js section 19 shows the tab
+// list and washes the wave over the photo to change panels. The extra photos are
+// hidden <img> tags with data-src only: nothing but the Founders photo loads with
+// the page, and section 19 loads them afterwards and draws them on a canvas.
+// Without JavaScript only the Founders panel shows and the tab list stays hidden.
+// Headings and lines on the later tabs are built from short unbroken pieces, each
+// its own inline block with its space inside it. The words read and wrap as usual,
+// but no single block of text on a later tab is bigger than the Founders heading,
+// so a tab that appears seconds after load can never be taken by the browser as
+// the page's largest contentful paint.
+const heroPieces = (pieces) => pieces.map((t, i) => `<span>${t}${i < pieces.length - 1 ? ' ' : ''}</span>`).join('');
+const heroPhoto = pic(`${A}/img/hero.jpg`, { cls: 'hero-bg-img', w: 1600, h: 1060, alt: 'Ventura, California', sizes: '100vw', eager: true });
+const HERO_TABS = [
+  { key: 'founders', label: 'Founders',
+    copy: `<p class="eyebrow">Spring 2027 cohort &middot; Applications open January 2027</p><h1 class="display">Great founders grow up <span class="coral">here.</span></h1><p class="sub">A 12-week accelerator for Ventura County founders. Free, no equity. One in-person day a week, the rest remote.</p><div class="cta-row">${apply('Apply', 'btn--primary', 'home-hero-founders')}<a class="btn btn--ghost" href="contact.html" data-gi-open data-cta="get-involved" data-cta-location="home-hero-founders">Get involved</a></div>` },
+  ...(BENEFIT_LIVE ? [{ key: 'benefit', label: `${BENEFIT_DAY_SHORT} benefit`, until: BENEFIT_END_MS,
+    photo: benefitPhoto({ lazySrc: true, attrs: `hidden data-hero-photo="benefit" data-benefit-until="${BENEFIT_END_MS}"` }),
+    copy: `<p class="eyebrow">${BENEFIT.name}</p>${benefitHeadline('h2', '', 'display').replace(/<\/span> <span/g, ' </span><span')}<p class="sub">${heroPieces([`${BENEFIT_DAY} &middot;`, `${BENEFIT_HOURS} &middot;`, BENEFIT_PLACE])}</p><div class="cta-row">${benefitRsvp('home-hero-benefit')}<a class="btn btn--ghost" href="benefit.html" data-cta="benefit-details" data-cta-location="home-hero-benefit">Event details</a></div>` }] : []),
+  ...(HERO_MENTOR_TAB ? [{ key: 'mentors', label: 'Mentors',
+    photo: `<img hidden data-hero-photo="mentors" data-src="${A}/img/hero-mentor-960.webp" data-srcset="${A}/img/hero-mentor-960.webp 960w, ${A}/img/hero-mentor-1600.webp 1600w" sizes="100vw" alt="" decoding="async">`,
+    copy: `<p class="eyebrow">Mentor a founder</p><h2 class="display">${heroPieces('Lend your skills to a founder.'.split(' '))}</h2><p class="sub">${heroPieces('An hour of your experience can change a company&rsquo;s trajectory.'.split(' '))}</p><div class="cta-row"><a class="btn btn--blue" href="mentor.html" data-cta="mentor" data-cta-location="home-hero-mentors">Become a mentor</a>${MENTOR_WALL_LIVE ? '<a class="btn btn--ghost" href="mentors.html" data-cta="mentors" data-cta-location="home-hero-mentors">Meet the mentors</a>' : ''}</div>` }] : []),
+];
+const homeHero = () => {
+  if (HERO_TABS.length < 2) return `<section class="hero">${heroPhoto}<div class="hero-scrim"></div>
+  <div class="hero-inner">${HERO_TABS[0].copy}</div>${waveFull}</section>`;
+  const until = (t) => t.until ? ` data-benefit-until="${t.until}"` : '';
+  const dated = HERO_TABS.filter((t) => t.until);
+  return `<section class="hero hero--tabs" data-hero-tabs data-hero-tab="founders">${heroPhoto}${HERO_TABS.map((t) => t.photo || '').join('')}<div class="hero-scrim"></div><div class="hero-shade"></div>
+  <div class="hero-inner">
+    <div class="hero-tabs" role="tablist" aria-label="Featured" hidden>${HERO_TABS.map((t, i) => `<button class="hero-tab" type="button" role="tab" id="hero-tab-${t.key}" aria-controls="hero-panel-${t.key}" aria-selected="${i === 0}"${i ? ' tabindex="-1"' : ''} data-hero-key="${t.key}"${until(t)} data-cta="hero-tab" data-cta-location="home-hero-${t.key}">${t.label}</button>`).join('')}</div>
+    <div class="hero-panels">${HERO_TABS.map((t, i) => `<div class="hero-panel${i ? '' : ' is-active'}" id="hero-panel-${t.key}"${until(t)}${i ? ' inert' : ''}>${t.copy}</div>`).join('')}</div>
+  </div>
+  <div class="hero-cap"></div>${heroWave}<p class="sr-only" role="status" data-hero-status></p></section>${dated.length ? `<script>(function(){var h=document.currentScript.previousElementSibling,n=Date.now();if(!h||n<${Math.min(...dated.map((t) => t.until))}){return;}[].slice.call(h.querySelectorAll('[data-benefit-until]')).forEach(function(e){if(n>=+e.getAttribute('data-benefit-until')){e.parentNode.removeChild(e);}});})();</script>` : ''}`;
+};
+
 // HOME
 page('index.html', {
   title: 'Home', overHero: true,
-  body: `<section class="hero">${pic(`${A}/img/hero.jpg`, { cls: 'hero-bg-img', w: 1600, h: 1060, alt: 'Ventura, California', sizes: '100vw', eager: true })}<div class="hero-scrim"></div>
-  <div class="hero-inner"><p class="eyebrow">Spring 2027 cohort &middot; Applications open January 2027</p><h1 class="display">Great founders grow up <span class="coral">here.</span></h1><p class="sub">A 12-week accelerator for Ventura County founders. Free, no equity. One in-person day a week, the rest remote.</p><div class="cta-row">${apply('Apply', 'btn--primary')}<a class="btn btn--ghost" href="contact.html" data-gi-open data-cta="get-involved" data-cta-location="hero">Get involved</a></div></div>${waveFull}</section>
-  ${benefitBanner()}
+  body: `${homeHero()}
   <section class="section mission-strip"><div class="wrap"><p class="eyebrow">Our mission</p>${waveRule}<p class="mission">To keep Ventura County the best place in the world to live by fueling entrepreneurship, building high-growth companies, and transforming our region into a recognized hub of innovation that creates lasting economic success.</p><p class="mission-strip__sub">Startup Ventura backs local founders with the mentorship, capital connections, and community to build high-growth companies right here in Ventura County.</p>${seasonNote()}</div></section>
   <section class="section section--pale grain"><div class="wrap">${head('The Program', 'The on-ramp founders need.', 'Everything entrepreneurs would leave town to find: a true accelerator with a pathway to raising venture capital.')}<div class="card-grid card-grid--2">${card('accelerator.html', 'Spring 2027', '12-Week Accelerator', 'A 12-week accelerator program: mentorship, capital connections, hands-on workshops, and a Demo Day.', 'Explore the accelerator')}${card('workshops.html', 'Pre-accelerator', 'Workshop Series', 'A workshop series that readies earlier-stage founders and feeds the pipeline.', 'Explore the workshops')}</div><div class="center" style="margin-top:32px">${apply('Application information', 'btn--outline btn--lg')}</div></div></section>
   <section class="section"><div class="wrap"><header class="section-head section-head--center"><p class="eyebrow">News &amp; Events</p>${waveRule}<h2 class="section-head__title display">What is happening right now.</h2></header>

@@ -251,6 +251,52 @@ p.center{margin-inline:auto}
 .hero .cta-row{margin-top:32px;display:flex;gap:14px;flex-wrap:wrap}
 .hero .cta-note{margin-top:14px;color:#9fb6c6;font-size:13px;letter-spacing:.06em;font-family:var(--font-mono)}
 
+/* ---------- hero tabs (home page; markup from gen.mjs, behavior in main.js section 19) ----------
+   Panels share one grid cell, so the hero is as tall as its tallest panel on every
+   tab and the button rows line up. Everything here is invisible at rest on the
+   Founders tab except the tab chip, which is out of flow and moves nothing. */
+.hero-panels{display:grid}
+.hero-panel{grid-area:1/1;align-self:end;min-width:0;transition:opacity .5s var(--ease)}
+.hero-panel:not(.is-active){visibility:hidden}
+.hero-panel.is-veiled{opacity:0;transition:opacity .25s linear}
+/* tab headings are H2s at the hero H1's size (the Founders H1 stays the page's only H1) */
+.hero-panel h2{font-size:clamp(38px,6vw,76px);color:#fff;max-width:17ch;text-shadow:0 2px 30px rgba(8,18,26,.35)}
+.hero .benefit-headline__news{color:var(--sky)}
+/* their words come in unbroken pieces, each an inline block that carries its own space (see heroPieces in gen.mjs) */
+.hero-panel h2 > span,.hero-panel .sub > span{display:inline-block;white-space:pre}
+/* the other tabs' photo: one canvas on top of the Founders photo, drawn by main.js once that photo has loaded */
+.hero img[data-hero-photo]{display:none}
+.hero-bg-img--alt{visibility:hidden}
+.hero-bg-img--alt.is-on{visibility:visible}
+/* extra shade for tabs whose photo is brighter than the Founders photo (AA for the copy) */
+.hero-shade{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:0;background:linear-gradient(to right,color-mix(in srgb,var(--navy-deep) 88%,transparent),color-mix(in srgb,var(--navy-deep) 70%,transparent) 62%,color-mix(in srgb,var(--navy-deep) 32%,transparent))}
+/* narrow screens: the copy spans the full width, so the shade runs top to bottom and is at full strength from just
+   above the copy down (main.js sets --hero-copy-top, the copy's distance from the top of the hero) */
+@media (max-width:700px){.hero-shade{background:linear-gradient(color-mix(in srgb,var(--navy-deep) 56%,transparent),color-mix(in srgb,var(--navy-deep) 94%,transparent) calc(var(--hero-copy-top,96px) - 12px))}}
+.hero[data-hero-tab]:not([data-hero-tab="founders"]) .hero-shade{opacity:1}
+/* keeps the transparent header readable while the wave passes behind it, and over brighter photos */
+.hero-cap{position:absolute;left:0;right:0;top:0;height:calc(var(--header-h) + 56px);z-index:3;pointer-events:none;opacity:0;transition:opacity .25s linear;background:linear-gradient(color-mix(in srgb,var(--navy-deep) 52%,transparent) 58%,transparent)}
+.hero.is-washing .hero-cap,.hero[data-hero-tab]:not([data-hero-tab="founders"]) .hero-cap{opacity:1}
+/* the tab chip: under the buttons, riding the top of the wave */
+.hero-tabs{position:absolute;left:var(--gutter);top:calc(100% + 12px);display:inline-flex;gap:2px;padding:4px;border-radius:999px;background:var(--navy-deep);box-shadow:inset 0 0 0 1px color-mix(in srgb,#fff 22%,transparent),var(--shadow-md);white-space:nowrap}
+.hero-tabs[hidden]{display:none}
+.hero-tab{min-height:44px;padding:0 16px;border:0;border-radius:999px;background:none;color:#fff;font:700 12px/1 var(--font-mono);letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:background .18s,color .18s}
+.hero-tab:hover{background:color-mix(in srgb,#fff 14%,transparent)}
+.hero-tab[aria-selected="true"]{background:#fff;color:var(--navy-deep)}
+.hero-tab[aria-busy="true"]{cursor:progress}
+.hero-tab:focus-visible{outline:0;box-shadow:0 0 0 2px var(--navy-deep),0 0 0 4px #fff}
+@media (max-width:350px){.hero-tab{padding:0 10px;font-size:11px;letter-spacing:.03em}}
+.hero--tabs{touch-action:pan-y pinch-zoom}
+/* the wash: the hero's own wave, with a navy body under the lowest band, lifted by transform only */
+.hero .hero-wash{overflow:visible}
+.hero-wash__body{position:absolute;left:0;right:0;top:calc(100% - 2px);height:0;background:linear-gradient(var(--navy),var(--navy-deep) 45%)}
+.hero.is-washing .hero-wash .band,.hero.is-washing .hero-wash .crest{will-change:transform}
+/* reduced motion (or no Web Animations): no wash, a short fade instead */
+.hero--fade .hero-panel,.hero--fade .hero-panel.is-veiled{transition:opacity .18s linear}
+.hero--fade .hero-bg-img--alt{opacity:0;transition:opacity .18s linear,visibility .18s linear}
+.hero--fade .hero-bg-img--alt.is-on{opacity:1}
+.hero--fade .hero-shade,.hero--fade .hero-cap{transition:opacity .18s linear}
+
 /* =========================================================================
    WAVE (shared geometry) — ported
    ========================================================================= */
@@ -908,6 +954,8 @@ picture{display:contents}
   .primary-nav .sub-menu,.primary-nav .dropdown{transform:none}
   .wave-divider .crest-path{stroke-dashoffset:0}
   .hero .wave .band1,.hero .wave .band2{animation:none}
+  /* hero tabs keep their short fade */
+  .hero--fade .hero-panel,.hero--fade .hero-bg-img--alt,.hero--fade .hero-shade,.hero--fade .hero-cap{transition-duration:.18s!important}
   .btn--give.is-shine::after{display:none}
 }
 
@@ -1049,8 +1097,8 @@ body.home .status-bar{margin-top:0;margin-bottom:0}
 .newsletter__turnstile{margin-top:14px}
 
 /* =========================================================================
-   ANNUAL BENEFIT 2026 (added 2026-11-12): event page (/benefit), homepage
-   banner, site-wide pop-up and the Zeffy RSVP modal. Tokens only; translucent
+   ANNUAL BENEFIT 2026 (added 2026-11-12): event page (/benefit), site-wide
+   pop-up and the Zeffy RSVP modal (the home hero tab is with the hero rules). Tokens only; translucent
    layers are mixed from tokens. Coral stays on Give and sponsor buttons (and
    the theme's own wave rule and tier accents).
    ========================================================================= */
@@ -1124,45 +1172,6 @@ body.home .status-bar{margin-top:0;margin-bottom:0}
 .benefit-rsvp__contact{margin-top:22px;font-size:15px;color:var(--muted)}
 .benefit-rsvp__card{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow-md);padding:clamp(12px,2vw,24px);min-height:480px;overflow:hidden}
 @media (max-width:860px){.benefit-rsvp{grid-template-columns:1fr}}
-
-/* ---------- homepage banner ---------- */
-.benefit-banner{position:relative;overflow:hidden;background:var(--navy-deep);isolation:isolate}
-.benefit-banner picture{display:block;position:absolute;inset:0;z-index:-1}
-.benefit-banner__img{display:block;width:100%;height:100%;object-fit:cover;object-position:30% 45%}
-.benefit-banner__pill{position:absolute;z-index:2;top:clamp(18px,3vw,40px);left:var(--gutter);transform:rotate(-4deg)}
-.benefit-banner__inner{max-width:1680px;margin-inline:auto;padding:clamp(36px,4.4vw,68px) var(--gutter);min-height:clamp(480px,37.5vw,720px);display:flex;align-items:center;justify-content:flex-end}
-.benefit-banner__group{position:relative;width:min(47%,800px)}
-.benefit-banner__card{padding:clamp(28px,3.4vw,60px);padding-left:clamp(96px,8.6vw,150px)}
-.benefit-banner .benefit-headline{font-size:clamp(36px,3.9vw,72px)}
-.benefit-date--tilt{position:absolute;left:0;top:50%;width:clamp(150px,12.6vw,236px);transform:translate(-66%,-28%) rotate(-3deg);padding:clamp(16px,1.7vw,30px) clamp(16px,1.6vw,28px)}
-.benefit-date--tilt .benefit-date__day{font-size:clamp(10px,.75vw,13px)}
-.benefit-date--tilt .benefit-date__mon{font-size:clamp(24px,2.2vw,42px);margin-top:10px}
-.benefit-date--tilt .benefit-date__num{font-size:clamp(72px,6.6vw,124px)}
-.benefit-date--tilt .benefit-date__time{font-size:clamp(12px,.95vw,17px);margin-top:14px;padding-top:12px;border-top:1px dashed color-mix(in srgb,var(--sky-pale) 55%,transparent)}
-.benefit-banner__sticker{--stk:clamp(112px,9.6vw,176px);left:calc(-1 * clamp(250px,20.5vw,372px));top:0}
-@media (max-width:899px){
-  .benefit-banner{background:var(--sky-pale);isolation:auto}
-  .benefit-banner picture{position:relative;display:block;height:clamp(210px,48vw,360px);z-index:0}
-  .benefit-banner__pill{top:16px}
-  .benefit-banner__inner{position:relative;z-index:1;display:block;min-height:0;margin-top:-56px;padding:0 var(--gutter) clamp(28px,6vw,44px)}
-  .benefit-banner__group{width:auto;display:grid;gap:14px}
-  .benefit-banner__card{padding:clamp(24px,5vw,40px)}
-  .benefit-banner .benefit-headline{font-size:clamp(38px,9.4vw,56px)}
-  .benefit-banner__sticker{--stk:104px;left:auto;right:10px;top:-118px}
-  .benefit-date--tilt{position:static;transform:none;width:auto;display:grid;grid-template-columns:auto 1fr;grid-template-areas:"mon day" "num time";column-gap:22px;align-items:center;padding:18px 24px}
-  .benefit-date--tilt .benefit-date__mon{grid-area:mon;font-size:24px;margin:0}
-  .benefit-date--tilt .benefit-date__num{grid-area:num;font-size:68px}
-  .benefit-date--tilt .benefit-date__day{grid-area:day;align-self:end;font-size:12px}
-  .benefit-date--tilt .benefit-date__time{grid-area:time;align-self:start;font-size:16px;margin:0;padding-top:8px;border-top:0}
-}
-@media (min-width:600px) and (max-width:899px){
-  .benefit-banner__group{grid-template-columns:minmax(0,1fr) 210px;align-items:stretch}
-  .benefit-date--tilt{display:flex;align-items:stretch;padding:26px 22px}
-  .benefit-date--tilt p{align-self:auto}
-  .benefit-date--tilt .benefit-date__mon{font-size:34px;margin-top:auto}
-  .benefit-date--tilt .benefit-date__num{font-size:104px}
-  .benefit-date--tilt .benefit-date__time{margin-top:auto;padding-top:18px}
-}
 
 /* ---------- site-wide pop-up ---------- */
 .benefit-pop{position:fixed;inset:0;z-index:1100;display:flex;align-items:center;justify-content:center;padding:62px 16px 16px;background:color-mix(in srgb,var(--navy-deep) 70%,transparent);opacity:0;transition:opacity .25s var(--ease)}
