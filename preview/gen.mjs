@@ -119,7 +119,11 @@ const SHOW_HEADER_GIVE = Date.now() < Date.parse(HEADER_GIVE_UNTIL);
 // active, and in the SEASONAL copy below, so the plain site is untouched the rest
 // of the year. Preview a season at any date with SEASON=christmas node preview/gen.mjs
 // (SEASON=none forces the plain site). To stop a season early, move its 'to' date.
-const SEASONS = [
+// Paused 2026-11-12: no seasonal accents for now. Set SEASONS_PAUSED to false to
+// bring them back; the windows below pick up again on the next build. While paused,
+// SEASON=<name> previews are off too.
+const SEASONS_PAUSED = true;
+const SEASONS = SEASONS_PAUSED ? [] : [
   { key: 'thanksgiving', from: '2026-11-01', to: '2026-11-29' },
   { key: 'christmas', from: '2026-11-30', to: '2026-12-31' },
 ];
