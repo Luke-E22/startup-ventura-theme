@@ -24,6 +24,9 @@ body[data-season] .cta-band .wave-rule,
 body[data-season] .mission-strip .wave-rule,
 body[data-season] .section--navy .wave-rule,
 body[data-season] .error404-hero .wave-rule{color:var(--s-dark)}
+/* Annual Benefit cards are navy: the eyebrow keeps its sky blue, the wave rule takes the season's gold */
+body[data-season] .benefit-card .eyebrow{color:var(--sky)}
+body[data-season] .benefit-card .wave-rule{color:var(--s-dark)}
 /* the closing band's eyebrow is grey-blue, not coral; keep it */
 body[data-season] .cta-band .eyebrow{color:#9fb6c6}
 

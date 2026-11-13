@@ -195,6 +195,12 @@
   to = "/events.html"
   status = 200
 
+# Annual Benefit event page (2026-11-12).
+[[redirects]]
+  from = "/benefit"
+  to = "/benefit.html"
+  status = 200
+
 [[redirects]]
   from = "/thanks-apply"
   to = "/thanks-apply.html"

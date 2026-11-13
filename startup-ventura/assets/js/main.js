@@ -565,3 +565,184 @@
 	if (location.hash !== '#notify' || !/\/contact(\.html)?$/.test(location.pathname)) { return; }
 	location.replace('apply.html#first-access');
 })();
+
+/* ---------------------------------------------------------------------
+ * 18. Annual Benefit 2026: the Zeffy RSVP modal and the site-wide pop-up.
+ *
+ * RSVP buttons carry Zeffy's linked-button markup (href = campaign page,
+ * zeffy-form-link = modal form). Zeffy's own embed-form-script.min.js is not
+ * loaded: it creates its iframe on every page load, which pulls Zeffy's whole
+ * app (and its third parties) onto every page, and its click handler does not
+ * stop the link, so the page also navigates away. This opens the same modal
+ * form the same way (same iframe URL, same open and close messages) but only
+ * when someone clicks, then moves focus into it and keeps the page behind it
+ * inert. With JavaScript off, or once data-benefit-until has passed, the
+ * button is a plain link to the campaign page.
+ *
+ * The pop-up (markup from gen.mjs, absent on the event page) opens about five
+ * seconds after load, at most once per 14 days per browser, never after the
+ * event, and never on top of another dialog, the mobile menu or a field
+ * someone is typing in.
+ * ------------------------------------------------------------------- */
+(function benefit() {
+	var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
+	// Event page: Zeffy's inline embed adds its iframe without a title, so screen
+	// readers announce an unnamed frame. Name it as soon as it appears.
+	var embed = document.querySelector('[data-zeffy-embed]');
+	if (embed && window.MutationObserver) {
+		var nameFrames = function () {
+			$$('iframe:not([title])', embed).forEach(function (f) { f.title = 'RSVP form, powered and secured by Zeffy'; });
+		};
+		nameFrames();
+		new MutationObserver(nameFrames).observe(embed, { childList: true, subtree: true });
+	}
+
+	var links = $$('a[zeffy-form-link]');
+	var pop = document.getElementById('sv-benefit-pop');
+	if (!links.length && !pop) { return; }
+
+	var X_ICON = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>';
+	function track(name, params) {
+		window.dataLayer = window.dataLayer || [];
+		var o = { event: name };
+		for (var k in params) { if (Object.prototype.hasOwnProperty.call(params, k)) { o[k] = params[k]; } }
+		window.dataLayer.push(o);
+		if (window.gtag) { window.gtag('event', name, params); }
+	}
+	function live(el) { var u = +el.getAttribute('data-benefit-until'); return !u || Date.now() < u; }
+	function show(el) { requestAnimationFrame(function () { requestAnimationFrame(function () { el.classList.add('is-open'); }); }); }
+	function refocus(el) { if (el && el.focus && document.contains(el)) { try { el.focus(); } catch (e) {} } }
+
+	/* --- a. Zeffy modal ------------------------------------------------ */
+	var zModal = null, zFrame = null, zLastFocus = null, zInert = [];
+	function zPost() { try { zFrame.contentWindow.postMessage({ id: 'zeffy-iframe', open: true }, '*'); } catch (e) {} }
+	function zKey(e) { if (e.key === 'Escape') { zClose(); } }
+	function zBuild(src, title) {
+		zModal = document.createElement('div');
+		zModal.className = 'zeffy-modal';
+		zModal.hidden = true;
+		zModal.setAttribute('role', 'dialog');
+		zModal.setAttribute('aria-modal', 'true');
+		zModal.setAttribute('aria-labelledby', 'sv-zeffy-title');
+		zModal.innerHTML = '<div class="zeffy-modal__box"><div class="zeffy-modal__bar"><p class="zeffy-modal__title" id="sv-zeffy-title"></p><button class="zeffy-modal__close" type="button" aria-label="Close">' + X_ICON + '</button></div><div class="zeffy-modal__stage"><p class="zeffy-modal__loading">Loading the RSVP form</p></div></div>';
+		zModal.querySelector('.zeffy-modal__title').textContent = title || 'RSVP';
+		zFrame = document.createElement('iframe');
+		zFrame.className = 'zeffy-modal__frame';
+		zFrame.title = 'RSVP form, powered and secured by Zeffy';
+		zFrame.setAttribute('allow', 'payment');
+		zFrame.src = src + (src.indexOf('?') < 0 ? '?' : '&') + 'cachebust=' + Date.now();
+		zFrame.addEventListener('load', zPost);
+		zModal.querySelector('.zeffy-modal__stage').appendChild(zFrame);
+		document.body.appendChild(zModal);
+		zModal.querySelector('.zeffy-modal__close').addEventListener('click', zClose);
+		var down = false;
+		zModal.addEventListener('mousedown', function (e) { down = e.target === zModal; });
+		zModal.addEventListener('click', function (e) { if (e.target === zModal && down) { zClose(); } });
+		// Zeffy's form asks to be closed with the same message its own script listens for.
+		window.addEventListener('message', function (e) {
+			if (zModal.hidden || e.source !== zFrame.contentWindow) { return; }
+			if (e.data && e.data.id === 'zeffy-iframe' && e.data.close) { zClose(); }
+		});
+	}
+	function zOpen(src, title, returnTo) {
+		if (!zModal) { zBuild(src, title); }
+		zLastFocus = returnTo || document.activeElement;
+		zModal.hidden = false;
+		document.body.style.overflow = 'hidden';
+		// Everything behind the dialog is inert, so Tab stays in the form and the close button.
+		zInert = $$('body > *').filter(function (el) { return el !== zModal && !el.inert && el.tagName !== 'SCRIPT'; });
+		zInert.forEach(function (el) { el.inert = true; });
+		show(zModal);
+		document.addEventListener('keydown', zKey);
+		try { zFrame.focus(); } catch (e) {}
+		zPost();
+	}
+	function zClose() {
+		if (!zModal || zModal.hidden) { return; }
+		zModal.classList.remove('is-open');
+		zModal.hidden = true;
+		document.body.style.overflow = '';
+		zInert.forEach(function (el) { el.inert = false; });
+		zInert = [];
+		document.removeEventListener('keydown', zKey);
+		refocus(zLastFocus);
+	}
+
+	/* --- b. Pop-up ----------------------------------------------------- */
+	var KEY = 'sv_benefit_pop_dismissed', QUIET_MS = 14 * 864e5, DELAY_MS = 5000;
+	var popLastFocus = null, store = null;
+	function popKey(e) {
+		if (e.key === 'Escape') { popClose('esc'); return; }
+		if (e.key !== 'Tab') { return; }
+		var f = $$('a[href], button', pop);
+		var first = f[0], last = f[f.length - 1];
+		if (!pop.contains(document.activeElement)) { e.preventDefault(); first.focus(); }
+		else if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+		else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+	}
+	function popOpen() {
+		popLastFocus = document.activeElement;
+		// The photo is fetched only now, so pages where the pop-up never opens never load it.
+		var img = pop.querySelector('img[data-src]');
+		if (img) {
+			img.srcset = img.getAttribute('data-srcset') || '';
+			img.src = img.getAttribute('data-src');
+			img.removeAttribute('data-src');
+		}
+		pop.hidden = false;
+		document.body.style.overflow = 'hidden';
+		show(pop);
+		document.addEventListener('keydown', popKey);
+		pop.querySelector('.benefit-pop__close').focus();
+		track('benefit_popup', { action: 'view' });
+	}
+	// Every way out counts as a dismissal and starts the 14 quiet days.
+	function popClose(how, restore) {
+		if (pop.hidden) { return; }
+		try { store.setItem(KEY, String(Date.now())); } catch (e) {}
+		pop.classList.remove('is-open');
+		pop.hidden = true;
+		document.body.style.overflow = '';
+		document.removeEventListener('keydown', popKey);
+		if (restore !== false) { refocus(popLastFocus); }
+		track('benefit_popup', { action: how });
+	}
+	if (pop) {
+		var until = +pop.getAttribute('data-benefit-until') || 0;
+		var seen = 0;
+		// No working localStorage means the dismissal could not be remembered, so stay quiet.
+		try { localStorage.setItem(KEY + '_probe', '1'); localStorage.removeItem(KEY + '_probe'); store = localStorage; seen = +store.getItem(KEY) || 0; } catch (e) { store = null; }
+		var tries = 0;
+		var busy = function () {
+			var a = document.activeElement;
+			return document.hidden || document.body.style.overflow === 'hidden' ||
+				(a && (/^(INPUT|TEXTAREA|SELECT|IFRAME)$/.test(a.tagName) || a.isContentEditable));
+		};
+		var tryOpen = function () {
+			if (Date.now() >= until) { return; }
+			if (busy()) { if (++tries < 40) { setTimeout(tryOpen, 3000); } return; }
+			popOpen();
+		};
+		if (store && Date.now() < until && !(seen && Date.now() - seen < QUIET_MS)) { setTimeout(tryOpen, DELAY_MS); }
+		$$('[data-benefit-pop-close]', pop).forEach(function (b) {
+			b.addEventListener('click', function () { popClose(b.getAttribute('data-benefit-pop-close')); });
+		});
+		var downOnBackdrop = false;
+		pop.addEventListener('mousedown', function (e) { downOnBackdrop = e.target === pop; });
+		pop.addEventListener('click', function (e) { if (e.target === pop && downOnBackdrop) { popClose('backdrop'); } });
+	}
+
+	/* --- c. RSVP buttons ------------------------------------------------ */
+	links.forEach(function (a) {
+		a.addEventListener('click', function (e) {
+			if (e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) { return; }
+			if (!live(a)) { return; }
+			e.preventDefault();
+			var returnTo = a;
+			// From the pop-up: close it first (a dismissal), so the two never stack.
+			if (pop && pop.contains(a)) { returnTo = popLastFocus; popClose('rsvp', false); }
+			try { zOpen(a.getAttribute('zeffy-form-link'), a.getAttribute('data-zeffy-title'), returnTo); }
+			catch (err) { window.location.href = a.href; }
+		});
+	});
+})();
