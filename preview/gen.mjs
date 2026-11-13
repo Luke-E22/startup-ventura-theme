@@ -174,10 +174,13 @@ const SHOW_EVENTS_NAV = true; // flipped 2026-07-21: events tab live, page index
 // Top bar (2026-10-27): Program, FAQ, Impact | logo | Partner, About, Events, News,
 // then Give as a text link and Apply as the pinned coral button. Contact lives in
 // the footer "Get in touch" column and on every closing band.
+// Benefit sits on the left half after Impact while BENEFIT_LIVE, so it leaves the
+// header and the mobile menu by itself on the first build after the event.
 const NAV = [
   { label: 'Program', href: 'program.html', children: [['12-Week Accelerator', 'accelerator.html'], ['Workshop Series', 'workshops.html'], ['Founder Resources', 'resources.html'], ...(MENTOR_WALL_LIVE ? [['Mentors', 'mentors.html']] : [])] },
   { label: 'FAQ', href: 'faq.html' },
   { label: 'Impact', href: 'impact.html' },
+  ...(BENEFIT_LIVE ? [{ label: 'Benefit', href: 'benefit.html', mark: true }] : []),
   { label: 'Partner', href: 'partner.html', children: [['For Cities &amp; County', 'partner-cities-county.html'], ['For Foundations', 'partner-foundations.html']] },
   { label: 'About', href: 'about.html', children: [['Board of Directors', 'about.html#board'], ['Join the Board', 'board-interest.html'], ['Leadership', 'lukeerickson.html'], ['Why Ventura County', 'why-ventura-county.html'], ['Ecosystem Guide', 'ecosystem.html']] },
   // Events left the top bar on 2026-10-27 (footer Explore and the home page link to it).
@@ -246,9 +249,13 @@ const seasonMark = () => SEASON ? SEASON_MARK[SEASON] : '';
 const seasonFoot = () => SEASON ? `<p class="season-foot">${SEASON_FOOT[SEASON].svg}<span>${SEASON_FOOT[SEASON].text}</span></p>` : '';
 const seasonNote = () => SEASON ? `<div class="season-note">${SEASON_MOTIF[SEASON]}<p class="eyebrow">${SEASON_NOTE[SEASON].eyebrow}</p><p class="season-note__text">${SEASON_NOTE[SEASON].text}</p></div>` : '';
 const MOBILE_NAV = [NAV[0], NAV[1], { label: 'Apply', href: 'apply.html' }, ...NAV.slice(2)];
-const navList = (items = NAV) => `<ul class="sv-menu">${items.map(i => i.children
+// The logo sits between the two halves: everything before Partner goes left.
+const NAV_SPLIT = NAV.findIndex((i) => i.label === 'Partner');
+// current = the file being built. An item with mark: true is flagged as the
+// current page (aria-current) on its own page.
+const navList = (items = NAV, current = '') => `<ul class="sv-menu">${items.map(i => i.children
   ? `<li class="menu-item menu-item-has-children"><a href="${i.href}">${i.label}</a><ul class="sub-menu">${i.children.map(c => `<li class="menu-item"><a href="${c[1]}">${c[0]}</a></li>`).join('')}</ul></li>`
-  : `<li class="menu-item"><a href="${i.href}">${i.label}</a></li>`).join('')}</ul>`;
+  : `<li class="menu-item"><a href="${i.href}"${i.mark && i.href === current ? ' aria-current="page"' : ''}>${i.label}</a></li>`).join('')}</ul>`;
 
 // Site-wide status bar: one line above the header on every page, generated once
 // so it cannot drift. Move STATUS_PHASE along as the cycle turns: 'first-access'
@@ -262,17 +269,17 @@ const STATUS = {
 }[STATUS_PHASE];
 const statusBar = () => `<div class="status-bar" data-status="${STATUS_PHASE}"><div class="wrap"><a class="status-bar__link" href="${STATUS.href}" data-cta="apply" data-cta-location="status-bar"><span class="status-bar__long">${STATUS.long}</span><span class="status-bar__short">${STATUS.short}</span></a></div></div>`;
 
-const header = (overHero = false) => `<a class="skip-link" href="#main">Skip to content</a>
+const header = (overHero = false, file = '') => `<a class="skip-link" href="#main">Skip to content</a>
 ${statusBar()}
 <header class="site-header${overHero ? ' site-header--over-hero' : ''}">
   <div class="wrap site-header__inner">
-    <nav class="primary-nav primary-nav--left" aria-label="Primary">${navList(NAV.slice(0, 3))}</nav>
+    <nav class="primary-nav primary-nav--left" aria-label="Primary">${navList(NAV.slice(0, NAV_SPLIT), file)}</nav>
     <a class="site-brand" href="index.html" rel="home" aria-label="Startup Ventura home">
       <img class="brand-mark brand-mark--color" src="${A}/img/logo-mark-112.png" width="140" height="112" alt="Startup Ventura">
       <img class="brand-mark brand-mark--white" src="${A}/img/logo-mark-white-112.png" width="140" height="112" alt="" aria-hidden="true">
     </a>
     <div class="nav-right">
-      <div class="primary-nav primary-nav--right">${navList(NAV.slice(3))}</div>
+      <div class="primary-nav primary-nav--right">${navList(NAV.slice(NAV_SPLIT), file)}</div>
       <div class="header-cta">${SHOW_HEADER_GIVE ? `<a class="header-cta__give" href="${ZEFFY}" target="_blank" rel="noopener" data-cta="give" data-cta-location="header">Give</a>` : ''}${apply('Apply', 'btn--primary header-cta__apply')}
         <button class="menu-toggle" type="button" aria-controls="sv-mobile-menu" aria-expanded="false"><span class="sr-only">Menu</span><span class="bar"></span><span class="bar"></span><span class="bar"></span></button>
       </div>
@@ -281,7 +288,7 @@ ${statusBar()}
 </header>
 <div class="mobile-menu" id="sv-mobile-menu">
   <button class="mobile-menu__close" type="button" aria-label="Close menu">&times;</button>
-  <nav aria-label="Mobile">${navList(MOBILE_NAV)}${SHOW_HEADER_GIVE ? `<ul class="sv-menu"><li class="menu-item"><a href="${ZEFFY}" target="_blank" rel="noopener" data-cta="give" data-cta-location="mobile-menu">Give</a></li></ul>` : ''}</nav>
+  <nav aria-label="Mobile">${navList(MOBILE_NAV, file)}${SHOW_HEADER_GIVE ? `<ul class="sv-menu"><li class="menu-item"><a href="${ZEFFY}" target="_blank" rel="noopener" data-cta="give" data-cta-location="mobile-menu">Give</a></li></ul>` : ''}</nav>
   ${apply('Apply', 'btn--primary btn--lg btn--full')}
 </div>
 <main id="main" class="site-main">`;
@@ -617,7 +624,7 @@ ${overHero ? `<link rel="preload" as="image" type="image/webp" imagesrcset="${A}
 ${SEASON ? `<link rel="stylesheet" href="${A}/css/seasonal.css?v=${SEASONAL_VERSION}">\n` : ''}${analyticsHead()}</head>
 <body class="${overHero ? 'home' : ''}"${SEASON ? ` data-season="${SEASON}"` : ''}>
 ${analyticsBody()}
-${header(overHero)}
+${header(overHero, file)}
 ${crumbsTrail ? crumbs(crumbsTrail) : ''}
 ${body}
 ${newsletter}
