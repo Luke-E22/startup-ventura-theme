@@ -147,7 +147,7 @@ const benefitPop = (file) => !BENEFIT_LIVE || BENEFIT_POP_SKIP.test(file) ? '' :
         <h2 class="benefit-pop__title" id="sv-benefit-pop-h">Rooftop. Founders. Executives. <span>Big news.</span></h2>
         ${waveRule}
         <p class="benefit-pop__lede">The Startup Ventura Annual Benefit, on the rooftop at Transmission Brewing.</p>
-        <ul class="benefit-pop__facts"><li><strong>Wednesday, December 9</strong> &middot; 6 to 9 PM</li><li><strong>1098 E Front St</strong> &middot; Ventura</li><li><strong>Free to attend</strong> &middot; mentor, partner and cohort news</li></ul>
+        <ul class="benefit-pop__facts"><li><strong>Wednesday, December 9</strong> &middot; 6 to 9 PM</li><li><strong>1098 E Front St</strong> &middot; Ventura</li><li><strong>Tickets on sale now</strong> &middot; mentor, partner and cohort news</li></ul>
         <div class="benefit-pop__actions">${benefitRsvp('popup')}<button class="btn btn--outline" type="button" data-benefit-pop-close="later">Maybe later</button></div>
       </div>
     </div>
@@ -452,7 +452,7 @@ const workshopEvents = JSON.parse(fs.readFileSync(EVENTS_JSON, 'utf8'))
 // stays hidden by HIDDEN_EVENTS), so the events page and the event page can never
 // disagree. It links to benefit.html for details and RSVP and drops off after the event.
 if (BENEFIT_LIVE) {
-  workshopEvents.push({ iso: BENEFIT.start.slice(0, 10), date: fmtEventDate(BENEFIT.start), tag: 'Community', title: BENEFIT.name, desc: '6 to 9 PM at the Transmission Brewing Rooftop, Ventura. Free to attend. Free food and open bar.', benefit: true });
+  workshopEvents.push({ iso: BENEFIT.start.slice(0, 10), date: fmtEventDate(BENEFIT.start), tag: 'Community', title: BENEFIT.name, desc: '6 to 9 PM at the Transmission Brewing Rooftop, Ventura. Tickets on sale now. Free food and open bar.', benefit: true });
   workshopEvents.sort((a, b) => (a.iso || '9999').localeCompare(b.iso || '9999'));
 }
 
@@ -491,7 +491,7 @@ const icsFile = (e) => {
 const benefitUrl = `${SITE}/benefit`;
 const benefitStamp = (iso) => iso.slice(0, 19).replace(/[-:]/g, ''); // wall-clock, for Google with ctz
 const benefitUtc = (iso) => new Date(iso).toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
-const benefitBlurb = `Free to attend. Free food and open bar. 21+ for the bar.\n\nDetails and RSVP: ${benefitUrl}\nQuestions: ${BENEFIT.email}`;
+const benefitBlurb = `Ticketed event. Free food and open bar. 21+ for the bar.\n\nDetails and RSVP: ${benefitUrl}\nQuestions: ${BENEFIT.email}`;
 function benefitGcal() {
   return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(BENEFIT.name)}&dates=${benefitStamp(BENEFIT.start)}/${benefitStamp(BENEFIT.end)}&ctz=America/Los_Angeles&location=${encodeURIComponent(`${BENEFIT.venue}, ${BENEFIT_ADDRESS}`)}&details=${encodeURIComponent(benefitBlurb)}`;
 }
@@ -806,6 +806,22 @@ const card = (href, eyebrow, title, text, link) => `<a class="card card--link" h
 // set to when it goes live (Pacific offset: -07:00 in summer, -08:00 in winter).
 // The build stops with a clear message if a post dated 2026-10-28 or later lacks it.
 const newsPosts = [
+  {
+    // benefit: true keeps this post off the home hero's News slide while the event has its own slide there.
+    file: 'news-annual-benefit-2026.html', crumb: 'Annual Benefit', benefit: true,
+    title: 'Join Us December 9 for the Startup Ventura Annual Benefit',
+    date: 'November 13, 2026', published: '2026-11-13T01:00:00-08:00', img: `${A}/img/news/annual-benefit.jpg`,
+    alt: BENEFIT.alt,
+    excerpt: 'The Startup Ventura Annual Benefit is Wednesday, December 9, from 6 to 9 PM on the Transmission Brewing rooftop in Ventura, with food, an open bar, and news about the Spring 2027 cohort.',
+    paras: [
+      'Rooftop. Founders. Executives. Big news.',
+      `Startup Ventura will host its Annual Benefit on Wednesday, December 9, 2026, from 6 to 9 PM on the rooftop at Transmission Brewing, ${BENEFIT.street} in ${BENEFIT.city}. Founders, executives, mentors and partners from across Ventura County are invited.`,
+      'This is the night we share what comes next. Mentor applications open for anyone who wants to help coach the founders in our first cohort. We will announce new partnerships and introduce the organizations building with us. We will also share what the inaugural Spring 2027 cohort looks like and what happens after it.',
+      'Tickets are on sale now. Every ticket includes food and an open bar, with the bar open to guests 21 and over. Bring your team. Bring a founder.',
+      'Companies that want to put their name on the rooftop can sponsor the night at the Diamond, Gold or Silver level. Every level includes recognition at the event and your logo on startupventura.com for a year.',
+      `<a href="benefit.html#rsvp">Get your tickets</a> and <a href="benefit.html#sponsor">see the sponsor levels</a> on the event page. Questions go to <a href="mailto:${BENEFIT.email}">${BENEFIT.email}</a> or ${BENEFIT.phone}.`,
+    ],
+  },
   {
     file: 'news-conejo-valley-visionaries.html', crumb: 'Conejo Valley Visionaries',
     title: 'How to Raise Money for Your Business: Luke Erickson on Conejo Valley Visionaries',
@@ -2114,7 +2130,7 @@ page('events.html', {
 // place zeffy-embed.js loads), and the hero button scrolls to it, so the page
 // never shows two Zeffy forms. Copy is fixed by the brief; facts come from BENEFIT.
 const benefitMaps = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`Transmission Brewing, ${BENEFIT_ADDRESS}`)}`;
-const BENEFIT_DESC = 'Join Startup Ventura on the Transmission Brewing rooftop in Ventura, Wednesday, December 9, 6 to 9 PM. Free to attend, with free food and an open bar.';
+const BENEFIT_DESC = 'Join Startup Ventura on the Transmission Brewing rooftop in Ventura, Wednesday, December 9, 6 to 9 PM. Tickets are on sale now, with free food and an open bar.';
 const benefitSponsors = [
   ['Diamond', '$5,000', true, ['Prominent recognition and a speaking moment from the stage', 'Premier logo placement on event signage', 'Your logo on all benefit promotional materials', '2 mentor spots with the Spring 2027 cohort founders', '4 social media posts with your company tagged', 'Your logo on startupventura.com for 1 year, linked to your site', 'Unlimited reserved seating for your guests']],
   ['Gold', '$2,500', false, ['Recognition at the benefit', 'Your logo on benefit promotional materials', '2 social media posts with your company tagged', 'Your logo on startupventura.com for 1 year, linked to your site', 'Reserved seating for 10', 'Invite as many guests as you like']],
@@ -2132,11 +2148,11 @@ const benefitEventSchema = {
   startDate: BENEFIT.start, endDate: BENEFIT.end,
   eventStatus: 'https://schema.org/EventScheduled',
   eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
-  isAccessibleForFree: true,
+  isAccessibleForFree: false,
   image: [`${SITE}/assets/img/og/benefit-square.png`, `${SITE}/assets/img/event/benefit-rooftop-1600.jpg`],
   location: { '@type': 'Place', name: BENEFIT.venue, address: { '@type': 'PostalAddress', streetAddress: BENEFIT.street, addressLocality: BENEFIT.city, addressRegion: BENEFIT.region, postalCode: BENEFIT.zip, addressCountry: 'US' } },
   organizer: { '@type': 'Organization', '@id': `${SITE}/#organization`, name: 'Startup Ventura', url: `${SITE}/` },
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD', availability: 'https://schema.org/InStock', url: BENEFIT.zeffyPage, validFrom: '2026-11-12T00:00:00-08:00' },
+  offers: { '@type': 'Offer', availability: 'https://schema.org/InStock', url: BENEFIT.zeffyPage, validFrom: '2026-11-12T00:00:00-08:00' },
 };
 page('benefit.html', {
   titleExact: 'Startup Ventura Annual Benefit | Dec 9, 2026',
@@ -2154,12 +2170,12 @@ page('benefit.html', {
 <section class="section section--tight benefit-details"><div class="wrap"><div class="benefit-detail-grid">
   <div class="benefit-detail"><p class="eyebrow">When</p><h2 class="benefit-detail__title">Wednesday, December 9</h2><p>6 to 9 PM</p><p class="benefit-detail__links">Add to calendar: <a href="${benefitGcal()}" target="_blank" rel="noopener">Google Calendar</a> &middot; <a href="${BENEFIT_ICS}">Apple / Outlook (.ics)</a></p></div>
   <div class="benefit-detail"><p class="eyebrow">Where</p><h2 class="benefit-detail__title">Transmission Brewing Rooftop</h2><p>${BENEFIT_ADDRESS}</p><p class="benefit-detail__links"><a href="${benefitMaps}" target="_blank" rel="noopener">Get directions</a></p></div>
-  <div class="benefit-detail"><p class="eyebrow">On us</p><h2 class="benefit-detail__title">Free food and open bar</h2><p>Free to attend &middot; 21+ for the bar</p></div>
+  <div class="benefit-detail"><p class="eyebrow">On us</p><h2 class="benefit-detail__title">Free food and open bar</h2><p>Included with every ticket &middot; 21+ for the bar</p></div>
 </div></div></section>
 <section class="section benefit-night"><div class="wrap">${head('On the night', 'What&rsquo;s happening on the rooftop')}<div class="card-grid card-grid--4">${benefitNight.map(([n, t, d]) => `<div class="card benefit-night__card"><div class="card__body"><p class="benefit-night__num" aria-hidden="true">${n}</p><h3 class="card__title">${t}</h3><p class="card__text">${d}</p></div></div>`).join('')}</div></div></section>
 <section class="section section--pale" id="sponsor"><div class="wrap">${headC('Sponsor the night', 'Put your company on the rooftop', 'Three ways to back the benefit. Every level includes your logo on startupventura.com for a year and recognition at the event.')}<div class="tier-grid tier-grid--3">${benefitSponsors.map(([n, a, top, bs]) => `<article class="tier${top ? ' tier--legacy' : ''}">${top ? '<span class="tier__ribbon">Top sponsor</span>' : ''}<h3 class="tier__name">${n}</h3><p class="tier__price">${a}</p><ul class="tier__list">${bs.map((b) => `<li>${b}</li>`).join('')}</ul><div class="tier__cta"><a class="btn btn--give btn--full" href="mailto:${BENEFIT.email}?subject=${encodeURIComponent(`${n} sponsorship: Annual Benefit`)}" data-cta="benefit-sponsor" data-cta-location="tier-${n.toLowerCase()}">Sponsor at ${a}</a></div></article>`).join('')}</div><p class="center benefit-sponsor-note">Want the sponsorship form? Email <a href="mailto:${BENEFIT.email}">${BENEFIT.email}</a>.</p></div></section>
 <section class="section" id="rsvp"><div class="wrap benefit-rsvp">
-  <div class="benefit-rsvp__copy">${head('RSVP', 'Save your spot', 'Free to attend. Bring your team. Bring a founder.')}<ul class="benefit-rsvp__facts"><li><strong>Wednesday, December 9</strong> &middot; 6 to 9 PM</li><li><strong>Transmission Brewing Rooftop</strong> &middot; ${BENEFIT.street}, ${BENEFIT.city}</li><li><strong>Free food and open bar</strong> &middot; 21+ for the bar</li></ul><p class="benefit-rsvp__contact">Questions? <a href="mailto:${BENEFIT.email}">${BENEFIT.email}</a> &middot; <a href="tel:+1${BENEFIT.phone.replace(/\D/g, '')}">${BENEFIT.phone}</a></p></div>
+  <div class="benefit-rsvp__copy">${head('RSVP', 'Save your spot', 'Bring your team. Bring a founder.')}<ul class="benefit-rsvp__facts"><li><strong>Wednesday, December 9</strong> &middot; 6 to 9 PM</li><li><strong>Transmission Brewing Rooftop</strong> &middot; ${BENEFIT.street}, ${BENEFIT.city}</li><li><strong>Free food and open bar</strong> &middot; 21+ for the bar</li></ul><p class="benefit-rsvp__contact">Questions? <a href="mailto:${BENEFIT.email}">${BENEFIT.email}</a> &middot; <a href="tel:+1${BENEFIT.phone.replace(/\D/g, '')}">${BENEFIT.phone}</a></p></div>
   <div class="benefit-rsvp__card">
 <div>
   <div data-zeffy-embed data-form-url="${BENEFIT.zeffyEmbedPath}"></div>
@@ -2595,7 +2611,7 @@ Startup Ventura was founded in 2025 by Luke Erickson, who serves as Executive Di
 - [Careers](${SITE}/careers): open roles and how to apply
 - [FAQ](${SITE}/faq): common questions answered
 - [News](${SITE}/news): announcements and updates
-${BENEFIT_LIVE ? `- [Annual Benefit](${SITE}/benefit): Wednesday, December 9, 2026, 6 to 9 PM at the Transmission Brewing Rooftop in Ventura; free to attend; RSVP and sponsorship levels\n` : ''}- [News feed (RSS)](${SITE}/feed.xml): every news post as RSS 2.0, full text
+${BENEFIT_LIVE ? `- [Annual Benefit](${SITE}/benefit): Wednesday, December 9, 2026, 6 to 9 PM at the Transmission Brewing Rooftop in Ventura; ticketed; tickets and sponsorship levels\n` : ''}- [News feed (RSS)](${SITE}/feed.xml): every news post as RSS 2.0, full text
 - [Contact](${SITE}/contact): get in touch
 
 ## Frequently asked questions
