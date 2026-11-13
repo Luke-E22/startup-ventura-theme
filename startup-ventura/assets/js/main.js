@@ -798,7 +798,7 @@
 	var parts = bands.concat([crest]);
 	var ORDER = [0, 1, 2, 3, 0];        // which band each part rides with (the crest rides the top band)
 	var LEAD = [0.2, 0.13, 0.065, 0];   // how much further each band rises than the lowest one, in wave heights
-	var RISE_MS = 1000, RISE_STAGGER_MS = 45, HOLD_MS = 120, FALL_MS = 1200, FALL_STAGGER_MS = 70, REVEAL_AT_MS = 640;
+	var RISE_MS = 1000, RISE_STAGGER_MS = 45, HOLD_MS = 120, FALL_MS = 1200, FALL_STAGGER_MS = 70, REVEAL_AT_MS = 720;
 	var EASE_IN = 'cubic-bezier(.5,.05,.7,.5)', EASE_OUT = 'cubic-bezier(.22,.68,.18,1)';
 	var AUTO_FIRST_MS = 10000, AUTO_HOLD_MS = 8000, SESSION_KEY = 'sv_hero_auto_done';
 	var motionQuery = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;

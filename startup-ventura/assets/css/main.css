@@ -260,8 +260,10 @@ p.center{margin-inline:auto}
 .hero-panel:not(.is-active){visibility:hidden}
 .hero-panel.is-veiled{opacity:0;transition:opacity .25s linear}
 /* tab headings are H2s at the hero H1's size (the Founders H1 stays the page's only H1) */
-.hero-panel h2{font-size:clamp(38px,6vw,76px);color:#fff;max-width:17ch;text-shadow:0 2px 30px rgba(8,18,26,.35)}
+.hero-panel h2{font-size:clamp(38px,6vw,76px);color:#fff;max-width:17ch;text-wrap:balance;text-shadow:0 2px 30px rgba(8,18,26,.35)}
 .hero .benefit-headline__news{color:var(--sky)}
+/* the narrowest phones: both buttons of a later tab still fit on one row */
+@media (max-width:340px){.hero-panel + .hero-panel .cta-row .btn{padding-inline:18px}}
 /* their words come in unbroken pieces, each an inline block that carries its own space (see heroPieces in gen.mjs) */
 .hero-panel h2 > span,.hero-panel .sub > span{display:inline-block;white-space:pre}
 /* the other tabs' photo: one canvas on top of the Founders photo, drawn by main.js once that photo has loaded */
@@ -285,6 +287,7 @@ p.center{margin-inline:auto}
 .hero-tab[aria-selected="true"]{background:#fff;color:var(--navy-deep)}
 .hero-tab[aria-busy="true"]{cursor:progress}
 .hero-tab:focus-visible{outline:0;box-shadow:0 0 0 2px var(--navy-deep),0 0 0 4px #fff}
+@media (max-width:389px){.hero-tab{padding:0 12px;letter-spacing:.05em}}
 @media (max-width:350px){.hero-tab{padding:0 10px;font-size:11px;letter-spacing:.03em}}
 .hero--tabs{touch-action:pan-y pinch-zoom}
 /* the wash: the hero's own wave, with a navy body under the lowest band, lifted by transform only */
