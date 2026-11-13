@@ -69,13 +69,6 @@ const waveFull = `<div class="wave" aria-hidden="true">
 ${WAVE_BANDS.map(([d, f]) => band(d, f)).join('\n')}
 ${waveCrest}
 </div>`;
-// The home hero's wave when the hero has tabs: the same four bands and crest, with
-// a navy body hanging below the lowest band, so main.js section 19 can lift the
-// whole wave over the photo and drop it again (the wash between tabs).
-const heroWave = `<div class="wave hero-wash" aria-hidden="true">
-${WAVE_BANDS.map(([d, f], i) => band(d, f, i === WAVE_BANDS.length - 1 ? '<div class="hero-wash__body"></div>' : '')).join('\n')}
-${waveCrest}
-</div>`;
 const waveDivider = `<div class="wave-divider" aria-hidden="true"><svg viewBox="0 0 1440 70" preserveAspectRatio="none" width="100%" height="64"><path d="M0,32 C300,6 560,56 840,33 C1080,14 1260,50 1440,30 L1440,70 L0,70 Z" fill="#78B4D8" opacity=".20"></path><path d="M0,42 C300,16 560,64 840,42 C1080,22 1260,56 1440,38 L1440,70 L0,70 Z" fill="#5484A8" opacity=".18"></path><path class="crest-path" d="M0,32 C300,6 560,56 840,33 C1080,14 1260,50 1440,30" fill="none" stroke="#FF8A80" stroke-width="2.5" vector-effect="non-scaling-stroke"></path></svg></div>`;
 
 const give = (loc, cls = '', note = '', label = 'Give') =>
@@ -85,10 +78,10 @@ const partnerBtn = (label = 'Partner with us', cls = 'btn--outline') => `<a clas
 
 // ---------------------------------------------------------------------------
 // Annual Benefit 2026 (added 2026-11-12): the event page (benefit.html), the
-// header item, the home hero tab and the site-wide pop-up. Every event fact lives
-// in BENEFIT. BENEFIT.end is the one date gate. Once it passes, the header item,
-// the hero tab, the pop-up and the RSVP modal wiring are no longer built, and the
-// same timestamp is baked into the pages (data-benefit-until) so the tab, the
+// header button, the home hero slide and the site-wide pop-up. Every event fact lives
+// in BENEFIT. BENEFIT.end is the one date gate. Once it passes, the header button,
+// the hero slide, the pop-up and the RSVP modal wiring are no longer built, and the
+// same timestamp is baked into the pages (data-benefit-until) so the slide, the
 // pop-up and the modal also switch off in the browser between nightly rebuilds.
 // The event page itself stays up.
 const BENEFIT = {
@@ -138,7 +131,7 @@ const benefitHeadline = (tag, id = '', cls = 'benefit-headline') => `<${tag} cla
 // the modal form on click, creating Zeffy's iframe only then, so no page loads
 // Zeffy until someone asks for it (the reason the embed left the site in July).
 // With JavaScript off, or after the event ends, it is a plain link to the campaign.
-const benefitRsvp = (loc, cls = '') => `<a class="btn btn--blue${cls ? ' ' + cls : ''}" href="${BENEFIT.zeffyPage}" zeffy-form-link="${BENEFIT.zeffyModal}" data-zeffy-title="${BENEFIT.name}" data-benefit-until="${BENEFIT_END_MS}" data-cta="benefit-rsvp" data-cta-location="${loc}">RSVP now</a>`;
+const benefitRsvp = (loc, cls = '') => `<a class="btn btn--blue btn--rsvp${cls ? ' ' + cls : ''}" href="${BENEFIT.zeffyPage}" zeffy-form-link="${BENEFIT.zeffyModal}" data-zeffy-title="${BENEFIT.name}" data-benefit-until="${BENEFIT_END_MS}" data-cta="benefit-rsvp" data-cta-location="${loc}">RSVP now</a>`;
 // Site-wide pop-up (main.js section 18 opens it about 5 seconds after load, once
 // per 14 days, never after the event). Not on the event page, the 404, the
 // thank-you pages or the paid-traffic landing page and its success page.
@@ -205,13 +198,13 @@ const SHOW_EVENTS_NAV = true; // flipped 2026-07-21: events tab live, page index
 // Top bar (2026-10-27): Program, FAQ, Impact | logo | Partner, About, Events, News,
 // then Give as a text link and Apply as the pinned coral button. Contact lives in
 // the footer "Get in touch" column and on every closing band.
-// Benefit sits on the left half after Impact while BENEFIT_LIVE, so it leaves the
-// header and the mobile menu by itself on the first build after the event.
+// While BENEFIT_LIVE the header shows a blue Benefit button where the Give link
+// sits (the Give link comes back by itself on the first build after the event);
+// the mobile menu lists Benefit above Give.
 const NAV = [
   { label: 'Program', href: 'program.html', children: [['12-Week Accelerator', 'accelerator.html'], ['Workshop Series', 'workshops.html'], ['Founder Resources', 'resources.html'], ...(MENTOR_WALL_LIVE ? [['Mentors', 'mentors.html']] : [])] },
   { label: 'FAQ', href: 'faq.html' },
   { label: 'Impact', href: 'impact.html' },
-  ...(BENEFIT_LIVE ? [{ label: 'Benefit', href: 'benefit.html', mark: true }] : []),
   { label: 'Partner', href: 'partner.html', children: [['For Cities &amp; County', 'partner-cities-county.html'], ['For Foundations', 'partner-foundations.html']] },
   { label: 'About', href: 'about.html', children: [['Board of Directors', 'about.html#board'], ['Join the Board', 'board-interest.html'], ['Leadership', 'lukeerickson.html'], ['Why Ventura County', 'why-ventura-county.html'], ['Ecosystem Guide', 'ecosystem.html']] },
   // Events left the top bar on 2026-10-27 (footer Explore and the home page link to it).
@@ -311,7 +304,7 @@ ${statusBar()}
     </a>
     <div class="nav-right">
       <div class="primary-nav primary-nav--right">${navList(NAV.slice(NAV_SPLIT), file)}</div>
-      <div class="header-cta">${SHOW_HEADER_GIVE ? `<a class="header-cta__give" href="${ZEFFY}" target="_blank" rel="noopener" data-cta="give" data-cta-location="header">Give</a>` : ''}${apply('Apply', 'btn--primary header-cta__apply')}
+      <div class="header-cta">${BENEFIT_LIVE ? `<a class="header-cta__benefit" href="benefit.html"${file === 'benefit.html' ? ' aria-current="page"' : ''} data-cta="benefit-details" data-cta-location="header">Benefit</a>` : SHOW_HEADER_GIVE ? `<a class="header-cta__give" href="${ZEFFY}" target="_blank" rel="noopener" data-cta="give" data-cta-location="header">Give</a>` : ''}${apply('Apply', 'btn--primary header-cta__apply')}
         <button class="menu-toggle" type="button" aria-controls="sv-mobile-menu" aria-expanded="false"><span class="sr-only">Menu</span><span class="bar"></span><span class="bar"></span><span class="bar"></span></button>
       </div>
     </div>
@@ -319,7 +312,7 @@ ${statusBar()}
 </header>
 <div class="mobile-menu" id="sv-mobile-menu">
   <button class="mobile-menu__close" type="button" aria-label="Close menu">&times;</button>
-  <nav aria-label="Mobile">${navList(MOBILE_NAV, file)}${SHOW_HEADER_GIVE ? `<ul class="sv-menu"><li class="menu-item"><a href="${ZEFFY}" target="_blank" rel="noopener" data-cta="give" data-cta-location="mobile-menu">Give</a></li></ul>` : ''}</nav>
+  <nav aria-label="Mobile">${navList(MOBILE_NAV, file)}${BENEFIT_LIVE ? `<ul class="sv-menu"><li class="menu-item menu-item--benefit"><a href="benefit.html"${file === 'benefit.html' ? ' aria-current="page"' : ''} data-cta="benefit-details" data-cta-location="mobile-menu">Benefit</a></li></ul>` : ''}${SHOW_HEADER_GIVE ? `<ul class="sv-menu"><li class="menu-item"><a href="${ZEFFY}" target="_blank" rel="noopener" data-cta="give" data-cta-location="mobile-menu">Give</a></li></ul>` : ''}</nav>
   ${apply('Apply', 'btn--primary btn--lg btn--full')}
 </div>
 <main id="main" class="site-main">`;
@@ -646,12 +639,12 @@ ${seo}<link rel="preload" href="${A}/fonts/archivo-latin.woff2" as="font" type="
 <link rel="preload" href="${A}/fonts/hanken-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="${A}/fonts/spacemono-400-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="${A}/fonts/spacemono-700-latin.woff2" as="font" type="font/woff2" crossorigin>
-${overHero ? `<link rel="preload" as="image" type="image/webp" imagesrcset="${A}/img/hero-960.webp 960w, ${A}/img/hero-1600.webp 1600w" imagesizes="100vw" fetchpriority="high">\n` : ''}
+${overHero ? `<link rel="preload" as="image" type="image/webp" imagesrcset="${HERO_PRELOAD}" imagesizes="100vw" fetchpriority="high">\n` : ''}
 <link rel="icon" href="${A}/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="${A}/img/favicon.png" sizes="any" type="image/png">
 <link rel="apple-touch-icon" href="${A}/img/favicon-180.png">
 <link rel="alternate" type="application/rss+xml" title="Startup Ventura News" href="${SITE}/feed.xml">
-<link rel="stylesheet" href="${A}/css/main.css?v=63">
+<link rel="stylesheet" href="${A}/css/main.css?v=64">
 ${SEASON ? `<link rel="stylesheet" href="${A}/css/seasonal.css?v=${SEASONAL_VERSION}">\n` : ''}${analyticsHead()}</head>
 <body class="${overHero ? 'home' : ''}"${SEASON ? ` data-season="${SEASON}"` : ''}>
 ${analyticsBody()}
@@ -662,7 +655,7 @@ ${newsletter}
 ${footer()}
 ${(robots || '').includes('noindex') || /^(404|thank-you|connected|thanks-)/.test(file) || !body.includes('data-gi-open') ? '' : giModal(file)}
 ${benefitPop(file)}
-<script src="${A}/js/main.js?v=48"></script>${SEASON ? `\n<script src="${A}/js/seasonal.js?v=${SEASONAL_VERSION}" defer></script>` : ''}
+<script src="${A}/js/main.js?v=49"></script>${SEASON ? `\n<script src="${A}/js/seasonal.js?v=${SEASONAL_VERSION}" defer></script>` : ''}
 ${(body + newsletter).includes('data-netlify') ? NF_SCRIPT + (TURNSTILE_SITE_KEY ? '\n' + TURNSTILE_SCRIPT : '') : ''}
 </body></html>`;
   fs.writeFileSync(path.join(OUT, file), html);
@@ -1068,42 +1061,57 @@ const mentorStrip = () => `<section class="section"><div class="wrap">${headC('W
 
 /* ---------------- pages ---------------- */
 
-// HOME HERO. One panel per tab: Founders (always there, and the page's only H1),
-// the Annual Benefit while BENEFIT_LIVE, and Mentors behind HERO_MENTOR_TAB (top
-// of this file). With a single tab the hero is the plain hero: no tab list, no
-// extra photos, the stock wave. With two or more, main.js section 19 shows the tab
-// list and washes the wave over the photo to change panels. The extra photos are
-// hidden <img> tags with data-src only: nothing but the Founders photo loads with
-// the page, and section 19 loads them afterwards and draws them on a canvas.
-// Without JavaScript only the Founders panel shows and the tab list stays hidden.
-// Headings and lines on the later tabs are built from short unbroken pieces, each
+// HOME HERO: a carousel. Slides in order: the Annual Benefit while BENEFIT_LIVE,
+// Founders (always there), the latest news post, and Mentors behind HERO_MENTOR_TAB
+// (top of this file). Each slide is a background (.hero-bg: photo, scrim, shade)
+// and a panel of copy; main.js section 19 slides both sideways together, runs the
+// labelled tab list, the arrows and the pause button, and advances by itself.
+// The first slide is the page as it loads: its photo is the eager, preloaded one
+// and its heading is the page's H1. Later slides' photos are hidden <img> tags
+// with data-src only, loaded by section 19 after the page and drawn on a canvas.
+// Without JavaScript only the first slide shows and the controls stay hidden.
+// Headings and lines on later slides are built from short unbroken pieces, each
 // its own inline block with its space inside it. The words read and wrap as usual,
-// but no single block of text on a later tab is bigger than the Founders heading,
-// so a tab that appears seconds after load can never be taken by the browser as
-// the page's largest contentful paint.
+// but no single block of text on a later slide is big enough for the browser to
+// take it, seconds after load, as the page's largest contentful paint.
 const heroPieces = (pieces) => pieces.map((t, i) => `<span>${t}${i < pieces.length - 1 ? ' ' : ''}</span>`).join('');
-const heroPhoto = pic(`${A}/img/hero.jpg`, { cls: 'hero-bg-img', w: 1600, h: 1060, alt: 'Ventura, California', sizes: '100vw', eager: true });
-const HERO_TABS = [
-  { key: 'founders', label: 'Founders',
-    copy: `<p class="eyebrow">Spring 2027 cohort &middot; Applications open January 2027</p><h1 class="display">Great founders grow up <span class="coral">here.</span></h1><p class="sub">A 12-week accelerator for Ventura County founders. Free, no equity. One in-person day a week, the rest remote.</p><div class="cta-row">${apply('Apply', 'btn--primary', 'home-hero-founders')}<a class="btn btn--ghost" href="contact.html" data-gi-open data-cta="get-involved" data-cta-location="home-hero-founders">Get involved</a></div>` },
-  ...(BENEFIT_LIVE ? [{ key: 'benefit', label: `${BENEFIT_DAY_SHORT} benefit`, until: BENEFIT_END_MS,
-    photo: benefitPhoto({ lazySrc: true, attrs: `hidden data-hero-photo="benefit" data-benefit-until="${BENEFIT_END_MS}"` }),
-    copy: `<p class="eyebrow">${BENEFIT.name}</p>${benefitHeadline('h2', '', 'display').replace(/<\/span> <span/g, ' </span><span')}<p class="sub">${heroPieces([`${BENEFIT_DAY} &middot;`, `${BENEFIT_HOURS} &middot;`, BENEFIT_PLACE])}</p><div class="cta-row">${benefitRsvp('home-hero-benefit')}<a class="btn btn--ghost" href="benefit.html" data-cta="benefit-details" data-cta-location="home-hero-benefit">Event details</a></div>` }] : []),
-  ...(HERO_MENTOR_TAB ? [{ key: 'mentors', label: 'Mentors',
-    photo: `<img hidden data-hero-photo="mentors" data-src="${A}/img/hero-mentor-960.webp" data-srcset="${A}/img/hero-mentor-960.webp 960w, ${A}/img/hero-mentor-1600.webp 1600w" sizes="100vw" alt="" decoding="async">`,
-    copy: `<p class="eyebrow">Mentor a founder</p><h2 class="display">${heroPieces('Lend your skills to a founder.'.split(' '))}</h2><p class="sub">${heroPieces('An hour of your experience can change a company&rsquo;s trajectory.'.split(' '))}</p><div class="cta-row"><a class="btn btn--blue" href="mentor.html" data-cta="mentor" data-cta-location="home-hero-mentors">Become a mentor</a>${MENTOR_WALL_LIVE ? '<a class="btn btn--ghost" href="mentors.html" data-cta="mentors" data-cta-location="home-hero-mentors">Meet the mentors</a>' : ''}</div>` }] : []),
+const heroWords = (text) => heroPieces(text.split(' '));
+const HERO_FOUNDERS_SET = `${A}/img/hero-960.webp 960w, ${A}/img/hero-1600.webp 1600w`;
+const HERO_BENEFIT_SET = [640, 960, 1600, 2400].map((w) => `${BENEFIT.photo}-${w}.webp ${w}w`).join(', ');
+const heroLazy = (key, src, set, extra = '') => `<img hidden data-hero-photo="${key}" data-src="${src}" data-srcset="${set}" sizes="100vw" alt="" decoding="async"${extra}>`;
+const heroNewsPost = newsPosts.filter((p) => !p.archived)[0];
+const heroNewsImg = heroNewsPost.img.replace(/\.jpg(\?.*)?$/, '');
+// first: this slide is the one the page loads with.
+const HERO_SLIDES = [
+  ...(BENEFIT_LIVE ? [{ key: 'benefit', label: `${BENEFIT_DAY_SHORT} benefit`, until: BENEFIT_END_MS, shade: true, preload: HERO_BENEFIT_SET,
+    photo: (first) => first ? benefitPhoto({ cls: 'hero-bg-img', eager: true }) : heroLazy('benefit', `${BENEFIT.photo}-960.webp`, HERO_BENEFIT_SET),
+    copy: (first) => `<p class="eyebrow">${BENEFIT.name}</p>${benefitHeadline(first ? 'h1' : 'h2', '', 'display hero-h').replace(/<\/span> <span/g, ' </span><span')}<p class="sub">${heroPieces([`${BENEFIT_DAY} &middot;`, `${BENEFIT_HOURS} &middot;`, BENEFIT_PLACE])}</p><div class="cta-row">${benefitRsvp('home-hero-benefit')}<a class="btn btn--ghost" href="benefit.html" data-cta="benefit-details" data-cta-location="home-hero-benefit">Event details</a></div>` }] : []),
+  { key: 'founders', label: 'Founders', preload: HERO_FOUNDERS_SET,
+    photo: (first) => first ? pic(`${A}/img/hero.jpg`, { cls: 'hero-bg-img', w: 1600, h: 1060, alt: 'Ventura, California', sizes: '100vw', eager: true }) : heroLazy('founders', `${A}/img/hero-960.webp`, HERO_FOUNDERS_SET),
+    copy: (first) => `<p class="eyebrow">Spring 2027 cohort &middot; Applications open January 2027</p>${first ? '<h1 class="display">Great founders grow up <span class="coral">here.</span></h1><p class="sub">A 12-week accelerator for Ventura County founders. Free, no equity. One in-person day a week, the rest remote.</p>' : `<h2 class="display hero-h">${heroPieces(['Great', 'founders', 'grow', 'up', '<span class="coral">here.</span>'])}</h2><p class="sub">${heroWords('A 12-week accelerator for Ventura County founders. Free, no equity. One in-person day a week, the rest remote.')}</p>`}<div class="cta-row">${apply('Apply', 'btn--primary', 'home-hero-founders')}<a class="btn btn--ghost" href="contact.html" data-gi-open data-cta="get-involved" data-cta-location="home-hero-founders">Get involved</a></div>` },
+  { key: 'news', label: 'News', plain: true,
+    // No photo: a navy backdrop. The latest post's picture rides in the panel as a card on wide screens.
+    photo: () => '',
+    copy: () => `<p class="eyebrow">Latest news</p><h2 class="display hero-h">${heroWords('The latest from Startup Ventura.')}</h2><p class="sub">${heroWords(heroNewsPost.title)}</p><div class="cta-row"><a class="btn btn--blue" href="${heroNewsPost.file}" data-cta="news-post" data-cta-location="home-hero-news">Read the story</a><a class="btn btn--ghost" href="news.html" data-cta="news" data-cta-location="home-hero-news">All news</a></div><a class="hero-news__card" href="${heroNewsPost.file}" tabindex="-1" aria-hidden="true" data-cta="news-post" data-cta-location="home-hero-news-card">${heroLazy('news', `${heroNewsImg}-760.webp`, `${heroNewsImg}-360.webp 360w, ${heroNewsImg}-760.webp 760w`, ' data-hero-fit="card"')}</a>` },
+  ...(HERO_MENTOR_TAB ? [{ key: 'mentors', label: 'Mentors', shade: true,
+    photo: () => heroLazy('mentors', `${A}/img/hero-mentor-960.webp`, `${A}/img/hero-mentor-960.webp 960w, ${A}/img/hero-mentor-1600.webp 1600w`),
+    copy: () => `<p class="eyebrow">Mentor a founder</p><h2 class="display hero-h">${heroWords('Lend your skills to a founder.')}</h2><p class="sub">${heroWords('An hour of your experience can change a company&rsquo;s trajectory.')}</p><div class="cta-row"><a class="btn btn--blue" href="mentor.html" data-cta="mentor" data-cta-location="home-hero-mentors">Become a mentor</a>${MENTOR_WALL_LIVE ? '<a class="btn btn--ghost" href="mentors.html" data-cta="mentors" data-cta-location="home-hero-mentors">Meet the mentors</a>' : ''}</div>` }] : []),
 ];
+const HERO_PRELOAD = HERO_SLIDES[0].preload;
+const heroIcon = (d) => `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
 const homeHero = () => {
-  if (HERO_TABS.length < 2) return `<section class="hero">${heroPhoto}<div class="hero-scrim"></div>
-  <div class="hero-inner">${HERO_TABS[0].copy}</div>${waveFull}</section>`;
+  if (HERO_SLIDES.length < 2) return `<section class="hero">${HERO_SLIDES[0].photo(true)}<div class="hero-scrim"></div>
+  <div class="hero-inner">${HERO_SLIDES[0].copy(true)}</div>${waveFull}</section>`;
   const until = (t) => t.until ? ` data-benefit-until="${t.until}"` : '';
-  const dated = HERO_TABS.filter((t) => t.until);
-  return `<section class="hero hero--tabs" data-hero-tabs data-hero-tab="founders">${heroPhoto}${HERO_TABS.map((t) => t.photo || '').join('')}<div class="hero-scrim"></div><div class="hero-shade"></div>
+  const dated = HERO_SLIDES.filter((t) => t.until);
+  return `<section class="hero hero--slides" data-hero-slides aria-roledescription="carousel" aria-label="Featured">
+  <div class="hero-bgs">${HERO_SLIDES.map((t, i) => `<div class="hero-bg${t.plain ? ' hero-bg--plain' : ''}${i ? '' : ' is-active'}" data-hero-bg="${t.key}"${until(t)}>${t.photo(i === 0)}${t.plain ? '' : '<div class="hero-scrim"></div>'}${t.shade ? '<div class="hero-shade"></div><div class="hero-cap"></div>' : ''}</div>`).join('')}</div>
   <div class="hero-inner">
-    <div class="hero-tabs" role="tablist" aria-label="Featured" hidden>${HERO_TABS.map((t, i) => `<button class="hero-tab" type="button" role="tab" id="hero-tab-${t.key}" aria-controls="hero-panel-${t.key}" aria-selected="${i === 0}"${i ? ' tabindex="-1"' : ''} data-hero-key="${t.key}"${until(t)} data-cta="hero-tab" data-cta-location="home-hero-${t.key}">${t.label}</button>`).join('')}</div>
-    <div class="hero-panels">${HERO_TABS.map((t, i) => `<div class="hero-panel${i ? '' : ' is-active'}" id="hero-panel-${t.key}"${until(t)}${i ? ' inert' : ''}>${t.copy}</div>`).join('')}</div>
+    <div class="hero-nav" hidden><div class="hero-tabs" role="tablist" aria-label="Slides">${HERO_SLIDES.map((t, i) => `<button class="hero-tab" type="button" role="tab" id="hero-tab-${t.key}" aria-controls="hero-panel-${t.key}" aria-selected="${i === 0}"${i ? ' tabindex="-1"' : ''} data-hero-key="${t.key}"${until(t)} data-cta="hero-tab" data-cta-location="home-hero-${t.key}">${t.label}</button>`).join('')}</div><button class="hero-pause" type="button" aria-label="Pause the slides" data-hero-pause><span class="hero-pause__pause">${heroIcon('<path d="M7 4.5v11M13 4.5v11"/>')}</span><span class="hero-pause__play">${heroIcon('<path d="M7 4.5l8 5.5-8 5.5z" fill="currentColor"/>')}</span></button></div>
+    <div class="hero-panels">${HERO_SLIDES.map((t, i) => `<div class="hero-panel${i ? '' : ' is-active'}" id="hero-panel-${t.key}"${until(t)}${i ? ' inert' : ''}>${t.copy(i === 0)}</div>`).join('')}</div>
   </div>
-  <div class="hero-cap"></div>${heroWave}<p class="sr-only" role="status" data-hero-status></p></section>${dated.length ? `<script>(function(){var h=document.currentScript.previousElementSibling,n=Date.now();if(!h||n<${Math.min(...dated.map((t) => t.until))}){return;}[].slice.call(h.querySelectorAll('[data-benefit-until]')).forEach(function(e){if(n>=+e.getAttribute('data-benefit-until')){e.parentNode.removeChild(e);}});})();</script>` : ''}`;
+  <button class="hero-arrow hero-arrow--prev" type="button" aria-label="Previous slide" data-hero-step="-1" hidden>${heroIcon('<path d="M12.5 4l-6 6 6 6"/>')}</button><button class="hero-arrow hero-arrow--next" type="button" aria-label="Next slide" data-hero-step="1" hidden>${heroIcon('<path d="M7.5 4l6 6-6 6"/>')}</button>
+  ${waveFull}<p class="sr-only" role="status" data-hero-status></p></section>${dated.length ? `<script>(function(){var h=document.currentScript.previousElementSibling,n=Date.now();if(!h||n<${Math.min(...dated.map((t) => t.until))}){return;}[].slice.call(h.querySelectorAll('[data-benefit-until]')).forEach(function(e){if(n>=+e.getAttribute('data-benefit-until')){e.parentNode.removeChild(e);}});var b=h.querySelector('.hero-bg'),p=h.querySelector('.hero-panel'),t=h.querySelector('.hero-tab'),i=b&&b.querySelector('img[data-src]');if(b&&p&&!b.classList.contains('is-active')){b.classList.add('is-active');p.classList.add('is-active');p.removeAttribute('inert');if(t){t.setAttribute('aria-selected','true');t.removeAttribute('tabindex');}if(i&&!i.getAttribute('data-hero-fit')){i.className='hero-bg-img';i.srcset=i.getAttribute('data-srcset');i.src=i.getAttribute('data-src');i.removeAttribute('data-src');i.removeAttribute('hidden');}}})();</script>` : ''}`;
 };
 
 // HOME
@@ -2139,7 +2147,7 @@ page('benefit.html', {
   body: `<section class="benefit-hero">
   <div class="benefit-hero__photo">${benefitPhoto({ cls: 'benefit-hero__img', eager: true })}<div class="wrap benefit-hero__pillrow"><p class="benefit-pill">You&rsquo;re invited</p></div></div>
   <div class="wrap benefit-hero__row">
-    <div class="benefit-card benefit-hero__card">${benefitSticker('benefit-hero__sticker')}<p class="eyebrow">Startup Ventura Annual Benefit</p>${benefitHeadline('h1')}${waveRule}<p class="benefit-card__line">A night on the rooftop with Ventura County&rsquo;s founders, mentors and partners.</p><div class="benefit-card__actions"><a class="btn btn--blue btn--lg" href="#rsvp" data-cta="benefit-rsvp" data-cta-location="benefit-hero">RSVP now</a><a class="btn btn--ghost btn--lg" href="#sponsor" data-cta="benefit-sponsor" data-cta-location="benefit-hero">Become a sponsor</a></div></div>
+    <div class="benefit-card benefit-hero__card">${benefitSticker('benefit-hero__sticker')}<p class="eyebrow">Startup Ventura Annual Benefit</p>${benefitHeadline('h1')}<p class="benefit-when"><span class="benefit-when__date">${BENEFIT_DAY_SHORT}</span><span class="benefit-when__meta"><span>${BENEFIT_DAY.split(',')[0]}</span><span>${BENEFIT_HOURS}</span></span></p>${waveRule}<p class="benefit-card__line">A night on the rooftop with Ventura County&rsquo;s founders, mentors and partners.</p><div class="benefit-card__actions"><a class="btn btn--blue btn--rsvp btn--lg" href="#rsvp" data-cta="benefit-rsvp" data-cta-location="benefit-hero">RSVP now</a><a class="btn btn--ghost btn--lg" href="#sponsor" data-cta="benefit-sponsor" data-cta-location="benefit-hero">Become a sponsor</a></div></div>
     ${benefitDate('page')}
   </div>
 </section>

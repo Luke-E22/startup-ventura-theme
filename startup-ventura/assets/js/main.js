@@ -748,85 +748,72 @@
 })();
 
 /* ---------------------------------------------------------------------
- * 19. Home hero tabs and the wave wash.
+ * 19. Home hero carousel.
  *
- * gen.mjs builds the hero with one panel per tab (Founders first) when there
- * are two or more, and marks it data-hero-tabs. This turns the hidden button
- * list into tabs (arrow keys, Home and End, one tab stop). Changing tabs lifts
- * the hero's own wave until it covers the hero, swaps the photo and the copy
- * underneath, and lets the wave fall back. Only transforms are animated.
+ * gen.mjs builds the hero with one slide per tab when there are two or
+ * more, and marks it data-hero-slides. A slide is a background (.hero-bg)
+ * and a panel of copy; changing slides moves both sideways together, the
+ * old one out and the new one in. Only transforms are animated.
  *
- * The other tabs' photos load after the page has loaded. A tab never shows
- * before its photo has decoded: a click waits for it, the automatic pass
- * skips it. Those photos are drawn on a <canvas>, not shown as <img>: an image
- * that first appears seconds after load can be taken by the browser as the
- * page's largest contentful paint, and a canvas cannot.
+ * Controls: the labelled tab list (arrow keys, Home and End, one tab
+ * stop), previous and next arrows on wide screens, a swipe on touch, and
+ * a pause button.
  *
- * One automatic pass per browser session: about 10 seconds after load it
- * washes to each tab in turn, holds each about 8 seconds, returns to
- * Founders and stops. A tab click, a swipe, keyboard focus in the hero,
- * scrolling past the hero, or a dialog the visitor opens ends it for good.
- * It waits while the browser tab is hidden and while the site pop-up is
- * open (the countdown starts again afterwards), and the hero never washes
- * behind an open dialog. Dialogs are detected the way section 18 does it,
- * by the scroll lock they put on <body>.
+ * Later slides' photos load after the page has loaded. A slide never
+ * shows before its photo has decoded: a click waits for it, the automatic
+ * advance skips it. Those photos are drawn on a <canvas>, not shown as
+ * <img>: an image that first appears seconds after load can be taken by
+ * the browser as the page's largest contentful paint, and a canvas cannot.
  *
- * With prefers-reduced-motion there is no wash and no automatic pass, only
- * a short fade. A tab with data-benefit-until is removed once that time has
- * passed; with one tab left the hero goes back to the plain hero.
+ * It advances by itself every few seconds and loops. It holds while the
+ * pointer is over the copy or the controls, while keyboard focus is in
+ * the hero, while the hero is scrolled away, while the browser tab is
+ * hidden and while a dialog is open (dialogs are detected the way section
+ * 18 does it, by the scroll lock they put on <body>). Choosing a slide,
+ * or the pause button, stops it until the button is pressed again.
+ *
+ * With prefers-reduced-motion nothing moves by itself and slides change
+ * at once. A slide with data-benefit-until is removed once that time has
+ * passed; with one slide left the hero goes back to the plain hero.
  * ------------------------------------------------------------------- */
-(function heroTabs() {
-	var hero = document.querySelector('[data-hero-tabs]');
+(function heroCarousel() {
+	var hero = document.querySelector('[data-hero-slides]');
 	if (!hero || !window.Promise) { return; }
 	var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
+	var nav = hero.querySelector('.hero-nav');
 	var list = hero.querySelector('.hero-tabs');
 	var status = hero.querySelector('[data-hero-status]');
-	var wave = hero.querySelector('.hero-wash');
-	var washBody = hero.querySelector('.hero-wash__body');
-	var bands = wave ? $$('.band', wave) : [];
-	var crest = wave && wave.querySelector('.crest');
-	if (!list || !washBody || !crest || bands.length !== 4) { return; }
+	var pauseBtn = hero.querySelector('[data-hero-pause]');
+	var arrows = $$('[data-hero-step]', hero);
+	if (!nav || !list) { return; }
 
-	// One canvas shows whichever of the other tabs' photos is up (see the note on photos above).
-	var canvas = document.createElement('canvas');
-	canvas.className = 'hero-bg-img hero-bg-img--alt';
-	canvas.setAttribute('aria-hidden', 'true');
-	var canvasKey = '';
-	if (!canvas.getContext) { return; }
-	hero.insertBefore(canvas, hero.querySelector('.hero-scrim'));
-
-	var parts = bands.concat([crest]);
-	var ORDER = [0, 1, 2, 3, 0];        // which band each part rides with (the crest rides the top band)
-	var LEAD = [0.2, 0.13, 0.065, 0];   // how much further each band rises than the lowest one, in wave heights
-	var RISE_MS = 1000, RISE_STAGGER_MS = 45, HOLD_MS = 120, FALL_MS = 1200, FALL_STAGGER_MS = 70, REVEAL_AT_MS = 720;
-	var EASE_IN = 'cubic-bezier(.5,.05,.7,.5)', EASE_OUT = 'cubic-bezier(.22,.68,.18,1)';
-	var AUTO_FIRST_MS = 10000, AUTO_HOLD_MS = 8000, SESSION_KEY = 'sv_hero_auto_done';
+	var SLIDE_MS = 700, EASE = 'cubic-bezier(.65,0,.35,1)', AUTO_MS = 7000;
 	var motionQuery = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
 
-	var tabs = $$('[role="tab"]', list).map(function (btn) {
+	var slides = $$('[role="tab"]', list).map(function (btn) {
 		var key = btn.getAttribute('data-hero-key');
-		var img = hero.querySelector('img[data-hero-photo="' + key + '"]');
+		var img = hero.querySelector('img[data-hero-photo="' + key + '"][data-src]');
 		return {
 			key: key, btn: btn, img: img,
 			panel: document.getElementById('hero-panel-' + key),
+			bg: hero.querySelector('[data-hero-bg="' + key + '"]'),
 			until: +btn.getAttribute('data-benefit-until') || 0,
+			card: !!img && img.getAttribute('data-hero-fit') === 'card',   // a picture beside the copy, not the backdrop
 			ready: null,      // promise, once the photo has been asked for
 			done: !img,       // photo decoded (or there is none to wait for)
-			noPhoto: false    // the photo failed to load: the copy still shows, over the Founders photo
+			noPhoto: false    // the photo failed to load: the copy still shows
 		};
-	}).filter(function (t) { return t.panel; });
+	}).filter(function (s) { return s.panel && s.bg; });
 
-	var cur = 0, want = 0;                 // tab on screen, tab asked for
-	var wantHow = '', curHow = '';         // 'click' | 'keyboard' | 'swipe' | 'auto'
-	var phase = 'idle';                    // idle | rise | hold | fall | fade
-	var gen = 0, anims = [], timers = [], washSize = '', dead = false;
-	var auto = { state: 'idle', timer: 0, wait: AUTO_FIRST_MS, next: 1 };   // idle (not armed yet) | on | off
+	var cur = 0, want = 0;                 // slide on screen, slide asked for
+	var wantHow = '', wantDir = 1;         // 'click' | 'arrow' | 'keyboard' | 'swipe' | 'auto'; 1 = forward
+	var phase = 'idle';                    // idle | slide
+	var gen = 0, anims = [], dead = false;
+	var auto = { on: false, timer: 0, hover: false, focus: false, away: false };
 	var lockWatch = null, scrollWatch = null, statusTimer = 0;
 
-	function fadeMode() { return !!(motionQuery && motionQuery.matches) || !wave.animate; }
+	function still() { return !!(motionQuery && motionQuery.matches) || !hero.animate; }
 	function locked() { return document.body.style.overflow === 'hidden'; }
-	function later(fn, ms) { timers.push(setTimeout(fn, ms)); }
-	function clearTimers() { timers.forEach(clearTimeout); timers = []; }
 	function track(name, params) {
 		window.dataLayer = window.dataLayer || [];
 		var o = { event: name };
@@ -836,321 +823,261 @@
 	}
 
 	/* --- photos ---------------------------------------------------------- */
-	function load(t) {
-		if (t.ready) { return t.ready; }
-		if (!t.img) { t.done = true; t.ready = Promise.resolve(); return t.ready; }
-		var img = t.img;
-		// The smallest file that still fills the screen (what srcset with sizes="100vw" would choose).
-		var need = window.innerWidth * (window.devicePixelRatio || 1), src = '', srcW = Infinity, big = '', bigW = 0;
+	function paint(s) {
+		var img = s.img, c = document.createElement('canvas');
+		if (s.noPhoto || !c.getContext) {
+			s.noPhoto = true;
+			if (s.card) { img.parentNode.hidden = true; }
+			return;
+		}
+		c.className = s.card ? 'hero-news__img' : 'hero-bg-img';
+		c.setAttribute('aria-hidden', 'true');
+		c.width = img.naturalWidth;
+		c.height = img.naturalHeight;
+		c.getContext('2d').drawImage(img, 0, 0);
+		img.parentNode.insertBefore(c, img);
+	}
+	function load(s) {
+		if (s.ready) { return s.ready; }
+		if (!s.img) { s.done = true; s.ready = Promise.resolve(); return s.ready; }
+		var img = s.img;
+		// The smallest file that still fills its box (what srcset with sizes would choose).
+		var need = (s.card ? 440 : window.innerWidth) * (window.devicePixelRatio || 1), src = '', srcW = Infinity, big = '', bigW = 0;
 		(img.getAttribute('data-srcset') || '').split(',').forEach(function (c) {
 			var m = c.trim().match(/^(\S+)\s+(\d+)w$/);
 			if (!m) { return; }
 			if (+m[2] >= need && +m[2] < srcW) { srcW = +m[2]; src = m[1]; }
 			if (+m[2] > bigW) { bigW = +m[2]; big = m[1]; }
 		});
-		t.ready = new Promise(function (resolve) {
-			var settle = function () { t.noPhoto = !(img.complete && img.naturalWidth > 0); t.done = true; resolve(); };
+		s.ready = new Promise(function (resolve) {
+			var settle = function () {
+				s.noPhoto = !(img.complete && img.naturalWidth > 0);
+				try { paint(s); } catch (e) { s.noPhoto = true; }
+				s.done = true;
+				resolve();
+			};
 			img.src = src || big || img.getAttribute('data-src');
 			if (img.decode) { img.decode().then(settle, settle); }
 			else { img.addEventListener('load', settle); img.addEventListener('error', settle); }
 		});
-		return t.ready;
+		return s.ready;
 	}
 
 	/* --- what is on screen ----------------------------------------------- */
 	function select(i) {
-		tabs.forEach(function (t, k) {
-			t.btn.setAttribute('aria-selected', k === i ? 'true' : 'false');
-			if (k === i) { t.btn.removeAttribute('tabindex'); } else { t.btn.setAttribute('tabindex', '-1'); }
+		slides.forEach(function (s, k) {
+			s.btn.setAttribute('aria-selected', k === i ? 'true' : 'false');
+			if (k === i) { s.btn.removeAttribute('tabindex'); } else { s.btn.setAttribute('tabindex', '-1'); }
 		});
 	}
 	// Narrow screens: the shade over the brighter photos is full strength from the copy down
-	// (.hero-shade in main.css), so it needs to know where the copy on screen starts.
+	// (.hero-shade in main.css), so each of those slides needs to know where its copy starts.
 	function placeShade() {
-		var top = tabs[cur].panel.getBoundingClientRect().top - hero.getBoundingClientRect().top;
-		hero.style.setProperty('--hero-copy-top', Math.round(top) + 'px');
+		var top = hero.getBoundingClientRect().top;
+		slides.forEach(function (s) {
+			if (!s.bg.querySelector('.hero-shade')) { return; }
+			var r = s.panel.getBoundingClientRect();
+			// A panel in mid-slide is off to one side but at its usual height, which is all this needs.
+			s.bg.style.setProperty('--hero-copy-top', Math.round(r.top - top) + 'px');
+		});
 	}
-	// Swaps the photo and the copy. Called while the wave covers the hero (or mid-fade).
+	// Makes slide i the one on screen.
 	function show(i, quiet) {
 		var from = cur;
-		tabs.forEach(function (t, k) {
-			t.panel.classList.toggle('is-active', k === i);
+		slides.forEach(function (s, k) {
+			s.panel.classList.toggle('is-active', k === i);
+			s.bg.classList.toggle('is-active', k === i);
 		});
-		var t = tabs[i];
-		if (t.img && !t.noPhoto) {
-			if (canvasKey !== t.key) {
-				canvas.width = t.img.naturalWidth;
-				canvas.height = t.img.naturalHeight;
-				canvas.getContext('2d').drawImage(t.img, 0, 0);
-				canvasKey = t.key;
-			}
-			canvas.setAttribute('data-photo', t.key);
-			canvas.classList.add('is-on');
-		} else {
-			canvas.removeAttribute('data-photo');
-			canvas.classList.remove('is-on');
-		}
-		hero.setAttribute('data-hero-tab', tabs[i].key);
+		hero.setAttribute('data-hero-slide', slides[i].key);
 		cur = i;
-		placeShade();
-		if (from === i || quiet) { return; }
-		curHow = wantHow;
-		track('hero_tab', {
-			hero_tab: tabs[i].key,
-			hero_tab_from: tabs[from].key,
-			hero_tab_trigger: curHow === 'auto' ? 'auto' : 'chosen',
-			hero_tab_method: curHow
-		});
-		// Announced politely, and only when the visitor asked for the change.
-		if (curHow !== 'auto' && status) {
-			var h = tabs[i].panel.querySelector('h1, h2');
-			status.textContent = tabs[i].btn.textContent + (h ? ': ' + h.textContent.replace(/\s+/g, ' ') : '');
+		if (from === i || quiet || wantHow === 'auto') { return; }
+		// Chosen changes are counted and announced politely; automatic ones are neither.
+		track('hero_slide', { hero_slide: slides[i].key, hero_slide_from: slides[from].key, hero_slide_method: wantHow });
+		if (status) {
+			var h = slides[i].panel.querySelector('h1, h2');
+			status.textContent = slides[i].btn.textContent + (h ? ': ' + h.textContent.replace(/\s+/g, ' ') : '');
 			clearTimeout(statusTimer);
 			statusTimer = setTimeout(function () { status.textContent = ''; }, 4000);
 		}
 	}
-	function reveal() {
-		var p = tabs[cur].panel;
-		p.classList.remove('is-veiled');
-		p.removeAttribute('inert');
-	}
-	// Focus inside the panel that is about to go inert moves to the tab that was asked for.
-	function rescueFocus() {
-		var a = document.activeElement;
-		if (a && tabs[cur].panel.contains(a)) { try { tabs[want].btn.focus(); } catch (e) {} }
-	}
-	function veil() {
-		rescueFocus();
-		tabs.forEach(function (t) { t.panel.classList.add('is-veiled'); t.panel.setAttribute('inert', ''); });
-	}
-	// Back to rest: no animations, no timers, the panel on screen usable, the rest inert.
+	// Back to rest: no animations, the panel on screen usable, the rest inert.
 	function rest() {
 		anims.forEach(function (a) { try { a.cancel(); } catch (e) {} });
 		anims = [];
-		clearTimers();
 		phase = 'idle';
-		hero.classList.remove('is-washing');
-		washBody.style.height = '';
-		tabs.forEach(function (t, k) {
-			t.panel.classList.remove('is-veiled');
-			if (k === cur) { t.panel.removeAttribute('inert'); } else { t.panel.setAttribute('inert', ''); }
+		slides.forEach(function (s, k) {
+			s.panel.classList.remove('is-moving');
+			s.bg.classList.remove('is-moving');
+			if (k === cur) { s.panel.removeAttribute('inert'); } else { s.panel.setAttribute('inert', ''); }
 		});
 	}
 	function finish() {
 		rest();
-		if (want !== cur) { pump(); } else { settled(); }
+		if (want !== cur) { pump(); } else { autoTick(); }
 	}
 	// Jump straight to the end state (a dialog opened, the browser tab was hidden, the hero was resized).
 	function settle() {
 		if (phase === 'idle') { return; }
 		gen++;
 		if (want !== cur) {
-			if (tabs[want].done) { show(want); } else { want = cur; select(cur); }
+			if (slides[want].done) { show(want); } else { want = cur; select(cur); }
 		}
 		rest();
-		settled();
 	}
 
-	/* --- the wash -------------------------------------------------------- */
-	function offsets() {
-		return parts.map(function (el) {
-			try { return new DOMMatrixReadOnly(getComputedStyle(el).transform).m42 || 0; } catch (e) { return 0; }
-		});
+	/* --- the change ------------------------------------------------------ */
+	function slideTo(i) {
+		var g = ++gen, from = slides[cur], to = slides[i];
+		var x = wantDir * hero.offsetWidth;
+		// Focus inside the panel that is leaving moves to the tab that was asked for.
+		var a = document.activeElement;
+		if (a && from.panel.contains(a)) { try { to.btn.focus(); } catch (e) {} }
+		phase = 'slide';
+		[from, to].forEach(function (s) { s.panel.classList.add('is-moving'); s.bg.classList.add('is-moving'); });
+		from.panel.setAttribute('inert', '');
+		var out = [{ transform: 'translate3d(0,0,0)' }, { transform: 'translate3d(' + (-x) + 'px,0,0)' }];
+		var into = [{ transform: 'translate3d(' + x + 'px,0,0)' }, { transform: 'translate3d(0,0,0)' }];
+		var opts = { duration: SLIDE_MS, easing: EASE, fill: 'both' };
+		anims = [from.bg.animate(out, opts), from.panel.animate(out, opts), to.bg.animate(into, opts), to.panel.animate(into, opts)];
+		show(i);
+		Promise.all(anims.map(function (an) { return an.finished; })).then(function () { if (g === gen) { finish(); } }, function () {});
 	}
-	function move(to, duration, delay, easing) {
-		var from = offsets();
-		var old = anims;
-		anims = parts.map(function (el, j) {
-			return el.animate(
-				[{ transform: 'translate3d(0,' + from[j] + 'px,0)' }, { transform: 'translate3d(0,' + to[j] + 'px,0)' }],
-				{ duration: duration(j), delay: delay(j), easing: easing, fill: 'both' }
-			);
-		});
-		old.forEach(function (a) { try { a.cancel(); } catch (e) {} });
-		return Promise.all(anims.map(function (a) { return a.finished; }));
-	}
-	function wash() {
-		var g = ++gen;
-		clearTimers();
-		var H = hero.offsetHeight, W = wave.offsetHeight;
-		var R = H - 0.2 * W;   // lifts the lowest band's crest past the top of the hero
-		washSize = hero.offsetWidth + 'x' + H;
-		washBody.style.height = Math.ceil(R + 6) + 'px';
-		hero.classList.add('is-washing');
-		veil();
-		phase = 'rise';
-		var up = ORDER.map(function (k) { return -(R + LEAD[k] * W); });
-		// From rest this is the full rise. Turning round mid-fall it is the part that is left.
-		var left = Math.min(1, Math.max(0, 1 - Math.abs(offsets()[3]) / R));
-		var scale = Math.max(0.45, left);
-		move(up,
-			function (j) { return (RISE_MS - ORDER[j] * RISE_STAGGER_MS) * scale; },
-			function (j) { return ORDER[j] * RISE_STAGGER_MS * scale; },
-			left < 1 ? 'ease-in-out' : EASE_IN
-		).then(function () { if (g === gen) { covered(g); } }, function () {});
-	}
-	function covered(g) {
-		show(tabs[want].done ? want : cur);
-		phase = 'hold';
-		// The hold, then two frames, so the new photo and copy are painted before the cover lifts.
-		later(function () {
-			requestAnimationFrame(function () { requestAnimationFrame(function () { if (g === gen) { fall(g); } }); });
-		}, HOLD_MS);
-	}
-	function fall(g) {
-		if (want !== cur && tabs[want].done) { show(want); }
-		phase = 'fall';
-		later(function () { if (g === gen) { reveal(); } }, REVEAL_AT_MS);
-		move(parts.map(function () { return 0; }),
-			function (j) { return FALL_MS + (3 - ORDER[j]) * FALL_STAGGER_MS; },
-			function () { return 0; },
-			EASE_OUT
-		).then(function () { if (g === gen) { finish(); } }, function () {});
-	}
-	function fade() {
-		var g = ++gen;
-		clearTimers();
-		veil();
-		phase = 'fade';
-		later(function () {
-			if (g !== gen) { return; }
-			show(tabs[want].done ? want : cur);
-			finish();
-		}, 200);
-	}
-	// Moves toward the tab that was asked for, once its photo is ready.
+	// Moves toward the slide that was asked for, once its photo is ready.
 	function pump() {
-		if (dead || want === cur || phase === 'rise' || phase === 'hold' || phase === 'fade') { return; }
-		var t = tabs[want], w = want;
-		if (!t.done) {
-			t.btn.setAttribute('aria-busy', 'true');
-			load(t).then(function () {
-				t.btn.removeAttribute('aria-busy');
-				if (!dead && want === w && tabs[w] === t) { pump(); }
+		if (dead || want === cur || phase !== 'idle') { return; }
+		var s = slides[want], w = want;
+		if (!s.done) {
+			s.btn.setAttribute('aria-busy', 'true');
+			load(s).then(function () {
+				s.btn.removeAttribute('aria-busy');
+				if (!dead && want === w && slides[w] === s) { pump(); }
 			});
 			return;
 		}
-		if (fadeMode()) { fade(); } else { wash(); }
+		if (still()) { show(want); finish(); } else { slideTo(want); }
 	}
-	function go(t, how) {
+	// dir: 1 comes in from the right, -1 from the left. Left out, it follows the tab order.
+	function go(s, how, dir) {
 		if (dead || prune()) { return; }
-		var i = tabs.indexOf(t);
+		var i = slides.indexOf(s);
 		if (i < 0) { return; }
-		if (how !== 'auto') { autoCancel(); }
+		if (how !== 'auto') { autoStop(); }
 		if (locked() || i === want) { return; }
+		wantDir = dir || (i > want ? 1 : -1);
 		want = i;
 		wantHow = how;
 		select(i);
 		pump();
 	}
+	function step(d, how) {
+		var n = slides.length;
+		go(slides[(want + d + n) % n], how, d);
+	}
 
-	/* --- the automatic pass ---------------------------------------------- */
-	function sessionDone() {
-		try {
-			sessionStorage.setItem(SESSION_KEY + '_probe', '1');
-			sessionStorage.removeItem(SESSION_KEY + '_probe');
-			return sessionStorage.getItem(SESSION_KEY) === '1';
-		} catch (e) { return true; }   // no working storage: it could not be kept to once, so stay still
-	}
-	function markDone() { try { sessionStorage.setItem(SESSION_KEY, '1'); } catch (e) {} }
-	function autoSchedule(ms) {
+	/* --- advancing by itself --------------------------------------------- */
+	function held() { return document.hidden || locked() || auto.hover || auto.focus || auto.away || phase !== 'idle'; }
+	// (Re)starts the wait for the next automatic change, or drops it while something holds the carousel.
+	function autoTick() {
 		clearTimeout(auto.timer);
-		auto.wait = ms;
-		if (auto.state !== 'on' || document.hidden || locked()) { return; }   // autoResume() picks it up
-		auto.timer = setTimeout(autoFire, ms);
-	}
-	function autoResume() { if (auto.state === 'on' && phase === 'idle') { autoSchedule(auto.wait); } }
-	function autoCancel() {
-		if (auto.state === 'off') { return; }
-		auto.state = 'off';
-		clearTimeout(auto.timer);
-		markDone();
+		auto.timer = 0;
+		if (!auto.on || dead || held()) { return; }
+		auto.timer = setTimeout(autoFire, AUTO_MS);
 	}
 	function autoFire() {
-		if (auto.state !== 'on' || dead) { return; }
-		if (document.hidden || locked() || phase !== 'idle') { return; }
-		if (prune()) { return; }
-		var i = auto.next;
-		while (i < tabs.length && !(tabs[i].done && !tabs[i].noPhoto)) { i++; }   // skip a photo that is not in yet
-		markDone();
-		if (i >= tabs.length) {
-			// Past the last tab: back to Founders, then nothing more this session.
-			auto.state = 'off';
-			go(tabs[0], 'auto');
-			return;
+		auto.timer = 0;
+		if (!auto.on || dead || held() || prune()) { return; }
+		// The next slide whose picture is in; one whose backdrop never loaded is passed over.
+		var n = slides.length, k, s;
+		for (k = 1; k < n; k++) {
+			s = slides[(cur + k) % n];
+			if (s.done && (!s.noPhoto || s.card)) { go(s, 'auto', 1); return; }
 		}
-		auto.next = i + 1;
-		go(tabs[i], 'auto');
+		autoTick();
 	}
-	function settled() { if (auto.state === 'on') { autoSchedule(AUTO_HOLD_MS); } }
-	function autoArm() {
-		if (auto.state !== 'idle') { return; }
-		if (dead || tabs.length < 2 || fadeMode() || sessionDone()) { auto.state = 'off'; return; }
-		auto.state = 'on';
-		autoSchedule(AUTO_FIRST_MS);
+	function paintPause() {
+		if (!pauseBtn) { return; }
+		pauseBtn.classList.toggle('is-paused', !auto.on);
+		pauseBtn.setAttribute('aria-label', auto.on ? 'Pause the slides' : 'Play the slides');
 	}
+	function autoStart() { auto.on = true; paintPause(); autoTick(); }
+	function autoStop() { auto.on = false; clearTimeout(auto.timer); auto.timer = 0; paintPause(); }
 
-	/* --- tabs that end (the Annual Benefit) ------------------------------- */
+	/* --- slides that end (the Annual Benefit) ----------------------------- */
 	function teardown() {
 		dead = true;
-		auto.state = 'off';
-		clearTimeout(auto.timer);
+		autoStop();
 		rest();
-		[list, status, washBody, canvas, hero.querySelector('.hero-shade'), hero.querySelector('.hero-cap')].forEach(function (el) {
-			if (el && el.parentNode) { el.parentNode.removeChild(el); }
-		});
-		hero.classList.remove('hero--tabs');
-		hero.classList.remove('hero--fade');
-		hero.removeAttribute('data-hero-tabs');
-		hero.removeAttribute('data-hero-tab');
-		hero.style.removeProperty('--hero-copy-top');
-		wave.classList.remove('hero-wash');
-		var p = tabs[0].panel;
+		[nav, status].concat(arrows).forEach(function (el) { if (el && el.parentNode) { el.parentNode.removeChild(el); } });
+		hero.classList.remove('hero--slides');
+		hero.removeAttribute('data-hero-slides');
+		hero.removeAttribute('data-hero-slide');
+		hero.removeAttribute('aria-roledescription');
+		hero.removeAttribute('aria-label');
+		var p = slides[0].panel;
 		p.removeAttribute('role');
 		p.removeAttribute('aria-labelledby');
 		if (lockWatch) { lockWatch.disconnect(); }
 		if (scrollWatch) { scrollWatch.disconnect(); }
 	}
-	// Removes tabs whose time has passed. True when the hero is back to the plain hero.
+	// Removes slides whose time has passed. True when the hero is back to the plain hero.
 	function prune() {
 		if (dead) { return true; }
-		var gone = tabs.filter(function (t) { return (t.until && Date.now() >= t.until) || !document.contains(t.btn); });
+		var gone = slides.filter(function (s) { return (s.until && Date.now() >= s.until) || !document.contains(s.btn); });
 		if (!gone.length) { return false; }
-		if (locked()) { return false; }   // a dialog is open (it may be this tab's own RSVP form): wait for it to close
-		autoCancel();
+		if (locked()) { return false; }   // a dialog is open (it may be this slide's own RSVP form): wait for it to close
 		settle();
 		var a = document.activeElement;
-		var hadFocus = gone.some(function (t) { return t.btn === a || t.panel.contains(a); });
-		if (gone.indexOf(tabs[cur]) > -1 || gone.indexOf(tabs[want]) > -1) { want = 0; show(0, true); }
-		var keep = tabs[cur];
-		gone.forEach(function (t) {
-			[t.btn, t.panel, t.img].forEach(function (el) { if (el && el.parentNode) { el.parentNode.removeChild(el); } });
+		var hadFocus = gone.some(function (s) { return s.btn === a || s.panel.contains(a); });
+		var keep = slides.filter(function (s) { return gone.indexOf(s) < 0; });
+		if (!keep.length) { return false; }
+		// The slide on screen stays if it can; otherwise the first one left takes over.
+		var next = gone.indexOf(slides[cur]) > -1 ? keep[0] : slides[cur];
+		want = slides.indexOf(next);
+		show(want, true);
+		gone.forEach(function (s) {
+			[s.btn, s.panel, s.bg].forEach(function (el) { if (el && el.parentNode) { el.parentNode.removeChild(el); } });
 		});
-		tabs = tabs.filter(function (t) { return gone.indexOf(t) < 0; });
-		cur = want = tabs.indexOf(keep);
+		slides = keep;
+		cur = want = slides.indexOf(next);
 		select(cur);
 		rest();
-		if (tabs.length < 2) { teardown(); return true; }
-		if (hadFocus) { try { tabs[cur].btn.focus(); } catch (e) {} }
+		load(next);
+		if (slides.length < 2) { teardown(); return true; }
+		placeShade();
+		if (hadFocus) { try { slides[cur].btn.focus(); } catch (e) {} }
 		return false;
 	}
 
 	/* --- start ------------------------------------------------------------ */
+	// The slide the page was built with (or the one the inline script promoted) is the one on screen.
+	slides.forEach(function (s, k) { if (s.panel.classList.contains('is-active')) { cur = want = k; } });
 	if (prune()) { return; }
-	if (tabs.length < 2) { teardown(); return; }
-	tabs.forEach(function (t, k) {
-		t.panel.setAttribute('role', 'tabpanel');
-		t.panel.setAttribute('aria-labelledby', t.btn.id);
-		if (k) { t.panel.setAttribute('inert', ''); }
-		t.btn.addEventListener('click', function (e) { go(t, e.detail === 0 ? 'keyboard' : 'click'); });
-		if (t.until && t.until - Date.now() < 2147483647) { setTimeout(prune, t.until - Date.now() + 50); }
+	if (slides.length < 2) { teardown(); return; }
+	slides.forEach(function (s, k) {
+		s.panel.setAttribute('role', 'tabpanel');
+		s.panel.setAttribute('aria-labelledby', s.btn.id);
+		if (k !== cur) { s.panel.setAttribute('inert', ''); }
+		s.btn.addEventListener('click', function (e) { go(s, e.detail === 0 ? 'keyboard' : 'click'); });
+		if (s.until && s.until - Date.now() < 2147483647) { setTimeout(prune, s.until - Date.now() + 50); }
 	});
-	hero.classList.toggle('hero--fade', fadeMode());
-	list.hidden = false;
+	hero.setAttribute('data-hero-slide', slides[cur].key);
+	select(cur);
+	placeShade();
+	nav.hidden = false;
+	arrows.forEach(function (b) {
+		b.hidden = false;
+		b.addEventListener('click', function (e) { step(+b.getAttribute('data-hero-step'), e.detail === 0 ? 'keyboard' : 'arrow'); });
+	});
+	if (pauseBtn) {
+		pauseBtn.addEventListener('click', function () {
+			if (auto.on) { autoStop(); } else { autoStart(); }
+			track('hero_slide_autoplay', { hero_autoplay: auto.on ? 'on' : 'off' });
+		});
+	}
 
 	list.addEventListener('keydown', function (e) {
-		var i = tabs.map(function (t) { return t.btn; }).indexOf(document.activeElement);
-		var n = tabs.length, to = -1;
+		var i = slides.map(function (s) { return s.btn; }).indexOf(document.activeElement);
+		var n = slides.length, to = -1;
 		if (i < 0) { return; }
 		if (e.key === 'ArrowRight') { to = (i + 1) % n; }
 		else if (e.key === 'ArrowLeft') { to = (i - 1 + n) % n; }
@@ -1158,9 +1085,8 @@
 		else if (e.key === 'End') { to = n - 1; }
 		if (to < 0) { return; }
 		e.preventDefault();
-		var t = tabs[to];
-		t.btn.focus();
-		go(t, 'keyboard');
+		slides[to].btn.focus();
+		go(slides[to], 'keyboard', e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0);
 	});
 
 	// Swipe left or right on touch. Vertical scrolling is left to the browser (touch-action in main.css).
@@ -1178,70 +1104,65 @@
 		if (!s || e.pointerId !== s.id) { return; }
 		var dx = e.clientX - s.x, dy = e.clientY - s.y;
 		if (Math.abs(dx) < 48 || Math.abs(dx) < 1.5 * Math.abs(dy) || e.timeStamp - s.at > 600) { return; }
-		var t = tabs[want + (dx < 0 ? 1 : -1)];
-		if (t) { go(t, 'swipe'); }
+		step(dx < 0 ? 1 : -1, 'swipe');
 	}, { passive: true });
 
-	// Keyboard focus anywhere in the hero ends the automatic pass.
+	// It holds while a mouse is over the copy or the controls...
+	[hero.querySelector('.hero-panels'), nav].forEach(function (el) {
+		if (!el) { return; }
+		el.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') { auto.hover = true; autoTick(); } });
+		el.addEventListener('pointerleave', function (e) { if (e.pointerType === 'mouse') { auto.hover = false; autoTick(); } });
+	});
+	// ...while keyboard focus is anywhere in the hero...
 	hero.addEventListener('focusin', function (e) {
 		var keyboard = true;
 		try { keyboard = e.target.matches(':focus-visible'); } catch (err) {}
-		if (keyboard) { autoCancel(); }
+		if (keyboard && !auto.focus) { auto.focus = true; autoTick(); }
 	});
-	// So does scrolling past it: the hero no longer reaches the lower half of the screen.
+	hero.addEventListener('focusout', function (e) {
+		if (auto.focus && !(e.relatedTarget && hero.contains(e.relatedTarget))) { auto.focus = false; autoTick(); }
+	});
+	// ...and while the hero is scrolled away (it no longer reaches the lower half of the screen).
 	if (window.IntersectionObserver) {
 		scrollWatch = new IntersectionObserver(function (entries) {
-			if (!entries[entries.length - 1].isIntersecting) { autoCancel(); }
+			auto.away = !entries[entries.length - 1].isIntersecting;
+			autoTick();
 		}, { rootMargin: '-50% 0px 0px 0px' });
 		scrollWatch.observe(hero);
 	}
-	// Dialogs lock scrolling on <body>. The site pop-up opens by itself, so it only
-	// delays the pass; anything else was opened by the visitor and ends it.
+	// Dialogs lock scrolling on <body>: nothing moves behind one, and the wait starts again when it closes.
 	if (window.MutationObserver) {
 		lockWatch = new MutationObserver(function () {
 			if (dead) { return; }
-			if (locked()) {
-				clearTimeout(auto.timer);
-				settle();
-				var pop = document.getElementById('sv-benefit-pop');
-				if (!pop || pop.hidden) { autoCancel(); }
-			} else if (!prune()) { autoResume(); }
+			if (locked()) { settle(); autoTick(); }
+			else if (!prune()) { autoTick(); }
 		});
 		lockWatch.observe(document.body, { attributes: true, attributeFilter: ['style'] });
 	}
 	document.addEventListener('visibilitychange', function () {
 		if (dead) { return; }
-		if (document.hidden) { clearTimeout(auto.timer); settle(); }
-		else if (!prune()) { autoResume(); }
+		if (document.hidden) { settle(); autoTick(); }
+		else if (!prune()) { autoTick(); }
 	});
 	window.addEventListener('resize', function () {
 		if (dead) { return; }
-		if (phase !== 'idle' && phase !== 'fade' && washSize !== hero.offsetWidth + 'x' + hero.offsetHeight) { settle(); }
-		if (cur !== 0) { placeShade(); }
+		if (phase !== 'idle') { settle(); autoTick(); }
+		placeShade();
 	});
 	window.addEventListener('pagehide', function () { if (!dead) { settle(); } });
-	// Back from the back/forward cache: no second pass, and a tab the pass had chosen gives way to Founders.
-	window.addEventListener('pageshow', function (e) {
-		if (!e.persisted || dead) { return; }
-		autoCancel();
-		if (prune()) { return; }
-		if (cur !== 0 && curHow === 'auto' && !locked()) { want = 0; select(0); show(0, true); rest(); }
-	});
+	window.addEventListener('pageshow', function (e) { if (e.persisted && !dead && !prune()) { autoTick(); } });
 	if (motionQuery) {
-		var onMotion = function () {
-			if (dead) { return; }
-			hero.classList.toggle('hero--fade', fadeMode());
-			if (fadeMode()) { autoCancel(); settle(); }
-		};
+		var onMotion = function () { if (!dead && still()) { autoStop(); settle(); } };
 		if (motionQuery.addEventListener) { motionQuery.addEventListener('change', onMotion); }
 		else if (motionQuery.addListener) { motionQuery.addListener(onMotion); }
 	}
 
-	// After the page has loaded: fetch the other photos, then start the countdown.
+	// After the page has loaded: fetch the other photos, then start advancing.
 	var afterLoad = function () {
 		var idle = window.requestIdleCallback || function (fn) { setTimeout(fn, 200); };
-		idle(function () { if (!dead) { tabs.forEach(load); } }, { timeout: 2000 });
-		autoArm();
+		idle(function () { if (!dead) { slides.forEach(load); } }, { timeout: 2000 });
+		if (dead) { return; }
+		if (still()) { paintPause(); } else { autoStart(); }
 	};
 	if (document.readyState === 'complete') { afterLoad(); } else { window.addEventListener('load', afterLoad); }
 })();
