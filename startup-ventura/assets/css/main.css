@@ -259,7 +259,7 @@ p.center{margin-inline:auto}
 
 /* ---------- hero carousel (home page; markup from gen.mjs, behavior in main.js section 19) ----------
    Each slide is a background (.hero-bg: photo, scrim, shade) and a panel of copy. Panels share one
-   grid cell, so the hero is as tall as its tallest panel on every slide and the button rows line up.
+   grid cell, so the hero is as tall as its tallest panel on every slide (on phones the button rows line up too).
    main.js moves the two slides involved in a change sideways together (.is-moving). */
 .hero-bgs,.hero-bg{position:absolute;inset:0}
 .hero-bgs{z-index:0;overflow:hidden}
@@ -269,6 +269,11 @@ p.center{margin-inline:auto}
 .hero-panels{display:grid}
 .hero-panel{position:relative;grid-area:1/1;align-self:end;min-width:0}
 .hero-panel:not(.is-active):not(.is-moving){visibility:hidden}
+/* tablets and wider: each slide's copy sits midway between the header and the wave. Phones keep it low, under the photo */
+@media (min-width:701px){
+  .hero--slides{align-items:center}
+  .hero--slides .hero-panel{align-self:center}
+}
 .hero-bg.is-moving,.hero-panel.is-moving{will-change:transform}
 /* slide headings: the first slide's is the page's H1, the rest are H2s at the same size */
 .hero .hero-h{font-size:clamp(38px,6vw,76px);color:#fff;max-width:17ch;text-wrap:balance;text-shadow:0 2px 30px rgba(8,18,26,.35)}
@@ -311,6 +316,8 @@ canvas.hero-bg-img{display:block}
 .hero-fan__img{display:block;width:100%;height:100%;object-fit:cover}
 .hero-fan__date{padding:12px 14px 0;font:700 10.5px/1 var(--font-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--blue)}
 .hero-fan__title{margin:7px 14px 14px;font-family:var(--font-display);font-weight:800;font-size:14px;line-height:1.2;letter-spacing:-.01em;color:var(--navy);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+/* the third card's left edge sits under the middle card, so its words start clear of it */
+.hero-fan__card:nth-child(3) .hero-fan__date,.hero-fan__card:nth-child(3) .hero-fan__title{margin-left:calc(var(--fan-w) * .16 + 4px)}
 /* keeps the short line of copy clear of the fan */
 #hero-panel-news .sub{max-width:400px}
 @media (max-width:999px){
