@@ -285,15 +285,39 @@ p.center{margin-inline:auto}
 canvas.hero-bg-img{display:block}
 /* extra shade for slides whose photo is brighter than the Founders photo (AA for the copy) */
 .hero-shade{position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(to right,color-mix(in srgb,var(--navy-deep) 88%,transparent),color-mix(in srgb,var(--navy-deep) 70%,transparent) 62%,color-mix(in srgb,var(--navy-deep) 32%,transparent))}
-/* narrow screens: the copy spans the full width, so the shade runs top to bottom and is at full strength from just
-   above the copy down (main.js sets --hero-copy-top, the copy's distance from the top of the hero) */
-@media (max-width:700px){.hero-shade{background:linear-gradient(color-mix(in srgb,var(--navy-deep) 56%,transparent),color-mix(in srgb,var(--navy-deep) 94%,transparent) calc(var(--hero-copy-top,96px) - 12px))}}
+/* narrow screens: the copy spans the full width, so the shade runs top to bottom. It is light over the photo above
+   the copy and at full strength from just above the copy down (main.js sets --hero-copy-top, the copy's distance
+   from the top of the hero) */
+@media (max-width:700px){
+  .hero-shade{background:linear-gradient(color-mix(in srgb,var(--navy-deep) 10%,transparent),color-mix(in srgb,var(--navy-deep) 18%,transparent) calc(var(--hero-copy-top,34svh) - 120px),color-mix(in srgb,var(--navy-deep) 94%,transparent) calc(var(--hero-copy-top,34svh) - 12px))}
+  /* the photo is a banner over the top of the hero, down to just past where the copy starts, so the whole
+     scene shows above the copy instead of a narrow strip of it behind the words */
+  .hero-bg--shade .hero-bg-img{height:calc(var(--hero-copy-top,34svh) + 48px);object-position:center 42%}
+}
 /* keeps the transparent header readable over those brighter photos */
 .hero-cap{position:absolute;left:0;right:0;top:0;height:calc(var(--header-h) + 56px);z-index:3;pointer-events:none;background:linear-gradient(color-mix(in srgb,var(--navy-deep) 52%,transparent) 58%,transparent)}
-/* News slide: the latest post's picture, a tilted card riding the wave on wide screens */
-.hero-news__card{position:absolute;right:0;top:calc(100% - 132px);width:clamp(300px,30vw,440px);aspect-ratio:16/9;border-radius:var(--r-lg);overflow:hidden;transform:rotate(2.5deg);background:var(--navy);box-shadow:var(--shadow-lg),0 0 0 5px color-mix(in srgb,#fff 16%,transparent)}
-.hero-news__img{display:block;width:100%;height:100%;object-fit:cover}
-@media (max-width:999px){.hero-news__card{display:none}}
+/* News slide: the three latest posts as a fan of cards. Wide screens: at the right, riding the wave.
+   Narrower: under the button, over the wave. A card straightens and grows a little under the pointer. */
+.hero-fan{--fan-w:clamp(160px,15vw,205px);position:absolute;right:0;top:calc(100% - 92px);display:flex}
+.hero-fan__card{position:relative;flex:0 0 auto;display:flex;flex-direction:column;width:var(--fan-w);margin-left:calc(var(--fan-w) * -0.12);border-radius:var(--r);overflow:hidden;background:var(--paper);color:var(--ink);text-decoration:none;box-shadow:var(--shadow-lg);transform-origin:50% 115%;transition:transform .22s var(--ease),box-shadow .22s}
+.hero-fan__card:first-child{margin-left:0}
+.hero-fan__card:nth-child(1){transform:rotate(-7deg) translateY(10px);z-index:1}
+.hero-fan__card:nth-child(2){transform:translateY(-8px);z-index:2}
+.hero-fan__card:nth-child(3){transform:rotate(7deg) translateY(10px);z-index:1}
+.hero-fan__card:hover,.hero-fan__card:focus-visible{transform:translateY(-14px) scale(1.08);z-index:5;box-shadow:var(--shadow-lg),0 0 0 3px color-mix(in srgb,var(--sky) 70%,transparent)}
+.hero-fan__card:focus-visible{outline:0}
+.hero-fan__pic{display:block;aspect-ratio:16/9;overflow:hidden;background:var(--sky-pale)}
+.hero-fan__pic[hidden]{display:none}
+.hero-fan__img{display:block;width:100%;height:100%;object-fit:cover}
+.hero-fan__date{padding:12px 14px 0;font:700 10.5px/1 var(--font-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--blue)}
+.hero-fan__title{margin:7px 14px 14px;font-family:var(--font-display);font-weight:800;font-size:14px;line-height:1.2;letter-spacing:-.01em;color:var(--navy);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+/* keeps the short line of copy clear of the fan */
+#hero-panel-news .sub{max-width:400px}
+@media (max-width:999px){
+  .hero-fan{--fan-w:clamp(98px,30vw,170px);right:auto;left:0;top:calc(100% + 22px)}
+  .hero-fan__date{display:none}
+  .hero-fan__title{margin:8px 10px 10px;font-size:12px}
+}
 /* controls. Visitors change slides with the arrows (wide screens) or a swipe (touch). The slide list and the
    pause button are not shown: they stay in the page for keyboards and screen readers, and appear as three
    short lines under the buttons only while keyboard focus is in them. */

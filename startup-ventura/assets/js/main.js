@@ -766,9 +766,9 @@
  * the browser as the page's largest contentful paint, and a canvas cannot.
  *
  * It advances by itself every few seconds and loops. It holds while the
- * pointer is over the copy or the controls, while keyboard focus is in
- * the hero, while the hero is scrolled away, while the browser tab is
- * hidden and while a dialog is open (dialogs are detected the way section
+ * pointer is over a button or a news card on the slide, while keyboard
+ * focus is in the hero, while the hero is scrolled away, while the
+ * browser tab is hidden and while a dialog is open (dialogs are detected the way section
  * 18 does it, by the scroll lock they put on <body>). Choosing a slide,
  * or the pause button, stops it until the button is pressed again.
  *
@@ -792,16 +792,16 @@
 
 	var slides = $$('[role="tab"]', list).map(function (btn) {
 		var key = btn.getAttribute('data-hero-key');
-		var img = hero.querySelector('img[data-hero-photo="' + key + '"][data-src]');
+		// Pictures to fetch after the page has loaded: the backdrop photo, or the pictures on the slide's cards.
+		var imgs = $$('img[data-hero-photo="' + key + '"][data-src]', hero);
 		return {
-			key: key, btn: btn, img: img,
+			key: key, btn: btn, imgs: imgs,
 			panel: document.getElementById('hero-panel-' + key),
 			bg: hero.querySelector('[data-hero-bg="' + key + '"]'),
 			until: +btn.getAttribute('data-benefit-until') || 0,
-			card: !!img && img.getAttribute('data-hero-fit') === 'card',   // a picture beside the copy, not the backdrop
-			ready: null,      // promise, once the photo has been asked for
-			done: !img,       // photo decoded (or there is none to wait for)
-			noPhoto: false    // the photo failed to load: the copy still shows
+			ready: null,           // promise, once the pictures have been asked for
+			done: !imgs.length,    // pictures decoded (or there are none to wait for)
+			noPhoto: false         // the backdrop photo failed to load: the copy still shows
 		};
 	}).filter(function (s) { return s.panel && s.bg; });
 
@@ -809,7 +809,8 @@
 	var wantHow = '', wantDir = 1;         // 'click' | 'arrow' | 'keyboard' | 'swipe' | 'auto'; 1 = forward
 	var phase = 'idle';                    // idle | slide
 	var gen = 0, anims = [], dead = false;
-	var auto = { on: false, timer: 0, hover: false, focus: false, away: false };
+	var auto = { on: false, timer: 0, focus: false, away: false };
+	var canHover = !!(window.matchMedia && window.matchMedia('(hover: hover)').matches);
 	var lockWatch = null, scrollWatch = null, statusTimer = 0;
 
 	function still() { return !!(motionQuery && motionQuery.matches) || !hero.animate; }
@@ -823,43 +824,44 @@
 	}
 
 	/* --- photos ---------------------------------------------------------- */
-	function paint(s) {
-		var img = s.img, c = document.createElement('canvas');
-		if (s.noPhoto || !c.getContext) {
-			s.noPhoto = true;
-			if (s.card) { img.parentNode.hidden = true; }
-			return;
-		}
-		c.className = s.card ? 'hero-news__img' : 'hero-bg-img';
+	function isCard(img) { return img.getAttribute('data-hero-fit') === 'card'; }
+	// Draws a loaded picture on a canvas in the tag's place. False when it cannot be shown.
+	function paint(img) {
+		var c = document.createElement('canvas');
+		if (!(img.complete && img.naturalWidth > 0) || !c.getContext) { return false; }
+		c.className = isCard(img) ? 'hero-fan__img' : 'hero-bg-img';
 		c.setAttribute('aria-hidden', 'true');
 		c.width = img.naturalWidth;
 		c.height = img.naturalHeight;
 		c.getContext('2d').drawImage(img, 0, 0);
 		img.parentNode.insertBefore(c, img);
+		return true;
 	}
 	function load(s) {
 		if (s.ready) { return s.ready; }
-		if (!s.img) { s.done = true; s.ready = Promise.resolve(); return s.ready; }
-		var img = s.img;
-		// The smallest file that still fills its box (what srcset with sizes would choose).
-		var need = (s.card ? 440 : window.innerWidth) * (window.devicePixelRatio || 1), src = '', srcW = Infinity, big = '', bigW = 0;
-		(img.getAttribute('data-srcset') || '').split(',').forEach(function (c) {
-			var m = c.trim().match(/^(\S+)\s+(\d+)w$/);
-			if (!m) { return; }
-			if (+m[2] >= need && +m[2] < srcW) { srcW = +m[2]; src = m[1]; }
-			if (+m[2] > bigW) { bigW = +m[2]; big = m[1]; }
-		});
-		s.ready = new Promise(function (resolve) {
-			var settle = function () {
-				s.noPhoto = !(img.complete && img.naturalWidth > 0);
-				try { paint(s); } catch (e) { s.noPhoto = true; }
-				s.done = true;
-				resolve();
-			};
-			img.src = src || big || img.getAttribute('data-src');
-			if (img.decode) { img.decode().then(settle, settle); }
-			else { img.addEventListener('load', settle); img.addEventListener('error', settle); }
-		});
+		if (!s.imgs.length) { s.done = true; s.ready = Promise.resolve(); return s.ready; }
+		s.ready = Promise.all(s.imgs.map(function (img) {
+			// The smallest file that still fills its box (what srcset with sizes would choose).
+			var need = (isCard(img) ? 250 : window.innerWidth) * (window.devicePixelRatio || 1), src = '', srcW = Infinity, big = '', bigW = 0;
+			(img.getAttribute('data-srcset') || '').split(',').forEach(function (c) {
+				var m = c.trim().match(/^(\S+)\s+(\d+)w$/);
+				if (!m) { return; }
+				if (+m[2] >= need && +m[2] < srcW) { srcW = +m[2]; src = m[1]; }
+				if (+m[2] > bigW) { bigW = +m[2]; big = m[1]; }
+			});
+			return new Promise(function (resolve) {
+				var settle = function () {
+					var shown = false;
+					try { shown = paint(img); } catch (e) {}
+					// A card without its picture still shows its words; a slide without its backdrop is noted.
+					if (!shown) { if (isCard(img)) { img.parentNode.hidden = true; } else { s.noPhoto = true; } }
+					resolve();
+				};
+				img.src = src || big || img.getAttribute('data-src');
+				if (img.decode) { img.decode().then(settle, settle); }
+				else { img.addEventListener('load', settle); img.addEventListener('error', settle); }
+			});
+		})).then(function () { s.done = true; });
 		return s.ready;
 	}
 
@@ -975,7 +977,9 @@
 	}
 
 	/* --- advancing by itself --------------------------------------------- */
-	function held() { return document.hidden || locked() || auto.hover || auto.focus || auto.away || phase !== 'idle'; }
+	// The pointer resting on a button or a news card of the slide on screen (never on touch, where hover sticks).
+	function pointed() { return canHover && !!hero.querySelector('.hero-panel.is-active .cta-row:hover, .hero-panel.is-active .hero-fan:hover'); }
+	function held() { return document.hidden || locked() || pointed() || auto.focus || auto.away || phase !== 'idle'; }
 	// (Re)starts the wait for the next automatic change, or drops it while something holds the carousel.
 	function autoTick() {
 		clearTimeout(auto.timer);
@@ -990,7 +994,7 @@
 		var n = slides.length, k, s;
 		for (k = 1; k < n; k++) {
 			s = slides[(cur + k) % n];
-			if (s.done && (!s.noPhoto || s.card)) { go(s, 'auto', 1); return; }
+			if (s.done && !s.noPhoto) { go(s, 'auto', 1); return; }
 		}
 		autoTick();
 	}
@@ -1107,11 +1111,10 @@
 		step(dx < 0 ? 1 : -1, 'swipe');
 	}, { passive: true });
 
-	// It holds while a mouse is over the copy or the controls...
-	[hero.querySelector('.hero-panels'), nav].forEach(function (el) {
-		if (!el) { return; }
-		el.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') { auto.hover = true; autoTick(); } });
-		el.addEventListener('pointerleave', function (e) { if (e.pointerType === 'mouse') { auto.hover = false; autoTick(); } });
+	// It holds while a mouse rests on a button or a news card (see pointed)...
+	$$('.cta-row, .hero-fan', hero).forEach(function (el) {
+		el.addEventListener('pointerenter', function () { autoTick(); });
+		el.addEventListener('pointerleave', function () { setTimeout(autoTick, 0); });
 	});
 	// ...while keyboard focus is anywhere in the hero...
 	hero.addEventListener('focusin', function (e) {

@@ -644,7 +644,7 @@ ${overHero ? `<link rel="preload" as="image" type="image/webp" imagesrcset="${HE
 <link rel="icon" href="${A}/img/favicon.png" sizes="any" type="image/png">
 <link rel="apple-touch-icon" href="${A}/img/favicon-180.png">
 <link rel="alternate" type="application/rss+xml" title="Startup Ventura News" href="${SITE}/feed.xml">
-<link rel="stylesheet" href="${A}/css/main.css?v=66">
+<link rel="stylesheet" href="${A}/css/main.css?v=67">
 ${SEASON ? `<link rel="stylesheet" href="${A}/css/seasonal.css?v=${SEASONAL_VERSION}">\n` : ''}${analyticsHead()}</head>
 <body class="${overHero ? 'home' : ''}"${SEASON ? ` data-season="${SEASON}"` : ''}>
 ${analyticsBody()}
@@ -807,7 +807,7 @@ const card = (href, eyebrow, title, text, link) => `<a class="card card--link" h
 // The build stops with a clear message if a post dated 2026-10-28 or later lacks it.
 const newsPosts = [
   {
-    // benefit: true keeps this post off the home hero's News slide (see heroNewsPost).
+    // benefit: true keeps this post off the home hero's News slide (see heroNewsPosts).
     file: 'news-annual-benefit-2026.html', crumb: 'Annual Benefit', benefit: true,
     title: 'Join Us December 9 for the Startup Ventura Annual Benefit',
     date: 'November 13, 2026', published: '2026-11-13T01:00:00-08:00', img: `${A}/img/news/annual-benefit.jpg`,
@@ -1095,10 +1095,14 @@ const heroWords = (text) => heroPieces(text.split(' '));
 const HERO_FOUNDERS_SET = `${A}/img/hero-960.webp 960w, ${A}/img/hero-1600.webp 1600w`;
 const HERO_BENEFIT_SET = [640, 960, 1600, 2400].map((w) => `${BENEFIT.photo}-${w}.webp ${w}w`).join(', ');
 const heroLazy = (key, src, set, extra = '') => `<img hidden data-hero-photo="${key}" data-src="${src}" data-srcset="${set}" sizes="100vw" alt="" decoding="async"${extra}>`;
-// The latest post, passing over the Annual Benefit announcement: the event has a slide of its own until it
-// is over, and after that an invitation is old news.
-const heroNewsPost = newsPosts.filter((p) => !p.archived && !p.benefit)[0];
-const heroNewsImg = heroNewsPost.img.replace(/\.jpg(\?.*)?$/, '');
+// The three latest posts, passing over the Annual Benefit announcement: the event has a slide of its
+// own until it is over, and after that an invitation is old news.
+const heroNewsPosts = newsPosts.filter((p) => !p.archived && !p.benefit).slice(0, 3);
+// News slide: the posts as a fan of cards (picture, date, title), each a link to its post.
+const heroNewsFan = () => `<div class="hero-fan">${heroNewsPosts.map((p, i) => {
+  const img = p.img.replace(/\.jpg(\?.*)?$/, '');
+  return `<a class="hero-fan__card" href="${p.file}" data-cta="news-post" data-cta-location="home-hero-news-card-${i + 1}"><span class="hero-fan__pic">${heroLazy('news', `${img}-760.webp`, `${img}-360.webp 360w, ${img}-760.webp 760w`, ' data-hero-fit="card"')}</span><span class="hero-fan__date">${p.date}</span><span class="hero-fan__title">${p.title}</span></a>`;
+}).join('')}</div>`;
 // first: this slide is the one the page loads with.
 const HERO_SLIDES = [
   ...(BENEFIT_LIVE ? [{ key: 'benefit', label: `${BENEFIT_DAY_SHORT} benefit`, until: BENEFIT_END_MS, shade: true, preload: HERO_BENEFIT_SET,
@@ -1108,9 +1112,9 @@ const HERO_SLIDES = [
     photo: (first) => first ? pic(`${A}/img/hero.jpg`, { cls: 'hero-bg-img', w: 1600, h: 1060, alt: 'Ventura, California', sizes: '100vw', eager: true }) : heroLazy('founders', `${A}/img/hero-960.webp`, HERO_FOUNDERS_SET),
     copy: (first) => `<p class="eyebrow">Spring 2027 cohort &middot; Applications open January 2027</p>${first ? '<h1 class="display">Great founders grow up <span class="coral">here.</span></h1><p class="sub">A 12-week accelerator for Ventura County founders. Free, no equity. One in-person day a week, the rest remote.</p>' : `<h2 class="display hero-h">${heroPieces(['Great', 'founders', 'grow', 'up', '<span class="coral">here.</span>'])}</h2><p class="sub">${heroWords('A 12-week accelerator for Ventura County founders. Free, no equity. One in-person day a week, the rest remote.')}</p>`}<div class="cta-row">${apply('Apply', 'btn--primary', 'home-hero-founders')}<a class="btn btn--ghost" href="contact.html" data-gi-open data-cta="get-involved" data-cta-location="home-hero-founders">Get involved</a></div>` },
   { key: 'news', label: 'News', plain: true,
-    // No photo: a navy backdrop. The latest post's picture rides in the panel as a card on wide screens.
+    // No photo: a navy backdrop, with the fan of posts beside the copy (under it on narrow screens).
     photo: () => '',
-    copy: () => `<p class="eyebrow">Latest news</p><h2 class="display hero-h">${heroWords('The latest from Startup Ventura.')}</h2><p class="sub">${heroWords(heroNewsPost.title)}</p><div class="cta-row"><a class="btn btn--blue" href="${heroNewsPost.file}" data-cta="news-post" data-cta-location="home-hero-news">Read the story</a><a class="btn btn--ghost" href="news.html" data-cta="news" data-cta-location="home-hero-news">All news</a></div><a class="hero-news__card" href="${heroNewsPost.file}" tabindex="-1" aria-hidden="true" data-cta="news-post" data-cta-location="home-hero-news-card">${heroLazy('news', `${heroNewsImg}-760.webp`, `${heroNewsImg}-360.webp 360w, ${heroNewsImg}-760.webp 760w`, ' data-hero-fit="card"')}</a>` },
+    copy: () => `<p class="eyebrow">Latest news</p><h2 class="display hero-h">${heroWords('The latest from Startup Ventura.')}</h2><p class="sub">${heroWords('Announcements, press coverage and stories from our community.')}</p><div class="cta-row"><a class="btn btn--blue" href="news.html" data-cta="news" data-cta-location="home-hero-news">All news</a></div>${heroNewsFan()}` },
   ...(HERO_MENTOR_TAB ? [{ key: 'mentors', label: 'Mentors', shade: true,
     photo: () => heroLazy('mentors', `${A}/img/hero-mentor-960.webp`, `${A}/img/hero-mentor-960.webp 960w, ${A}/img/hero-mentor-1600.webp 1600w`),
     copy: () => `<p class="eyebrow">Mentor a founder</p><h2 class="display hero-h">${heroWords('Lend your skills to a founder.')}</h2><p class="sub">${heroWords('An hour of your experience can change a company&rsquo;s trajectory.')}</p><div class="cta-row"><a class="btn btn--blue" href="mentor.html" data-cta="mentor" data-cta-location="home-hero-mentors">Become a mentor</a>${MENTOR_WALL_LIVE ? '<a class="btn btn--ghost" href="mentors.html" data-cta="mentors" data-cta-location="home-hero-mentors">Meet the mentors</a>' : ''}</div>` }] : []),
@@ -1123,7 +1127,7 @@ const homeHero = () => {
   const until = (t) => t.until ? ` data-benefit-until="${t.until}"` : '';
   const dated = HERO_SLIDES.filter((t) => t.until);
   return `<section class="hero hero--slides" data-hero-slides aria-roledescription="carousel" aria-label="Featured">
-  <div class="hero-bgs">${HERO_SLIDES.map((t, i) => `<div class="hero-bg${t.plain ? ' hero-bg--plain' : ''}${i ? '' : ' is-active'}" data-hero-bg="${t.key}"${until(t)}>${t.photo(i === 0)}${t.plain ? '' : '<div class="hero-scrim"></div>'}${t.shade ? '<div class="hero-shade"></div><div class="hero-cap"></div>' : ''}</div>`).join('')}</div>
+  <div class="hero-bgs">${HERO_SLIDES.map((t, i) => `<div class="hero-bg${t.plain ? ' hero-bg--plain' : ''}${t.shade ? ' hero-bg--shade' : ''}${i ? '' : ' is-active'}" data-hero-bg="${t.key}"${until(t)}>${t.photo(i === 0)}${t.plain ? '' : '<div class="hero-scrim"></div>'}${t.shade ? '<div class="hero-shade"></div><div class="hero-cap"></div>' : ''}</div>`).join('')}</div>
   <div class="hero-inner">
     <div class="hero-nav" hidden><div class="hero-tabs" role="tablist" aria-label="Slides">${HERO_SLIDES.map((t, i) => `<button class="hero-tab" type="button" role="tab" id="hero-tab-${t.key}" aria-controls="hero-panel-${t.key}" aria-selected="${i === 0}"${i ? ' tabindex="-1"' : ''} data-hero-key="${t.key}"${until(t)} data-cta="hero-tab" data-cta-location="home-hero-${t.key}">${t.label}</button>`).join('')}</div><button class="hero-pause" type="button" aria-label="Pause the slides" data-hero-pause><span class="hero-pause__pause">${heroIcon('<path d="M7 4.5v11M13 4.5v11"/>')}</span><span class="hero-pause__play">${heroIcon('<path d="M7 4.5l8 5.5-8 5.5z" fill="currentColor"/>')}</span></button></div>
     <div class="hero-panels">${HERO_SLIDES.map((t, i) => `<div class="hero-panel${i ? '' : ' is-active'}" id="hero-panel-${t.key}"${until(t)}${i ? ' inert' : ''}>${t.copy(i === 0)}</div>`).join('')}</div>
