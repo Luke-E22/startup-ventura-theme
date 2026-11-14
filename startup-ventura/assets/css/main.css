@@ -279,6 +279,28 @@ p.center{margin-inline:auto}
 .hero .hero-h{font-size:clamp(38px,6vw,76px);color:#fff;max-width:17ch;text-wrap:balance;text-shadow:0 2px 30px rgba(8,18,26,.35)}
 .hero .hero-h .coral{color:var(--coral-key)}
 .hero .benefit-headline__news{color:var(--sky)}
+/* event slide: the "on us" sticker from the event page, placed against the headline wherever the headline's
+   line breaks leave room. Tablets and wider: beside the headline, level with its middle (--hf is the headline's
+   size; its longer line is about 10.5 of them wide) */
+.hero-h-wrap{position:relative}
+.hero-panel .hero-sticker{--hf:clamp(38px,6vw,76px);--stk:clamp(116px,12vw,164px);left:calc(var(--hf) * 10.9);top:calc(50% - var(--stk) / 2)}
+@media (max-width:700px){
+  /* two-line headline: above the end of its first line, where the photo meets the copy */
+  .hero-panel .hero-sticker{--stk:96px;left:auto;right:0;top:auto;bottom:calc(100% + 6px)}
+}
+@media (max-width:700px) and (max-height:699px){
+  /* short screens have no photo above the copy, so it sits beside the first line, as large as the gap allows */
+  .hero-panel .hero-sticker{--stk:clamp(72px,calc(90vw - 364px),88px);bottom:50%}
+}
+/* (too little room beside that line) */
+@media (min-width:450px) and (max-width:484px) and (max-height:699px){.hero-panel .hero-sticker{display:none}}
+@media (max-width:449px){
+  /* phones: the headline is three or four short lines, and the sticker sits beside the last two */
+  .hero-panel .hero-sticker{--stk:88px;bottom:-12px}
+}
+@media (max-width:359px){.hero-panel .hero-sticker{--stk:72px}}
+/* the narrowest phones: it leans into the side margin to clear the longest word */
+@media (max-width:339px){.hero-panel .hero-sticker{right:-12px}}
 /* the event line fits one row on wide screens */
 #hero-panel-benefit .sub{max-width:660px}
 /* the narrowest phones: both buttons of a slide still fit on one row */

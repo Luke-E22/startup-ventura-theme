@@ -644,7 +644,7 @@ ${overHero ? `<link rel="preload" as="image" type="image/webp" imagesrcset="${HE
 <link rel="icon" href="${A}/img/favicon.png" sizes="any" type="image/png">
 <link rel="apple-touch-icon" href="${A}/img/favicon-180.png">
 <link rel="alternate" type="application/rss+xml" title="Startup Ventura News" href="${SITE}/feed.xml">
-<link rel="stylesheet" href="${A}/css/main.css?v=68">
+<link rel="stylesheet" href="${A}/css/main.css?v=69">
 ${SEASON ? `<link rel="stylesheet" href="${A}/css/seasonal.css?v=${SEASONAL_VERSION}">\n` : ''}${analyticsHead()}</head>
 <body class="${overHero ? 'home' : ''}"${SEASON ? ` data-season="${SEASON}"` : ''}>
 ${analyticsBody()}
@@ -1107,7 +1107,7 @@ const heroNewsFan = () => `<div class="hero-fan">${heroNewsPosts.map((p, i) => {
 const HERO_SLIDES = [
   ...(BENEFIT_LIVE ? [{ key: 'benefit', label: `${BENEFIT_DAY_SHORT} benefit`, until: BENEFIT_END_MS, shade: true, preload: HERO_BENEFIT_SET,
     photo: (first) => first ? benefitPhoto({ cls: 'hero-bg-img', eager: true }) : heroLazy('benefit', `${BENEFIT.photo}-960.webp`, HERO_BENEFIT_SET),
-    copy: (first) => `<p class="eyebrow">${BENEFIT.name}</p>${benefitHeadline(first ? 'h1' : 'h2', '', 'display hero-h').replace(/<\/span> <span/g, ' </span><span')}<p class="sub">${heroPieces([`${BENEFIT_DAY} &middot;`, `${BENEFIT_HOURS} &middot;`, BENEFIT_PLACE])}</p><div class="cta-row">${benefitRsvp('home-hero-benefit')}<a class="btn btn--ghost" href="benefit.html" data-cta="benefit-details" data-cta-location="home-hero-benefit">Event details</a></div>` }] : []),
+    copy: (first) => `<p class="eyebrow">${BENEFIT.name}</p><div class="hero-h-wrap">${benefitHeadline(first ? 'h1' : 'h2', '', 'display hero-h').replace(/<\/span> <span/g, ' </span><span')}${benefitSticker('hero-sticker')}</div><p class="sub">${heroPieces([`${BENEFIT_DAY} &middot;`, `${BENEFIT_HOURS} &middot;`, BENEFIT_PLACE])}</p><div class="cta-row">${benefitRsvp('home-hero-benefit')}<a class="btn btn--ghost" href="benefit.html" data-cta="benefit-details" data-cta-location="home-hero-benefit">Event details</a></div>` }] : []),
   { key: 'founders', label: 'Founders', preload: HERO_FOUNDERS_SET,
     photo: (first) => first ? pic(`${A}/img/hero.jpg`, { cls: 'hero-bg-img', w: 1600, h: 1060, alt: 'Ventura, California', sizes: '100vw', eager: true }) : heroLazy('founders', `${A}/img/hero-960.webp`, HERO_FOUNDERS_SET),
     copy: (first) => `<p class="eyebrow">Spring 2027 cohort &middot; Applications open January 2027</p>${first ? '<h1 class="display">Great founders grow up <span class="coral">here.</span></h1><p class="sub">A 12-week accelerator for Ventura County founders. Free, no equity. One in-person day a week, the rest remote.</p>' : `<h2 class="display hero-h">${heroPieces(['Great', 'founders', 'grow', 'up', '<span class="coral">here.</span>'])}</h2><p class="sub">${heroWords('A 12-week accelerator for Ventura County founders. Free, no equity. One in-person day a week, the rest remote.')}</p>`}<div class="cta-row">${apply('Apply', 'btn--primary', 'home-hero-founders')}<a class="btn btn--ghost" href="contact.html" data-gi-open data-cta="get-involved" data-cta-location="home-hero-founders">Get involved</a></div>` },
