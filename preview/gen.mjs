@@ -132,7 +132,7 @@ const benefitHeadline = (tag, id = '', cls = 'benefit-headline') => `<${tag} cla
 // Zeffy until someone asks for it (the reason the embed left the site in July).
 // With JavaScript off, or after the event ends, it is a plain link to the campaign.
 const benefitRsvp = (loc, cls = '') => `<a class="btn btn--blue btn--rsvp${cls ? ' ' + cls : ''}" href="${BENEFIT.zeffyPage}" zeffy-form-link="${BENEFIT.zeffyModal}" data-zeffy-title="${BENEFIT.name}" data-benefit-until="${BENEFIT_END_MS}" data-cta="benefit-rsvp" data-cta-location="${loc}">RSVP now</a>`;
-// Site-wide pop-up (main.js section 18 opens it about 5 seconds after load, once
+// Site-wide pop-up (main.js section 18 opens it as the page loads, once
 // per 14 days, never after the event). Not on the event page, the 404, the
 // thank-you pages or the paid-traffic landing page and its success page.
 const BENEFIT_POP_SKIP = /^(benefit|404|thank-you|connect|connected|thanks-)/;
@@ -655,7 +655,7 @@ ${newsletter}
 ${footer()}
 ${(robots || '').includes('noindex') || /^(404|thank-you|connected|thanks-)/.test(file) || !body.includes('data-gi-open') ? '' : giModal(file)}
 ${benefitPop(file)}
-<script src="${A}/js/main.js?v=49"></script>${SEASON ? `\n<script src="${A}/js/seasonal.js?v=${SEASONAL_VERSION}" defer></script>` : ''}
+<script src="${A}/js/main.js?v=50"></script>${SEASON ? `\n<script src="${A}/js/seasonal.js?v=${SEASONAL_VERSION}" defer></script>` : ''}
 ${(body + newsletter).includes('data-netlify') ? NF_SCRIPT + (TURNSTILE_SITE_KEY ? '\n' + TURNSTILE_SCRIPT : '') : ''}
 </body></html>`;
   fs.writeFileSync(path.join(OUT, file), html);
