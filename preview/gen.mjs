@@ -108,7 +108,7 @@ const benefitBanner = () => !BENEFIT_LIVE ? '' : `<section class="benefit-banner
     ${benefitDate('tilt')}
   </div></div>
 </section><script>(function(){var s=document.currentScript.previousElementSibling;if(s&&Date.now()>=${BENEFIT_END_MS}){s.parentNode.removeChild(s);}})();</script>`;
-// Site-wide pop-up (main.js section 18 opens it about 5 seconds after load, once
+// Site-wide pop-up (main.js section 18 opens it as the page loads, once
 // per 14 days, never after the event). Not on the event page, the 404, the
 // thank-you pages or the paid-traffic landing page and its success page.
 const BENEFIT_POP_SKIP = /^(benefit|404|thank-you|connect|connected|thanks-)/;
@@ -624,7 +624,7 @@ ${newsletter}
 ${footer()}
 ${(robots || '').includes('noindex') || /^(404|thank-you|connected|thanks-)/.test(file) || !body.includes('data-gi-open') ? '' : giModal(file)}
 ${benefitPop(file)}
-<script src="${A}/js/main.js?v=47"></script>${SEASON ? `\n<script src="${A}/js/seasonal.js?v=${SEASONAL_VERSION}" defer></script>` : ''}
+<script src="${A}/js/main.js?v=48"></script>${SEASON ? `\n<script src="${A}/js/seasonal.js?v=${SEASONAL_VERSION}" defer></script>` : ''}
 ${(body + newsletter).includes('data-netlify') ? NF_SCRIPT + (TURNSTILE_SITE_KEY ? '\n' + TURNSTILE_SCRIPT : '') : ''}
 </body></html>`;
   fs.writeFileSync(path.join(OUT, file), html);

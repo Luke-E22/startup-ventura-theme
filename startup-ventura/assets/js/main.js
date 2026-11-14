@@ -669,7 +669,7 @@
 	}
 
 	/* --- b. Pop-up ----------------------------------------------------- */
-	var KEY = 'sv_benefit_pop_dismissed', QUIET_MS = 14 * 864e5, DELAY_MS = 5000;
+	var KEY = 'sv_benefit_pop_dismissed', QUIET_MS = 14 * 864e5, DELAY_MS = 300;   // opens as the page loads
 	var popLastFocus = null, store = null;
 	function popKey(e) {
 		if (e.key === 'Escape') { popClose('esc'); return; }
