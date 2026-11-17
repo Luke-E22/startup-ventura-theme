@@ -1259,6 +1259,14 @@ body.home .status-bar{margin-top:0;margin-bottom:0}
 .benefit-detail__links{margin-top:10px;font-size:15px}
 .benefit-detail__links a{font-weight:600}
 @media (max-width:820px){.benefit-detail-grid{grid-template-columns:1fr}}
+/* "Brought to you by": the sponsors' own logos, in colour, each fitted to the same box so no one logo outweighs the others */
+.benefit-presenters{padding-bottom:clamp(28px,4vw,48px)}
+.benefit-presenters__label{text-align:center;margin:0 0 clamp(18px,2.4vw,26px)}
+.benefit-presenters__row{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:28px clamp(32px,6vw,80px)}
+.benefit-presenter{display:block;transition:opacity .2s}
+.benefit-presenter:hover{opacity:.75}
+.benefit-presenter img{display:block;width:auto;height:auto;max-width:220px;max-height:56px}
+@media (max-width:600px){.benefit-presenter img{max-width:150px;max-height:40px}}
 .benefit-night{padding-top:clamp(20px,3vw,40px)}
 .benefit-night__num{font-family:var(--font-mono);font-weight:700;font-size:34px;line-height:1;color:var(--blue);margin-bottom:12px}
 .benefit-night__card .card__title{font-size:1.2rem;line-height:1.15}
