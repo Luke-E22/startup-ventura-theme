@@ -1266,7 +1266,9 @@ body.home .status-bar{margin-top:0;margin-bottom:0}
 .benefit-presenter{display:block;transition:opacity .2s}
 .benefit-presenter:hover{opacity:.75}
 .benefit-presenter img{display:block;width:auto;height:auto;max-width:220px;max-height:56px}
-@media (max-width:600px){.benefit-presenter img{max-width:150px;max-height:40px}}
+/* a long one-line wordmark is short for its width, so it gets more width to carry the same weight as the others */
+.benefit-presenter--wide img{max-width:300px}
+@media (max-width:600px){.benefit-presenter img{max-width:150px;max-height:40px}.benefit-presenter--wide img{max-width:220px}}
 .benefit-night{padding-top:clamp(20px,3vw,40px)}
 .benefit-night__num{font-family:var(--font-mono);font-weight:700;font-size:34px;line-height:1;color:var(--blue);margin-bottom:12px}
 .benefit-night__card .card__title{font-size:1.2rem;line-height:1.15}

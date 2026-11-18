@@ -644,7 +644,7 @@ ${overHero ? `<link rel="preload" as="image" type="image/webp" imagesrcset="${HE
 <link rel="icon" href="${A}/img/favicon.png" sizes="any" type="image/png">
 <link rel="apple-touch-icon" href="${A}/img/favicon-180.png">
 <link rel="alternate" type="application/rss+xml" title="Startup Ventura News" href="${SITE}/feed.xml">
-<link rel="stylesheet" href="${A}/css/main.css?v=70">
+<link rel="stylesheet" href="${A}/css/main.css?v=71">
 ${SEASON ? `<link rel="stylesheet" href="${A}/css/seasonal.css?v=${SEASONAL_VERSION}">\n` : ''}${analyticsHead()}</head>
 <body class="${overHero ? 'home' : ''}"${SEASON ? ` data-season="${SEASON}"` : ''}>
 ${analyticsBody()}
@@ -2142,11 +2142,11 @@ const benefitSponsors = [
   ['Gold', '$2,500', false, ['Recognition at the benefit', 'Your logo on benefit promotional materials', '2 social media posts with your company tagged', 'Your logo on startupventura.com for 1 year, linked to your site', 'Reserved seating for 10', 'Invite as many guests as you like']],
   ['Silver', '$1,500', false, ['Recognition at the benefit', 'Your logo on benefit promotional materials', 'One (1) social media post with your company tagged', 'Your logo on startupventura.com for 1 year, linked to your site', 'Reserved seating for 5', 'Invite as many guests as you like']],
 ];
-// "Brought to you by" on the event page: [name, file in img/sponsors, intrinsic width, height, site].
+// "Brought to you by" on the event page: [name, file in img/sponsors, intrinsic width, height, site, 'wide' for a long one-line wordmark].
 const benefitPresenters = [
   ['Ventura County Credit Union', 'ventura-county-credit-union.png', 526, 130, 'https://www.vccuonline.net/'],
   ['Paylocity', 'paylocity.webp', 560, 144, 'https://www.paylocity.com/'],
-  ['Marsh McLennan Agency', 'marsh-mclennan-agency.webp', 560, 108, 'https://www.marshmma.com/'],
+  ['Marsh Agency', 'marsh-agency.webp', 720, 69, 'https://www.marshmma.com/', 'wide'],
 ];
 const benefitNight = [
   ['01', 'Mentor applications open', 'Help coach the founders in our first cohort.'],
@@ -2184,7 +2184,7 @@ page('benefit.html', {
   <div class="benefit-detail"><p class="eyebrow">Where</p><h2 class="benefit-detail__title">Transmission Brewing Rooftop</h2><p>${BENEFIT_ADDRESS}</p><p class="benefit-detail__links"><a href="${benefitMaps}" target="_blank" rel="noopener">Get directions</a></p></div>
   <div class="benefit-detail"><p class="eyebrow">On us</p><h2 class="benefit-detail__title">Free food and open bar</h2><p>Included with every ticket &middot; 21+ for the bar</p></div>
 </div></div></section>
-<section class="benefit-presenters" aria-labelledby="benefit-presenters-label"><div class="wrap"><p class="eyebrow benefit-presenters__label" id="benefit-presenters-label">Brought to you by</p><ul class="benefit-presenters__row">${benefitPresenters.map(([n, f, w, h, u]) => `<li><a class="benefit-presenter" href="${u}" target="_blank" rel="noopener" data-cta="benefit-presenter" data-cta-location="benefit-presenters"><img src="${A}/img/sponsors/${f}" alt="${n}" width="${w}" height="${h}" loading="lazy" decoding="async"></a></li>`).join('')}</ul></div></section>
+<section class="benefit-presenters" aria-labelledby="benefit-presenters-label"><div class="wrap"><p class="eyebrow benefit-presenters__label" id="benefit-presenters-label">Brought to you by</p><ul class="benefit-presenters__row">${benefitPresenters.map(([n, f, w, h, u, shape]) => `<li><a class="benefit-presenter${shape ? ` benefit-presenter--${shape}` : ''}" href="${u}" target="_blank" rel="noopener" data-cta="benefit-presenter" data-cta-location="benefit-presenters"><img src="${A}/img/sponsors/${f}" alt="${n}" width="${w}" height="${h}" loading="lazy" decoding="async"></a></li>`).join('')}</ul></div></section>
 <section class="section benefit-night"><div class="wrap">${head('On the night', 'What&rsquo;s happening on the rooftop')}<div class="card-grid card-grid--4">${benefitNight.map(([n, t, d]) => `<div class="card benefit-night__card"><div class="card__body"><p class="benefit-night__num" aria-hidden="true">${n}</p><h3 class="card__title">${t}</h3><p class="card__text">${d}</p></div></div>`).join('')}</div></div></section>
 <section class="section section--pale" id="sponsor"><div class="wrap">${headC('Sponsor the night', 'Put your company on the rooftop', 'Three ways to back the benefit. Every level includes your logo on startupventura.com for a year and recognition at the event.')}<div class="tier-grid tier-grid--3">${benefitSponsors.map(([n, a, top, bs]) => `<article class="tier${top ? ' tier--legacy' : ''}">${top ? '<span class="tier__ribbon">Top sponsor</span>' : ''}<h3 class="tier__name">${n}</h3><p class="tier__price">${a}</p><ul class="tier__list">${bs.map((b) => `<li>${b}</li>`).join('')}</ul><div class="tier__cta"><a class="btn btn--give btn--full" href="mailto:${BENEFIT.email}?subject=${encodeURIComponent(`${n} sponsorship: Annual Benefit`)}" data-cta="benefit-sponsor" data-cta-location="tier-${n.toLowerCase()}">Sponsor at ${a}</a></div></article>`).join('')}</div><p class="center benefit-sponsor-note">Want the sponsorship form? Email <a href="mailto:${BENEFIT.email}">${BENEFIT.email}</a>.</p></div></section>
 <section class="section" id="rsvp"><div class="wrap benefit-rsvp">
