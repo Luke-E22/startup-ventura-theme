@@ -420,10 +420,17 @@ const ANALYTICS_ID = 'G-6S0JCLV6SJ';
 // tag is needed (e.g. Meta pixel), set GTM_ID back to 'GTM-NGTJPLVT' AND
 // remove/pause the GA4 Google tag inside the container first.
 const GTM_ID = '';
+// GA4 DEFERRED 2026-11-18 (perf): gtag.js was an async script in the head, about
+// 300ms of script work per page on a phone before the page was usable. The
+// dataLayer and the gtag() stub are still defined right here, so page_view, the
+// form_submit events and the /thank-you conversion queue as before; only the
+// library itself waits. It loads once the window has loaded and the browser is
+// idle (3s cap), or on the first tap or key press, whichever comes first, and
+// then sends everything that queued.
 const analyticsHead = () => {
-  let h = (GTM_ID || ANALYTICS_ID) ? '<link rel="preconnect" href="https://www.googletagmanager.com">\n' : '';
+  let h = GTM_ID ? '<link rel="preconnect" href="https://www.googletagmanager.com">\n' : '';
   if (GTM_ID) h += `<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${GTM_ID}');</script>\n`;
-  if (ANALYTICS_ID) h += `<script async src="https://www.googletagmanager.com/gtag/js?id=${ANALYTICS_ID}"></script>\n<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${ANALYTICS_ID}');</script>\n`;
+  if (ANALYTICS_ID) h += `<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${ANALYTICS_ID}');(function(){var done=false;function load(){if(done){return;}done=true;var s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id=${ANALYTICS_ID}';document.head.appendChild(s);}function idle(){if('requestIdleCallback' in window){requestIdleCallback(load,{timeout:3000});}else{setTimeout(load,1500);}}if(document.readyState==='complete'){idle();}else{window.addEventListener('load',idle);}['pointerdown','keydown'].forEach(function(t){window.addEventListener(t,load,{once:true,passive:true});});})();</script>\n`;
   return h;
 };
 // GTM noscript fallback — emitted immediately after <body> on every page.
@@ -654,7 +661,7 @@ ${overHero ? `<link rel="preload" as="image" type="image/webp" imagesrcset="${HE
 <link rel="icon" href="${A}/img/favicon.png" sizes="any" type="image/png">
 <link rel="apple-touch-icon" href="${A}/img/favicon-180.png">
 <link rel="alternate" type="application/rss+xml" title="Startup Ventura News" href="${SITE}/feed.xml">
-<link rel="stylesheet" href="${A}/css/main.css?v=71">
+<link rel="stylesheet" href="${A}/css/main.css?v=72">
 ${SEASON ? `<link rel="stylesheet" href="${A}/css/seasonal.css?v=${SEASONAL_VERSION}">\n` : ''}${analyticsHead()}</head>
 <body class="${overHero ? 'home' : ''}"${SEASON ? ` data-season="${SEASON}"` : ''}>
 ${analyticsBody()}
@@ -665,8 +672,8 @@ ${newsletter}
 ${footer()}
 ${(robots || '').includes('noindex') || /^(404|thank-you|connected|thanks-)/.test(file) || !body.includes('data-gi-open') ? '' : giModal(file)}
 ${benefitPop(file)}
-<script src="${A}/js/main.js?v=50"></script>${SEASON ? `\n<script src="${A}/js/seasonal.js?v=${SEASONAL_VERSION}" defer></script>` : ''}
-${(body + newsletter).includes('data-netlify') ? NF_SCRIPT + (TURNSTILE_SITE_KEY ? '\n' + TURNSTILE_SCRIPT : '') : ''}
+<script src="${A}/js/main.js?v=51"></script>${SEASON ? `\n<script src="${A}/js/seasonal.js?v=${SEASONAL_VERSION}" defer></script>` : ''}
+${(body + newsletter).includes('data-netlify') ? NF_SCRIPT + (TURNSTILE_SITE_KEY ? '\n' + (TURNSTILE_EAGER.test(file) ? TURNSTILE_SCRIPT : TURNSTILE_LAZY) : '') : ''}
 </body></html>`;
   fs.writeFileSync(path.join(OUT, file), html);
 };
@@ -797,14 +804,26 @@ ${TURNSTILE_SITE_KEY ? `<div class="field${full} form__turnstile">${turnstileWid
 // startupventura.com and www.startupventura.com, separate from the VCIF site's.
 const TURNSTILE_SITE_KEY = process.env.TURNSTILE_SITE_KEY || process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || '';
 if (!TURNSTILE_SITE_KEY) console.warn('turnstile: TURNSTILE_SITE_KEY is not set, so the forms are unprotected. Fine for local preview only.');
-const TURNSTILE_SCRIPT = '<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>';
+const TURNSTILE_SRC = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
+const TURNSTILE_SCRIPT = `<script src="${TURNSTILE_SRC}" async defer></script>`;
+// LAZY 2026-11-18 (perf): the newsletter block puts a form on nearly every page, so
+// the script above was loading sitewide. Pages where the form is the point load it
+// with the page, as before. Everywhere else it loads the first time someone focuses
+// or taps inside a form that has a widget; window.svTurnstile() is the loader, and
+// the submit handler below calls it too and then waits for the token.
+const TURNSTILE_EAGER = /^(apply|contact|board-interest|careers)\.html$/;
+const TURNSTILE_LAZY = `<script>(function(){var done=false;window.svTurnstile=function(){if(done){return;}done=true;var s=document.createElement('script');s.src='${TURNSTILE_SRC}';s.async=true;document.head.appendChild(s);};function on(e){var f=e.target&&e.target.closest&&e.target.closest('form');if(f&&f.querySelector('.cf-turnstile')){window.svTurnstile();document.removeEventListener('focusin',on,true);document.removeEventListener('pointerdown',on,true);}}document.addEventListener('focusin',on,true);document.addEventListener('pointerdown',on,true);})();</script>`;
 // The widget sits above the submit button; Turnstile adds the hidden cf-turnstile-response input itself.
 const turnstileWidget = (theme = 'light') => TURNSTILE_SITE_KEY ? `<div class="cf-turnstile sv-turnstile" data-sitekey="${TURNSTILE_SITE_KEY}" data-theme="${theme}" data-size="flexible"></div>` : '';
 // Every form carries the honeypot (website: real people never see it) and a hidden
 // sv-verified field that submit.mjs fills with a signature once the token checks out.
 const FORM_GUARD_FIELDS = '<p class="nf-hp" hidden aria-hidden="true"><label>Do not fill this out if you are human: <input name="website" tabindex="-1" autocomplete="off"></label></p>\n<input type="hidden" name="sv-verified" value="">';
 // Delegated submit handler for every Netlify form on a page (injected by page()).
-const NF_SCRIPT = `<script>document.addEventListener('submit',function(e){var f=e.target;if(!f||!f.querySelector||!f.querySelector('input[name="form-name"]'))return;e.preventDefault();var s=f.querySelector('.form__status');var b=f.querySelector('button[type=submit]');if(b)b.disabled=true;var w=f.querySelector('.cf-turnstile');var rw=function(){try{if(w&&window.turnstile){window.turnstile.reset(w);}}catch(err){}};fetch('/.netlify/functions/submit',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(new FormData(f)).toString()}).then(function(r){return r.json().catch(function(){return {};}).then(function(d){if(!r.ok){var e=new Error(r.status);e.message=d&&d.error?d.error:'';throw e;}});}).then(function(){var tr=function(){try{if(window.dataLayer){dataLayer.push({event:'form_submit',form_name:f.getAttribute('name')});}if(window.gtag){gtag('event','form_submit',{form_name:f.getAttribute('name')});}}catch(err){}};var rd=f.getAttribute('data-redirect');if(rd){tr();window.location.href=rd;return;}if(s){s.className=s.className.replace(' is-err','')+' is-ok';s.textContent=f.getAttribute('data-success')||'Thanks, we got it.';}f.reset();rw();tr();}).catch(function(err){rw();if(s){s.className=s.className.replace(' is-ok','')+' is-err';s.textContent=(err&&err.message)||'Your message did not send. Please try again, or email info@startupventura.com.';}}).finally(function(){if(b)b.disabled=false;});});</script>`;
+// If the form has a Turnstile widget and its token is not there yet (the script is
+// lazy on most pages, and a fast typist can submit within a second or two of first
+// focus), the handler starts the script if needed and waits up to 30 seconds for the
+// token before sending. It never sends without one.
+const NF_SCRIPT = `<script>document.addEventListener('submit',function(e){var f=e.target;if(!f||!f.querySelector||!f.querySelector('input[name="form-name"]'))return;e.preventDefault();var s=f.querySelector('.form__status');var b=f.querySelector('button[type=submit]');if(b)b.disabled=true;var w=f.querySelector('.cf-turnstile');var rw=function(){try{if(w&&window.turnstile){window.turnstile.reset(w);}}catch(err){}};var tk=function(){var i=f.querySelector('[name="cf-turnstile-response"]');return !!(i&&i.value);};var ready=(!w||tk())?Promise.resolve():new Promise(function(ok,no){if(window.svTurnstile){window.svTurnstile();}if(s){s.className=s.className.replace(' is-err','').replace(' is-ok','');s.textContent='One moment, checking the form.';}var t0=Date.now();var iv=setInterval(function(){if(tk()){clearInterval(iv);if(s){s.textContent='';}ok();}else if(Date.now()-t0>30000){clearInterval(iv);no(new Error('The security check did not finish. Please reload the page and try again.'));}},150);});ready.then(function(){return fetch('/.netlify/functions/submit',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(new FormData(f)).toString()});}).then(function(r){return r.json().catch(function(){return {};}).then(function(d){if(!r.ok){var e=new Error(r.status);e.message=d&&d.error?d.error:'';throw e;}});}).then(function(){var tr=function(){try{if(window.dataLayer){dataLayer.push({event:'form_submit',form_name:f.getAttribute('name')});}if(window.gtag){gtag('event','form_submit',{form_name:f.getAttribute('name')});}}catch(err){}};var rd=f.getAttribute('data-redirect');if(rd){tr();window.location.href=rd;return;}if(s){s.className=s.className.replace(' is-err','')+' is-ok';s.textContent=f.getAttribute('data-success')||'Thanks, we got it.';}f.reset();rw();tr();}).catch(function(err){rw();if(s){s.className=s.className.replace(' is-ok','')+' is-err';s.textContent=(err&&err.message)||'Your message did not send. Please try again, or email info@startupventura.com.';}}).finally(function(){if(b)b.disabled=false;});});</script>`;
 
 const pageHead = (e, h, lede, narrow = false) => `<section class="section section--head"><div class="wrap${narrow ? ' wrap--narrow' : ''}"><header class="page-head"><p class="eyebrow">${e}</p>${waveRule}<h1 class="display">${h}</h1><p class="lede">${lede}</p></header></div></section>`;
 const card = (href, eyebrow, title, text, link) => `<a class="card card--link" href="${href}"><div class="card__body">${eyebrow ? `<p class="eyebrow">${eyebrow}</p>` : ''}<h3 class="card__title">${title}</h3><p class="card__text">${text}</p><span class="card__link">${link}</span></div></a>`;
@@ -1419,7 +1438,7 @@ page('ecosystem.html', {
     ecoHistory +
     `<section class="section" id="directory"><div class="wrap">${head('The Ecosystem Today', 'Who is here, and what they do.', 'Every organization below was active and verified as of the review date above. Filter by category, or link straight to a section.')}
     <div id="eco-directory">
-    <nav class="eco-toc" aria-label="Directory categories"><a class="eco-pill is-active" href="#directory" data-cat="all" aria-pressed="true">All</a>${ECO_CATS.map(([k, label]) => `<a class="eco-pill" href="#${k}" data-cat="${k}" aria-pressed="false">${label}</a>`).join('')}</nav>
+    <nav class="eco-toc" aria-label="Directory categories"><a class="eco-pill is-active" href="#directory" data-cat="all" aria-current="true">All</a>${ECO_CATS.map(([k, label]) => `<a class="eco-pill" href="#${k}" data-cat="${k}">${label}</a>`).join('')}</nav>
     ${ECO_CATS.map(([k, label]) => `<section class="eco-cat" id="${k}"><h2 class="eco-cat__title">${label}</h2><div class="eco-list">${ECOSYSTEM.filter((e) => e.cats.includes(k)).map((e) => `<div class="eco-item"><h3><a href="${e.url}"${e.url.startsWith('http') ? ' target="_blank" rel="noopener"' : ''}>${e.name}</a>${e.ours ? '<span class="eco-ours">Our program</span>' : ''}</h3><p>${e.desc}</p></div>`).join('')}</div></section>`).join('')}
     </div>
     <p style="margin-top:36px" class="eco-reviewed">Missing an organization that belongs here? <a href="mailto:info@startupventura.com?subject=Ecosystem%20guide%20suggestion">Suggest an addition</a> and we will review it.</p>

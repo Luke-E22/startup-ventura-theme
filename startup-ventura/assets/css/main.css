@@ -8,6 +8,14 @@
    ========================================================================= */
 
 /* ---------- self-hosted fonts ---------- */
+/* Fallback for the display face while Archivo loads (2026-11-18). Archivo is wider than
+   the system bold: 3% at weight 800 and 10% at 900, measured against Arial Bold. Without
+   this, a headline set in the fallback wrapped onto fewer lines and then jumped when
+   Archivo swapped in (the home hero moved 39px on a phone, a layout shift of 0.09 to 0.10).
+   These faces are Arial Bold scaled to Archivo's width, so the line breaks hold.
+   Where Arial is not installed the browser moves on to system-ui, as before. */
+@font-face{font-family:'Archivo Fallback';font-style:normal;font-weight:700 800;src:local('Arial Bold'),local('Arial-BoldMT');size-adjust:103.2%;}
+@font-face{font-family:'Archivo Fallback';font-style:normal;font-weight:900;src:local('Arial Bold'),local('Arial-BoldMT');size-adjust:109.8%;}
 @font-face{font-family:'Archivo';font-style:normal;font-weight:700 900;font-display:swap;src:url(../fonts/archivo-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
 @font-face{font-family:'Archivo';font-style:normal;font-weight:700 900;font-display:swap;src:url(../fonts/archivo-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;}
 @font-face{font-family:'Hanken Grotesk';font-style:normal;font-weight:400 600;font-display:swap;src:url(../fonts/hanken-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
@@ -24,7 +32,7 @@
   --paper:#F7FAFC; --ink:#243C48; --muted:#5A7180; --line:#D7E2EA;
   --coral:#EA5A3D; --coral-deep:#D64E33; --coral-light:#FF8A80; --coral-key:#FF7A5C;
 
-  --font-display:'Archivo',system-ui,-apple-system,sans-serif;
+  --font-display:'Archivo','Archivo Fallback',system-ui,-apple-system,sans-serif;
   --font-body:'Hanken Grotesk',system-ui,-apple-system,sans-serif;
   --font-mono:'Space Mono',ui-monospace,SFMono-Regular,monospace;
 
@@ -1098,6 +1106,11 @@ picture{display:contents}
 .btn--primary{background:var(--coral);color:#fff;font-size:19px;font-weight:800;box-shadow:0 8px 22px -8px rgba(234,90,61,.8)}
 .btn--primary:hover{background:var(--coral-deep);color:#fff;transform:translateY(-2px);box-shadow:0 12px 28px -8px rgba(214,78,51,.9)}
 .header-cta .btn--primary{min-height:42px;padding:9px 20px;font-size:17px}
+/* AA contrast (2026-11-18): white on the brand coral #EA5A3D is 3.5:1, and its hover
+   #D64E33 is 4.2:1. The header Apply button and the newsletter Subscribe button use a
+   deeper coral so white text clears 4.5:1: #CC472D is 4.7:1, hover #B53C24 is 5.8:1. */
+.header-cta .btn--primary,.newsletter__submit .btn--primary{background:#CC472D}
+.header-cta .btn--primary:hover,.newsletter__submit .btn--primary:hover{background:#B53C24}
 .mobile-menu a.btn--primary{background:var(--coral);text-align:center;padding:16px 24px;font-size:19px}
 /* Give text link beside Apply (shown until HEADER_GIVE_UNTIL in gen.mjs). Below the
    940px hamburger breakpoint it moves into the mobile sheet. */
@@ -1292,7 +1305,7 @@ body.home .status-bar{margin-top:0;margin-bottom:0}
 .benefit-pop__scroll{display:grid;grid-template-columns:41% 1fr;max-height:min(90vh,calc(100vh - 78px));overflow-y:auto;overscroll-behavior:contain;background:#fff;border-radius:var(--r-lg);box-shadow:var(--shadow-lg)}
 .benefit-pop__media{position:relative;min-height:100%;background:var(--sky-pale);overflow:hidden}
 .benefit-pop__img{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover;object-position:36% 50%}
-.benefit-pop__img:not([src]){visibility:hidden}
+img.benefit-pop__img:not([src]){visibility:hidden}
 .benefit-date--badge{position:absolute;left:22px;bottom:22px;transform:rotate(-3deg);padding:16px 20px 14px;border-radius:var(--r);box-shadow:var(--shadow-md)}
 .benefit-date--badge .benefit-date__day{font-size:11px}
 .benefit-date--badge .benefit-date__num{font-size:66px;margin-top:8px}

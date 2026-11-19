@@ -500,7 +500,8 @@
 			cats.forEach(function (s) { s.hidden = key !== 'all' && s.id !== key; });
 			pills.forEach(function (p) {
 				p.classList.toggle('is-active', p.dataset.cat === key);
-				p.setAttribute('aria-pressed', p.dataset.cat === key ? 'true' : 'false');
+				// These are links, so the chosen one is marked current (aria-pressed is for buttons).
+				if (p.dataset.cat === key) { p.setAttribute('aria-current', 'true'); } else { p.removeAttribute('aria-current'); }
 			});
 		}
 		pills.forEach(function (p) {
@@ -682,16 +683,44 @@
 	}
 	function popOpen() {
 		popLastFocus = document.activeElement;
-		// The photo is fetched only now, so pages where the pop-up never opens never load it.
-		var img = pop.querySelector('img[data-src]');
-		if (img) {
-			img.srcset = img.getAttribute('data-srcset') || '';
-			img.src = img.getAttribute('data-src');
-			img.removeAttribute('data-src');
-		}
 		pop.hidden = false;
 		document.body.style.overflow = 'hidden';
 		show(pop);
+		// The photo is fetched only now, so pages where the pop-up never opens never load it.
+		// It is drawn on a canvas in the tag's place, the way the later hero slides are (section
+		// 19): on every page but the home page this photo was the largest thing painted, and it
+		// arrives in an overlay after the page itself has rendered, so as an <img> it was being
+		// reported as the page's largest contentful paint (4s on a phone, 13s when the pop-up
+		// waited five seconds). The canvas carries the photo's alt text. If the canvas cannot be
+		// drawn, the <img> shows the photo as before.
+		var img = pop.querySelector('img[data-src]');
+		if (img) {
+			var box = img.parentNode, fallback = img.getAttribute('data-src');
+			var need = (box.clientWidth || 400) * (window.devicePixelRatio || 1), src = '', srcW = Infinity, big = '', bigW = 0;
+			(img.getAttribute('data-srcset') || '').split(',').forEach(function (c) {
+				var m = c.trim().match(/^(\S+)\s+(\d+)w$/);
+				if (!m) { return; }
+				if (+m[2] >= need && +m[2] < srcW) { srcW = +m[2]; src = m[1]; }
+				if (+m[2] > bigW) { bigW = +m[2]; big = m[1]; }
+			});
+			img.removeAttribute('data-src');
+			var asImg = function () { img.srcset = img.getAttribute('data-srcset') || ''; img.src = fallback; };
+			var photo = new Image();
+			photo.onload = function () {
+				try {
+					var c = document.createElement('canvas');
+					c.className = img.className;
+					c.setAttribute('role', 'img');
+					c.setAttribute('aria-label', img.alt);
+					c.width = photo.naturalWidth;
+					c.height = photo.naturalHeight;
+					c.getContext('2d').drawImage(photo, 0, 0);
+					box.insertBefore(c, img);
+				} catch (e) { asImg(); }
+			};
+			photo.onerror = asImg;
+			photo.src = src || big || fallback;
+		}
 		document.addEventListener('keydown', popKey);
 		pop.querySelector('.benefit-pop__close').focus();
 		track('benefit_popup', { action: 'view' });
