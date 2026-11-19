@@ -520,7 +520,7 @@ const PAGE_MANIFEST = [];
 // Per-page meta descriptions, keyed by output filename (mirrors the WP theme's
 // sv_meta_description map). Used as the fallback when a page() call omits desc.
 const DESC = {
-  'index.html': 'A free 12-week accelerator for Ventura County founders, run by the 501(c)(3) nonprofit Startup Ventura. Spring 2027 cohort; applications open January 2027. Apply, give, or partner.',
+  'index.html': 'A free 12-week accelerator for Ventura County founders, run by the 501(c)(3) nonprofit Startup Ventura. Spring 2027 applications open January 2027.',
   'give.html': "Donate to fund Startup Ventura's inaugural accelerator cohort, launching Spring 2027. Startup Ventura is a 501(c)(3), so your gift is tax-deductible.",
   'impact.html': "See Startup Ventura's traction and where your gift goes, from jobs to founder revenue, and model your own impact with the Ventura County cohort calculator.",
   'faq.html': 'Common questions about Startup Ventura, the 501(c)(3) startup accelerator in Ventura County: how the program works, how to apply, and ways to give or partner.',
@@ -528,7 +528,7 @@ const DESC = {
   'partner-foundations.html': 'Foundation and corporate giving for Startup Ventura, a 501(c)(3) accelerator in Ventura County. Sponsorship levels, grants, and partner recognition.',
   'partner-cities-county.html': 'A public-private economic development partner for Ventura County cities and the county. Keep founders, jobs, and the tax base local.',
   'why-ventura-county.html': 'Why Ventura County loses its best founders, and how Startup Ventura keeps high-growth companies and the jobs they create at home.',
-  'accelerator.html': 'A 12-week accelerator for Ventura County founders, designed with national accelerator brands like Plug and Play. Mentorship, capital connections, workshops, and a Demo Day.',
+  'accelerator.html': 'A free 12-week accelerator for Ventura County founders, built with Plug and Play. Mentorship, capital connections, workshops, and a Demo Day.',
   'program.html': 'The Startup Ventura program: a 12-week accelerator plus a workshop series for Ventura County founders, ending in a Demo Day.',
   'workshops.html': "Startup Ventura's founder workshop series, the on-ramp to the accelerator for early-stage founders in Ventura County.",
   'about.html': 'Startup Ventura is a 501(c)(3) nonprofit keeping Ventura County the best place to build, led by operators behind companies like Curri and SevenRooms.',
@@ -536,7 +536,7 @@ const DESC = {
   'news.html': 'News and announcements from Startup Ventura, the 501(c)(3) nonprofit startup accelerator backing founders across Ventura County, California.',
   'press.html': 'Press and media kit for Startup Ventura, the Ventura County nonprofit startup accelerator. Logos, boilerplate, EIN, board bios, and a press contact.',
   'privacy.html': 'How Startup Ventura collects, uses, and protects the information you share through donations and forms on this site.',
-  'terms.html': 'The terms that govern your use of the Startup Ventura website.',
+  'terms.html': 'The terms that govern your use of the Startup Ventura website, the online home of the 501(c)(3) startup accelerator for Ventura County.',
 };
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 // Per-page SEO head tags: description, canonical, Open Graph, Twitter, JSON-LD.
@@ -632,7 +632,10 @@ ${TURNSTILE_SITE_KEY ? `<div class="newsletter__turnstile">${turnstileWidget('da
 
 const page = (file, { title, titleExact, overHero = false, body, crumbsTrail, desc, canonical, ogType = 'website', ogImage, jsonld, robots, article }) => {
   // titleExact: the whole <title>, with no site suffix (the event page sets its own).
-  const fullTitle = titleExact || `${title} — Startup Ventura`;
+  // Brand suffix only when it fits Google's ~60-character title display; long
+  // headlines (news posts, guides) carry the title alone so the words that
+  // matter are not truncated.
+  const fullTitle = titleExact || (`${title} | Startup Ventura`.length <= 60 ? `${title} | Startup Ventura` : title);
   // Every page gets a canonical: the home root, an explicit pretty route, or its real .html URL.
   const canon = canonical || (file === 'index.html' ? `${SITE}/` : `${SITE}/${file}`);
   PAGE_MANIFEST.push({ file, canonical: canon, robots: robots || '' });
@@ -1145,7 +1148,7 @@ const homeHero = () => {
 
 // HOME
 page('index.html', {
-  title: 'Home', overHero: true,
+  title: 'Home', titleExact: 'Startup Ventura | Free Startup Accelerator in Ventura County', overHero: true,
   body: `${homeHero()}
   <section class="section mission-strip"><div class="wrap"><p class="eyebrow">Our mission</p>${waveRule}<p class="mission">We help founders start and grow companies that stay in Ventura County.</p><p class="mission-strip__sub">Startup Ventura backs local founders with the mentorship, capital connections, and community to build high-growth companies right here in Ventura County.</p>${seasonNote()}</div></section>
   <section class="section section--pale grain"><div class="wrap">${head('The Program', 'The on-ramp founders need.', 'Everything entrepreneurs would leave town to find: a true accelerator with a pathway to raising venture capital.')}<div class="card-grid card-grid--2">${card('accelerator.html', 'Spring 2027', '12-Week Accelerator', 'Twelve weeks of mentorship, investor introductions and workshops, ending in a Demo Day.', 'Explore the accelerator')}${card('workshops.html', 'Pre-accelerator', 'Workshop Series', 'Free, practical sessions for early-stage founders and small businesses. Open to anyone.', 'Explore the workshops')}</div><div class="center" style="margin-top:32px">${apply('Join the first-access list', 'btn--outline btn--lg')}</div></div></section>
@@ -1514,7 +1517,7 @@ page('partner.html', {
 // PARTNER - CITIES & COUNTY
 page('partner-cities-county.html', {
   title: 'For Cities & County', crumbsTrail: [['Home', 'index.html'], ['Partner', 'partner.html'], ['For Cities & County', '']],
-  desc: 'Startup Ventura asks Ventura County cities and the County to fund reserved accelerator seats for their founders and reports the outcomes once a year. Public money in, partners at the table, governance, and the case for the county.',
+  desc: 'Startup Ventura asks Ventura County cities and the County to fund reserved accelerator seats for their founders, and reports the outcomes every year.',
   body: pageHead('For Cities &amp; County', 'Fund seats for your founders. Get the outcomes reported back.', 'Startup Ventura asks Ventura County cities and the County to fund reserved accelerator seats for founders from their jurisdiction, then reports what those founders build.', true) +
     `<section class="section section--pale"><div class="wrap wrap--narrow">${head('The ask', 'Fund reserved cohort seats for founders from your jurisdiction.')}<div class="entry-content" style="margin-top:0">
     <p>In 2025 the City of Ventura approved funding for Startup Ventura through its Economic Development department.</p>
@@ -1834,7 +1837,7 @@ const faqSchema = {
 page('faq.html', {
   title: 'FAQ', crumbsTrail: [['Home', 'index.html'], ['FAQ', '']],
   canonical: `${SITE}/faq`,
-  desc: 'Answers about Startup Ventura, the free 12-week accelerator for Ventura County founders: who can apply, when applications open, how selection works, the hybrid format, Demo Day, and how to give or partner.',
+  desc: 'Answers about Startup Ventura\'s free 12-week accelerator for Ventura County founders: who can apply, when applications open, how selection works, and Demo Day.',
   jsonld: faqSchema,
   body: pageHead('FAQ', 'Frequently asked questions', 'Plain answers about Startup Ventura, applying, the program, and how to get involved. Pick a category or read straight through.', true) +
     `<section class="section section--pale"><div class="wrap wrap--narrow">
@@ -1934,8 +1937,7 @@ const applyTimeline = [
 ];
 page('apply.html', {
   title: 'Apply: Applications Open January 2027', crumbsTrail: [['Home', 'index.html'], ['The Program', 'program.html'], ['Apply', '']],
-  robots: 'noindex',
-  desc: 'Applications for Startup Ventura\'s Spring 2027 accelerator cohort open January 2027 and close late February 2027. Join the first-access list and we will email you the application link the day applications open. Free: no tuition, no fees, no equity.',
+  desc: 'Apply to Startup Ventura\'s free Spring 2027 accelerator. Applications open January 2027 and close late February. No tuition, no fees, no equity.',
   canonical: `${SITE}/apply`,
   body: pageHead('Founders &middot; Spring 2027 cohort', 'Applications open January 2027.', 'The window closes late February 2027. Join the first-access list and we will email you the application link the day applications open. That is all the list does: it is not an application and it has no bearing on selection. The 12-week accelerator is free: no tuition, no fees, no equity.') +
     `<section class="section section--tight" style="padding-top:0"><div class="wrap"><dl class="facts">${applyTimeline.map(([k, v]) => `<div class="facts__item"><dt class="facts__k">${k}</dt><dd class="facts__v">${v}</dd></div>`).join('')}</dl><div class="center" style="margin-top:28px"><a class="btn btn--blue btn--lg" href="#first-access">Join the first-access list</a></div></div></section>
@@ -2062,7 +2064,7 @@ const investorFaq = [
 ];
 page('invest.html', {
   title: 'Invest in Ventura County Founders',
-  desc: 'For angels, funds, and family offices: Demo Day invitations, introductions to cohort companies, and investor mentoring. Startup Ventura is a nonprofit and does not sell equity in itself.',
+  desc: 'For angels, funds, and family offices: Demo Day invitations, introductions to Ventura County cohort companies, and investor mentoring.',
   canonical: `${SITE}/invest`,
   crumbsTrail: [['Home', 'index.html'], ['Invest', '']],
   body: pageHead('Investors', 'Back the founders building here.', 'Every cohort ends with a Demo Day in front of investors, and the companies on that stage are the whole point of the program. If you invest in early stage companies, or want to, this is where to start.') +
@@ -2390,7 +2392,7 @@ funnelThanks('thanks-events.html', {
 // the United States. No partner, country, or terms are named here by design.
 page('soft-landing.html', {
   title: 'Soft Landing in Ventura County',
-  desc: 'A first base in Southern California for founders and partner organizations outside the United States: introductions, programs, and a path into the Startup Ventura accelerator.',
+  desc: 'A first base in Southern California for founders from outside the United States: introductions, programs, and a path into the Startup Ventura accelerator.',
   canonical: `${SITE}/soft-landing`,
   crumbsTrail: [['Home', 'index.html'], ['Partner', 'partner.html'], ['Soft Landing', '']],
   body: pageHead('Soft Landing', 'A first base in Southern California.', 'For founders and partner organizations outside the United States who want a foothold in California without starting from zero: introductions to the people, programs, and places that make landing in Ventura County easier.', true) +
