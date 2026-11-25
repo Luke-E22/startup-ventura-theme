@@ -1590,10 +1590,12 @@ page('about.html', {
 });
 
 // CONTACT
+// The contact form fires one GA4 event, contact_inquiry { interest_area }, on a
+// successful submit only (opts.ga, NF_SCRIPT). The parameter is the dropdown choice.
 page('contact.html', {
   title: 'Contact', crumbsTrail: [['Home', 'index.html'], ['Contact', '']],
   body: `<section class="section"><div class="wrap"><div class="contact-layout">
-    <div><p class="eyebrow">Contact</p>${waveRule}<h1 class="display">Send us a message</h1><p class="lede">Tell us who you are and what you need: the cohort, a partnership, mentoring or something else. Investors can go straight to our <a href="invest.html">investor page</a>.</p><div style="margin-top:28px">${form('contact', 'Send message', false, true, { phone: true, twoCol: true, interest: ['General', 'Cities, County, and public agencies', 'Press', 'Giving', 'Sponsorship', 'Investor inquiry', 'Mentoring', 'Other'] })}</div></div>
+    <div><p class="eyebrow">Contact</p>${waveRule}<h1 class="display">Send us a message</h1><p class="lede">Tell us who you are and what you need: the cohort, a partnership, mentoring or something else. Investors can go straight to our <a href="invest.html">investor page</a>.</p><div style="margin-top:28px">${form('contact', 'Send message', false, true, { phone: true, twoCol: true, interest: ['General', 'Cities, County, and public agencies', 'Press', 'Giving', 'Sponsorship', 'Investor inquiry', 'Mentoring', 'Other'], ga: { event: 'contact_inquiry', param: 'interest_area', field: 'interest' } })}</div></div>
     <aside class="contact-aside"><h2 class="display">Other ways to reach us</h2>
       <div class="contact-aside__block"><h3>Email</h3><a href="mailto:info@startupventura.com">info@startupventura.com</a></div>
       <div class="contact-aside__block"><h3>Cities, the County, and public agencies</h3><p>Luke Erickson, Chairman and Executive Director: <a href="mailto:luke@startupventura.com">luke@startupventura.com</a>. Or <a href="partner-cities-county.html#session">request a working session</a>. Download the <a href="${A}/docs/startup-ventura-brief-cities-county.pdf" download>one-page brief for staff reports (PDF)</a>.</p></div>
