@@ -1282,6 +1282,9 @@ body.home .status-bar{margin-top:0;margin-bottom:0}
 /* a long one-line wordmark is short for its width, so it gets more width to carry the same weight as the others */
 .benefit-presenter--wide img{max-width:300px}
 @media (max-width:600px){.benefit-presenter img{max-width:150px;max-height:40px}.benefit-presenter--wide img{max-width:220px}}
+/* four logos: one row where the page is wide enough (a touch smaller so all four fit), otherwise two and two, never three and one */
+.benefit-presenters__row--4{max-width:640px;margin-inline:auto}
+@media (min-width:1100px){.benefit-presenters__row--4{max-width:none;flex-wrap:nowrap;column-gap:48px}.benefit-presenters__row--4 .benefit-presenter img{max-width:190px;max-height:48px}.benefit-presenters__row--4 .benefit-presenter--wide img{max-width:250px}}
 .benefit-night{padding-top:clamp(20px,3vw,40px)}
 .benefit-night__num{font-family:var(--font-mono);font-weight:700;font-size:34px;line-height:1;color:var(--blue);margin-bottom:12px}
 .benefit-night__card .card__title{font-size:1.2rem;line-height:1.15}
