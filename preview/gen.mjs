@@ -135,7 +135,7 @@ const benefitRsvp = (loc, cls = '') => `<a class="btn btn--blue btn--rsvp${cls ?
 // Site-wide pop-up (main.js section 18 opens it as the page loads, once
 // per 14 days, never after the event). Not on the event page, the 404, the
 // thank-you pages or the paid-traffic landing page and its success page.
-const BENEFIT_POP_SKIP = /^(benefit|404|thank-you|connect|connected|thanks-)/;
+const BENEFIT_POP_SKIP = /^(benefit|404|thank-you|connect|connected|giving|thanks-)/;
 const benefitPop = (file) => !BENEFIT_LIVE || BENEFIT_POP_SKIP.test(file) ? '' : `<div class="benefit-pop" id="sv-benefit-pop" role="dialog" aria-modal="true" aria-labelledby="sv-benefit-pop-h" data-benefit-until="${BENEFIT_END_MS}" hidden>
   <div class="benefit-pop__card">
     <button class="benefit-pop__close" type="button" aria-label="Close" data-benefit-pop-close="close"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
@@ -626,7 +626,7 @@ const giModal = (file) => `<div class="gi-modal" id="sv-gi-modal" role="dialog" 
 // Klaviyo) and adds an optional "I am a" select so Klaviyo and the CRM can segment
 // from day one. Hidden on noindex landers, the contact and apply pages, thanks
 // pages and the 404 so it never sits beside another form.
-const NEWSLETTER_HIDE = /^(apply|contact|404|thank-you|connected|thanks-)/;
+const NEWSLETTER_HIDE = /^(apply|contact|giving|404|thank-you|connected|thanks-)/;
 const newsletterBlock = () => `<section class="newsletter" id="newsletter" aria-labelledby="nl-heading"><div class="wrap newsletter__inner">
   <div class="newsletter__copy"><p class="eyebrow">${seasonMark()}Start Local Stay Local</p><h2 class="newsletter__title" id="nl-heading">One email a month from Ventura County&rsquo;s founders.</h2><p class="newsletter__line">News, events, and what founders are building here. No spam, unsubscribe any time.</p></div>
   <form class="newsletter__form" name="newsletter" method="POST" data-netlify="true" data-netlify-honeypot="website" data-success="You are on the list. We send one email a month.">
@@ -661,7 +661,7 @@ ${overHero ? `<link rel="preload" as="image" type="image/webp" imagesrcset="${HE
 <link rel="icon" href="${A}/img/favicon.png" sizes="any" type="image/png">
 <link rel="apple-touch-icon" href="${A}/img/favicon-180.png">
 <link rel="alternate" type="application/rss+xml" title="Startup Ventura News" href="${SITE}/feed.xml">
-<link rel="stylesheet" href="${A}/css/main.css?v=72">
+<link rel="stylesheet" href="${A}/css/main.css?v=73">
 ${SEASON ? `<link rel="stylesheet" href="${A}/css/seasonal.css?v=${SEASONAL_VERSION}">\n` : ''}${analyticsHead()}</head>
 <body class="${overHero ? 'home' : ''}"${SEASON ? ` data-season="${SEASON}"` : ''}>
 ${analyticsBody()}
@@ -773,28 +773,34 @@ const FORM_SUCCESS = {
   events: 'You are on the list. Every event invitation will land in your inbox.',
   rsvp: 'RSVP received. Your calendar invite will arrive by email.',
   'soft-landing': 'Thanks. We will reply within a few days with next steps.',
+  giving: 'Thank you. We got your note and will be in touch.',
 };
 const form = (type, submit, org = false, msg = true, opts = {}) => {
   const phone = !!opts.phone, interest = opts.interest || null, two = !!opts.twoCol;
   const interestLabel = opts.interestLabel || 'Area of interest';
   const linkLabel = opts.linkLabel || null; // optional URL field (e.g. LinkedIn/resume)
   const msgLabel = opts.msgLabel || 'Message';
+  // opts.ga = { event, param, field }: one GA4 event on a successful submit, carrying a
+  // single parameter read from the named field (a dropdown, never anything typed).
+  // NF_SCRIPT fires it; nothing fires on a validation error or a failed submit.
+  const ga = opts.ga ? ` data-ga-event="${esc(opts.ga.event)}" data-ga-param="${esc(opts.ga.param)}" data-ga-field="${esc(opts.ga.field)}"` : '';
   const full = two ? ' field--full' : '';
   // idSuffix keeps ids unique when the same form appears multiple times on one
   // page (e.g. the per-event rsvp forms); hidden adds fixed name/value inputs.
   const id = (f) => `${type}${opts.idSuffix != null ? `-${opts.idSuffix}` : ''}-${f}`;
-  return `<form class="form${two ? ' form--grid' : ''}" name="${type}" method="POST" data-netlify="true" data-netlify-honeypot="website"${opts.redirect ? ` action="${opts.redirect}" data-redirect="${opts.redirect}"` : ''} data-success="${FORM_SUCCESS[type] || 'Thanks, we got it.'}">
+  return `<form class="form${two ? ' form--grid' : ''}" name="${type}" method="POST" data-netlify="true" data-netlify-honeypot="website"${opts.redirect ? ` action="${opts.redirect}" data-redirect="${opts.redirect}"` : ''} data-success="${FORM_SUCCESS[type] || 'Thanks, we got it.'}"${ga}>
 <input type="hidden" name="form-name" value="${type}">
 ${opts.hidden ? Object.entries(opts.hidden).map(([k, v]) => `<input type="hidden" name="${esc(k)}" value="${esc(v)}">`).join('\n') : ''}
 ${FORM_GUARD_FIELDS}
 ${(type !== 'notify' && type !== 'newsletter') ? `<div class="field"><label for="${id('name')}">Name <span class="req">*</span></label><input id="${id('name')}" name="name" type="text" autocomplete="name" required></div>` : ''}
-${org ? `<div class="field${full}"><label for="${id('org')}">Organization <span class="req">*</span></label><input id="${id('org')}" name="organization" type="text" autocomplete="organization" required></div>` : ''}
+${org && !opts.orgOptional ? `<div class="field${full}"><label for="${id('org')}">Organization <span class="req">*</span></label><input id="${id('org')}" name="organization" type="text" autocomplete="organization" required></div>` : ''}
 <div class="field"><label for="${id('email')}">Email <span class="req">*</span></label><input id="${id('email')}" name="email" type="email" autocomplete="email" required></div>
+${org && opts.orgOptional ? `<div class="field${full}"><label for="${id('org')}">Organization</label><input id="${id('org')}" name="organization" type="text" autocomplete="organization"></div>` : ''}
 ${phone ? `<div class="field"><label for="${id('phone')}">Phone</label><input id="${id('phone')}" name="phone" type="tel" autocomplete="tel"></div>` : ''}
-${interest ? `<div class="field"><label for="${id('interest')}">${interestLabel}</label><select id="${id('interest')}" name="interest">${interest.map(o => `<option>${o}</option>`).join('')}</select></div>` : ''}
+${interest ? `<div class="field"><label for="${id('interest')}">${interestLabel}${opts.interestRequired ? ' <span class="req">*</span>' : ''}</label><select id="${id('interest')}" name="interest"${opts.interestRequired ? ' required' : ''}>${opts.interestRequired ? '<option value="" selected disabled>Choose one</option>' : ''}${interest.map(o => `<option>${o}</option>`).join('')}</select></div>` : ''}
 ${linkLabel ? `<div class="field"><label for="${id('link')}">${linkLabel}</label><input id="${id('link')}" name="link" type="url" placeholder="https://" autocomplete="url"></div>` : ''}
 ${msg ? `<div class="field${full}"><label for="${id('message')}">${msgLabel}${opts.msgOptional ? '' : ' <span class="req">*</span>'}</label><textarea id="${id('message')}" name="message" rows="6"${opts.msgOptional ? '' : ' required'}></textarea></div>` : ''}
-${TURNSTILE_SITE_KEY ? `<div class="field${full} form__turnstile">${turnstileWidget()}</div>` : ''}<div class="form__submit${full}"><button class="btn btn--blue" type="submit">${submit}</button></div><p class="form__status${full}" role="status" aria-live="polite"></p></form>`;
+${TURNSTILE_SITE_KEY ? `<div class="field${full} form__turnstile">${turnstileWidget()}</div>` : ''}<div class="form__submit${full}"><button class="btn btn--blue" type="submit">${submit}</button></div>${opts.note ? `<p class="form__note${full}">${opts.note}</p>` : ''}<p class="form__status${full}" role="status" aria-live="polite"></p></form>`;
 };
 // Cloudflare Turnstile (added 2026-11-01). The site key is baked into the pages at
 // build time; the secret stays in the Netlify environment for
@@ -822,8 +828,9 @@ const FORM_GUARD_FIELDS = '<p class="nf-hp" hidden aria-hidden="true"><label>Do 
 // If the form has a Turnstile widget and its token is not there yet (the script is
 // lazy on most pages, and a fast typist can submit within a second or two of first
 // focus), the handler starts the script if needed and waits up to 30 seconds for the
-// token before sending. It never sends without one.
-const NF_SCRIPT = `<script>document.addEventListener('submit',function(e){var f=e.target;if(!f||!f.querySelector||!f.querySelector('input[name="form-name"]'))return;e.preventDefault();var s=f.querySelector('.form__status');var b=f.querySelector('button[type=submit]');if(b)b.disabled=true;var w=f.querySelector('.cf-turnstile');var rw=function(){try{if(w&&window.turnstile){window.turnstile.reset(w);}}catch(err){}};var tk=function(){var i=f.querySelector('[name="cf-turnstile-response"]');return !!(i&&i.value);};var ready=(!w||tk())?Promise.resolve():new Promise(function(ok,no){if(window.svTurnstile){window.svTurnstile();}if(s){s.className=s.className.replace(' is-err','').replace(' is-ok','');s.textContent='One moment, checking the form.';}var t0=Date.now();var iv=setInterval(function(){if(tk()){clearInterval(iv);if(s){s.textContent='';}ok();}else if(Date.now()-t0>30000){clearInterval(iv);no(new Error('The security check did not finish. Please reload the page and try again.'));}},150);});ready.then(function(){return fetch('/.netlify/functions/submit',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(new FormData(f)).toString()});}).then(function(r){return r.json().catch(function(){return {};}).then(function(d){if(!r.ok){var e=new Error(r.status);e.message=d&&d.error?d.error:'';throw e;}});}).then(function(){var tr=function(){try{if(window.dataLayer){dataLayer.push({event:'form_submit',form_name:f.getAttribute('name')});}if(window.gtag){gtag('event','form_submit',{form_name:f.getAttribute('name')});}}catch(err){}};var rd=f.getAttribute('data-redirect');if(rd){tr();window.location.href=rd;return;}if(s){s.className=s.className.replace(' is-err','')+' is-ok';s.textContent=f.getAttribute('data-success')||'Thanks, we got it.';}f.reset();rw();tr();}).catch(function(err){rw();if(s){s.className=s.className.replace(' is-ok','')+' is-err';s.textContent=(err&&err.message)||'Your message did not send. Please try again, or email info@startupventura.com.';}}).finally(function(){if(b)b.disabled=false;});});</script>`;
+// token before sending. It never sends without one. A form built with opts.ga also
+// fires its own GA4 event here, on success only (see form()).
+const NF_SCRIPT = `<script>document.addEventListener('submit',function(e){var f=e.target;if(!f||!f.querySelector||!f.querySelector('input[name="form-name"]'))return;e.preventDefault();var s=f.querySelector('.form__status');var b=f.querySelector('button[type=submit]');if(b)b.disabled=true;var w=f.querySelector('.cf-turnstile');var rw=function(){try{if(w&&window.turnstile){window.turnstile.reset(w);}}catch(err){}};var tk=function(){var i=f.querySelector('[name="cf-turnstile-response"]');return !!(i&&i.value);};var ready=(!w||tk())?Promise.resolve():new Promise(function(ok,no){if(window.svTurnstile){window.svTurnstile();}if(s){s.className=s.className.replace(' is-err','').replace(' is-ok','');s.textContent='One moment, checking the form.';}var t0=Date.now();var iv=setInterval(function(){if(tk()){clearInterval(iv);if(s){s.textContent='';}ok();}else if(Date.now()-t0>30000){clearInterval(iv);no(new Error('The security check did not finish. Please reload the page and try again.'));}},150);});ready.then(function(){return fetch('/.netlify/functions/submit',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(new FormData(f)).toString()});}).then(function(r){return r.json().catch(function(){return {};}).then(function(d){if(!r.ok){var e=new Error(r.status);e.message=d&&d.error?d.error:'';throw e;}});}).then(function(){var ge=f.getAttribute('data-ga-event'),gk=f.getAttribute('data-ga-param'),gf=f.querySelector('[name="'+(f.getAttribute('data-ga-field')||'')+'"]'),gp={};if(ge&&gk&&gf){gp[gk]=gf.value;}var tr=function(){try{if(window.dataLayer){dataLayer.push({event:'form_submit',form_name:f.getAttribute('name')});}if(window.gtag){gtag('event','form_submit',{form_name:f.getAttribute('name')});}if(ge&&!f.svGa){f.svGa=true;var o={event:ge};for(var k in gp){o[k]=gp[k];}if(window.dataLayer){dataLayer.push(o);}if(window.gtag){gtag('event',ge,gp);}}}catch(err){}};var rd=f.getAttribute('data-redirect');if(rd){tr();window.location.href=rd;return;}if(s){s.className=s.className.replace(' is-err','')+' is-ok';s.textContent=f.getAttribute('data-success')||'Thanks, we got it.';}f.reset();rw();tr();}).catch(function(err){rw();if(s){s.className=s.className.replace(' is-ok','')+' is-err';s.textContent=(err&&err.name!=='TypeError'&&err.message)||'Your message did not send. Please try again, or email info@startupventura.com.';}}).finally(function(){if(b)b.disabled=false;});});</script>`;
 
 const pageHead = (e, h, lede, narrow = false) => `<section class="section section--head"><div class="wrap${narrow ? ' wrap--narrow' : ''}"><header class="page-head"><p class="eyebrow">${e}</p>${waveRule}<h1 class="display">${h}</h1><p class="lede">${lede}</p></header></div></section>`;
 const card = (href, eyebrow, title, text, link) => `<a class="card card--link" href="${href}"><div class="card__body">${eyebrow ? `<p class="eyebrow">${eyebrow}</p>` : ''}<h3 class="card__title">${title}</h3><p class="card__text">${text}</p><span class="card__link">${link}</span></div></a>`;
@@ -1930,6 +1937,35 @@ page('connect.html', {
     </aside>
   </div></div></section>` +
     ctaBand('Already know you want to fund the cohort?', 'none'),
+});
+
+// GIVING → /giving. Landing page for the Google Ad Grants campaign aimed at people
+// searching for Ventura County nonprofits and charities. Indexed and in the sitemap,
+// not in the nav. One job: start a giving conversation (form 'giving'), with a
+// quieter Give now link under it. /give is a separate page and is not touched.
+// The form confirms inline and never redirects: /thank-you fires the donation
+// conversion on load, so sending inquiries there would count them as gifts.
+// Events, both sent the way the other events are (dataLayer push plus gtag):
+//   giving_inquiry { interest_type }  on a successful submit only (opts.ga, NF_SCRIPT)
+//   give_now_click                    on a click of the Give now button (script below)
+// The hidden subject field is the notification email's subject in Netlify Forms;
+// submit.mjs adds the sender's name to it. The recipient is set in the Netlify
+// dashboard (Forms, Submission notifications), not in this repo.
+page('giving.html', {
+  title: 'Give to Startup Ventura', titleExact: 'Give to Startup Ventura | Ventura County Nonprofit',
+  desc: 'Start a conversation about giving to Startup Ventura, a 501(c)(3) helping founders build companies and keep jobs in Ventura County.',
+  canonical: `${SITE}/giving`,
+  body: `<section class="section giving"><div class="wrap"><div class="giving-layout">
+    <div class="giving-intro"><p class="eyebrow">Give locally</p>${waveRule}<h1 class="display giving__title">Help create jobs that pay livable wages in Ventura County.</h1>
+      <p class="lede">Startup Ventura is a 501(c)(3) nonprofit that helps local founders build their companies here, so the jobs stay here. Tell us what you have in mind and we will reply personally.</p>
+      <ul class="giving-points"><li>Your gift funds the first founder cohort, Spring 2027.</li><li>Gifts are tax-deductible to the extent allowed by law. <span class="nb">EIN 39-2204612.</span></li><li>Recognition levels from $1,000 to $25,000. Candid Platinum Seal holder.</li></ul>
+    </div>
+    <div class="giving-side">
+      <div class="contact-card giving-card"><h2 class="giving-card__title">Start a conversation</h2>${form('giving', 'Start a conversation', true, true, { orgOptional: true, interest: ['An individual gift', 'A corporate sponsorship', 'A foundation or grant', 'An in-kind gift or service', 'Not sure yet'], interestLabel: 'I am interested in', interestRequired: true, msgOptional: true, note: 'We only use this to reply to you.', hidden: { subject: 'Giving inquiry', source: 'giving page' }, ga: { event: 'giving_inquiry', param: 'interest_type', field: 'interest' } })}</div>
+      <div class="giving-now"><h2 class="giving-now__title">Ready to give now?</h2><div class="giving-now__row"><a class="btn btn--outline" id="giving-give-now" href="${ZEFFY}" target="_blank" rel="noopener">Give now</a><a class="giving-now__link" href="give.html">See recognition levels</a></div></div>
+    </div>
+  </div></div></section>
+  <script>(function(){var a=document.getElementById('giving-give-now');if(!a){return;}a.addEventListener('click',function(){try{window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'give_now_click'});if(window.gtag){gtag('event','give_now_click');}}catch(e){}});})();</script>`,
 });
 
 // AD-FUNNEL LANDING PAGES — same pattern as /connect: unlisted + noindex, one

@@ -44,6 +44,13 @@ export const handler = async (event) => {
   const forward = new URLSearchParams();
   for (const [k, v] of params) if (k !== TOKEN_FIELD && k !== HONEYPOT_FIELD && k !== SIGNATURE_FIELD) forward.append(k, v);
   forward.set(SIGNATURE_FIELD, signSubmission(form, params.get('email')));
+  // A form with a hidden "subject" field (the subject line of the Netlify Forms
+  // notification email) gets the sender's name added: "Giving inquiry: Pat Lee".
+  if (forward.has('subject')) {
+    const oneLine = (v) => String(v || '').replace(/\s+/g, ' ').trim().slice(0, 80);
+    const who = oneLine(params.get('name'));
+    forward.set('subject', who ? `${oneLine(forward.get('subject'))}: ${who}` : oneLine(forward.get('subject')));
+  }
   const site = process.env.DEPLOY_PRIME_URL || process.env.URL;
   if (!site) {
     console.error(`submit: ${form}: no site URL in the environment; cannot forward`);

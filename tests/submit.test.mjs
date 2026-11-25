@@ -61,6 +61,16 @@ test('a valid token is forwarded to Netlify Forms, signed, without the token', a
   assert.equal(sent.get('sv-verified'), signSubmission('contact', 'test@example.org'));
 });
 
+test('a form with a subject field gets the sender name in the notification subject', async () => {
+  globalThis.fetch = fakeFetch({ 'https://challenges.cloudflare.com/turnstile/v0/siteverify': { status: 200, json: { success: true } } });
+  const res = await submit(post({ 'form-name': 'giving', name: ' Pat\r\nLee ', email: 'pat@example.org', interest: 'Not sure yet', subject: 'Giving inquiry', source: 'giving page', 'cf-turnstile-response': 'good' }));
+  assert.equal(res.statusCode, 200);
+  const sent = new URLSearchParams(calls[1].body);
+  assert.equal(sent.get('subject'), 'Giving inquiry: Pat Lee');
+  assert.equal(sent.get('source'), 'giving page');
+  assert.equal(sent.get('interest'), 'Not sure yet');
+});
+
 test('the sync ignores a submission that did not come through submit', async () => {
   const { handler: sync } = await import('../netlify/functions/submission-created.mjs');
   globalThis.fetch = fakeFetch({});
