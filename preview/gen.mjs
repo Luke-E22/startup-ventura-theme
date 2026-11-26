@@ -153,7 +153,7 @@ const benefitPop = (file) => !BENEFIT_LIVE || BENEFIT_POP_SKIP.test(file) ? '' :
     </div>
   </div>
 </div>`;
-const candidSeal = (cls = '') => `<a class="candid-seal ${cls}" aria-label="Startup Ventura on Candid: 2026 Platinum Seal of Transparency" href="https://app.candid.org/profile/16385291/startup-ventura-39-2204612/?pkId=266ecad1-f625-40ab-acfb-c736d5b97833" target="_blank" rel="noopener"><img src="${A}/img/candid-platinum-seal-badge.png" alt="Candid 2026 Platinum Seal of Transparency" width="150" height="150" loading="lazy"></a>`;
+const candidSeal = (cls = '') => `<a class="candid-seal ${cls}" aria-label="Startup Ventura on Candid: 2026 Platinum Seal of Transparency" href="https://app.candid.org/profile/16385291/startup-ventura-39-2204612/?pkId=266ecad1-f625-40ab-acfb-c736d5b97833" target="_blank" rel="noopener"><img src="${A}/img/candid-platinum-seal-badge.webp" alt="Candid 2026 Platinum Seal of Transparency" width="150" height="150" loading="lazy"></a>`;
 // Ventura Chamber of Commerce membership badge: static "Proud member of" lockup
 // (self-hosted Chamber logo) linking to Startup Ventura's verified Chamber listing.
 const chamberBadge = () => `<a class="chamber-badge" href="https://ventura.chambermaster.com/list/member/startup-ventura-38811" target="_blank" rel="noopener">
@@ -345,7 +345,7 @@ const footer = () => `</main>
 <footer class="site-footer">
   <div class="wave-footer" aria-hidden="true"><svg viewBox="0 0 1440 70" preserveAspectRatio="none" width="100%" height="70"><path d="M0,40 C300,5 560,70 840,42 C1080,18 1260,60 1440,38 L1440,0 L0,0 Z" fill="currentColor"></path></svg></div>
   <div class="wrap">${seasonFoot()}<div class="footer-grid">
-    <div class="footer-brand"><img src="${A}/img/logo-white.png" width="280" height="91" alt="Startup Ventura"><p>A 501(c)(3) nonprofit startup accelerator backing local founders in Ventura County.</p>${candidSeal('footer-seal')}${chamberBadge()}
+    <div class="footer-brand"><img src="${A}/img/logo-white.png" width="280" height="91" alt="Startup Ventura" loading="lazy" decoding="async"><p>A 501(c)(3) nonprofit startup accelerator backing local founders in Ventura County.</p>${candidSeal('footer-seal')}${chamberBadge()}
     <div class="footer-social">
       <a href="https://www.linkedin.com/company/startup-ventura" aria-label="LinkedIn" rel="noopener" target="_blank"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5A2.5 2.5 0 1 1 0 3.5a2.5 2.5 0 0 1 4.98 0zM.3 8h4.4v13H.3V8zm7.5 0h4.2v1.8h.06c.58-1.05 2-2.16 4.12-2.16 4.4 0 5.22 2.9 5.22 6.67V21h-4.4v-5.92c0-1.41-.03-3.23-1.97-3.23-1.97 0-2.27 1.54-2.27 3.13V21h-4.4V8z"/></svg></a>
       <a href="https://www.facebook.com/startupventura/" aria-label="Facebook" rel="noopener" target="_blank"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.9h2.54V9.85c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.44 2.9h-2.34V22c4.78-.76 8.44-4.92 8.44-9.94Z"/></svg></a>
@@ -673,7 +673,7 @@ ${footer()}
 ${(robots || '').includes('noindex') || /^(404|thank-you|connected|thanks-)/.test(file) || !body.includes('data-gi-open') ? '' : giModal(file)}
 ${benefitPop(file)}
 <script src="${A}/js/main.js?v=51"></script>${SEASON ? `\n<script src="${A}/js/seasonal.js?v=${SEASONAL_VERSION}" defer></script>` : ''}
-${(body + newsletter).includes('data-netlify') ? NF_SCRIPT + (TURNSTILE_SITE_KEY ? '\n' + (TURNSTILE_EAGER.test(file) ? TURNSTILE_SCRIPT : TURNSTILE_LAZY) : '') : ''}
+${(body + newsletter).includes('data-netlify') ? NF_SCRIPT + (TURNSTILE_SITE_KEY ? '\n' + TURNSTILE_LAZY : '') : ''}
 </body></html>`;
   fs.writeFileSync(path.join(OUT, file), html);
 };
@@ -811,13 +811,13 @@ ${TURNSTILE_SITE_KEY ? `<div class="field${full} form__turnstile">${turnstileWid
 const TURNSTILE_SITE_KEY = process.env.TURNSTILE_SITE_KEY || process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || '';
 if (!TURNSTILE_SITE_KEY) console.warn('turnstile: TURNSTILE_SITE_KEY is not set, so the forms are unprotected. Fine for local preview only.');
 const TURNSTILE_SRC = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
-const TURNSTILE_SCRIPT = `<script src="${TURNSTILE_SRC}" async defer></script>`;
 // LAZY 2026-11-18 (perf): the newsletter block puts a form on nearly every page, so
-// the script above was loading sitewide. Pages where the form is the point load it
-// with the page, as before. Everywhere else it loads the first time someone focuses
-// or taps inside a form that has a widget; window.svTurnstile() is the loader, and
-// the submit handler below calls it too and then waits for the token.
-const TURNSTILE_EAGER = /^(apply|contact|board-interest|careers)\.html$/;
+// the script was loading sitewide. It now loads the first time someone focuses or
+// taps inside a form that has a widget; window.svTurnstile() is the loader, and the
+// submit handler below calls it too and then waits for the token.
+// 2026-11-26: apply, contact, board-interest and careers used to load it with the
+// page. On a phone that was about 2 MB of the 2.2 MB those pages weighed, paid for by
+// every visitor whether or not they touched the form, so they are lazy now as well.
 const TURNSTILE_LAZY = `<script>(function(){var done=false;window.svTurnstile=function(){if(done){return;}done=true;var s=document.createElement('script');s.src='${TURNSTILE_SRC}';s.async=true;document.head.appendChild(s);};function on(e){var f=e.target&&e.target.closest&&e.target.closest('form');if(f&&f.querySelector('.cf-turnstile')){window.svTurnstile();document.removeEventListener('focusin',on,true);document.removeEventListener('pointerdown',on,true);}}document.addEventListener('focusin',on,true);document.addEventListener('pointerdown',on,true);})();</script>`;
 // The widget sits above the submit button; Turnstile adds the hidden cf-turnstile-response input itself.
 const turnstileWidget = (theme = 'light') => TURNSTILE_SITE_KEY ? `<div class="cf-turnstile sv-turnstile" data-sitekey="${TURNSTILE_SITE_KEY}" data-theme="${theme}" data-size="flexible"></div>` : '';
@@ -2201,6 +2201,15 @@ page('events.html', {
 // through the Zeffy ticketing campaign: the inline embed sits in #rsvp (the only
 // place zeffy-embed.js loads), and the hero button scrolls to it, so the page
 // never shows two Zeffy forms. Copy is fixed by the brief; facts come from BENEFIT.
+// LAZY 2026-11-26 (perf): zeffy-embed.js used to load with the page. It builds the
+// ticket form at once, and that form pulled about 22 MB and 430 requests (Stripe,
+// hCaptcha, Google Pay, Maps, Zeffy's own bot check on a 5 second repeat) onto every
+// visit, including people who never scrolled to tickets. The script now loads when
+// the ticket section comes within about two screens of view, or sooner on a press,
+// hover or focus of any link to #rsvp, or at once when the page opens on #rsvp.
+// The script starts itself when added late (it checks document.readyState). If it
+// fails to load, the plain iframe fallback is shown, as before.
+const ZEFFY_EMBED_LAZY = `<script>(function(){var done=false;function load(){if(done){return;}done=true;var s=document.createElement('script');s.src='https://www.zeffy.com/embed/v2/zeffy-embed.js';s.onerror=function(){document.querySelectorAll('[data-zeffy-embed-fallback]').forEach(function(el){el.style.display='block';el.querySelectorAll('iframe[data-zeffy-embed-src]').forEach(function(f){f.src=f.getAttribute('data-zeffy-embed-src');});});};document.body.appendChild(s);}var sec=document.getElementById('rsvp');if(!sec||!('IntersectionObserver' in window)||location.hash==='#rsvp'){load();return;}var io=new IntersectionObserver(function(es){for(var i=0;i<es.length;i++){if(es[i].isIntersecting){io.disconnect();load();}}},{rootMargin:'1600px 0px'});io.observe(sec);document.querySelectorAll('a[href$="#rsvp"]').forEach(function(a){['pointerdown','mouseenter','focus','click'].forEach(function(t){a.addEventListener(t,load,{passive:true});});});window.addEventListener('hashchange',function(){if(location.hash==='#rsvp'){load();}});})();</script>`;
 const benefitMaps = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`Transmission Brewing, ${BENEFIT_ADDRESS}`)}`;
 const BENEFIT_DESC = 'Join Startup Ventura on the Transmission Brewing rooftop in Ventura, Wednesday, December 9, 6 to 9 PM. Tickets are on sale now, with food and an open bar included.';
 const benefitSponsors = [
@@ -2262,10 +2271,7 @@ page('benefit.html', {
   <div data-zeffy-embed-fallback style="display:none;">
     <div style="position:relative;overflow:hidden;height:450px;width:100%;padding-top:450px;"><iframe title='Donation form powered by Zeffy' style='position: absolute; border: 0; top:0;left:0;bottom:0;right:0;width:100%;height:100%' data-zeffy-embed-src='https://www.zeffy.com${BENEFIT.zeffyEmbedPath}' allowpaymentrequest allowTransparency="true"></iframe></div>
   </div>
-  <script
-    src="https://www.zeffy.com/embed/v2/zeffy-embed.js"
-    onerror="document.querySelectorAll('[data-zeffy-embed-fallback]').forEach(function(el){el.style.display='block';el.querySelectorAll('iframe[data-zeffy-embed-src]').forEach(function(f){f.src=f.getAttribute('data-zeffy-embed-src');});});">
-  </script>
+  ${ZEFFY_EMBED_LAZY}
 </div>
 <noscript><p><a href="${BENEFIT.zeffyPage}">Buy tickets on Zeffy</a></p></noscript>
   </div>
