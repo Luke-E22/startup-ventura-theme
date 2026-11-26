@@ -434,10 +434,15 @@
 		var closeBtn = modal.querySelector('.gi-modal__close');
 		var lastFocus = null;
 
-		function trackGetInvolved(option) {
+		// GA4 event get_involved_click { option }: "open" when the modal opens, or the
+		// title of the card that was clicked. Renamed from get_involved on 2026-11-26:
+		// that name is counted as a Primary ad conversion, and nothing is submitted
+		// here (the modal has no form, the cards are links to other pages), so a
+		// click was being counted as a conversion. Nothing fires get_involved now.
+		function trackGetInvolvedClick(option) {
 			window.dataLayer = window.dataLayer || [];
-			window.dataLayer.push({ event: 'get_involved', option: option });
-			if (window.gtag) { window.gtag('event', 'get_involved', { option: option }); }
+			window.dataLayer.push({ event: 'get_involved_click', option: option });
+			if (window.gtag) { window.gtag('event', 'get_involved_click', { option: option }); }
 		}
 		function close() {
 			modal.classList.remove('is-open');
@@ -459,7 +464,7 @@
 		}
 		function open() {
 			lastFocus = document.activeElement;
-			trackGetInvolved('open');
+			trackGetInvolvedClick('open');
 			modal.hidden = false;
 			document.body.style.overflow = 'hidden';
 			document.addEventListener('keydown', onKey);
@@ -474,7 +479,7 @@
 		modal.addEventListener('click', function (e) { if (e.target === modal && downOnBackdrop) { close(); } });
 		closeBtn.addEventListener('click', close);
 		$$('a.gi-card', modal).forEach(function (a) {
-			var pick = function () { trackGetInvolved(a.dataset.gi || ''); };
+			var pick = function () { trackGetInvolvedClick(a.dataset.gi || ''); };
 			a.addEventListener('click', pick);
 			a.addEventListener('auxclick', function (e) { if (e.button === 1) { pick(); } });
 		});

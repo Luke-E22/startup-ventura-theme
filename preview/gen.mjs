@@ -595,7 +595,9 @@ const seoHead = ({ title, desc, canonical, ogType = 'website', ogImage, jsonld, 
 // "Get involved" modal. Opens only when a visitor clicks a [data-gi-open]
 // trigger (the homepage hero button); it never opens on page load (changed
 // 2026-10-27). main.js (section 13) handles focus trap, scroll lock, and
-// dismissal. The markup ships only on indexable pages that carry a trigger.
+// dismissal, and fires get_involved_click { option } on open and on a card click
+// (never get_involved: see the note there). The markup ships only on indexable
+// pages that carry a trigger.
 // A card pointing at the page it is on is dropped (no self-links).
 const GET_INVOLVED = [
   { href: 'apply.html', title: 'Apply as a Founder', desc: 'Applications open January 2027',
@@ -672,7 +674,7 @@ ${newsletter}
 ${footer()}
 ${(robots || '').includes('noindex') || /^(404|thank-you|connected|thanks-)/.test(file) || !body.includes('data-gi-open') ? '' : giModal(file)}
 ${benefitPop(file)}
-<script src="${A}/js/main.js?v=51"></script>${SEASON ? `\n<script src="${A}/js/seasonal.js?v=${SEASONAL_VERSION}" defer></script>` : ''}
+<script src="${A}/js/main.js?v=52"></script>${SEASON ? `\n<script src="${A}/js/seasonal.js?v=${SEASONAL_VERSION}" defer></script>` : ''}
 ${(body + newsletter).includes('data-netlify') ? NF_SCRIPT + (TURNSTILE_SITE_KEY ? '\n' + TURNSTILE_LAZY : '') : ''}
 </body></html>`;
   fs.writeFileSync(path.join(OUT, file), html);
