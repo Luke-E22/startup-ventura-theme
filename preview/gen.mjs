@@ -1182,7 +1182,7 @@ const homeHero = () => {
 
 // HOME
 page('index.html', {
-  title: 'Home', titleExact: 'Startup Ventura | Free Startup Accelerator in Ventura County', overHero: true,
+  title: 'Home', titleExact: 'Startup Ventura | Ventura County Startup Accelerator', overHero: true,
   body: `${homeHero()}
   <section class="section mission-strip"><div class="wrap"><p class="eyebrow">Our mission</p>${waveRule}<p class="mission">We help founders start and grow companies that stay in Ventura County.</p><p class="mission-strip__sub">Startup Ventura backs local founders with the mentorship, capital connections, and community to build high-growth companies right here in Ventura County.</p>${seasonNote()}</div></section>
   <section class="section section--pale grain"><div class="wrap">${head('The Program', 'The on-ramp founders need.', 'Everything entrepreneurs would leave town to find: a true accelerator with a pathway to raising venture capital.')}<div class="card-grid card-grid--2">${card('accelerator.html', 'Spring 2027', '12-Week Accelerator', 'Twelve weeks of mentorship, investor introductions and workshops, ending in a Demo Day.', 'Explore the accelerator')}${card('workshops.html', 'Pre-accelerator', 'Workshop Series', 'Free, practical sessions for early-stage founders and small businesses. Open to anyone.', 'Explore the workshops')}</div><div class="center" style="margin-top:32px">${apply('Join the first-access list', 'btn--outline btn--lg')}</div></div></section>
