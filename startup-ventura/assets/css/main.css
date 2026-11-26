@@ -1129,6 +1129,16 @@ picture{display:contents}
 @media (max-width:620px){.header-cta .btn--primary{min-height:38px;padding:8px 14px;font-size:15px}}
 /* Between 941 and 1240px the full bar fits only with tighter link spacing. */
 @media (min-width:941px) and (max-width:1240px){.primary-nav > ul{gap:6px}.primary-nav a{padding:10px 8px;font-size:14.5px}.header-cta__give{padding:10px 8px}.header-cta .btn--primary{padding:9px 16px;font-size:16px}.site-brand{margin-inline:12px}}
+/* Header spacing (2026-11-26). The right half of the header (Partner, About, News, then
+   the Benefit and Apply buttons) had no minimum space between the last link and the first
+   button. From 1241px up the 1120px wrap left that half about 37px too narrow, and around
+   941 to 1060px it was short as well, so "News" sat flush against "Dec 9 Benefit". The two
+   groups now always keep a gap, from 1241px up the header row runs a little wider than the
+   page wrap, and the narrowest desktop widths tighten the links and buttons a touch to make room. */
+.nav-right{gap:18px}
+@media (min-width:1241px){.site-header__inner{max-width:1240px}}
+@media (min-width:941px) and (max-width:1060px){.site-header__inner{padding-inline:24px}}
+@media (min-width:941px) and (max-width:1000px){.nav-right{gap:14px}.primary-nav > ul{gap:3px}.primary-nav a,.primary-nav .menu-item > .nav-toggle{padding:10px 7px}.site-brand{margin-inline:8px}.header-cta__benefit{padding:9px 11px}.header-cta .btn--primary{padding:9px 13px}}
 
 /* ---------- status bar: one line above the header on every page ---------- */
 :root{--status-h:38px}
