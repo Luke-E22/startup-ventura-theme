@@ -135,7 +135,7 @@ const benefitRsvp = (loc, cls = '') => `<a class="btn btn--blue btn--rsvp${cls ?
 // Site-wide pop-up (main.js section 18 opens it as the page loads, once
 // per 14 days, never after the event). Not on the event page, the 404, the
 // thank-you pages or the paid-traffic landing page and its success page.
-const BENEFIT_POP_SKIP = /^(benefit|404|thank-you|connect|connected|giving|thanks-)/;
+const BENEFIT_POP_SKIP = /^(benefit|404|thank-you|connect|connected|giving|mentor\.|thanks-)/;
 const benefitPop = (file) => !BENEFIT_LIVE || BENEFIT_POP_SKIP.test(file) ? '' : `<div class="benefit-pop" id="sv-benefit-pop" role="dialog" aria-modal="true" aria-labelledby="sv-benefit-pop-h" data-benefit-until="${BENEFIT_END_MS}" hidden>
   <div class="benefit-pop__card">
     <button class="benefit-pop__close" type="button" aria-label="Close" data-benefit-pop-close="close"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
@@ -351,7 +351,7 @@ const footer = () => `</main>
       <a href="https://www.facebook.com/startupventura/" aria-label="Facebook" rel="noopener" target="_blank"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.9h2.54V9.85c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.44 2.9h-2.34V22c4.78-.76 8.44-4.92 8.44-9.94Z"/></svg></a>
       <a href="https://www.instagram.com/startup_ventura/" aria-label="Instagram" rel="noopener" target="_blank"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.2c3.2 0 3.6 0 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s0 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58 0-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.21 15.58 2.2 15.2 2.2 12s0-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.21 8.8 2.2 12 2.2zm0 1.98c-3.15 0-3.5.01-4.74.07-1.14.05-1.76.24-2.17.4-.55.22-.94.47-1.35.88-.41.41-.66.8-.88 1.35-.16.41-.35 1.03-.4 2.17-.06 1.24-.07 1.59-.07 4.74s.01 3.5.07 4.74c.05 1.14.24 1.76.4 2.17.22.55.47.94.88 1.35.41.41.8.66 1.35.88.41.16 1.03.35 2.17.4 1.24.06 1.59.07 4.74.07s3.5-.01 4.74-.07c1.14-.05 1.76-.24 2.17-.4.55-.22.94-.47 1.35-.88.41-.41.66-.8.88-1.35.16-.41.35-1.03.4-2.17.06-1.24.07-1.59.07-4.74s-.01-3.5-.07-4.74c-.05-1.14-.24-1.76-.4-2.17a3.6 3.6 0 0 0-.88-1.35 3.6 3.6 0 0 0-1.35-.88c-.41-.16-1.03-.35-2.17-.4-1.24-.06-1.59-.07-4.74-.07zm0 3.37a4.45 4.45 0 1 1 0 8.9 4.45 4.45 0 0 1 0-8.9zm0 7.34a2.89 2.89 0 1 0 0-5.78 2.89 2.89 0 0 0 0 5.78zm5.66-7.57a1.04 1.04 0 1 1-2.08 0 1.04 1.04 0 0 1 2.08 0z"/></svg></a>
     </div></div>
-    <div class="footer-col"><p class="footer-col__title">Explore</p><ul><li><a href="program.html">The Program</a></li><li><a href="why-ventura-county.html">Why Ventura County</a></li><li><a href="ecosystem.html">Ecosystem Guide</a></li><li><a href="impact.html">Impact</a></li><li><a href="give.html">Give</a></li><li><a href="partner.html">Partner</a></li><li><a href="invest.html">Invest</a></li><li><a href="soft-landing.html">Soft Landing</a></li><li><a href="about.html">About</a></li><li><a href="news.html">News</a></li><li><a href="events.html">Events</a></li><li><a href="resources.html">Founder Resources</a></li>${MENTOR_WALL_LIVE ? '<li><a href="mentors.html">Mentors</a></li>' : ''}<li><a href="faq.html">FAQ</a></li><li><a href="donor-wall.html">Donor Wall</a></li><li><a href="https://app.startupventura.com">Member portal</a></li><li class="footer-hiring"><a href="careers.html">Careers</a></li></ul></div>
+    <div class="footer-col"><p class="footer-col__title">Explore</p><ul><li><a href="program.html">The Program</a></li><li><a href="why-ventura-county.html">Why Ventura County</a></li><li><a href="ecosystem.html">Ecosystem Guide</a></li><li><a href="impact.html">Impact</a></li><li><a href="give.html">Give</a></li><li><a href="partner.html">Partner</a></li><li><a href="invest.html">Invest</a></li><li><a href="mentor.html">Mentor</a></li><li><a href="soft-landing.html">Soft Landing</a></li><li><a href="about.html">About</a></li><li><a href="news.html">News</a></li><li><a href="events.html">Events</a></li><li><a href="resources.html">Founder Resources</a></li>${MENTOR_WALL_LIVE ? '<li><a href="mentors.html">Mentors</a></li>' : ''}<li><a href="faq.html">FAQ</a></li><li><a href="donor-wall.html">Donor Wall</a></li><li><a href="https://app.startupventura.com">Member portal</a></li><li class="footer-hiring"><a href="careers.html">Careers</a></li></ul></div>
     <div class="footer-col"><p class="footer-col__title">Get in touch</p><ul><li><a href="contact.html">Contact us</a></li><li><a href="mailto:info@startupventura.com">info@startupventura.com</a></li><li><a href="mailto:sponsor@startupventura.com">sponsor@startupventura.com</a></li><li><a href="press.html">Press &amp; media kit</a></li></ul></div>
   </div><div class="footer-legal"><span>Startup Ventura is a 501(c)(3) nonprofit. EIN 39-2204612. Gifts are tax-deductible to the extent allowed by law.</span><span>&copy; 2026 Startup Ventura</span><span class="footer-legal__links"><a href="privacy.html">Privacy</a> &middot; <a href="terms.html">Terms</a></span><span class="footer-legal__credit">Website by <a href="https://lukeerickson.com" target="_blank" rel="noopener">Luke Erickson</a> via <a href="https://thewebsitegrant.com" target="_blank" rel="noopener">The Website Grant</a></span></div></div>
 </footer>`;
@@ -628,7 +628,7 @@ const giModal = (file) => `<div class="gi-modal" id="sv-gi-modal" role="dialog" 
 // Klaviyo) and adds an optional "I am a" select so Klaviyo and the CRM can segment
 // from day one. Hidden on noindex landers, the contact and apply pages, thanks
 // pages and the 404 so it never sits beside another form.
-const NEWSLETTER_HIDE = /^(apply|contact|giving|404|thank-you|connected|thanks-)/;
+const NEWSLETTER_HIDE = /^(apply|contact|giving|mentor\.|404|thank-you|connected|thanks-)/;
 const newsletterBlock = () => `<section class="newsletter" id="newsletter" aria-labelledby="nl-heading"><div class="wrap newsletter__inner">
   <div class="newsletter__copy"><p class="eyebrow">${seasonMark()}Start Local Stay Local</p><h2 class="newsletter__title" id="nl-heading">One email a month from Ventura County&rsquo;s founders.</h2><p class="newsletter__line">News, events, and what founders are building here. No spam, unsubscribe any time.</p></div>
   <form class="newsletter__form" name="newsletter" method="POST" data-netlify="true" data-netlify-honeypot="website" data-success="You are on the list. We send one email a month.">
@@ -663,7 +663,7 @@ ${overHero ? `<link rel="preload" as="image" type="image/webp" imagesrcset="${HE
 <link rel="icon" href="${A}/img/favicon.png" sizes="any" type="image/png">
 <link rel="apple-touch-icon" href="${A}/img/favicon-180.png">
 <link rel="alternate" type="application/rss+xml" title="Startup Ventura News" href="${SITE}/feed.xml">
-<link rel="stylesheet" href="${A}/css/main.css?v=74">
+<link rel="stylesheet" href="${A}/css/main.css?v=75">
 ${SEASON ? `<link rel="stylesheet" href="${A}/css/seasonal.css?v=${SEASONAL_VERSION}">\n` : ''}${analyticsHead()}</head>
 <body class="${overHero ? 'home' : ''}"${SEASON ? ` data-season="${SEASON}"` : ''}>
 ${analyticsBody()}
@@ -770,7 +770,7 @@ const FORM_SUCCESS = {
   careers: 'Thanks for applying. We review every application and will reach out if there is a fit.',
   connect: 'Thanks. A real person will reach out within a day or two to find a time that works.',
   apply: 'You are on the list. We will email you the application link the day applications open.',
-  mentor: 'Thank you. We will reach out to match your expertise with our founders.',
+  mentor: 'Thank you. We got your note and will be in touch.',
   workshop: 'You are on the list. We will email you when the next workshop is scheduled.',
   events: 'You are on the list. Every event invitation will land in your inbox.',
   rsvp: 'RSVP received. Your calendar invite will arrive by email.',
@@ -785,7 +785,12 @@ const form = (type, submit, org = false, msg = true, opts = {}) => {
   // opts.ga = { event, param, field }: one GA4 event on a successful submit, carrying a
   // single parameter read from the named field (a dropdown, never anything typed).
   // NF_SCRIPT fires it; nothing fires on a validation error or a failed submit.
-  const ga = opts.ga ? ` data-ga-event="${esc(opts.ga.event)}" data-ga-param="${esc(opts.ga.param)}" data-ga-field="${esc(opts.ga.field)}"` : '';
+  // With no param the event is sent on its own, with no parameters (the mentor form:
+  // every field on it is typed by the visitor, so nothing from it goes to analytics).
+  const ga = opts.ga ? ` data-ga-event="${esc(opts.ga.event)}"${opts.ga.param ? ` data-ga-param="${esc(opts.ga.param)}" data-ga-field="${esc(opts.ga.field)}"` : ''}` : '';
+  const orgLabel = opts.orgLabel || 'Organization';
+  // opts.text = { name, label, required }: one extra short text field, placed before the link field.
+  const text = opts.text || null;
   const full = two ? ' field--full' : '';
   // idSuffix keeps ids unique when the same form appears multiple times on one
   // page (e.g. the per-event rsvp forms); hidden adds fixed name/value inputs.
@@ -795,11 +800,12 @@ const form = (type, submit, org = false, msg = true, opts = {}) => {
 ${opts.hidden ? Object.entries(opts.hidden).map(([k, v]) => `<input type="hidden" name="${esc(k)}" value="${esc(v)}">`).join('\n') : ''}
 ${FORM_GUARD_FIELDS}
 ${(type !== 'notify' && type !== 'newsletter') ? `<div class="field"><label for="${id('name')}">Name <span class="req">*</span></label><input id="${id('name')}" name="name" type="text" autocomplete="name" required></div>` : ''}
-${org && !opts.orgOptional ? `<div class="field${full}"><label for="${id('org')}">Organization <span class="req">*</span></label><input id="${id('org')}" name="organization" type="text" autocomplete="organization" required></div>` : ''}
+${org && !opts.orgOptional ? `<div class="field${full}"><label for="${id('org')}">${orgLabel} <span class="req">*</span></label><input id="${id('org')}" name="organization" type="text" autocomplete="organization" required></div>` : ''}
 <div class="field"><label for="${id('email')}">Email <span class="req">*</span></label><input id="${id('email')}" name="email" type="email" autocomplete="email" required></div>
-${org && opts.orgOptional ? `<div class="field${full}"><label for="${id('org')}">Organization</label><input id="${id('org')}" name="organization" type="text" autocomplete="organization"></div>` : ''}
+${org && opts.orgOptional ? `<div class="field${full}"><label for="${id('org')}">${orgLabel}</label><input id="${id('org')}" name="organization" type="text" autocomplete="organization"></div>` : ''}
 ${phone ? `<div class="field"><label for="${id('phone')}">Phone</label><input id="${id('phone')}" name="phone" type="tel" autocomplete="tel"></div>` : ''}
 ${interest ? `<div class="field"><label for="${id('interest')}">${interestLabel}${opts.interestRequired ? ' <span class="req">*</span>' : ''}</label><select id="${id('interest')}" name="interest"${opts.interestRequired ? ' required' : ''}>${opts.interestRequired ? '<option value="" selected disabled>Choose one</option>' : ''}${interest.map(o => `<option>${o}</option>`).join('')}</select></div>` : ''}
+${text ? `<div class="field"><label for="${id(text.name)}">${text.label}${text.required ? ' <span class="req">*</span>' : ''}</label><input id="${id(text.name)}" name="${esc(text.name)}" type="text" maxlength="120"${text.required ? ' required' : ''}></div>` : ''}
 ${linkLabel ? `<div class="field"><label for="${id('link')}">${linkLabel}</label><input id="${id('link')}" name="link" type="url" placeholder="https://" autocomplete="url"></div>` : ''}
 ${msg ? `<div class="field${full}"><label for="${id('message')}">${msgLabel}${opts.msgOptional ? '' : ' <span class="req">*</span>'}</label><textarea id="${id('message')}" name="message" rows="6"${opts.msgOptional ? '' : ' required'}></textarea></div>` : ''}
 ${TURNSTILE_SITE_KEY ? `<div class="field${full} form__turnstile">${turnstileWidget()}</div>` : ''}<div class="form__submit${full}"><button class="btn btn--blue" type="submit">${submit}</button></div>${opts.note ? `<p class="form__note${full}">${opts.note}</p>` : ''}<p class="form__status${full}" role="status" aria-live="polite"></p></form>`;
@@ -2022,23 +2028,33 @@ page('apply.html', {
     ctaBand('Not looking to apply? Fund the founders who are.', 'none'),
 });
 
-// MENTORS → /mentor (form 'mentor' → /thanks-mentor → mentor_lead)
+// MENTOR → /mentor. Rebuilt 2026-11-26 as a light landing page on the /giving
+// layout: indexed, in the sitemap and the footer, not in the main nav. One job:
+// a mentor raises a hand (form 'mentor', the same Netlify form name as before, so
+// the CRM sync keeps filing it as a mentor signup). The form confirms inline and
+// never redirects. On a successful submit only, NF_SCRIPT fires the GA4 event
+// mentor_inquiry once per page view, with no parameters: every field here is typed
+// by the visitor, so none of it is sent to analytics.
+// The hidden subject field is the notification email's subject in Netlify Forms
+// (submit.mjs adds the sender's name); the recipient is set in the Netlify
+// dashboard. The "What mentors do" copy comes from Luke's answers of 2026-11-26.
+// /thanks-mentor (which fires mentor_lead on load) is no longer linked from here.
 page('mentor.html', {
-  title: 'Mentor a Founder', crumbsTrail: [['Home', 'index.html'], ['About', 'about.html'], ['Mentor', '']],
-  robots: 'noindex',
-  desc: 'Mentor Ventura County founders through Startup Ventura. An hour of your experience can change a company\'s trajectory.',
+  title: 'Mentor Startup Founders', titleExact: 'Mentor Startup Founders | Startup Ventura',
+  desc: 'Mentor founders building companies in Ventura County through Startup Ventura, a 501(c)(3) nonprofit accelerator.',
   canonical: `${SITE}/mentor`,
-  body: pageHead('Mentors', 'Lend your skills to a founder.', 'Startup Ventura founders grow fastest with operators, experts, and investors in their corner. Tell us what you know and how much time you can give, whether that is a single workshop or an ongoing mentorship. We will match you where you matter most.') +
-    `<section class="section section--pale"><div class="wrap"><div class="contact-layout">
-    <div>${head('Raise your hand', 'Tell us where you can help.')}<div style="margin-top:28px">${form('mentor', 'Offer to mentor', false, true, { twoCol: true, interest: ['Sales & marketing', 'Product & engineering', 'Finance, legal, or operations', 'Fundraising & investing', 'General mentorship'], interestLabel: 'Where could you help most?', msgLabel: 'Your background, in a sentence or two', msgOptional: true, linkLabel: 'LinkedIn', redirect: '/thanks-mentor' })}</div></div>
-    <aside class="contact-aside">
-      <div class="contact-card"><h3>What mentors do</h3><p>Lead a Lunch &amp; Learn, hold office hours with cohort founders, help a team get Demo Day ready, or take one founder under your wing.</p></div>
-      <div class="contact-aside__block"><h3>The time commitment</h3><p>You set it. An hour counts. Founders remember the person who showed up when nobody had to.</p></div>
-      <div class="contact-aside__block"><h3>You are in good company</h3><p>Our board includes leadership behind SevenRooms&rsquo; $1.2B acquisition and Curri, the logistics company headquartered right here in Ventura.</p></div>
-      <div class="contact-aside__block"><h3>Questions?</h3><p><a href="mailto:info@startupventura.com">info@startupventura.com</a></p></div>
-    </aside>
-  </div></div></section>` +
-    ctaBand('Prefer to back founders financially?', 'none'),
+  body: `<section class="section giving mentor"><div class="wrap"><div class="giving-layout mentor-layout">
+    <div class="giving-intro mentor-intro"><p class="eyebrow">Mentor</p>${waveRule}<h1 class="display giving__title">Mentor founders building in Ventura County.</h1>
+      <p class="lede">Startup Ventura is a 501(c)(3) nonprofit accelerator. The first cohort starts in Spring 2027. Tell us what you know and we will be in touch.</p>
+    </div>
+    <div class="giving-side mentor-side">
+      <div class="contact-card giving-card"><h2 class="giving-card__title">Raise your hand</h2>${form('mentor', 'Raise your hand', true, true, { orgOptional: true, orgLabel: 'Company and role', text: { name: 'expertise', label: 'Area of expertise', required: true }, linkLabel: 'LinkedIn URL', msgOptional: true, note: 'We only use this to reply to you.', hidden: { subject: 'Mentor inquiry', source: 'mentor page' }, ga: { event: 'mentor_inquiry' } })}</div>
+    </div>
+    <div class="mentor-what"><h2 class="mentor-what__title">What mentors do</h2>
+      <ul class="giving-points"><li>Lead a Lunch &amp; Learn.</li><li>Hold office hours with cohort founders.</li><li>Help a team get Demo Day ready.</li><li>Take one founder under your wing.</li></ul>
+      <p class="mentor-what__terms">You set the time, and an hour counts. Mentors are unpaid volunteers. You can mentor in person in Ventura County or remotely.</p>
+    </div>
+  </div></div></section>`,
 });
 
 // BOARD OF DIRECTORS INTEREST → /board-interest (form 'board' → /thanks-board →

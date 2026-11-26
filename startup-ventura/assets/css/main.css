@@ -1377,6 +1377,15 @@ img.benefit-pop__img:not([src]){visibility:hidden}
 .giving-now__row{display:flex;flex-wrap:wrap;align-items:center;gap:12px 22px}
 .giving-now__row .btn{min-height:44px;padding:11px 22px;font-size:15px}
 .giving-now__link{font-weight:600;font-size:15px}
+/* /mentor: the same layout as /giving. "What mentors do" sits under the intro on wide
+   screens and after the form on small ones, so the form stays near the top of a phone. */
+.mentor-intro{grid-column:1;grid-row:1}
+.mentor-side{grid-column:2;grid-row:1 / span 2}
+.mentor-what{grid-column:1;grid-row:2;align-self:start}
+.mentor-layout{grid-template-rows:auto 1fr;row-gap:clamp(22px,3vw,36px)}
+.mentor-what__title{font-size:clamp(20px,2vw,24px)}
+.mentor-what .giving-points{margin-top:14px}
+.mentor-what__terms{margin-top:16px;max-width:54ch;font-size:15.5px;line-height:1.5;color:var(--muted)}
 @media (max-width:860px){
   .giving{padding-top:18px}
   .giving-layout{grid-template-columns:1fr;gap:20px}
@@ -1384,4 +1393,7 @@ img.benefit-pop__img:not([src]){visibility:hidden}
   .giving-intro .lede{margin-top:12px;font-size:16px;line-height:1.5}
   .giving-points{margin-top:14px;gap:6px}
   .giving-points li{font-size:14.5px;line-height:1.4}
+  .mentor-layout{grid-template-rows:none}
+  .mentor-intro,.mentor-side,.mentor-what{grid-column:1;grid-row:auto}
+  .mentor-what{margin-top:6px}
 }
